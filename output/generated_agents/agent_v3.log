@@ -1,0 +1,9 @@
+Variant: v3
+Success: False
+Review Score: 0.0
+
+Execution Output:
+Please install the 'ccxt' module. Run 'pip install ccxt'
+
+Execution Error:
+Please install the 'ccxt' module. Run 'pip install ccxt'

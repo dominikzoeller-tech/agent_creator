@@ -1,0 +1,5 @@
+Best Variant: v1
+Label: simple
+Score: 29.26
+Execution Success: True
+Source: C:\Users\User\ai-assistant\agent_creator\output\generated_agents\agent_v1.py
