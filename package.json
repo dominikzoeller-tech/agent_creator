@@ -1,0 +1,37 @@
+{
+  "name": "agent_creator",
+  "version": "1.0.0",
+  "description": "Ein automatisiertes System zur Generierung und Optimierung von AI-Agenten mittels eines Multi-Varianten-Ansatzes. Das System erstellt automatisch 2-3 verschiedene Implementierungen für jede Anfrage, bewertet diese und wählt die beste Lösung aus.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "council:test": "ts-node --project tsconfig.json test.ts",
+    "master:test": "ts-node --project tsconfig.json master-test.ts",
+    "json:test": "ts-node --project tsconfig.json json-test.ts",
+    "agent:cli": "ts-node --project tsconfig.json cli.ts",
+    "log:view": "ts-node --project tsconfig.json log-view.ts",
+    "stats:view": "ts-node --project tsconfig.json decision-stats.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dominikzoeller-tech/agent_creator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/dominikzoeller-tech/agent_creator/issues"
+  },
+  "homepage": "https://github.com/dominikzoeller-tech/agent_creator#readme",
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^6.44.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  }
+}
