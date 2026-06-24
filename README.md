@@ -1,395 +1,444 @@
-# 🤖 AI Agent Factory System - README
+# Agent Creator – Master-Agent mit Rat, CLI, Logging und Analytics
 
-## 🌟 Übersicht
+Dieses Projekt implementiert eine **lokal laufende Agenten-Architektur** mit einem zentralen **Master-Agenten** und einem spezialisierten Entscheidungsmodul namens **„Der Rat“**.
 
-Ein automatisiertes System zur **Generierung und Optimierung von AI-Agenten** mittels eines Multi-Varianten-Ansatzes. Das System erstellt automatisch 2-3 verschiedene Implementierungen für jede Anfrage, bewertet diese und wählt die beste Lösung aus.
-
-### 🎯 Kernfeatures
-
-✅ **Multi-Varianten-Generierung** - Erstellt 2-3 verschiedene Agenten pro Task
-✅ **Automatische Bewertung** - Vergleicht Varianten nach Struktur, Lesbarkeit und Execution
-✅ **Iterative Verbesserung** - Bis zu 3 Iterations-Zyklen pro Variante  
-✅ **Real API-Integration** - CoinGecko, NewsAPI, Yahoo Finance
-✅ **Web-Dashboard** - Streamlit UI zur vollständigen Systemkontrolle
-✅ **Best-Agent-Speicherung** - Automatisches Speichern und Verwaltung der besten Lösung
-✅ **Execution Logging** - Detaillierte Protokolle aller Ausführungen
+Der Master-Agent ist die primäre Gesprächsinstanz. Bei normalen Wissens- oder Erklärfragen antwortet der Master direkt. Bei echten Entscheidungen mit Tradeoffs, Unsicherheit oder hohem Einsatz wird intern der Rat zugeschaltet, der mehrere Perspektiven analysiert und eine strukturierte Empfehlung zurückgibt.
 
 ---
 
-## 🚀 Quick Start
+## Kernidee
 
-### 1. Installation
-```bash
-# Abhängigkeiten installieren
-pip install -r requirements.txt
-```
+Die Architektur trennt zwei Aufgaben sauber:
 
-### 2. Umgebung konfigurieren
-```bash
-# .env Datei erstellen
-OPENAI_API_KEY=your_openai_key
-NEWSAPI_KEY=your_news_api_key  # Optional
-```
+- **Master-Agent**
+  - führt das Gespräch
+  - entscheidet, ob der Rat nötig ist
+  - antwortet direkt bei normalen Fragen
+  - aggregiert Council-Ergebnisse in eine klare Hauptantwort
 
-### 3. Dashboard starten
-```bash
-# Web-UI starten (schnelleste Methode)
-python -m streamlit run dashboard.py
-```
-👉 Browser: **http://localhost:8501**
-
-### 4. Agent erstellen
-- Task eingeben (z.B. "Bitcoin-Preis-Monitor")
-- 🚀 Button klicken
-- Ergebnisse in Echtzeit ansehen
+- **Der Rat / Council Engine**
+  - analysiert echte Entscheidungen aus 5 Denkrollen
+  - erzeugt strukturierte Empfehlungen
+  - liefert Einigung, Streitpunkte, blinde Flecken und ersten Schritt
 
 ---
 
-## 📊 Systemarchitektur
+## Aktuelle Features
 
-```
-┌─────────────────────────────────────────────┐
-│   STREAMLIT WEB-DASHBOARD                   │
-│  (Task Input, Results, Best Agent)          │
-└──────────────┬──────────────────────────────┘
-               │
-┌──────────────▼──────────────────────────────┐
-│   AGENT FACTORY SYSTEM                      │
-│  ├─ Variant Selection (2-3 variants)        │
-│  ├─ Parallel Generation                     │
-│  └─ Evaluation & Ranking                    │
-└──┬──────────────────────────────┬───────────┘
-   │                              │
-   ▼                              ▼
-┌──────────────────┐   ┌──────────────────────┐
-│ AGENT PIPELINE   │   │ EVALUATION SYSTEM    │
-│ ├─ Planner       │   │ ├─ Code Scoring      │
-│ ├─ Coder         │   │ ├─ Execution Test    │
-│ ├─ Critic        │   │ └─ Ranking           │
-│ ├─ Refiner       │   │                      │
-│ └─ Executor      │   └──────────────────────┘
-└────────┬─────────┘
-         │
-    ┌────▼─────┐
-    │ MEMORY   │
-    │ STORE    │
-    └──────────┘
-```
+### Agentenlogik
+- Master-Agent als primäre Benutzerinstanz
+- Council-Engine als spezialisiertes Entscheidungsmodul
+- Routing zwischen:
+  - `direct`
+  - `council`
+- Erkennung von Tradeoff-/Ratsfragen
+- direkter Faktenmodus für normale Wissensfragen
+
+### Rollen des Rats
+- Der Skeptiker
+- Der Grundsatz-Denker
+- Der Visionär
+- Der Außenstehende
+- Der Macher
+
+### Ausgabeformate
+- Markdown-Ausgabe
+- JSON-Ausgabe
+  - kompakt
+  - debug (inkl. vollem `councilResult`)
+
+### Laufzeit / Nutzung
+- lokale CLI zum direkten Chatten mit dem Master-Agenten
+- Shell-Guard, damit `npm`, `git`, `node` usw. nicht versehentlich als Nutzerfrage interpretiert werden
+
+### Logging / Analytics
+- Decision Logging in `logs/decision-log.jsonl`
+- Log-Viewer
+- Stats-Tool mit:
+  - Direct vs. Council Verteilung
+  - Konfidenz-Auswertung
+  - häufige Empfehlungen
+  - häufige erste Schritte
+  - häufige Optionen
+  - wiederkehrende Entscheidungsmuster
+  - Zeitaggregation pro Tag / Woche / Monat
+- Exporte als:
+  - CSV
+  - kompakte CSV
+  - Summary-CSV
+  - Excel-Report
+  - Summary-only Excel
+
+### Security / Dependency Hygiene
+- `xlsx` ist auf die gepflegte CDN-Version umgestellt
+- `npm audit` ist sauber
+- `.env` bleibt lokal und wird nicht committed
 
 ---
 
-## 📁 Projektstruktur
+## Projektstruktur
 
-```
+```text
 agent_creator/
-├── dashboard.py              # 🎨 Streamlit Web-UI (NEU)
-├── main.py                   # Orchestrierung & Factory
-├── config.py                 # Globale Konfiguration
-├── requirements.txt          # Dependencies
-├── DASHBOARD_GUIDE.md        # 📖 Dashboard Anleitung (NEU)
-├── DASHBOARD_SUMMARY.md      # 📋 Implementation Summary (NEU)
-├── ARCHITECTURE.md           # System-Architektur
-├── .env                      # Umgebungsvariablen
+├─ .env
+├─ .env.example
+├─ .gitignore
+├─ .gitattributes
+├─ CHANGELOG.md
+├─ package.json
+├─ package-lock.json
+├─ tsconfig.json
 │
-├── core/
-│   ├── llm.py               # OpenAI GPT-4 Client
-│   └── state.py             # State Dataclasses
+├─ agent-response.ts
+├─ cli.ts
+├─ council-engine.ts
+├─ decision-log.ts
+├─ decision-stats.ts
+├─ json-test.ts
+├─ log-view.ts
+├─ master-agent.ts
+├─ master-test.ts
+├─ real-llm.ts
+├─ smoke-test.ts
+├─ test.ts
 │
-├── agents/
-│   ├── planner.py           # Planning Agent
-│   ├── coder.py             # Code Generation Agent
-│   ├── critic.py            # Code Review Agent
-│   └── refiner.py           # Improvement Agent
+├─ logs/
+│  ├─ decision-log.jsonl
+│  ├─ *.csv
+│  └─ *.xlsx
 │
-├── integrations/
-│   ├── crypto_api.py        # CoinGecko API
-│   ├── news_api.py          # NewsAPI Integration
-│   └── finance_api.py       # Yahoo Finance
-│
-├── execution/
-│   └── code_executor.py     # Isolated Code Execution
-│
-├── evaluation/
-│   └── evaluator.py         # Scoring & Ranking
-│
-├── memory/
-│   └── memory_store.py      # Persistent Memory
-│
-├── tools/
-│   └── api_finder.py        # API Discovery
-│
-└── output/
-    ├── generated_agents/    # Agent Varianten
-    └── best_agent/          # Best Agent Storage
+└─ tools/
 ```
 
 ---
 
-## 🔄 Workflow
+## Voraussetzungen
 
-### Automatischer Generierungsprozess
+- **Node.js** installiert
+- **npm** verfügbar
+- OpenAI API Key in einer lokalen `.env`
 
-```
-USER INPUT: "Baue einen Bitcoin-Preis-Monitor"
-    ↓
-[1] VARIANT SELECTION: Simple, API-Heavy, Modular
-    ↓
-[2] PARALLEL GENERATION (für jede Variante):
-    ├─ Planning: Detaillierter Plan
-    ├─ Coding: Python-Code mit APIs
-    ├─ Review: Qualitätsbewertung
-    ├─ Refinement: Iterative Verbesserung (bis max 3x)
-    └─ Execution: Code-Ausführung + Logging
-    ↓
-[3] EVALUATION:
-    ├─ Code-Struktur (40%)
-    ├─ Lesbarkeit (30%)
-    └─ Execution-Erfolg (30%)
-    ↓
-[4] RANKING: Varianten nach Score sortiert
-    ↓
-[5] BEST SELECTION: Beste Variante speichern
-    ↓
-OUTPUT: 3 generierte Agenten + Best Agent
-```
+Optional:
+- VS Code
+- Git
 
 ---
 
-## 📊 Generierte Dateien
+## Installation
 
-### Agent Varianten
-Alle Varianten werden in `output/generated_agents/` gespeichert:
+### 1. Dependencies installieren
 
-```
-agent_v1.py          # Variante 1 (z.B. Simple)
-agent_v1.log         # Execution-Log
-agent_v2.py          # Variante 2 (z.B. API-Heavy)
-agent_v2.log         # Execution-Log
-agent_v3.py          # Variante 3 (z.B. Modular)
-agent_v3.log         # Execution-Log
-```
-
-### Best Agent
-Der beste Agent wird zusätzlich gespeichert:
-
-```
-output/best_agent/
-├── best_agent.py              # Der beste Agent
-└── best_agent_metadata.txt    # Score, Variante, Status
-```
-
----
-
-## 🎯 Verwendungsbeispiele
-
-### Beispiel 1: Crypto-Trading-Bot
-```
-Input: "Baue einen Bitcoin-Trading-Bot mit Preismonitoring und Alerts"
-
-Output Varianten:
-├─ v1 (Simple):     Einfache CoinGecko API Abfrage
-├─ v2 (API-Heavy):  Mit Datenbank, Alerts, Email
-└─ v3 (Modular):    Pluggable Modules für Strategien
-
-Best: v2 mit Score 8.5/10 ✓
-```
-
-### Beispiel 2: News Aggregator
-```
-Input: "News-Scraper für Tech-Nachrichten mit Sentiment-Analyse"
-
-Output Varianten:
-├─ v1 (Simple):     NewsAPI + Basic Filtering
-├─ v2 (API-Heavy):  Mit Sentiment-Analyse & Scoring
-└─ v3 (Modular):    Pluggable Sentiment Models
-
-Best: v3 mit Score 8.2/10 ✓
-```
-
----
-
-## ⚙️ Konfiguration
-
-### config.py
-
-| Parameter | Default | Beschreibung |
-|-----------|---------|-------------|
-| `OPENAI_MODEL` | `gpt-4` | LLM für Code-Generierung |
-| `MAX_ITERATIONS` | `3` | Max. Refinement-Iterationen |
-| `EXECUTION_MAX_RETRIES` | `2` | Fehlerbehandlung Versuche |
-| `EXECUTION_TIMEOUT` | `15s` | Code-Execution Timeout |
-| `QUALITY_THRESHOLD` | `7.0` | Min. Quality Score |
-| `BEST_AGENT_DIR` | `output/best_agent/` | Storage für Best Agent |
-
----
-
-## 🧠 Agent-Spezialisierung
-
-### 🗓️ Planner Agent
-- Analysiert die Benutzeranfrage
-- Erstellt detaillierten Implementierungsplan
-- Definiert Komplexitätslevel
-
-### 💻 Coder Agent  
-- Generiert Python-Code basierend auf Plan
-- Integriert relevante APIs automatisch
-- Nutzt Best Practices und Type Hints
-
-### 👁️ Critic Agent
-- Bewertet Code-Qualität
-- Identifies Sicherheitsrisiken
-- Gibt konstruktives Feedback
-
-### 🔧 Refiner Agent
-- Verbessert Code iterativ
-- Nutzt Critic-Feedback
-- Debugging-Loop mit Execution-Errors
-
----
-
-## 🌐 Integrierte APIs
-
-### 🪙 CoinGecko (Crypto)
-- Bitcoin/Ethereum Preise
-- Market Data
-- Historische Charts
-- **Authentifizierung**: Keine erforderlich
-
-### 📰 NewsAPI
-- News-Suche nach Keywords
-- Top Headlines
-- Quellen-Filter
-- **Erforderlich**: `NEWSAPI_KEY` in `.env`
-
-### 📈 Yahoo Finance
-- Stock/ETF Daten
-- Historische Prices
-- Ticker-Informationen
-- **Authentifizierung**: Keine erforderlich
-
----
-
-## 📊 Performance Metriken
-
-| Metrik | Wert |
-|--------|------|
-| Durchschnittliche Generierung | 2-3 min |
-| Varianten pro Task | 2-3 |
-| Iterationen pro Variante | 1-3 |
-| Durchschnittlicher Score | 7.5-8.5/10 |
-| Erfolgsquote | >95% |
-
----
-
-## 🎨 Dashboard Features
-
-### Input Section
-- Textfeld für Task-Beschreibung
-- Quick-Action Buttons (Erstellen, Löschen, Aktualisieren)
-
-### Results Section
-- Real-time Status Updates
-- Quality Score Metriken
-- Best Variant Details
-- 4 Tabs: Plan, Code, Execution, Variants
-
-### Best Agent Section
-- Code Viewer mit Syntax-Highlighting
-- Download-Button für Agent
-- Start-Button für Execution
-- Metadaten-Anzeige
-
-### Additional Features
-- Task-Verlauf
-- Generated Agents Listing
-- System Status Sidebar
-
----
-
-## 🐛 Debugging & Troubleshooting
-
-### Problem: Dashboard startet nicht
 ```bash
-python -m streamlit run dashboard.py --logger.level=debug
+npm install
 ```
 
-### Problem: LLM API Fehler
-✓ Überprüfe `OPENAI_API_KEY` in `.env`
-✓ Überprüfe OpenAI Kontingente
+### 2. Falls nötig: zusätzliche Pakete prüfen
+Dieses Projekt nutzt unter anderem:
 
-### Problem: Codeausführung fehlgeschlagen
-✓ Check Logs in `output/generated_agents/agent_vX.log`
-✓ Erhöhe `EXECUTION_TIMEOUT` falls nötig
+- `openai`
+- `dotenv`
+- `typescript`
+- `ts-node`
+- `xlsx`
 
-### Problem: API Integration fehlend
-✓ Überprüfe erforderliche API-Keys in `.env`
-✓ Prüfe Internetverbindung
+Wenn das Projekt frisch geklont wurde, reicht normalerweise ein:
 
----
-
-## 📚 Weitere Ressourcen
-
-- **DASHBOARD_GUIDE.md** - Detaillierte Dashboard Anleitung
-- **DASHBOARD_SUMMARY.md** - Implementation Summary
-- **ARCHITECTURE.md** - Technische Tiefenanalyse
-- **config.py** - Vollständige Konfigurationsoptionen
+```bash
+npm install
+```
 
 ---
 
-## 🔐 Security & Privacy
+## `.env` Konfiguration
 
-✅ API-Keys in `.env` (nicht im Git)
-✅ Code-Execution in isoliertem Subprocess
-✅ Timeout-Schutz gegen Infinite Loops
-✅ Fehlerbehandlung und Logging
-✅ Keine Datenspeicherung ohne Consent
+Lege lokal eine Datei `.env` an.
 
----
+Beispiel:
 
-## 🚀 Nächste Schritte
+```env
+OPENAI_API_KEY=sk-...
+OPENAI_MODEL=gpt-4.1-mini
+```
 
-1. **Starten Sie das Dashboard**
-   ```bash
-   python -m streamlit run dashboard.py
-   ```
-
-2. **Geben Sie eine Task-Beschreibung ein**
-   ```
-   "Erstelle einen News-Aggregator für Python-News"
-   ```
-
-3. **Sehen Sie die Ergebnisse in Echtzeit**
-   - Plan, Code, Ausführung, Rankings
-
-4. **Laden Sie den besten Agent herunter**
-   - Direkt vom Dashboard
+### Wichtig
+- `.env` bleibt **lokal**
+- `.env` ist in `.gitignore`
+- `.env.example` kann als Vorlage im Repo bleiben
 
 ---
 
-## 📞 Support
+## Verfügbare npm Scripts
 
-Bei Fragen oder Problemen:
-1. Lese DASHBOARD_GUIDE.md
-2. Überprüfe config.py
-3. Schau in den Execution-Logs nach
-4. Überprüfe .env Konfiguration
+### Agent-CLI starten
+
+```bash
+npm run agent:cli
+```
+
+### Council-Test
+
+```bash
+npm run council:test
+```
+
+### Master-Agent-Test
+
+```bash
+npm run master:test
+```
+
+### JSON-Test
+
+```bash
+npm run json:test
+```
+
+### Logs anzeigen
+
+```bash
+npm run log:view
+```
+
+### Decision Stats / Exporte
+
+```bash
+npm run stats:view
+```
+
+Mit Filtern:
+
+```bash
+npm run stats:view -- --route=council --order=oldest
+npm run stats:view -- --route=direct
+npm run stats:view -- --route=all --order=newest --limit=200
+```
 
 ---
 
-**Viel Spaß mit deinem AI Agent Factory System! 🚀**
-- **Type Hints**: Type Safety
+## Nutzung der CLI
 
-### 💡 Best Practices
+Starte zuerst:
 
-1. Spezifische, detaillierte Anfragen geben
-2. Realistische Agent-Anforderungen stellen
-3. Qualitäts-Schwelle anpassen je nach Anforderung
-4. Generierte Agenten vor Produktion testen
+```bash
+npm run agent:cli
+```
 
-### 📝 Lizenz
+Dann kannst du mit dem Agenten sprechen.
 
-MIT License - Frei nutzbar und modifizierbar
+### Beispiel für direkte Frage
 
-### 📧 Support
+```text
+Was ist der Unterschied zwischen TypeScript und JavaScript?
+```
 
-Für Fragen oder Probleme siehe die Dokumentation in den Dateien.
+### Beispiel für Council-Frage
+
+```text
+Ich bin hin- und hergerissen: Soll ich zuerst die CLI fertig bauen oder zuerst JSON-Output standardisieren?
+```
+
+### Nützliche CLI-Kommandos
+
+```text
+:help
+:json on
+:json off
+:debug on
+:debug off
+exit
+```
+
+### Wichtig
+Die CLI ist **kein normales Shell-Terminal**, sondern ein Chat mit dem Agenten.
+
+Das heißt:
+- in der CLI gibst du **Fragen** ein
+- im normalen Terminal gibst du **Befehle** ein wie:
+
+```bash
+npm run stats:view
+```
+
+---
+
+## JSON-Modi
+
+Der Master-Agent unterstützt zwei JSON-Varianten:
+
+### Compact JSON
+Für Tools / Automatisierung:
+- `route`
+- `usedCouncil`
+- `answer`
+- `recommendation`
+- `firstStep`
+- `confidence`
+
+### Debug JSON
+Zusätzlich mit vollem:
+- `councilResult`
+
+---
+
+## Logging
+
+Council-Entscheidungen werden protokolliert in:
+
+```text
+logs/decision-log.jsonl
+```
+
+Jeder Eintrag enthält u. a.:
+- Zeitpunkt
+- Route
+- Nutzerfrage
+- Empfehlung
+- erster Schritt
+- Konfidenz
+- erkannte Optionen
+
+Log anzeigen:
+
+```bash
+npm run log:view
+```
+
+---
+
+## Analytics / Exporte
+
+Stats ausführen:
+
+```bash
+npm run stats:view
+```
+
+### Typische Auswertungen
+- Gesamtanzahl Einträge
+- Direct vs. Council
+- Ø Konfidenz
+- häufige Empfehlungen
+- häufige erste Schritte
+- häufige Optionen
+- Muster / wiederkehrende Entscheidungstypen
+- Aggregation nach Tag / Woche / Monat
+
+### Exporte
+Die Exporte landen in:
+
+```text
+logs/
+```
+
+Je nach Filter / Reihenfolge entstehen dort z. B.:
+
+- `decision-log-export-...csv`
+- `decision-log-compact-...csv`
+- `decision-summary-...csv`
+- `decision-recommendations-...csv`
+- `decision-first-steps-...csv`
+- `decision-options-...csv`
+- `decision-patterns-...csv`
+- `decision-report-...xlsx`
+- `decision-summary-...xlsx`
+
+---
+
+## Routing-Logik
+
+Der Master-Agent nutzt Council **nur**, wenn eine Frage eine echte Entscheidung mit Tradeoff, Unsicherheit oder mehreren Optionen enthält.
+
+### Typische `direct`-Fragen
+- Faktenfragen
+- Erklärfragen
+- Definitionsfragen
+- normale Wissensfragen
+
+### Typische `council`-Fragen
+- „Soll ich X oder Y?“
+- „Ich bin hin- und hergerissen“
+- „Welche Option ist besser?“
+- „rat das durch“
+- „pressure-test das“
+
+---
+
+## Git / Repository-Hinweise
+
+Dieses Repo ignoriert unter anderem:
+
+- `.env`
+- `node_modules/`
+- `logs/`
+- `output/`
+- `*.log`
+
+Das ist bewusst so, damit:
+- keine Secrets committed werden
+- keine generierten Dateien das Repo aufblasen
+- Exporte lokal bleiben
+
+---
+
+## Sicherheit
+
+### OpenAI Key
+- nur in lokaler `.env`
+- niemals committen
+
+### xlsx / Excel-Export
+- auf CDN-Version `0.20.3` umgestellt
+- `npm audit` ist sauber
+
+---
+
+## Typischer Workflow
+
+### Entwicklung
+```bash
+npm run agent:cli
+```
+
+### Testen
+```bash
+npm run council:test
+npm run master:test
+npm run json:test
+```
+
+### Logs prüfen
+```bash
+npm run log:view
+```
+
+### Stats / Exporte
+```bash
+npm run stats:view -- --route=council --order=oldest
+```
+
+---
+
+## Nächste sinnvolle Ausbaustufen
+
+Mögliche nächste Schritte:
+
+- Web-UI für den Master-Agenten
+- API / Deployment
+- Dashboard für Entscheidungen und Trends
+- feinere Routing-Intelligenz
+- strukturierte Pattern-Klassifikation
+- wiederverwendbare Prompt-/Agent-Profile
+
+---
+
+## Status
+
+Aktuell ist das Projekt ein **lokal lauffähiger, commit-fähiger Master-Agent + Council-Kern** mit:
+
+- CLI
+- JSON-Ausgabe
+- Logging
+- Analytics
+- CSV/Excel-Export
+- sauberem Git-Stand
+
