@@ -30,7 +30,6 @@ function inferPattern(entry: DecisionLogEntry): string {
       .sort((a, b) => normalizeText(a).localeCompare(normalizeText(b)))
       .join(" ⇄ ");
   }
-
   return normalizeText(entry.userInput).slice(0, 100);
 }
 
@@ -47,12 +46,15 @@ function toTopItems(values: string[], limit = 5) {
     .slice(0, limit);
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const route = url.searchParams.get("route") ?? "all";
+  const search = normalizeText(url.searchParams.get("search") ?? "");
   const logPath = path.join(process.cwd(), "..", "logs", "decision-log.jsonl");
 
   try {
     const raw = await readFile(logPath, "utf8");
-    const entries: DecisionLogEntry[] = raw
+    let entries: DecisionLogEntry[] = raw
       .split(/\r?\n/)
       .map((line) => line.trim())
       .filter(Boolean)
@@ -65,6 +67,21 @@ export async function GET() {
       })
       .filter(Boolean) as DecisionLogEntry[];
 
+    if (route === "direct" || route === "council") {
+      entries = entries.filter((entry) => entry.route === route);
+    }
+
+    if (search) {
+      entries = entries.filter((entry) => {
+        const haystack = normalizeText(
+          [entry.userInput, entry.recommendation, entry.firstStep, ...(entry.extractedOptions ?? [])]
+            .filter(Boolean)
+            .join(" ")
+        );
+        return haystack.includes(search);
+      });
+    }
+
     const totalEntries = entries.length;
     const directEntries = entries.filter((entry) => entry.route === "direct");
     const councilEntries = entries.filter((entry) => entry.route === "council");
@@ -73,10 +90,7 @@ export async function GET() {
     const directSharePercent = totalEntries > 0 ? round((directCount / totalEntries) * 100) : 0;
     const councilSharePercent = totalEntries > 0 ? round((councilCount / totalEntries) * 100) : 0;
 
-    const confidences = councilEntries
-      .map((entry) => entry.confidence)
-      .filter((value): value is number => typeof value === "number");
-
+    const confidences = councilEntries.map((entry) => entry.confidence).filter((value): value is number => typeof value === "number");
     const avgCouncilConfidencePercent = confidences.length > 0
       ? round((confidences.reduce((acc, value) => acc + value, 0) / confidences.length) * 100)
       : null;
@@ -114,6 +128,7 @@ export async function GET() {
       topRecommendations,
       topFirstSteps,
       topPatterns,
+      filters: { route, search },
     });
   } catch {
     return Response.json({
@@ -127,6 +142,7 @@ export async function GET() {
       topRecommendations: [],
       topFirstSteps: [],
       topPatterns: [],
+      filters: { route, search },
     });
   }
 }
