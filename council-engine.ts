@@ -207,6 +207,7 @@ function formatList(label: string, items?: string[]): string {
  * Klassifiziert NUR die Nutzerfrage.
  * Globaler Kontext wirkt bewusst NICHT dominierend.
  */
+
 export function classifyIntent(userInput: string): IntentType {
   const normalized = normalizeText(userInput);
 
@@ -237,7 +238,11 @@ export function classifyIntent(userInput: string): IntentType {
   const factualStarts = [
     "was ist",
     "wie funktioniert",
+    "wie funktionieren",
+    "wie funktioniert ein",
+    "wie funktioniert eine",
     "erkläre",
+    "erklär mir",
     "definiere",
     "was bedeutet",
     "wann war",
@@ -293,6 +298,7 @@ export function classifyIntent(userInput: string): IntentType {
 
   return "unclear";
 }
+
 
 /**
  * Robusteres Routing:

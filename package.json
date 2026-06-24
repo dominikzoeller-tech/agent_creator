@@ -10,7 +10,12 @@
     "json:test": "ts-node --project tsconfig.json json-test.ts",
     "agent:cli": "ts-node --project tsconfig.json cli.ts",
     "log:view": "ts-node --project tsconfig.json log-view.ts",
-    "stats:view": "ts-node --project tsconfig.json decision-stats.ts"
+    "stats:view": "ts-node --project tsconfig.json decision-stats.ts",
+    "health:check": "ts-node --project tsconfig.json health-check.ts",
+    "routing:regression": "ts-node --project tsconfig.json routing-regression.ts",
+    "env:check": "ts-node --project tsconfig.json validate-env.ts",
+    "api:start": "ts-node --project tsconfig.json server.ts",
+    "api:smoke": "ts-node --project tsconfig.json api-smoke-test.ts"
   },
   "repository": {
     "type": "git",

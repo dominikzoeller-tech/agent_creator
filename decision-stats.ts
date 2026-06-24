@@ -27,13 +27,6 @@ interface PeriodAggregate {
   avgConfidencePercent: number | "";
 }
 
-interface PatternAggregate {
-  pattern: string;
-  count: number;
-  avgConfidencePercent: number | "";
-  exampleQuestion: string;
-}
-
 function parseArgs(argv: string[]): CliOptions {
   let route: RouteFilter = "all";
   let order: OrderMode = "newest";
@@ -76,10 +69,6 @@ function average(values: number[]): number | null {
   return sum / values.length;
 }
 
-function normalizeText(text: string): string {
-  return text.toLowerCase().replace(/\s+/g, " ").trim();
-}
-
 function countBy<T extends string>(values: T[]): Record<T, number> {
   const result = {} as Record<T, number>;
   for (const value of values) {
@@ -91,7 +80,7 @@ function countBy<T extends string>(values: T[]): Record<T, number> {
 function topNFromMap(map: Record<string, number>, limit = 5): TopItem[] {
   return Object.entries(map)
     .map(([label, count]) => ({ label, count }))
-    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+    .sort((a, b) => b.count - a.count)
     .slice(0, limit);
 }
 
@@ -195,8 +184,13 @@ function bucketForDate(date: Date, bucket: TimeBucket): string {
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
 
-  if (bucket === "day") return `${y}-${m}-${d}`;
-  if (bucket === "month") return `${y}-${m}`;
+  if (bucket === "day") {
+    return `${y}-${m}-${d}`;
+  }
+
+  if (bucket === "month") {
+    return `${y}-${m}`;
+  }
 
   const iso = getIsoWeek(date);
   return `${iso.year}-W${String(iso.week).padStart(2, "0")}`;
@@ -208,7 +202,6 @@ function aggregateByPeriod(entries: DecisionLogEntry[], bucket: TimeBucket): Per
   for (const entry of entries) {
     const date = new Date(entry.timestamp);
     if (Number.isNaN(date.getTime())) continue;
-
     const key = bucketForDate(date, bucket);
     const current = map.get(key) ?? { total: 0, direct: 0, council: 0, confidences: [] };
 
@@ -227,68 +220,8 @@ function aggregateByPeriod(entries: DecisionLogEntry[], bucket: TimeBucket): Per
       total: values.total,
       direct: values.direct,
       council: values.council,
-      avgConfidencePercent:
-        values.confidences.length > 0 ? round(average(values.confidences) ?? 0) : "",
+      avgConfidencePercent: values.confidences.length > 0 ? round(average(values.confidences) ?? 0) : "",
     }));
-}
-
-function inferPattern(entry: DecisionLogEntry): string {
-  if (entry.extractedOptions && entry.extractedOptions.length >= 2) {
-    const normalizedOptions = [...entry.extractedOptions]
-      .map((option) => option.trim())
-      .filter(Boolean)
-      .sort((a, b) => normalizeText(a).localeCompare(normalizeText(b)));
-
-    return normalizedOptions.join(" ⇄ ");
-  }
-
-  const question = normalizeText(entry.userInput)
-    .replace(/^rat das durch:\s*/i, "")
-    .replace(/^ich bin hin- und hergerissen:\s*/i, "")
-    .replace(/^ich kann mich nicht entscheiden:\s*/i, "");
-
-  return question.slice(0, 120);
-}
-
-function aggregatePatterns(entries: DecisionLogEntry[]): PatternAggregate[] {
-  const map = new Map<string, { count: number; confidences: number[]; exampleQuestion: string }>();
-
-  for (const entry of entries) {
-    const pattern = inferPattern(entry);
-    const current = map.get(pattern) ?? {
-      count: 0,
-      confidences: [],
-      exampleQuestion: entry.userInput,
-    };
-
-    current.count += 1;
-
-    if (typeof entry.confidence === "number") {
-      current.confidences.push(entry.confidence * 100);
-    }
-
-    if (!current.exampleQuestion) {
-      current.exampleQuestion = entry.userInput;
-    }
-
-    map.set(pattern, current);
-  }
-
-  return Array.from(map.entries())
-    .map(([pattern, values]): PatternAggregate => {
-      const avgConfidencePercent: number | "" =
-        values.confidences.length > 0
-          ? round(average(values.confidences) ?? 0)
-          : "";
-
-      return {
-        pattern,
-        count: values.count,
-        avgConfidencePercent,
-        exampleQuestion: values.exampleQuestion,
-      };
-    })
-    .sort((a, b) => b.count - a.count || a.pattern.localeCompare(b.pattern));
 }
 
 function printPeriodTable(title: string, rows: PeriodAggregate[]): void {
@@ -301,24 +234,6 @@ function printPeriodTable(title: string, rows: PeriodAggregate[]): void {
   for (const row of rows) {
     const conf = row.avgConfidencePercent === "" ? "-" : `${row.avgConfidencePercent}%`;
     console.log(`${row.period} | total=${row.total} | direct=${row.direct} | council=${row.council} | ØConf=${conf}`);
-  }
-}
-
-function printPatternScorecard(patterns: PatternAggregate[]): void {
-  console.log("\nMini-Scorecard: Wiederkehrende Entscheidungsmuster");
-  if (patterns.length === 0) {
-    console.log("- keine");
-    return;
-  }
-
-  const topPatterns = patterns.slice(0, 5);
-  const maxCount = Math.max(...topPatterns.map((pattern) => pattern.count), 1);
-
-  for (const pattern of topPatterns) {
-    const avgConf = pattern.avgConfidencePercent === "" ? "-" : `${pattern.avgConfidencePercent}%`;
-    console.log(asciiBar(pattern.pattern.slice(0, 16), pattern.count, maxCount, 18));
-    console.log(`  Beispiel: ${pattern.exampleQuestion}`);
-    console.log(`  Ø Konfidenz: ${avgConf}`);
   }
 }
 
@@ -343,7 +258,6 @@ function toFullCsv(entries: DecisionLogEntry[]): string {
 
   const rows = entries.map((entry) => {
     const confidencePercent = typeof entry.confidence === "number" ? Math.round(entry.confidence * 100) : "";
-
     return [
       escapeCsv(entry.timestamp),
       escapeCsv(entry.route),
@@ -381,26 +295,7 @@ function toSummaryCsv(rows: Array<Record<string, string | number>>): string {
     escapeCsv(row.metric),
     escapeCsv(row.value),
   ].join(","));
-
   return [header.join(","), ...lines].join("\n");
-}
-
-function toTopItemsCsv(items: TopItem[], labelName: string): string {
-  const header = [labelName, "count"];
-  const rows = items.map((item) => [escapeCsv(item.label), escapeCsv(item.count)].join(","));
-  return [header.join(","), ...rows].join("\n");
-}
-
-function toPatternCsv(items: PatternAggregate[]): string {
-  const header = ["pattern", "count", "avgConfidencePercent", "exampleQuestion"];
-  const rows = items.map((item) => [
-    escapeCsv(item.pattern),
-    escapeCsv(item.count),
-    escapeCsv(item.avgConfidencePercent === "" ? "" : item.avgConfidencePercent),
-    escapeCsv(item.exampleQuestion),
-  ].join(","));
-
-  return [header.join(","), ...rows].join("\n");
 }
 
 function routeSuffix(route: RouteFilter): string {
@@ -416,20 +311,8 @@ async function exportCsvFiles(
   route: RouteFilter,
   order: OrderMode,
   summaryRows: Array<Record<string, string | number>>,
-  topRecommendations: TopItem[],
-  topFirstSteps: TopItem[],
-  topOptions: TopItem[],
-  patterns: PatternAggregate[],
   timestampTag: string
-): Promise<{
-  fullPath: string;
-  compactPath: string;
-  summaryPath: string;
-  recommendationsPath: string;
-  firstStepsPath: string;
-  optionsPath: string;
-  patternsPath: string;
-}> {
+): Promise<{ fullPath: string; compactPath: string; summaryPath: string }> {
   const logDir = path.join(process.cwd(), "logs");
   await mkdir(logDir, { recursive: true });
 
@@ -437,28 +320,12 @@ async function exportCsvFiles(
   const fullPath = path.join(logDir, `decision-log-export-${suffix}.csv`);
   const compactPath = path.join(logDir, `decision-log-compact-${suffix}.csv`);
   const summaryPath = path.join(logDir, `decision-summary-${suffix}.csv`);
-  const recommendationsPath = path.join(logDir, `decision-recommendations-${suffix}.csv`);
-  const firstStepsPath = path.join(logDir, `decision-first-steps-${suffix}.csv`);
-  const optionsPath = path.join(logDir, `decision-options-${suffix}.csv`);
-  const patternsPath = path.join(logDir, `decision-patterns-${suffix}.csv`);
 
   await writeFile(fullPath, toFullCsv(entries), "utf8");
   await writeFile(compactPath, toCompactCsv(entries), "utf8");
   await writeFile(summaryPath, toSummaryCsv(summaryRows), "utf8");
-  await writeFile(recommendationsPath, toTopItemsCsv(topRecommendations, "recommendation"), "utf8");
-  await writeFile(firstStepsPath, toTopItemsCsv(topFirstSteps, "firstStep"), "utf8");
-  await writeFile(optionsPath, toTopItemsCsv(topOptions, "option"), "utf8");
-  await writeFile(patternsPath, toPatternCsv(patterns), "utf8");
 
-  return {
-    fullPath,
-    compactPath,
-    summaryPath,
-    recommendationsPath,
-    firstStepsPath,
-    optionsPath,
-    patternsPath,
-  };
+  return { fullPath, compactPath, summaryPath };
 }
 
 function buildEntriesSheetData(entries: DecisionLogEntry[]) {
@@ -487,7 +354,6 @@ function buildSummaryRows(params: {
   topRecommendations: TopItem[];
   topFirstSteps: TopItem[];
   topOptions: TopItem[];
-  patterns: PatternAggregate[];
   byDay: PeriodAggregate[];
   byWeek: PeriodAggregate[];
   byMonth: PeriodAggregate[];
@@ -513,10 +379,6 @@ function buildSummaryRows(params: {
 
   params.topOptions.forEach((item, index) => {
     rows.push({ section: "Top Options", metric: `#${index + 1}`, value: `${item.label} (${item.count}x)` });
-  });
-
-  params.patterns.slice(0, 10).forEach((item, index) => {
-    rows.push({ section: "Top Patterns", metric: `#${index + 1}`, value: `${item.pattern} (${item.count}x)` });
   });
 
   params.byDay.forEach((row) => {
@@ -547,7 +409,6 @@ async function exportExcelFiles(params: {
   topRecommendations: TopItem[];
   topFirstSteps: TopItem[];
   topOptions: TopItem[];
-  patterns: PatternAggregate[];
   byDay: PeriodAggregate[];
   byWeek: PeriodAggregate[];
   byMonth: PeriodAggregate[];
@@ -573,7 +434,6 @@ async function exportExcelFiles(params: {
     topRecommendations: params.topRecommendations,
     topFirstSteps: params.topFirstSteps,
     topOptions: params.topOptions,
-    patterns: params.patterns,
     byDay: params.byDay,
     byWeek: params.byWeek,
     byMonth: params.byMonth,
@@ -585,7 +445,6 @@ async function exportExcelFiles(params: {
   const byDaySheet = XLSX.utils.json_to_sheet(params.byDay);
   const byWeekSheet = XLSX.utils.json_to_sheet(params.byWeek);
   const byMonthSheet = XLSX.utils.json_to_sheet(params.byMonth);
-  const patternSheet = XLSX.utils.json_to_sheet(params.patterns);
 
   entriesSheet["!cols"] = [
     { wch: 24 },
@@ -602,14 +461,12 @@ async function exportExcelFiles(params: {
   byDaySheet["!cols"] = [{ wch: 16 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 22 }];
   byWeekSheet["!cols"] = [{ wch: 16 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 22 }];
   byMonthSheet["!cols"] = [{ wch: 16 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 22 }];
-  patternSheet["!cols"] = [{ wch: 45 }, { wch: 10 }, { wch: 22 }, { wch: 70 }];
 
   XLSX.utils.book_append_sheet(reportWb, entriesSheet, "Entries");
   XLSX.utils.book_append_sheet(reportWb, summarySheet, "Summary");
   XLSX.utils.book_append_sheet(reportWb, byDaySheet, "ByDay");
   XLSX.utils.book_append_sheet(reportWb, byWeekSheet, "ByWeek");
   XLSX.utils.book_append_sheet(reportWb, byMonthSheet, "ByMonth");
-  XLSX.utils.book_append_sheet(reportWb, patternSheet, "Patterns");
   XLSX.writeFile(reportWb, reportPath);
 
   const summaryOnlyWb = XLSX.utils.book_new();
@@ -617,19 +474,16 @@ async function exportExcelFiles(params: {
   const summaryOnlyByDaySheet = XLSX.utils.json_to_sheet(params.byDay);
   const summaryOnlyByWeekSheet = XLSX.utils.json_to_sheet(params.byWeek);
   const summaryOnlyByMonthSheet = XLSX.utils.json_to_sheet(params.byMonth);
-  const summaryOnlyPatternSheet = XLSX.utils.json_to_sheet(params.patterns);
 
   summaryOnlySheet["!cols"] = [{ wch: 24 }, { wch: 28 }, { wch: 100 }];
   summaryOnlyByDaySheet["!cols"] = [{ wch: 16 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 22 }];
   summaryOnlyByWeekSheet["!cols"] = [{ wch: 16 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 22 }];
   summaryOnlyByMonthSheet["!cols"] = [{ wch: 16 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 22 }];
-  summaryOnlyPatternSheet["!cols"] = [{ wch: 45 }, { wch: 10 }, { wch: 22 }, { wch: 70 }];
 
   XLSX.utils.book_append_sheet(summaryOnlyWb, summaryOnlySheet, "Summary");
   XLSX.utils.book_append_sheet(summaryOnlyWb, summaryOnlyByDaySheet, "ByDay");
   XLSX.utils.book_append_sheet(summaryOnlyWb, summaryOnlyByWeekSheet, "ByWeek");
   XLSX.utils.book_append_sheet(summaryOnlyWb, summaryOnlyByMonthSheet, "ByMonth");
-  XLSX.utils.book_append_sheet(summaryOnlyWb, summaryOnlyPatternSheet, "Patterns");
   XLSX.writeFile(summaryOnlyWb, summaryOnlyPath);
 
   return { reportPath, summaryOnlyPath };
@@ -688,13 +542,12 @@ async function main() {
   const topFirstSteps = topNFromMap(firstStepCounts, 5);
   const topOptions = topNFromMap(optionCounts, 8);
   const latestEntries = entries.slice(0, 5);
-  const patterns = aggregatePatterns(councilEntries);
 
   const byDay = aggregateByPeriod(entries, "day");
   const byWeek = aggregateByPeriod(entries, "week");
   const byMonth = aggregateByPeriod(entries, "month");
 
-  printSectionTitle("Decision Stats v4");
+  printSectionTitle("Decision Stats");
   printKeyValue("Gesamtanzahl Einträge", totalEntries);
   printKeyValue("Direct", directCount);
   printKeyValue("Council", councilCount);
@@ -719,7 +572,6 @@ async function main() {
   printPeriodTable("Aggregation pro Tag", byDay);
   printPeriodTable("Aggregation pro Woche", byWeek);
   printPeriodTable("Aggregation pro Monat", byMonth);
-  printPatternScorecard(patterns);
 
   console.log("\nLetzte 5 Einträge");
   for (const entry of latestEntries) {
@@ -751,24 +603,12 @@ async function main() {
     topRecommendations,
     topFirstSteps,
     topOptions,
-    patterns,
     byDay,
     byWeek,
     byMonth,
   });
 
-  const csvFiles = await exportCsvFiles(
-    entries,
-    options.route,
-    options.order,
-    summaryRows,
-    topRecommendations,
-    topFirstSteps,
-    topOptions,
-    patterns,
-    timestampTag
-  );
-
+  const csvFiles = await exportCsvFiles(entries, options.route, options.order, summaryRows, timestampTag);
   const excelFiles = await exportExcelFiles({
     entries,
     route: options.route,
@@ -782,7 +622,6 @@ async function main() {
     topRecommendations,
     topFirstSteps,
     topOptions,
-    patterns,
     byDay,
     byWeek,
     byMonth,
@@ -796,20 +635,12 @@ async function main() {
   console.log(csvFiles.compactPath);
   console.log("CSV-Export (Summary):");
   console.log(csvFiles.summaryPath);
-  console.log("CSV-Export (Empfehlungen):");
-  console.log(csvFiles.recommendationsPath);
-  console.log("CSV-Export (Erste Schritte):");
-  console.log(csvFiles.firstStepsPath);
-  console.log("CSV-Export (Optionen):");
-  console.log(csvFiles.optionsPath);
-  console.log("CSV-Export (Patterns):");
-  console.log(csvFiles.patternsPath);
   console.log("--------------------------------------");
 
   console.log("\n--------------------------------------");
-  console.log("Excel-Export (Report mit Entries + Summary + Zeitaggregation + Patterns):");
+  console.log("Excel-Export (Report mit Entries + Summary + Zeitaggregation):");
   console.log(excelFiles.reportPath);
-  console.log("Excel-Export (nur Summary + Zeitaggregation + Patterns):");
+  console.log("Excel-Export (nur Summary + Zeitaggregation):");
   console.log(excelFiles.summaryOnlyPath);
   console.log("--------------------------------------");
 
