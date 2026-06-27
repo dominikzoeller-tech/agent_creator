@@ -1,0 +1,11 @@
+Optionaler Root-package.json scripts-Block-Zusatz:
+
+"stack:up": "docker compose -f docker-compose.internal.yml up --build",
+"stack:up:detached": "docker compose -f docker-compose.internal.yml up --build -d",
+"stack:down": "docker compose -f docker-compose.internal.yml down",
+"stack:logs": "docker compose -f docker-compose.internal.yml logs -f",
+"stack:ps": "docker compose -f docker-compose.internal.yml ps"
+
+Hinweis:
+Diese Einträge in den bestehenden scripts-Block einfügen.
+Auf Kommas achten: Jeder Eintrag außer dem letzten braucht ein Komma.
