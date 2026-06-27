@@ -9,6 +9,6 @@ if (!fs.existsSync(packageJsonPath)) {
 
 const pkg = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 pkg.scripts = pkg.scripts || {};
-pkg.scripts["phase6:logs:patch2"] = "node scripts/phase6-8b2-patch-routing-metadata-logs-analytics.cjs";
+pkg.scripts["phase6:logs:shared-volume"] = "node scripts/phase6-8d-patch-shared-logs-volume.cjs";
 fs.writeFileSync(packageJsonPath, `${JSON.stringify(pkg, null, 2)}\n`, "utf8");
-console.log("Script phase6:logs:patch2 wurde zu package.json hinzugefügt/aktualisiert.");
+console.log("Script phase6:logs:shared-volume wurde zu package.json hinzugefügt/aktualisiert.");

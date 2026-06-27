@@ -2,6 +2,9 @@
 services:
   api:
     build:
+    volumes:
+      - ./logs:/app/logs
+
       context: .
       dockerfile: Dockerfile
     container_name: privacy-first-api
@@ -21,6 +24,9 @@ services:
 
   frontend:
     build:
+    volumes:
+      - ./logs:/logs:ro
+
       context: ./frontend
       dockerfile: Dockerfile
       args:
