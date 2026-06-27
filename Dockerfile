@@ -24,6 +24,9 @@ COPY agent-capabilities.ts ./
 COPY agent-routing-details.ts ./
 COPY council-routing-metadata.ts ./
 COPY council-routing-response-types.ts ./
+COPY knowledge-base.ts ./
+COPY knowledge-routing-context.ts ./
+COPY knowledge ./knowledge
 
 # Optional documentation / example config inside image
 COPY .env.example ./

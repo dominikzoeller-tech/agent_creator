@@ -3,6 +3,7 @@ import { createServer, IncomingMessage, ServerResponse } from "node:http";
 import { parse as parseUrl } from "node:url";
 import { runMasterAgent } from "./master-agent";
 import { appendDecisionLog } from "./decision-log";
+import { buildKnowledgeRoutingContext, mergeKnowledgeContext } from "./knowledge-routing-context";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -254,8 +255,11 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
 
   const effectiveUserInput =
     processingPath === "cloud_redacted" ? redactSensitiveText(body.userInput) : body.userInput;
-  const effectiveContext =
+  const baseEffectiveContext =
     processingPath === "cloud_redacted" ? redactContext(body.context ?? []) : (body.context ?? []);
+
+  const knowledge = await buildKnowledgeRoutingContext(effectiveUserInput, { limit: 3 });
+  const effectiveContext = mergeKnowledgeContext(baseEffectiveContext, knowledge);
 
   try {
     const result = await runMasterAgent({
