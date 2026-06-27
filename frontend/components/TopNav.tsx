@@ -30,6 +30,7 @@ const links = [
   { href: "/", label: "Chat" },
   { href: "/logs", label: "Logs" },
   { href: "/analytics", label: "Analytics" },
+  { href: "/system", label: "System" },
 ];
 
 export function TopNav() {

@@ -97,6 +97,10 @@ export interface AnalyticsResponse {
   topRecommendations: TopItem[];
   topFirstSteps: TopItem[];
   topPatterns: PatternItem[];
+  filters?: {
+    route: "all" | RouteType;
+    search: string;
+  };
 }
 
 export interface RedactResponse {
@@ -104,6 +108,13 @@ export interface RedactResponse {
   original: string;
   redacted: string;
   redactedContext: string[];
+}
+
+export interface ExportFileEntry {
+  name: string;
+  size: number;
+  modifiedAt: string;
+  kind: "csv" | "xlsx";
 }
 
 export type AskResponse = CloudAskResponse | LocalPolicyResponse | ApiErrorResponse;
