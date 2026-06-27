@@ -6,8 +6,7 @@ WORKDIR /app
 # Copy package metadata first for better Docker layer caching
 COPY package*.json ./
 
-# For this TypeScript runtime setup we intentionally install dev dependencies too,
-# because server.ts is started via ts-node.
+# The API runs TypeScript via ts-node, so dev dependencies are required.
 RUN npm install
 
 # Copy TypeScript sources and config
@@ -19,6 +18,12 @@ COPY council-engine.ts ./
 COPY agent-response.ts ./
 COPY decision-log.ts ./
 COPY real-llm.ts ./
+
+# Phase 6 agent routing / council metadata modules
+COPY agent-capabilities.ts ./
+COPY agent-routing-details.ts ./
+COPY council-routing-metadata.ts ./
+COPY council-routing-response-types.ts ./
 
 # Optional documentation / example config inside image
 COPY .env.example ./

@@ -25,7 +25,10 @@
     "agent:capabilities:test": "npx ts-node agent-capabilities-smoke-test.ts",
     "agent:routing:test": "npx ts-node agent-routing-smoke-test.ts",
     "council:routing:metadata:test": "npx ts-node council-routing-metadata-smoke-test.ts",
-    "phase6:preflight": "node scripts/phase6-4-preflight.cjs"
+    "phase6:preflight": "node scripts/phase6-4-preflight.cjs",
+    "phase6:council:inspect": "node scripts/phase6-5-inspect-council-engine.cjs",
+    "phase6:council:snippets": "node scripts/phase6-6-extract-council-engine-snippets.cjs",
+    "phase6:council:patch": "node scripts/phase6-6-patch-council-engine.cjs"
   },
   "repository": {
     "type": "git",

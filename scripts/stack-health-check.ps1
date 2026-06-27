@@ -28,7 +28,7 @@ Write-Host ""
 
 Write-Host "3) Frontend Health: http://localhost:3000"
 try {
-  $frontendResponse = Invoke-WebRequest -Uri "http://localhost:3000" -Method GET -TimeoutSec 10
+  $frontendResponse = Invoke-WebRequest -Uri "http://localhost:3000" -Method GET -TimeoutSec 10 -UseBasicParsing
   if ($frontendResponse.StatusCode -ge 200 -and $frontendResponse.StatusCode -lt 400) {
     Write-Host "Frontend: OK" -ForegroundColor Green
     Write-Host "StatusCode: $($frontendResponse.StatusCode)"
