@@ -2,9 +2,6 @@
 services:
   api:
     build:
-    volumes:
-      - ./logs:/app/logs
-
       context: .
       dockerfile: Dockerfile
     container_name: privacy-first-api
@@ -12,6 +9,8 @@ services:
       - .env
     environment:
       PORT: 7071
+    volumes:
+      - ./logs:/app/logs
     ports:
       - "7071:7071"
     healthcheck:
@@ -24,9 +23,6 @@ services:
 
   frontend:
     build:
-    volumes:
-      - ./logs:/logs:ro
-
       context: ./frontend
       dockerfile: Dockerfile
       args:
@@ -34,6 +30,8 @@ services:
     container_name: privacy-first-frontend
     environment:
       NEXT_PUBLIC_AGENT_API_BASE_URL: http://localhost:7071
+    volumes:
+      - ./logs:/logs:ro
     ports:
       - "3000:3000"
     depends_on:
