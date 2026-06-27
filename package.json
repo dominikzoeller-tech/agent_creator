@@ -36,7 +36,8 @@
     "phase6:analytics:ui:fix": "node scripts/phase6-8c2-fix-analytics-ui-variable.cjs",
     "phase6:logs:shared-volume": "node scripts/phase6-8d-patch-shared-logs-volume.cjs",
     "phase6:release:preflight": "node scripts/phase6-9-release-preflight.cjs",
-    "knowledge:smoke": "npx ts-node knowledge-base-smoke-test.ts"
+    "knowledge:smoke": "npx ts-node knowledge-base-smoke-test.ts",
+    "knowledge:routing:smoke": "npx ts-node knowledge-routing-context-smoke-test.ts"
   },
   "repository": {
     "type": "git",
