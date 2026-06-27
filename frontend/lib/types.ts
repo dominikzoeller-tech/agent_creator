@@ -3,6 +3,19 @@ export type ProcessingMode = "auto" | "local_only" | "hybrid" | "cloud_allowed";
 export type ProcessingPath = "cloud_raw" | "cloud_redacted" | "local_policy";
 export type RouteType = "direct" | "council";
 export type OutputMode = "json" | "markdown";
+export type RoutingLevel = "low" | "medium" | "high";
+
+export interface RoutingDetails {
+  route: RouteType;
+  reason: string;
+  suggestedAgents: string[];
+  complexity: RoutingLevel;
+  privacyRisk: RoutingLevel;
+  decisionNeed: boolean;
+  implementationNeed: boolean;
+  planningNeed: boolean;
+  riskNeed: boolean;
+}
 
 export interface HealthResponse {
   ok: boolean;
@@ -34,6 +47,9 @@ export interface CloudAskResult {
   recommendation?: string | null;
   firstStep?: string | null;
   confidence?: number | null;
+  suggestedAgents?: string[];
+  routingDetails?: RoutingDetails;
+  routingSummary?: string;
   councilResult?: unknown;
 }
 
@@ -72,6 +88,7 @@ export interface DecisionLogEntry {
   confidence?: number | null;
   context?: string[];
   extractedOptions?: string[];
+  suggestedAgents?: string[];
 }
 
 export interface TopItem {

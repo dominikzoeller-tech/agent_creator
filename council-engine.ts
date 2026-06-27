@@ -35,6 +35,9 @@ export interface CouncilResult {
   firstStep: string;
   confidence?: number; // 0 bis 1
   extractedOptions?: string[];
+  suggestedAgents?: string[];
+  routingDetails?: RoutingDetails;
+  routingSummary?: string;
 }
 
 export type LLMFn = (prompt: string) => Promise<string>;
@@ -626,6 +629,11 @@ export async function runCouncil(
   input: CouncilInput,
   llm: LLMFn
 ): Promise<CouncilResult> {
+  const routingMetadata = buildCouncilRoutingMetadata({
+    userInput: input.userQuestion,
+    includeCouncilResult: true,
+  });
+
   const extractedOptions =
     input.options && input.options.length > 0
       ? uniqueNonEmpty(input.options)
@@ -720,6 +728,10 @@ export async function runCouncil(
     extractedOptions,
     usedFallbacks,
   });
+
+  validated.suggestedAgents = routingMetadata.suggestedAgents;
+  validated.routingDetails = routingMetadata.routingDetails;
+  validated.routingSummary = routingMetadata.summary;
 
   return validated;
 }

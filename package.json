@@ -28,7 +28,9 @@
     "phase6:preflight": "node scripts/phase6-4-preflight.cjs",
     "phase6:council:inspect": "node scripts/phase6-5-inspect-council-engine.cjs",
     "phase6:council:snippets": "node scripts/phase6-6-extract-council-engine-snippets.cjs",
-    "phase6:council:patch": "node scripts/phase6-6-patch-council-engine.cjs"
+    "phase6:council:patch": "node scripts/phase6-6-patch-council-engine.cjs",
+    "phase6:council:metadata:fix": "node scripts/phase6-6b-fix-council-engine-metadata.cjs",
+    "phase6:council:metadata:linefix": "node scripts/phase6-6c-line-fix-council-engine-metadata.cjs"
   },
   "repository": {
     "type": "git",

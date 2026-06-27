@@ -7,6 +7,7 @@ import { ChatResponseCard } from "../components/ChatResponseCard";
 import { PrivacyRequestPanel } from "../components/PrivacyRequestPanel";
 import { RedactPreviewPanel } from "../components/RedactPreviewPanel";
 import { DebugResponsePanel } from "../components/DebugResponsePanel";
+import { RoutingMetadataPanel } from "../components/RoutingMetadataPanel";
 
 const labelStyle: React.CSSProperties = {
   display: "block",
@@ -51,7 +52,7 @@ export default function Page() {
   const [userInput, setUserInput] = useState("Soll ich zuerst die CLI fertig bauen oder zuerst JSON-Output standardisieren?");
   const [sensitivity, setSensitivity] = useState<DataSensitivity>("internal");
   const [processingMode, setProcessingMode] = useState<ProcessingMode>("auto");
-  const [includeCouncilResult, setIncludeCouncilResult] = useState(false);
+  const [includeCouncilResult, setIncludeCouncilResult] = useState(true);
   const [showDebug, setShowDebug] = useState(false);
   const [response, setResponse] = useState<AskResponse | null>(null);
   const [redactPreview, setRedactPreview] = useState<RedactResponse | null>(null);
@@ -70,9 +71,7 @@ export default function Page() {
       .catch((err) => {
         if (active) setError(err instanceof Error ? err.message : "Health konnte nicht geladen werden.");
       });
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -83,8 +82,8 @@ export default function Page() {
       const result = await askAgent({
         userInput,
         context: [
-          "Phase 4.6 Redact Preview / Admin-Debug gegen die Privacy-First API.",
-          "Die UI soll jetzt eine Redaction-Vorschau und einen Debug-JSON-Bereich anzeigen können.",
+          "Phase 6.7 Routing-Metadaten sollen in API/Debug sichtbar sein.",
+          "Die UI soll suggestedAgents, routingDetails und routingSummary anzeigen können.",
         ],
         outputMode: "json",
         includeCouncilResult,
@@ -108,7 +107,7 @@ export default function Page() {
       const preview = await getRedactPreview({
         userInput,
         context: [
-          "Phase 4.6 Redaction Preview.",
+          "Phase 6.7 Redaction Preview.",
           "Zeige, wie die API kritische Inhalte vor der Verarbeitung maskieren würde.",
         ],
       });
@@ -125,10 +124,10 @@ export default function Page() {
     <main className="page-wrap">
       <div className="page-shell">
         <section className="hero-card" style={{ background: "linear-gradient(135deg, #fef3c7 0%, #f8fafc 100%)", borderColor: '#fde68a' }}>
-          <h1 className="section-title">Phase 4.6 – Redact Preview & Admin-Debug</h1>
+          <h1 className="section-title">Phase 6.7 – Routing-Metadaten im Debug</h1>
           <p style={{ margin: "12px 0 0", maxWidth: 940, lineHeight: 1.6 }}>
-            Diese Stufe ergänzt die UI um zwei praktische Werkzeuge: eine Redaction-Vorschau vor dem Senden und ein
-            schaltbares Admin-/Debug-Panel mit der vollständigen JSON-Antwort der API.
+            Die neuen Agent-/Routing-Metadaten werden jetzt im Frontend sichtbar: vorgeschlagene Agenten,
+            Routing-Details, Summary und vollständiges Debug JSON.
           </p>
         </section>
 
@@ -136,8 +135,7 @@ export default function Page() {
           <section className="panel-card">
             <h2 style={{ marginTop: 0 }}>Chat</h2>
             <p className="helper-text" style={{ marginTop: 0 }}>
-              Nutze <strong>Redaction prüfen</strong>, um vorab zu sehen, wie sensible Inhalte maskiert würden. Mit dem
-              Debug-Schalter blendest du die Rohantwort der API ein.
+              Für Phase 6.7 ist <strong>includeCouncilResult</strong> standardmäßig aktiv, damit neue Routing-Metadaten in der UI sichtbar werden.
             </p>
 
             <form onSubmit={handleSubmit} style={{ display: "grid", gap: 16 }}>
@@ -220,6 +218,7 @@ export default function Page() {
 
         <RedactPreviewPanel preview={redactPreview} loading={redactLoading} error={redactError} />
         <ChatResponseCard response={response} loading={loading} error={error} />
+        <RoutingMetadataPanel response={response} />
         <DebugResponsePanel response={response} visible={showDebug} />
       </div>
     </main>
