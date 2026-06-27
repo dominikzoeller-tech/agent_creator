@@ -2,6 +2,7 @@ import "dotenv/config";
 import { createServer, IncomingMessage, ServerResponse } from "node:http";
 import { parse as parseUrl } from "node:url";
 import { runMasterAgent } from "./master-agent";
+import { appendDecisionLog } from "./decision-log";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -162,6 +163,44 @@ function buildLocalPolicyResponse(params: {
   };
 }
 
+
+function isRecordForLogMetadata(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function readStringArrayForLog(value: unknown): string[] | undefined {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : undefined;
+}
+
+function pickRoutingMetadataForLog(result: unknown): {
+  suggestedAgents?: string[];
+  routingDetails?: unknown;
+  routingSummary?: string;
+} {
+  if (!isRecordForLogMetadata(result)) return {};
+
+  const directSuggestedAgents = readStringArrayForLog(result.suggestedAgents);
+  const directRoutingDetails = result.routingDetails;
+  const directRoutingSummary = typeof result.routingSummary === "string" ? result.routingSummary : undefined;
+
+  if (directSuggestedAgents || directRoutingDetails || directRoutingSummary) {
+    return {
+      suggestedAgents: directSuggestedAgents,
+      routingDetails: directRoutingDetails,
+      routingSummary: directRoutingSummary,
+    };
+  }
+
+  const councilResult = result.councilResult;
+  if (!isRecordForLogMetadata(councilResult)) return {};
+
+  return {
+    suggestedAgents: readStringArrayForLog(councilResult.suggestedAgents),
+    routingDetails: councilResult.routingDetails,
+    routingSummary: typeof councilResult.routingSummary === "string" ? councilResult.routingSummary : undefined,
+  };
+}
+
 async function handleAsk(req: IncomingMessage, res: ServerResponse) {
   let rawBody: unknown;
 
@@ -195,6 +234,20 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       processingPath,
     });
 
+    await appendDecisionLog({
+      timestamp: new Date().toISOString(),
+      route: response.routeSuggestion,
+      userInput: body.userInput,
+      recommendation: null,
+      firstStep: response.answer,
+      confidence: null,
+      context: body.context ?? [],
+      extractedOptions: [],
+      suggestedAgents: response.routeSuggestion === "council" ? ["privacy_agent", "risk_agent"] : ["privacy_agent"],
+      routingSummary: "Route: " + response.routeSuggestion + " | Processing Path: " + processingPath,
+      routingDetails: undefined,
+    });
+
     sendJson(res, 200, response);
     return;
   }
@@ -221,6 +274,29 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       redacted: processingPath === "cloud_redacted",
       result,
     };
+
+    const resultForLog = result as {
+      route?: "direct" | "council";
+      recommendation?: string | null;
+      firstStep?: string | null;
+      confidence?: number | null;
+      extractedOptions?: string[];
+    };
+    const routingMetadataForLog = pickRoutingMetadataForLog(result);
+
+    await appendDecisionLog({
+      timestamp: new Date().toISOString(),
+      route: resultForLog.route ?? "direct",
+      userInput: body.userInput,
+      recommendation: resultForLog.recommendation ?? null,
+      firstStep: resultForLog.firstStep ?? null,
+      confidence: typeof resultForLog.confidence === "number" ? resultForLog.confidence : null,
+      context: body.context ?? [],
+      extractedOptions: resultForLog.extractedOptions ?? [],
+      suggestedAgents: routingMetadataForLog.suggestedAgents,
+      routingDetails: routingMetadataForLog.routingDetails,
+      routingSummary: routingMetadataForLog.routingSummary,
+    });
 
     sendJson(res, 200, response);
   } catch (error) {

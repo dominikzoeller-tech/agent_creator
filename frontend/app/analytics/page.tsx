@@ -5,6 +5,7 @@ import { AnalyticsResponse, ExportFileEntry, RouteType } from "../../lib/types";
 import { AnalyticsSummary } from "../../components/AnalyticsSummary";
 import { AnalyticsFiltersBar } from "../../components/AnalyticsFiltersBar";
 import { ExportsPanel } from "../../components/ExportsPanel";
+import { AgentRoutingAnalyticsPanel } from "../../components/AgentRoutingAnalyticsPanel";
 
 export default function AnalyticsPage() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
@@ -79,6 +80,8 @@ export default function AnalyticsPage() {
         <AnalyticsSummary data={data} loading={loading} error={error} />
         <ExportsPanel files={exportsFiles} loading={exportsLoading} error={exportsError} />
       </div>
-    </main>
+    
+        <AgentRoutingAnalyticsPanel analytics={data} />
+</main>
   );
 }

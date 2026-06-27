@@ -113,6 +113,9 @@ export interface AnalyticsResponse {
   avgCouncilConfidencePercent: number | null;
   topRecommendations: TopItem[];
   topFirstSteps: TopItem[];
+  topSuggestedAgents?: TopItem[];
+  topRoutingComplexities?: TopItem[];
+  topPrivacyRisks?: TopItem[];
   topPatterns: PatternItem[];
   filters?: {
     route: "all" | RouteType;

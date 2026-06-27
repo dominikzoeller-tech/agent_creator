@@ -11,6 +11,16 @@ interface DecisionLogEntry {
   firstStep?: string | null;
   confidence?: number | null;
   extractedOptions?: string[];
+  suggestedAgents?: string[];
+  routingSummary?: string;
+  routingDetails?: {
+    complexity?: string;
+    privacyRisk?: string;
+    decisionNeed?: boolean;
+    implementationNeed?: boolean;
+    planningNeed?: boolean;
+    riskNeed?: boolean;
+  };
 }
 
 function round(value: number, digits = 2) {
@@ -74,7 +84,7 @@ export async function GET(request: Request) {
     if (search) {
       entries = entries.filter((entry) => {
         const haystack = normalizeText(
-          [entry.userInput, entry.recommendation, entry.firstStep, ...(entry.extractedOptions ?? [])]
+          [entry.userInput, entry.recommendation, entry.firstStep, entry.routingSummary, ...(entry.extractedOptions ?? []), ...(entry.suggestedAgents ?? [])]
             .filter(Boolean)
             .join(" ")
         );
@@ -97,6 +107,9 @@ export async function GET(request: Request) {
 
     const topRecommendations = toTopItems(councilEntries.map((entry) => entry.recommendation ?? ""), 5);
     const topFirstSteps = toTopItems(councilEntries.map((entry) => entry.firstStep ?? ""), 5);
+    const topSuggestedAgents = toTopItems(councilEntries.flatMap((entry) => entry.suggestedAgents ?? []), 10);
+    const topRoutingComplexities = toTopItems(councilEntries.map((entry) => entry.routingDetails?.complexity ?? ""), 5);
+    const topPrivacyRisks = toTopItems(councilEntries.map((entry) => entry.routingDetails?.privacyRisk ?? ""), 5);
 
     const patternMap = new Map<string, { count: number; confidences: number[]; exampleQuestion: string }>();
     for (const entry of councilEntries) {
@@ -127,6 +140,9 @@ export async function GET(request: Request) {
       avgCouncilConfidencePercent,
       topRecommendations,
       topFirstSteps,
+      topSuggestedAgents,
+      topRoutingComplexities,
+      topPrivacyRisks,
       topPatterns,
       filters: { route, search },
     });
@@ -141,6 +157,9 @@ export async function GET(request: Request) {
       avgCouncilConfidencePercent: null,
       topRecommendations: [],
       topFirstSteps: [],
+      topSuggestedAgents: [],
+      topRoutingComplexities: [],
+      topPrivacyRisks: [],
       topPatterns: [],
       filters: { route, search },
     });

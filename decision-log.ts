@@ -11,6 +11,9 @@ export interface DecisionLogEntry {
   confidence: number | null;
   context?: string[];
   extractedOptions?: string[];
+  suggestedAgents?: string[];
+  routingDetails?: unknown;
+  routingSummary?: string;
 }
 
 const LOG_DIR = path.join(process.cwd(), "logs");
