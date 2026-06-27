@@ -22,7 +22,8 @@
     "stack:logs": "docker compose -f docker-compose.internal.yml logs -f",
     "stack:ps": "docker compose -f docker-compose.internal.yml ps",
     "stack:health": "powershell -ExecutionPolicy Bypass -File scripts/stack-health-check.ps1",
-    "agent:capabilities:test": "npx ts-node agent-capabilities-smoke-test.ts"
+    "agent:capabilities:test": "npx ts-node agent-capabilities-smoke-test.ts",
+    "agent:routing:test": "npx ts-node agent-routing-smoke-test.ts"
   },
   "repository": {
     "type": "git",
