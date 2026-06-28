@@ -9,6 +9,7 @@ import { AgentRoutingAnalyticsPanel } from "../../components/AgentRoutingAnalyti
 import { KnowledgeAnalyticsPanel } from "../../components/KnowledgeAnalyticsPanel";
 import { MemoryAnalyticsPanel } from "../../components/MemoryAnalyticsPanel";
 import { WebResearchAnalyticsPanel } from "../../components/WebResearchAnalyticsPanel";
+import { ToolPreflightAnalyticsPanel } from "../../components/ToolPreflightAnalyticsPanel";
 
 export default function AnalyticsPage() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
@@ -104,6 +105,7 @@ export default function AnalyticsPage() {
         <KnowledgeAnalyticsPanel analytics={data} />
         <MemoryAnalyticsPanel analytics={data} />
         <WebResearchAnalyticsPanel analytics={data} />
+        <ToolPreflightAnalyticsPanel analytics={data} />
 
 </main>
   );

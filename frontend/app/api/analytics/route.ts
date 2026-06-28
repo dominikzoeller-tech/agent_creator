@@ -25,6 +25,12 @@ interface DecisionLogEntry {
   webResearchSummary?: string;
   webResearchSummaryMessage?: string;
   webResearchSources?: { title?: string; url?: string; source?: string }[];
+  toolPreflight?: {
+    candidateToolIds?: string[];
+    allowedToolIds?: string[];
+    blockedToolIds?: string[];
+    decisions?: Array<{ toolId?: string; label?: string; candidate?: boolean; allowed?: boolean; requiresConfirmation?: boolean; reasons?: string[]; warnings?: string[]; riskLevel?: string }>;
+  };
   memorySummary?: string;
   memoryHits?: { id?: string; type?: string; title?: string; summary?: string; tags?: string[]; source?: string }[];
   routingSummary?: string;
@@ -123,6 +129,13 @@ export async function GET(request: Request) {
     const webResearchUsedSharePercent = totalEntries > 0 ? round((webResearchUsedCount / totalEntries) * 100) : 0;
     const webResearchSummaryUsedCount = webResearchSummaryEntries.length;
     const webResearchSummarySuccessPercent = webResearchUsedCount > 0 ? round((webResearchSummaryUsedCount / webResearchUsedCount) * 100) : 0;
+    const toolPreflightEntries = entries.filter((entry) => Boolean(entry.toolPreflight));
+    const toolPreflightEntriesCount = toolPreflightEntries.length;
+    const toolPreflightCandidateCount = toolPreflightEntries.reduce((sum, entry) => sum + (entry.toolPreflight?.candidateToolIds?.length ?? 0), 0);
+    const toolPreflightAllowedCandidateCount = toolPreflightEntries.reduce((sum, entry) => sum + (entry.toolPreflight?.allowedToolIds?.length ?? 0), 0);
+    const toolPreflightBlockedCandidateCount = toolPreflightEntries.reduce((sum, entry) => sum + (entry.toolPreflight?.blockedToolIds?.length ?? 0), 0);
+    const toolPreflightBlockedSharePercent = toolPreflightCandidateCount > 0 ? round((toolPreflightBlockedCandidateCount / toolPreflightCandidateCount) * 100) : 0;
+    const toolPreflightHighRiskCandidateCount = toolPreflightEntries.reduce((sum, entry) => sum + (entry.toolPreflight?.decisions ?? []).filter((decision) => decision.candidate === true && decision.requiresConfirmation === true).length, 0);
     const directCount = directEntries.length;
     const councilCount = councilEntries.length;
     const directSharePercent = totalEntries > 0 ? round((directCount / totalEntries) * 100) : 0;
@@ -146,6 +159,11 @@ export async function GET(request: Request) {
     const topWebResearchQueries = toTopItems(webResearchIntentEntries.map((entry) => entry.webResearchQuery ?? ""), 10);
     const topWebResearchSources = toTopItems(webResearchUsedEntries.flatMap((entry) => (entry.webResearchSources ?? []).map((source) => source.source ?? source.url ?? "")), 10);
     const topWebResearchTitles = toTopItems(webResearchUsedEntries.flatMap((entry) => (entry.webResearchResults ?? []).map((result) => result.title ?? result.url ?? "")), 10);
+    const topToolPreflightCandidates = toTopItems(toolPreflightEntries.flatMap((entry) => entry.toolPreflight?.candidateToolIds ?? []), 10);
+    const topToolPreflightBlockedTools = toTopItems(toolPreflightEntries.flatMap((entry) => entry.toolPreflight?.blockedToolIds ?? []), 10);
+    const topToolPreflightAllowedTools = toTopItems(toolPreflightEntries.flatMap((entry) => entry.toolPreflight?.allowedToolIds ?? []), 10);
+    const topToolPreflightBlockReasons = toTopItems(toolPreflightEntries.flatMap((entry) => (entry.toolPreflight?.decisions ?? []).flatMap((decision) => decision.candidate === true && decision.allowed === false ? (decision.reasons ?? []) : [])), 10);
+    const topToolPreflightWarnings = toTopItems(toolPreflightEntries.flatMap((entry) => (entry.toolPreflight?.decisions ?? []).flatMap((decision) => decision.candidate === true ? (decision.warnings ?? []) : [])), 10);
 
     const patternMap = new Map<string, { count: number; confidences: number[]; exampleQuestion: string }>();
     for (const entry of councilEntries) {
@@ -182,6 +200,12 @@ export async function GET(request: Request) {
       webResearchUsedSharePercent,
       webResearchSummaryUsedCount,
       webResearchSummarySuccessPercent,
+      toolPreflightEntriesCount,
+      toolPreflightCandidateCount,
+      toolPreflightAllowedCandidateCount,
+      toolPreflightBlockedCandidateCount,
+      toolPreflightBlockedSharePercent,
+      toolPreflightHighRiskCandidateCount,
       topRecommendations,
       topFirstSteps,
       topSuggestedAgents,
@@ -195,6 +219,11 @@ export async function GET(request: Request) {
       topWebResearchQueries,
       topWebResearchSources,
       topWebResearchTitles,
+      topToolPreflightCandidates,
+      topToolPreflightBlockedTools,
+      topToolPreflightAllowedTools,
+      topToolPreflightBlockReasons,
+      topToolPreflightWarnings,
       topPatterns,
       filters: { route, search },
     });
@@ -215,6 +244,12 @@ export async function GET(request: Request) {
       webResearchUsedSharePercent: 0,
       webResearchSummaryUsedCount: 0,
       webResearchSummarySuccessPercent: 0,
+      toolPreflightEntriesCount: 0,
+      toolPreflightCandidateCount: 0,
+      toolPreflightAllowedCandidateCount: 0,
+      toolPreflightBlockedCandidateCount: 0,
+      toolPreflightBlockedSharePercent: 0,
+      toolPreflightHighRiskCandidateCount: 0,
       topRecommendations: [],
       topFirstSteps: [],
       topSuggestedAgents: [],
@@ -228,6 +263,11 @@ export async function GET(request: Request) {
       topWebResearchQueries: [],
       topWebResearchSources: [],
       topWebResearchTitles: [],
+      topToolPreflightCandidates: [],
+      topToolPreflightBlockedTools: [],
+      topToolPreflightAllowedTools: [],
+      topToolPreflightBlockReasons: [],
+      topToolPreflightWarnings: [],
       topPatterns: [],
       filters: { route, search },
     });

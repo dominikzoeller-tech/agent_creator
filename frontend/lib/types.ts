@@ -178,6 +178,12 @@ export interface AnalyticsResponse {
   webResearchUsedSharePercent?: number;
   webResearchSummaryUsedCount?: number;
   webResearchSummarySuccessPercent?: number;
+  toolPreflightEntriesCount?: number;
+  toolPreflightCandidateCount?: number;
+  toolPreflightAllowedCandidateCount?: number;
+  toolPreflightBlockedCandidateCount?: number;
+  toolPreflightBlockedSharePercent?: number;
+  toolPreflightHighRiskCandidateCount?: number;
   topRecommendations: TopItem[];
   topFirstSteps: TopItem[];
   topSuggestedAgents?: TopItem[];
@@ -191,6 +197,11 @@ export interface AnalyticsResponse {
   topWebResearchQueries?: TopItem[];
   topWebResearchSources?: TopItem[];
   topWebResearchTitles?: TopItem[];
+  topToolPreflightCandidates?: TopItem[];
+  topToolPreflightBlockedTools?: TopItem[];
+  topToolPreflightAllowedTools?: TopItem[];
+  topToolPreflightBlockReasons?: TopItem[];
+  topToolPreflightWarnings?: TopItem[];
   topPatterns: PatternItem[];
   filters?: {
     route: "all" | RouteType;
