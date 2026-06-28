@@ -41,6 +41,8 @@ export default function SystemPage() {
         <a className="nav-link" href="/system">System</a>
         <a className="nav-link" href="/web-research">Web Research</a>
         <a className="nav-link" href="/web-research-settings">Research Settings</a>
+              <a className="nav-link" href="/web-research-save">Research speichern</a>
+        <a className="nav-link" href="/web-research-governance">Research Governance</a>
       </nav>
       <div className="page-shell">
         <section className="hero-card" style={{ background: 'linear-gradient(135deg, #fae8ff 0%, #f8fafc 100%)', borderColor: '#e9d5ff' }}>

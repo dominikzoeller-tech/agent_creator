@@ -75,6 +75,9 @@ export default function AnalyticsPage() {
         <a className="nav-link" href="/logs">Logs</a>
         <a className="nav-link" href="/system">System</a>
         <a className="nav-link" href="/web-research">Web Research</a>
+              <a className="nav-link" href="/web-research-save">Research speichern</a>
+        <a className="nav-link" href="/web-research-governance">Research Governance</a>
+        <a className="nav-link" href="/web-research-settings">Research Settings</a>
       </nav>
       <div className="page-shell">
         <section className="hero-card" style={{ background: 'linear-gradient(135deg, #dcfce7 0%, #f8fafc 100%)', borderColor: '#bbf7d0' }}>
