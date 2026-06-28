@@ -12,6 +12,7 @@ import { KnowledgeHitsPanel } from "../components/KnowledgeHitsPanel";
 import { MemoryHitsPanel } from "../components/MemoryHitsPanel";
 import { WebResearchPanel } from "../components/WebResearchPanel";
 import { ToolPreflightPanel } from "../components/ToolPreflightPanel";
+import { ToolEnforcementPanel } from "../components/ToolEnforcementPanel";
 
 const labelStyle: React.CSSProperties = {
   display: "block",
@@ -245,6 +246,7 @@ export default function Page() {
                 <MemoryHitsPanel response={response} />
                 <WebResearchPanel response={response} />
                 <ToolPreflightPanel response={response} />
+                <ToolEnforcementPanel response={response} />
 <DebugResponsePanel response={response} visible={showDebug} />
       </div>
     </main>
