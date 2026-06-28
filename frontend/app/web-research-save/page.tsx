@@ -90,6 +90,7 @@ export default function WebResearchSavePage() {
       <nav style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
         <a className="nav-link" href="/">Chat</a>
         <a className="nav-link" href="/web-research">Web Research</a>
+        <a className="nav-link" href="/web-research-governance">Research Governance</a>
         <a className="nav-link" href="/knowledge">Knowledge</a>
         <a className="nav-link" href="/memory">Memory</a>
         <a className="nav-link" href="/analytics">Analytics</a>

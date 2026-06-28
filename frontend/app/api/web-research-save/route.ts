@@ -1,3 +1,4 @@
+import { evaluateWebResearchGovernance } from "../../../lib/web-research-governance";
 import { saveWebResearch } from "../../../lib/web-research-save";
 
 export const dynamic = "force-dynamic";
@@ -5,7 +6,11 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const result = await saveWebResearch(body);
+    const governance = evaluateWebResearchGovernance(body);
+    if (!governance.allowed) {
+      return Response.json({ ok: false, error: "Web Research Governance blockiert die Speicherung. Bitte Issues prüfen.", governance }, { status: 400 });
+    }
+    const result = await saveWebResearch({ ...body, sources: governance.deduplicatedSources });
     return Response.json(result);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Web Research konnte nicht gespeichert werden.";
