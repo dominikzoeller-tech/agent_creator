@@ -185,6 +185,13 @@ export interface AnalyticsResponse {
   toolPreflightBlockedCandidateCount?: number;
   toolPreflightBlockedSharePercent?: number;
   toolPreflightHighRiskCandidateCount?: number;
+  toolEnforcementEntriesCount?: number;
+  toolEnforcementWouldBlockCount?: number;
+  toolEnforcementWouldBlockSharePercent?: number;
+  toolEnforcementDryRunCount?: number;
+  toolEnforcementEnforceModeCount?: number;
+  toolEnforcementOffModeCount?: number;
+  toolEnforcementConfirmationRequiredCount?: number;
   topRecommendations: TopItem[];
   topFirstSteps: TopItem[];
   topSuggestedAgents?: TopItem[];
@@ -203,6 +210,12 @@ export interface AnalyticsResponse {
   topToolPreflightAllowedTools?: TopItem[];
   topToolPreflightBlockReasons?: TopItem[];
   topToolPreflightWarnings?: TopItem[];
+  topToolEnforcementBlockedTools?: TopItem[];
+  topToolEnforcementAllowedTools?: TopItem[];
+  topToolEnforcementConfirmationTools?: TopItem[];
+  topToolEnforcementReasons?: TopItem[];
+  topToolEnforcementWarnings?: TopItem[];
+  topToolEnforcementModes?: TopItem[];
   topPatterns: PatternItem[];
   filters?: {
     route: "all" | RouteType;

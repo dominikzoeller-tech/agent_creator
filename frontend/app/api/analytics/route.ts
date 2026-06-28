@@ -26,6 +26,7 @@ interface DecisionLogEntry {
   webResearchSummaryMessage?: string;
   webResearchSources?: { title?: string; url?: string; source?: string }[];
   toolPreflight?: {
+  toolEnforcement?: { enabled?: boolean; dryRun?: boolean; wouldBlock?: boolean; blockedToolIds?: string[]; allowedToolIds?: string[]; confirmationRequiredToolIds?: string[]; reasons?: string[]; warnings?: string[]; mode?: string };
     candidateToolIds?: string[];
     allowedToolIds?: string[];
     blockedToolIds?: string[];
@@ -136,6 +137,14 @@ export async function GET(request: Request) {
     const toolPreflightBlockedCandidateCount = toolPreflightEntries.reduce((sum, entry) => sum + (entry.toolPreflight?.blockedToolIds?.length ?? 0), 0);
     const toolPreflightBlockedSharePercent = toolPreflightCandidateCount > 0 ? round((toolPreflightBlockedCandidateCount / toolPreflightCandidateCount) * 100) : 0;
     const toolPreflightHighRiskCandidateCount = toolPreflightEntries.reduce((sum, entry) => sum + (entry.toolPreflight?.decisions ?? []).filter((decision) => decision.candidate === true && decision.requiresConfirmation === true).length, 0);
+    const toolEnforcementEntries = entries.filter((entry) => Boolean(entry.toolEnforcement));
+    const toolEnforcementEntriesCount = toolEnforcementEntries.length;
+    const toolEnforcementWouldBlockCount = toolEnforcementEntries.filter((entry) => entry.toolEnforcement?.wouldBlock === true).length;
+    const toolEnforcementWouldBlockSharePercent = toolEnforcementEntriesCount > 0 ? round((toolEnforcementWouldBlockCount / toolEnforcementEntriesCount) * 100) : 0;
+    const toolEnforcementDryRunCount = toolEnforcementEntries.filter((entry) => entry.toolEnforcement?.mode === "dry-run").length;
+    const toolEnforcementEnforceModeCount = toolEnforcementEntries.filter((entry) => entry.toolEnforcement?.mode === "enforce").length;
+    const toolEnforcementOffModeCount = toolEnforcementEntries.filter((entry) => entry.toolEnforcement?.mode === "off").length;
+    const toolEnforcementConfirmationRequiredCount = toolEnforcementEntries.reduce((sum, entry) => sum + (entry.toolEnforcement?.confirmationRequiredToolIds?.length ?? 0), 0);
     const directCount = directEntries.length;
     const councilCount = councilEntries.length;
     const directSharePercent = totalEntries > 0 ? round((directCount / totalEntries) * 100) : 0;
@@ -164,6 +173,12 @@ export async function GET(request: Request) {
     const topToolPreflightAllowedTools = toTopItems(toolPreflightEntries.flatMap((entry) => entry.toolPreflight?.allowedToolIds ?? []), 10);
     const topToolPreflightBlockReasons = toTopItems(toolPreflightEntries.flatMap((entry) => (entry.toolPreflight?.decisions ?? []).flatMap((decision) => decision.candidate === true && decision.allowed === false ? (decision.reasons ?? []) : [])), 10);
     const topToolPreflightWarnings = toTopItems(toolPreflightEntries.flatMap((entry) => (entry.toolPreflight?.decisions ?? []).flatMap((decision) => decision.candidate === true ? (decision.warnings ?? []) : [])), 10);
+    const topToolEnforcementBlockedTools = toTopItems(toolEnforcementEntries.flatMap((entry) => entry.toolEnforcement?.blockedToolIds ?? []), 10);
+    const topToolEnforcementAllowedTools = toTopItems(toolEnforcementEntries.flatMap((entry) => entry.toolEnforcement?.allowedToolIds ?? []), 10);
+    const topToolEnforcementConfirmationTools = toTopItems(toolEnforcementEntries.flatMap((entry) => entry.toolEnforcement?.confirmationRequiredToolIds ?? []), 10);
+    const topToolEnforcementReasons = toTopItems(toolEnforcementEntries.flatMap((entry) => entry.toolEnforcement?.reasons ?? []), 10);
+    const topToolEnforcementWarnings = toTopItems(toolEnforcementEntries.flatMap((entry) => entry.toolEnforcement?.warnings ?? []), 10);
+    const topToolEnforcementModes = toTopItems(toolEnforcementEntries.map((entry) => entry.toolEnforcement?.mode ?? ""), 5);
 
     const patternMap = new Map<string, { count: number; confidences: number[]; exampleQuestion: string }>();
     for (const entry of councilEntries) {
@@ -206,6 +221,13 @@ export async function GET(request: Request) {
       toolPreflightBlockedCandidateCount,
       toolPreflightBlockedSharePercent,
       toolPreflightHighRiskCandidateCount,
+      toolEnforcementEntriesCount,
+      toolEnforcementWouldBlockCount,
+      toolEnforcementWouldBlockSharePercent,
+      toolEnforcementDryRunCount,
+      toolEnforcementEnforceModeCount,
+      toolEnforcementOffModeCount,
+      toolEnforcementConfirmationRequiredCount,
       topRecommendations,
       topFirstSteps,
       topSuggestedAgents,
@@ -224,6 +246,12 @@ export async function GET(request: Request) {
       topToolPreflightAllowedTools,
       topToolPreflightBlockReasons,
       topToolPreflightWarnings,
+      topToolEnforcementBlockedTools,
+      topToolEnforcementAllowedTools,
+      topToolEnforcementConfirmationTools,
+      topToolEnforcementReasons,
+      topToolEnforcementWarnings,
+      topToolEnforcementModes,
       topPatterns,
       filters: { route, search },
     });
@@ -250,6 +278,13 @@ export async function GET(request: Request) {
       toolPreflightBlockedCandidateCount: 0,
       toolPreflightBlockedSharePercent: 0,
       toolPreflightHighRiskCandidateCount: 0,
+      toolEnforcementEntriesCount: 0,
+      toolEnforcementWouldBlockCount: 0,
+      toolEnforcementWouldBlockSharePercent: 0,
+      toolEnforcementDryRunCount: 0,
+      toolEnforcementEnforceModeCount: 0,
+      toolEnforcementOffModeCount: 0,
+      toolEnforcementConfirmationRequiredCount: 0,
       topRecommendations: [],
       topFirstSteps: [],
       topSuggestedAgents: [],
@@ -268,6 +303,12 @@ export async function GET(request: Request) {
       topToolPreflightAllowedTools: [],
       topToolPreflightBlockReasons: [],
       topToolPreflightWarnings: [],
+      topToolEnforcementBlockedTools: [],
+      topToolEnforcementAllowedTools: [],
+      topToolEnforcementConfirmationTools: [],
+      topToolEnforcementReasons: [],
+      topToolEnforcementWarnings: [],
+      topToolEnforcementModes: [],
       topPatterns: [],
       filters: { route, search },
     });

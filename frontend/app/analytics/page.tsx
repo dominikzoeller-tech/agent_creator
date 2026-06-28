@@ -10,6 +10,7 @@ import { KnowledgeAnalyticsPanel } from "../../components/KnowledgeAnalyticsPane
 import { MemoryAnalyticsPanel } from "../../components/MemoryAnalyticsPanel";
 import { WebResearchAnalyticsPanel } from "../../components/WebResearchAnalyticsPanel";
 import { ToolPreflightAnalyticsPanel } from "../../components/ToolPreflightAnalyticsPanel";
+import { ToolEnforcementAnalyticsPanel } from "../../components/ToolEnforcementAnalyticsPanel";
 
 export default function AnalyticsPage() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
@@ -106,6 +107,7 @@ export default function AnalyticsPage() {
         <MemoryAnalyticsPanel analytics={data} />
         <WebResearchAnalyticsPanel analytics={data} />
         <ToolPreflightAnalyticsPanel analytics={data} />
+        <ToolEnforcementAnalyticsPanel analytics={data} />
 
 </main>
   );
