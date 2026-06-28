@@ -15,6 +15,9 @@ interface DecisionLogEntry {
   usedKnowledge?: boolean;
   knowledgeSummary?: string;
   knowledgeHits?: { id?: string; title?: string; sourcePath?: string; score?: number; snippet?: string; tags?: string[] }[];
+  usedMemory?: boolean;
+  memorySummary?: string;
+  memoryHits?: { id?: string; type?: string; title?: string; summary?: string; tags?: string[]; source?: string }[];
   routingSummary?: string;
   routingDetails?: {
     complexity?: string;
@@ -101,6 +104,9 @@ export async function GET(request: Request) {
     const knowledgeUsedEntries = entries.filter((entry) => entry.usedKnowledge === true || (entry.knowledgeHits?.length ?? 0) > 0);
     const knowledgeUsedCount = knowledgeUsedEntries.length;
     const knowledgeUsedSharePercent = totalEntries > 0 ? round((knowledgeUsedCount / totalEntries) * 100) : 0;
+    const memoryUsedEntries = entries.filter((entry) => entry.usedMemory === true || (entry.memoryHits?.length ?? 0) > 0);
+    const memoryUsedCount = memoryUsedEntries.length;
+    const memoryUsedSharePercent = totalEntries > 0 ? round((memoryUsedCount / totalEntries) * 100) : 0;
     const directCount = directEntries.length;
     const councilCount = councilEntries.length;
     const directSharePercent = totalEntries > 0 ? round((directCount / totalEntries) * 100) : 0;
@@ -118,6 +124,9 @@ export async function GET(request: Request) {
     const topPrivacyRisks = toTopItems(councilEntries.map((entry) => entry.routingDetails?.privacyRisk ?? ""), 5);
     const topKnowledgeFiles = toTopItems(knowledgeUsedEntries.flatMap((entry) => (entry.knowledgeHits ?? []).map((hit) => hit.title ?? hit.sourcePath ?? hit.id ?? "")), 10);
     const topKnowledgeTags = toTopItems(knowledgeUsedEntries.flatMap((entry) => (entry.knowledgeHits ?? []).flatMap((hit) => hit.tags ?? [])), 10);
+    const topMemoryTypes = toTopItems(memoryUsedEntries.flatMap((entry) => (entry.memoryHits ?? []).map((hit) => hit.type ?? "")), 10);
+    const topMemoryTags = toTopItems(memoryUsedEntries.flatMap((entry) => (entry.memoryHits ?? []).flatMap((hit) => hit.tags ?? [])), 10);
+    const topMemoryTitles = toTopItems(memoryUsedEntries.flatMap((entry) => (entry.memoryHits ?? []).map((hit) => hit.title ?? hit.id ?? "")), 10);
 
     const patternMap = new Map<string, { count: number; confidences: number[]; exampleQuestion: string }>();
     for (const entry of councilEntries) {
@@ -148,6 +157,8 @@ export async function GET(request: Request) {
       avgCouncilConfidencePercent,
       knowledgeUsedCount,
       knowledgeUsedSharePercent,
+      memoryUsedCount,
+      memoryUsedSharePercent,
       topRecommendations,
       topFirstSteps,
       topSuggestedAgents,
@@ -155,6 +166,9 @@ export async function GET(request: Request) {
       topPrivacyRisks,
       topKnowledgeFiles,
       topKnowledgeTags,
+      topMemoryTypes,
+      topMemoryTags,
+      topMemoryTitles,
       topPatterns,
       filters: { route, search },
     });
@@ -169,6 +183,8 @@ export async function GET(request: Request) {
       avgCouncilConfidencePercent: null,
       knowledgeUsedCount: 0,
       knowledgeUsedSharePercent: 0,
+      memoryUsedCount: 0,
+      memoryUsedSharePercent: 0,
       topRecommendations: [],
       topFirstSteps: [],
       topSuggestedAgents: [],
@@ -176,6 +192,9 @@ export async function GET(request: Request) {
       topPrivacyRisks: [],
       topKnowledgeFiles: [],
       topKnowledgeTags: [],
+      topMemoryTypes: [],
+      topMemoryTags: [],
+      topMemoryTitles: [],
       topPatterns: [],
       filters: { route, search },
     });

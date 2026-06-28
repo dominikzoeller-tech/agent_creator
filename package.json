@@ -65,7 +65,9 @@
     "memory:flow:patch": "node scripts/phase8-2-patch-memory-agent-flow.cjs",
     "memory:flow:verify": "node scripts/phase8-2-verify-memory-agent-flow.cjs",
     "memory:visibility:patch": "node scripts/phase8-3-patch-memory-visibility.cjs",
-    "memory:visibility:verify": "node scripts/phase8-3-verify-memory-visibility.cjs"
+    "memory:visibility:verify": "node scripts/phase8-3-verify-memory-visibility.cjs",
+    "memory:analytics:patch": "node scripts/phase8-4-patch-memory-logs-analytics.cjs",
+    "memory:analytics:verify": "node scripts/phase8-4-verify-memory-logs-analytics.cjs"
   },
   "repository": {
     "type": "git",

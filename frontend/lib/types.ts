@@ -148,6 +148,8 @@ export interface AnalyticsResponse {
   avgCouncilConfidencePercent: number | null;
   knowledgeUsedCount?: number;
   knowledgeUsedSharePercent?: number;
+  memoryUsedCount?: number;
+  memoryUsedSharePercent?: number;
   topRecommendations: TopItem[];
   topFirstSteps: TopItem[];
   topSuggestedAgents?: TopItem[];
@@ -155,6 +157,9 @@ export interface AnalyticsResponse {
   topPrivacyRisks?: TopItem[];
   topKnowledgeFiles?: TopItem[];
   topKnowledgeTags?: TopItem[];
+  topMemoryTypes?: TopItem[];
+  topMemoryTags?: TopItem[];
+  topMemoryTitles?: TopItem[];
   topPatterns: PatternItem[];
   filters?: {
     route: "all" | RouteType;
