@@ -65,10 +65,13 @@ export default function AnalyticsPage() {
     <main className="page-wrap">
       <nav style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 18 }}>
         <a className="nav-link" href="/">Chat</a>
-        <a className="nav-link" href="/logs">Logs</a>
-        <a className="nav-link" href="/analytics">Analytics</a>
-        <a className="nav-link" href="/system">System</a>
         <a className="nav-link" href="/knowledge">Knowledge</a>
+        <a className="nav-link" href="/knowledge-quality">Knowledge Quality</a>
+        <a className="nav-link" href="/memory">Memory</a>
+        <a className="nav-link" href="/memory-quality">Memory Quality</a>
+        <a className="nav-link" href="/analytics">Analytics</a>
+        <a className="nav-link" href="/logs">Logs</a>
+        <a className="nav-link" href="/system">System</a>
       </nav>
       <div className="page-shell">
         <section className="hero-card" style={{ background: 'linear-gradient(135deg, #dcfce7 0%, #f8fafc 100%)', borderColor: '#bbf7d0' }}>

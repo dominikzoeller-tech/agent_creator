@@ -180,6 +180,16 @@ export default function MemoryAdminPage() {
 
   return (
     <main style={{ maxWidth: 1180, margin: "0 auto", padding: 24, display: "grid", gap: 18 }}>
+      <nav style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 18 }}>
+        <a className="nav-link" href="/">Chat</a>
+        <a className="nav-link" href="/knowledge">Knowledge</a>
+        <a className="nav-link" href="/knowledge-quality">Knowledge Quality</a>
+        <a className="nav-link" href="/memory">Memory</a>
+        <a className="nav-link" href="/memory-quality">Memory Quality</a>
+        <a className="nav-link" href="/analytics">Analytics</a>
+        <a className="nav-link" href="/logs">Logs</a>
+        <a className="nav-link" href="/system">System</a>
+      </nav>
       <nav style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
         <a className="nav-link" href="/">Chat</a>
         <a className="nav-link" href="/knowledge">Knowledge</a>
@@ -192,7 +202,7 @@ export default function MemoryAdminPage() {
         <h1 style={{ marginTop: 0 }}>Project Memory Admin</h1>
         <p className="helper-text" style={{ marginBottom: 0 }}>
           Strukturierte Projektfakten aus <strong>memory/project-memory.json</strong> ansehen, erstellen, bearbeiten und löschen.
-          Knowledge-Dateien bleiben Dokumente; Project Memory bleibt ein strukturiertes Projektgedächtnis.
+          Knowledge-Dateien bleiben Dokumente; Project Memory bleibt ein strukturiertes Projektgedächtnis. Memory Admin verwaltet strukturierte Projektentscheidungen, Meilensteine und Systemzustände.
         </p>
       </section>
 

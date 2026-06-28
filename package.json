@@ -70,7 +70,9 @@
     "memory:analytics:verify": "node scripts/phase8-4-verify-memory-logs-analytics.cjs",
     "memory:admin:patch": "node scripts/phase8-5-patch-memory-admin.cjs",
     "memory:admin:verify": "node scripts/phase8-5-verify-memory-admin.cjs",
-    "memory:quality:verify": "node scripts/phase8-6-verify-memory-quality.cjs"
+    "memory:quality:verify": "node scripts/phase8-6-verify-memory-quality.cjs",
+    "memory:ui:polish": "node scripts/phase8-7-patch-memory-ui-polish.cjs",
+    "memory:ui:verify": "node scripts/phase8-7-verify-memory-ui-polish.cjs"
   },
   "repository": {
     "type": "git",

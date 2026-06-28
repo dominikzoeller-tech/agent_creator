@@ -189,10 +189,13 @@ export default function KnowledgeAdminPage() {
     <main style={{ maxWidth: 1180, margin: "0 auto", padding: 24, display: "grid", gap: 18 }}>
       <nav style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 18 }}>
         <a className="nav-link" href="/">Chat</a>
-        <a className="nav-link" href="/logs">Logs</a>
-        <a className="nav-link" href="/analytics">Analytics</a>
-        <a className="nav-link" href="/system">System</a>
         <a className="nav-link" href="/knowledge">Knowledge</a>
+        <a className="nav-link" href="/knowledge-quality">Knowledge Quality</a>
+        <a className="nav-link" href="/memory">Memory</a>
+        <a className="nav-link" href="/memory-quality">Memory Quality</a>
+        <a className="nav-link" href="/analytics">Analytics</a>
+        <a className="nav-link" href="/logs">Logs</a>
+        <a className="nav-link" href="/system">System</a>
       </nav>
       <section style={cardStyle}>
         <h1 style={{ marginTop: 0 }}>Knowledge Admin</h1>
