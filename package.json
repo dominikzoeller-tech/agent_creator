@@ -88,7 +88,9 @@
     "web:research:save:patch": "node scripts/phase9-5-patch-web-research-save.cjs",
     "web:research:save:verify": "node scripts/phase9-5-verify-web-research-save.cjs",
     "web:research:governance:patch": "node scripts/phase9-6-patch-web-research-governance.cjs",
-    "web:research:governance:verify": "node scripts/phase9-6-verify-web-research-governance.cjs"
+    "web:research:governance:verify": "node scripts/phase9-6-verify-web-research-governance.cjs",
+    "web:research:settings:patch": "node scripts/phase9-7-patch-web-research-settings.cjs",
+    "web:research:settings:verify": "node scripts/phase9-7-verify-web-research-settings.cjs"
   },
   "repository": {
     "type": "git",

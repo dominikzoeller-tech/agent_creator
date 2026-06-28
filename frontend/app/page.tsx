@@ -138,6 +138,7 @@ export default function Page() {
         <a className="nav-link" href="/web-research">Web Research</a>
         <a className="nav-link" href="/web-research-save">Research speichern</a>
         <a className="nav-link" href="/web-research-governance">Research Governance</a>
+        <a className="nav-link" href="/web-research-settings">Research Settings</a>
       </nav>
       <div className="page-shell">
         <section className="hero-card" style={{ background: "linear-gradient(135deg, #fef3c7 0%, #f8fafc 100%)", borderColor: '#fde68a' }}>

@@ -38,6 +38,7 @@ export default function WebResearchPage() {
         <a className="nav-link" href="/memory">Memory</a>
         <a className="nav-link" href="/analytics">Analytics</a>
         <a className="nav-link" href="/system">System</a>
+        <a className="nav-link" href="/web-research-settings">Research Settings</a>
       </nav>
 
       <section style={cardStyle}>
