@@ -130,6 +130,7 @@ export default function Page() {
         <a className="nav-link" href="/knowledge-quality">Knowledge Quality</a>
         <a className="nav-link" href="/memory">Memory</a>
         <a className="nav-link" href="/memory-quality">Memory Quality</a>
+        <a className="nav-link" href="/memory-sessions">Session Summary</a>
         <a className="nav-link" href="/analytics">Analytics</a>
         <a className="nav-link" href="/logs">Logs</a>
         <a className="nav-link" href="/system">System</a>

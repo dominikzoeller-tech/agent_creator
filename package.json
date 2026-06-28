@@ -73,7 +73,9 @@
     "memory:quality:verify": "node scripts/phase8-6-verify-memory-quality.cjs",
     "memory:ui:polish": "node scripts/phase8-7-patch-memory-ui-polish.cjs",
     "memory:ui:verify": "node scripts/phase8-7-verify-memory-ui-polish.cjs",
-    "memory:sessions:verify": "node scripts/phase8-8-verify-session-summary-memory.cjs"
+    "memory:sessions:verify": "node scripts/phase8-8-verify-session-summary-memory.cjs",
+    "memory:sessions:ux:patch": "node scripts/phase8-9-patch-memory-session-ux.cjs",
+    "memory:sessions:ux:verify": "node scripts/phase8-9-verify-memory-session-ux.cjs"
   },
   "repository": {
     "type": "git",
