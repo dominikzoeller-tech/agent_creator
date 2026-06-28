@@ -61,6 +61,7 @@ export default function ToolPermissionsPage() {
         <a className="nav-link" href="/">Chat</a>
         <a className="nav-link" href="/tools">Tools</a>
         <a className="nav-link" href="/tool-permissions">Tool Permissions</a>
+        <a className="nav-link" href="/tool-preflight">Tool Preflight</a>
         <a className="nav-link" href="/web-research-settings">Research Settings</a>
         <a className="nav-link" href="/analytics">Analytics</a>
       </nav>

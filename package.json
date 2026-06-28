@@ -96,7 +96,8 @@
     "web:research:release:verify": "node scripts/phase9-9-verify-web-research-release.cjs",
     "web:research:release:check": "npm run web:research:release:verify && npm run web:research:hardening:verify && npm run web:research:smoke",
     "tools:registry:verify": "node scripts/phase10-0-verify-tool-registry.cjs",
-    "tools:permissions:verify": "node scripts/phase10-1-verify-tool-permissions.cjs"
+    "tools:permissions:verify": "node scripts/phase10-1-verify-tool-permissions.cjs",
+    "tools:preflight:verify": "node scripts/phase10-2-verify-tool-preflight.cjs"
   },
   "repository": {
     "type": "git",

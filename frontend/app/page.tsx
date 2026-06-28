@@ -137,6 +137,7 @@ export default function Page() {
         <a className="nav-link" href="/system">System</a>
         <a className="nav-link" href="/tools">Tools</a>
         <a className="nav-link" href="/tool-permissions">Tool Permissions</a>
+        <a className="nav-link" href="/tool-preflight">Tool Preflight</a>
         <a className="nav-link" href="/web-research">Web Research</a>
         <a className="nav-link" href="/web-research-save">Research speichern</a>
         <a className="nav-link" href="/web-research-governance">Research Governance</a>
