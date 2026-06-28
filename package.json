@@ -98,7 +98,8 @@
     "tools:registry:verify": "node scripts/phase10-0-verify-tool-registry.cjs",
     "tools:permissions:verify": "node scripts/phase10-1-verify-tool-permissions.cjs",
     "tools:preflight:verify": "node scripts/phase10-2-verify-tool-preflight.cjs",
-    "tools:preflight:debug:verify": "node scripts/phase10-3-verify-tool-preflight-debug.cjs"
+    "tools:preflight:debug:verify": "node scripts/phase10-3-verify-tool-preflight-debug.cjs",
+    "tools:preflight:panel:verify": "node scripts/phase10-4-verify-tool-preflight-panel.cjs"
   },
   "repository": {
     "type": "git",
