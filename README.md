@@ -846,3 +846,34 @@ Die Smoke Tests prüfen:
 - Governance Checks
 - Settings ohne Secret-Leaks
 - Save API blockiert unsichere Payloads
+
+
+## Phase 9 Web Research Release
+
+Phase 9 ergänzt kontrollierte Web Research Fähigkeiten für den Privacy-First Agent.
+
+Web Research ist standardmäßig deaktiviert und wird über Environment-Variablen aktiviert:
+
+```env
+WEB_RESEARCH_ENABLED=true
+BING_SEARCH_API_KEY=...
+BING_SEARCH_ENDPOINT=https://api.bing.microsoft.com/v7.0/search
+WEB_RESEARCH_GOVERNANCE_ENABLED=true
+WEB_RESEARCH_SAFE_MODE=true
+```
+
+Wichtige Routen:
+
+- `/web-research` – Web Research testen
+- `/web-research-save` – geprüfte Research-Ergebnisse speichern
+- `/web-research-governance` – Governance Check
+- `/web-research-settings` – Admin/Settings ohne Secret-Leak
+- `/analytics` – Web Research Analytics
+
+Release Checks:
+
+```powershell
+npm run web:research:hardening:verify
+npm run web:research:smoke
+npm run stack:health
+```

@@ -92,7 +92,9 @@
     "web:research:settings:patch": "node scripts/phase9-7-patch-web-research-settings.cjs",
     "web:research:settings:verify": "node scripts/phase9-7-verify-web-research-settings.cjs",
     "web:research:hardening:verify": "node scripts/phase9-8-verify-web-research-hardening.cjs",
-    "web:research:smoke": "node scripts/phase9-8-web-research-smoke.cjs"
+    "web:research:smoke": "node scripts/phase9-8-web-research-smoke.cjs",
+    "web:research:release:verify": "node scripts/phase9-9-verify-web-research-release.cjs",
+    "web:research:release:check": "npm run web:research:release:verify && npm run web:research:hardening:verify && npm run web:research:smoke"
   },
   "repository": {
     "type": "git",
