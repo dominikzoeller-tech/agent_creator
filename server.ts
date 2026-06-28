@@ -274,7 +274,7 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
   const toolEnforcement = buildToolEnforcementPrep(toolPreflight);
 
   if (toolEnforcement.hardBlocked) {
-    return res.json({
+    const payload = {
       ok: true,
       mode: "cloud",
       result: {
@@ -282,7 +282,10 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
         toolPreflight,
         toolEnforcement,
       },
-    });
+    };
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(payload));
+    return;
   }
 
   const memory = await buildProjectMemoryContext(effectiveUserInput, { limit: 5 });
