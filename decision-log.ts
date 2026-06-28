@@ -25,6 +25,10 @@ export interface DecisionLogEntry {
   webResearchQuery?: string;
   webResearchMessage?: string;
   webResearchResults?: unknown[];
+  usedWebResearchSummary?: boolean;
+  webResearchSummary?: string;
+  webResearchSummaryMessage?: string;
+  webResearchSources?: unknown[];
 }
 
 const LOG_DIR = path.join(process.cwd(), "logs");

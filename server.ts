@@ -6,6 +6,7 @@ import { appendDecisionLog } from "./decision-log";
 import { buildKnowledgeRoutingContext, mergeKnowledgeContext } from "./knowledge-routing-context";
 import { buildProjectMemoryContext, mergeProjectMemoryContext } from "./project-memory-context";
 import { mergeWebResearchContext, runWebResearch, sanitizeWebResearchQuery, shouldUseWebResearch } from "./web-research";
+import { summarizeWebResearchResults } from "./web-research-summary";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -277,6 +278,10 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
         results: [],
         message: webResearchIntent ? webResearchQuery.reason : "Web Research für diese Anfrage nicht angefordert.",
       };
+  const webResearchSummary = await summarizeWebResearchResults({
+    query: webResearch.query,
+    results: webResearch.results,
+  });
   const effectiveContext = mergeWebResearchContext(memoryContext, webResearch);
 
   try {
@@ -300,6 +305,10 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       webResearchQuery: webResearch.query,
       webResearchMessage: webResearch.message,
       webResearchResults: webResearch.results,
+      usedWebResearchSummary: webResearchSummary.used,
+      webResearchSummary: webResearchSummary.summary,
+      webResearchSummaryMessage: webResearchSummary.message,
+      webResearchSources: webResearchSummary.sources,
     };
 
     const response: CloudResponse = {
@@ -344,6 +353,10 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       webResearchQuery: resultWithKnowledge.webResearchQuery,
       webResearchMessage: resultWithKnowledge.webResearchMessage,
       webResearchResults: resultWithKnowledge.webResearchResults,
+      usedWebResearchSummary: resultWithKnowledge.usedWebResearchSummary,
+      webResearchSummary: resultWithKnowledge.webResearchSummary,
+      webResearchSummaryMessage: resultWithKnowledge.webResearchSummaryMessage,
+      webResearchSources: resultWithKnowledge.webResearchSources,
     });
 
     sendJson(res, 200, response);
