@@ -8,6 +8,7 @@ import { buildProjectMemoryContext, mergeProjectMemoryContext } from "./project-
 import { mergeWebResearchContext, runWebResearch, sanitizeWebResearchQuery, shouldUseWebResearch } from "./web-research";
 import { summarizeWebResearchResults } from "./web-research-summary";
 import { buildAgentDebugToolPreflight } from "./tool-preflight-debug";
+import { buildToolEnforcementPrep } from "./tool-enforcement-prep";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -270,6 +271,8 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
     processingMode: body.processingMode,
   });
 
+  const toolEnforcement = buildToolEnforcementPrep(toolPreflight);
+
   const memory = await buildProjectMemoryContext(effectiveUserInput, { limit: 5 });
   const memoryContext = mergeProjectMemoryContext(knowledgeContext, memory);
 
@@ -317,6 +320,7 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       webResearchSummaryMessage: webResearchSummary.message,
       webResearchSources: webResearchSummary.sources,
       toolPreflight,
+      toolEnforcement,
     };
 
     const response: CloudResponse = {
@@ -366,6 +370,7 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       webResearchSummaryMessage: resultWithKnowledge.webResearchSummaryMessage,
       webResearchSources: resultWithKnowledge.webResearchSources,
       toolPreflight: resultWithKnowledge.toolPreflight,
+      toolEnforcement: resultWithKnowledge.toolEnforcement,
     });
 
     sendJson(res, 200, response);

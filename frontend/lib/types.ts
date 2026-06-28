@@ -110,6 +110,7 @@ export interface CloudAskResult {
   webResearchSummaryMessage?: string;
   webResearchSources?: WebResearchSource[];
   toolPreflight?: unknown;
+  toolEnforcement?: unknown;
 }
 
 export interface CloudAskResponse {

@@ -100,7 +100,8 @@
     "tools:preflight:verify": "node scripts/phase10-2-verify-tool-preflight.cjs",
     "tools:preflight:debug:verify": "node scripts/phase10-3-verify-tool-preflight-debug.cjs",
     "tools:preflight:panel:verify": "node scripts/phase10-4-verify-tool-preflight-panel.cjs",
-    "tools:preflight:analytics:verify": "node scripts/phase10-5-verify-tool-preflight-analytics.cjs"
+    "tools:preflight:analytics:verify": "node scripts/phase10-5-verify-tool-preflight-analytics.cjs",
+    "tools:enforcement:prep:verify": "node scripts/phase10-6-verify-tool-enforcement-prep.cjs"
   },
   "repository": {
     "type": "git",
