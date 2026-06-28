@@ -1,0 +1,32 @@
+{
+  "entries": [
+    {
+      "id": "decision-knowledge-und-memory-bleiben-getrennt-20260628065104",
+      "type": "decision",
+      "title": "Knowledge und Memory bleiben getrennt",
+      "summary": "Knowledge-Dateien enthalten bearbeitbare Dokumente. Project Memory enthält strukturierte Projektentscheidungen, Meilensteine und Systemzustände.",
+      "tags": [
+        "phase8",
+        "memory",
+        "architecture"
+      ],
+      "source": "phase8.0-smoke",
+      "createdAt": "2026-06-28T06:51:04.510Z",
+      "updatedAt": "2026-06-28T06:51:04.510Z"
+    },
+    {
+      "id": "milestone-phase-7-knowledge-layer",
+      "type": "milestone",
+      "title": "Phase 7 Knowledge Layer abgeschlossen",
+      "summary": "Das System kann lokale Knowledge-Dateien speichern, verwalten, durchsuchen, im Agent Flow nutzen, sichtbar machen, loggen, analysieren und qualitätsprüfen.",
+      "tags": [
+        "phase7",
+        "knowledge",
+        "milestone"
+      ],
+      "source": "phase8.0-seed",
+      "createdAt": "2026-06-28T06:51:04.503Z",
+      "updatedAt": "2026-06-28T06:51:04.503Z"
+    }
+  ]
+}
