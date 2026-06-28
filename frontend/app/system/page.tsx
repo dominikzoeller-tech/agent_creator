@@ -42,6 +42,7 @@ export default function SystemPage() {
         <a className="nav-link" href="/tools">Tools</a>
         <a className="nav-link" href="/tool-permissions">Tool Permissions</a>
         <a className="nav-link" href="/tool-preflight">Tool Preflight</a>
+        <a className="nav-link" href="/tool-consent">Tool Consent</a>
         <a className="nav-link" href="/web-research">Web Research</a>
         <a className="nav-link" href="/web-research-settings">Research Settings</a>
               <a className="nav-link" href="/web-research-save">Research speichern</a>

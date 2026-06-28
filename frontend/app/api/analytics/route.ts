@@ -45,6 +45,20 @@ interface DecisionLogEntry {
   };
 }
 
+type DecisionLogEntryWithToolEnforcement = DecisionLogEntry & {
+  toolEnforcement?: {
+    enabled?: boolean;
+    dryRun?: boolean;
+    wouldBlock?: boolean;
+    blockedToolIds?: string[];
+    allowedToolIds?: string[];
+    confirmationRequiredToolIds?: string[];
+    reasons?: string[];
+    warnings?: string[];
+    mode?: string;
+  };
+};
+
 function round(value: number, digits = 2) {
   const factor = Math.pow(10, digits);
   return Math.round(value * factor) / factor;
@@ -137,7 +151,8 @@ export async function GET(request: Request) {
     const toolPreflightBlockedCandidateCount = toolPreflightEntries.reduce((sum, entry) => sum + (entry.toolPreflight?.blockedToolIds?.length ?? 0), 0);
     const toolPreflightBlockedSharePercent = toolPreflightCandidateCount > 0 ? round((toolPreflightBlockedCandidateCount / toolPreflightCandidateCount) * 100) : 0;
     const toolPreflightHighRiskCandidateCount = toolPreflightEntries.reduce((sum, entry) => sum + (entry.toolPreflight?.decisions ?? []).filter((decision) => decision.candidate === true && decision.requiresConfirmation === true).length, 0);
-    const toolEnforcementEntries = entries.filter((entry) => Boolean(entry.toolEnforcement));
+    const entriesWithToolEnforcement = entries as DecisionLogEntryWithToolEnforcement[];
+    const toolEnforcementEntries = entriesWithToolEnforcement.filter((entry) => Boolean(entry.toolEnforcement));
     const toolEnforcementEntriesCount = toolEnforcementEntries.length;
     const toolEnforcementWouldBlockCount = toolEnforcementEntries.filter((entry) => entry.toolEnforcement?.wouldBlock === true).length;
     const toolEnforcementWouldBlockSharePercent = toolEnforcementEntriesCount > 0 ? round((toolEnforcementWouldBlockCount / toolEnforcementEntriesCount) * 100) : 0;
