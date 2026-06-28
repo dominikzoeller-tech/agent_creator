@@ -17,6 +17,15 @@ export interface RoutingDetails {
   riskNeed: boolean;
 }
 
+export interface KnowledgeSearchResult {
+  id: string;
+  title: string;
+  sourcePath: string;
+  score: number;
+  snippet: string;
+  tags: string[];
+}
+
 export interface HealthResponse {
   ok: boolean;
   service: string;
@@ -51,6 +60,9 @@ export interface CloudAskResult {
   routingDetails?: RoutingDetails;
   routingSummary?: string;
   councilResult?: unknown;
+  usedKnowledge?: boolean;
+  knowledgeSummary?: string;
+  knowledgeHits?: KnowledgeSearchResult[];
 }
 
 export interface CloudAskResponse {

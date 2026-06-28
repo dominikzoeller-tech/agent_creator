@@ -8,6 +8,7 @@ import { PrivacyRequestPanel } from "../components/PrivacyRequestPanel";
 import { RedactPreviewPanel } from "../components/RedactPreviewPanel";
 import { DebugResponsePanel } from "../components/DebugResponsePanel";
 import { RoutingMetadataPanel } from "../components/RoutingMetadataPanel";
+import { KnowledgeHitsPanel } from "../components/KnowledgeHitsPanel";
 
 const labelStyle: React.CSSProperties = {
   display: "block",
@@ -219,7 +220,8 @@ export default function Page() {
         <RedactPreviewPanel preview={redactPreview} loading={redactLoading} error={redactError} />
         <ChatResponseCard response={response} loading={loading} error={error} />
         <RoutingMetadataPanel response={response} />
-        <DebugResponsePanel response={response} visible={showDebug} />
+                        <KnowledgeHitsPanel response={response} />
+<DebugResponsePanel response={response} visible={showDebug} />
       </div>
     </main>
   );

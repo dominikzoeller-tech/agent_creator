@@ -269,6 +269,13 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       includeCouncilResult: body.includeCouncilResult ?? false,
     });
 
+    const resultWithKnowledge = {
+      ...result,
+      usedKnowledge: knowledge.hasHits,
+      knowledgeSummary: knowledge.summary,
+      knowledgeHits: knowledge.hits,
+    };
+
     const response: CloudResponse = {
       ok: true,
       mode: "cloud",
@@ -276,7 +283,7 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       processingMode: body.processingMode ?? "auto",
       processingPath,
       redacted: processingPath === "cloud_redacted",
-      result,
+      result: resultWithKnowledge,
     };
 
     const resultForLog = result as {
@@ -286,7 +293,7 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       confidence?: number | null;
       extractedOptions?: string[];
     };
-    const routingMetadataForLog = pickRoutingMetadataForLog(result);
+    const routingMetadataForLog = pickRoutingMetadataForLog(resultWithKnowledge);
 
     await appendDecisionLog({
       timestamp: new Date().toISOString(),

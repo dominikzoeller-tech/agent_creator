@@ -40,7 +40,9 @@
     "knowledge:routing:smoke": "npx ts-node knowledge-routing-context-smoke-test.ts",
     "knowledge:flow:inspect": "node scripts/phase7-3-inspect-knowledge-flow.cjs",
     "knowledge:flow:patch": "node scripts/phase7-3b-patch-knowledge-flow.cjs",
-    "knowledge:flow:verify": "node scripts/phase7-3b-verify-knowledge-flow.cjs"
+    "knowledge:flow:verify": "node scripts/phase7-3b-verify-knowledge-flow.cjs",
+    "knowledge:visibility:patch": "node scripts/phase7-4-patch-knowledge-visibility.cjs",
+    "knowledge:visibility:verify": "node scripts/phase7-4-verify-knowledge-visibility.cjs"
   },
   "repository": {
     "type": "git",
