@@ -7,6 +7,7 @@ import { buildKnowledgeRoutingContext, mergeKnowledgeContext } from "./knowledge
 import { buildProjectMemoryContext, mergeProjectMemoryContext } from "./project-memory-context";
 import { mergeWebResearchContext, runWebResearch, sanitizeWebResearchQuery, shouldUseWebResearch } from "./web-research";
 import { summarizeWebResearchResults } from "./web-research-summary";
+import { buildAgentDebugToolPreflight } from "./tool-preflight-debug";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -263,6 +264,12 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
 
   const knowledge = await buildKnowledgeRoutingContext(effectiveUserInput, { limit: 3 });
   const knowledgeContext = mergeKnowledgeContext(baseEffectiveContext, knowledge);
+  const toolPreflight = buildAgentDebugToolPreflight({
+    userInput: effectiveUserInput,
+    sensitivity: body.sensitivity,
+    processingMode: body.processingMode,
+  });
+
   const memory = await buildProjectMemoryContext(effectiveUserInput, { limit: 5 });
   const memoryContext = mergeProjectMemoryContext(knowledgeContext, memory);
 
@@ -309,6 +316,7 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       webResearchSummary: webResearchSummary.summary,
       webResearchSummaryMessage: webResearchSummary.message,
       webResearchSources: webResearchSummary.sources,
+      toolPreflight,
     };
 
     const response: CloudResponse = {
@@ -357,6 +365,7 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       webResearchSummary: resultWithKnowledge.webResearchSummary,
       webResearchSummaryMessage: resultWithKnowledge.webResearchSummaryMessage,
       webResearchSources: resultWithKnowledge.webResearchSources,
+      toolPreflight: resultWithKnowledge.toolPreflight,
     });
 
     sendJson(res, 200, response);

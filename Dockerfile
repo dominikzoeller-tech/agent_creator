@@ -30,6 +30,7 @@ COPY project-memory.ts ./
 COPY project-memory-context.ts ./
 COPY web-research.ts ./
 COPY web-research-summary.ts ./
+COPY tool-preflight-debug.ts ./
 COPY memory ./memory
 COPY knowledge-quality.ts ./
 COPY knowledge ./knowledge
