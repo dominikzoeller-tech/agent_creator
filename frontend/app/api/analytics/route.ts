@@ -16,6 +16,15 @@ interface DecisionLogEntry {
   knowledgeSummary?: string;
   knowledgeHits?: { id?: string; title?: string; sourcePath?: string; score?: number; snippet?: string; tags?: string[] }[];
   usedMemory?: boolean;
+  usedWebResearch?: boolean;
+  webResearchEnabled?: boolean;
+  webResearchQuery?: string;
+  webResearchMessage?: string;
+  webResearchResults?: { title?: string; url?: string; snippet?: string; source?: string }[];
+  usedWebResearchSummary?: boolean;
+  webResearchSummary?: string;
+  webResearchSummaryMessage?: string;
+  webResearchSources?: { title?: string; url?: string; source?: string }[];
   memorySummary?: string;
   memoryHits?: { id?: string; type?: string; title?: string; summary?: string; tags?: string[]; source?: string }[];
   routingSummary?: string;
@@ -107,6 +116,13 @@ export async function GET(request: Request) {
     const memoryUsedEntries = entries.filter((entry) => entry.usedMemory === true || (entry.memoryHits?.length ?? 0) > 0);
     const memoryUsedCount = memoryUsedEntries.length;
     const memoryUsedSharePercent = totalEntries > 0 ? round((memoryUsedCount / totalEntries) * 100) : 0;
+    const webResearchIntentEntries = entries.filter((entry) => Boolean(entry.webResearchQuery));
+    const webResearchUsedEntries = entries.filter((entry) => entry.usedWebResearch === true || (entry.webResearchResults?.length ?? 0) > 0);
+    const webResearchSummaryEntries = entries.filter((entry) => entry.usedWebResearchSummary === true || Boolean(entry.webResearchSummary));
+    const webResearchUsedCount = webResearchUsedEntries.length;
+    const webResearchUsedSharePercent = totalEntries > 0 ? round((webResearchUsedCount / totalEntries) * 100) : 0;
+    const webResearchSummaryUsedCount = webResearchSummaryEntries.length;
+    const webResearchSummarySuccessPercent = webResearchUsedCount > 0 ? round((webResearchSummaryUsedCount / webResearchUsedCount) * 100) : 0;
     const directCount = directEntries.length;
     const councilCount = councilEntries.length;
     const directSharePercent = totalEntries > 0 ? round((directCount / totalEntries) * 100) : 0;
@@ -127,6 +143,9 @@ export async function GET(request: Request) {
     const topMemoryTypes = toTopItems(memoryUsedEntries.flatMap((entry) => (entry.memoryHits ?? []).map((hit) => hit.type ?? "")), 10);
     const topMemoryTags = toTopItems(memoryUsedEntries.flatMap((entry) => (entry.memoryHits ?? []).flatMap((hit) => hit.tags ?? [])), 10);
     const topMemoryTitles = toTopItems(memoryUsedEntries.flatMap((entry) => (entry.memoryHits ?? []).map((hit) => hit.title ?? hit.id ?? "")), 10);
+    const topWebResearchQueries = toTopItems(webResearchIntentEntries.map((entry) => entry.webResearchQuery ?? ""), 10);
+    const topWebResearchSources = toTopItems(webResearchUsedEntries.flatMap((entry) => (entry.webResearchSources ?? []).map((source) => source.source ?? source.url ?? "")), 10);
+    const topWebResearchTitles = toTopItems(webResearchUsedEntries.flatMap((entry) => (entry.webResearchResults ?? []).map((result) => result.title ?? result.url ?? "")), 10);
 
     const patternMap = new Map<string, { count: number; confidences: number[]; exampleQuestion: string }>();
     for (const entry of councilEntries) {
@@ -159,6 +178,10 @@ export async function GET(request: Request) {
       knowledgeUsedSharePercent,
       memoryUsedCount,
       memoryUsedSharePercent,
+      webResearchUsedCount,
+      webResearchUsedSharePercent,
+      webResearchSummaryUsedCount,
+      webResearchSummarySuccessPercent,
       topRecommendations,
       topFirstSteps,
       topSuggestedAgents,
@@ -169,6 +192,9 @@ export async function GET(request: Request) {
       topMemoryTypes,
       topMemoryTags,
       topMemoryTitles,
+      topWebResearchQueries,
+      topWebResearchSources,
+      topWebResearchTitles,
       topPatterns,
       filters: { route, search },
     });
@@ -185,6 +211,10 @@ export async function GET(request: Request) {
       knowledgeUsedSharePercent: 0,
       memoryUsedCount: 0,
       memoryUsedSharePercent: 0,
+      webResearchUsedCount: 0,
+      webResearchUsedSharePercent: 0,
+      webResearchSummaryUsedCount: 0,
+      webResearchSummarySuccessPercent: 0,
       topRecommendations: [],
       topFirstSteps: [],
       topSuggestedAgents: [],
@@ -195,6 +225,9 @@ export async function GET(request: Request) {
       topMemoryTypes: [],
       topMemoryTags: [],
       topMemoryTitles: [],
+      topWebResearchQueries: [],
+      topWebResearchSources: [],
+      topWebResearchTitles: [],
       topPatterns: [],
       filters: { route, search },
     });

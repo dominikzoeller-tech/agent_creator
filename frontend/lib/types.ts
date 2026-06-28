@@ -173,6 +173,10 @@ export interface AnalyticsResponse {
   knowledgeUsedSharePercent?: number;
   memoryUsedCount?: number;
   memoryUsedSharePercent?: number;
+  webResearchUsedCount?: number;
+  webResearchUsedSharePercent?: number;
+  webResearchSummaryUsedCount?: number;
+  webResearchSummarySuccessPercent?: number;
   topRecommendations: TopItem[];
   topFirstSteps: TopItem[];
   topSuggestedAgents?: TopItem[];
@@ -183,6 +187,9 @@ export interface AnalyticsResponse {
   topMemoryTypes?: TopItem[];
   topMemoryTags?: TopItem[];
   topMemoryTitles?: TopItem[];
+  topWebResearchQueries?: TopItem[];
+  topWebResearchSources?: TopItem[];
+  topWebResearchTitles?: TopItem[];
   topPatterns: PatternItem[];
   filters?: {
     route: "all" | RouteType;

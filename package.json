@@ -82,7 +82,9 @@
     "web:research:summary:patch": "node scripts/phase9-2-patch-ai-web-research-summary.cjs",
     "web:research:summary:verify": "node scripts/phase9-2-verify-ai-web-research-summary.cjs",
     "web:research:visibility:patch": "node scripts/phase9-3-patch-web-research-visibility.cjs",
-    "web:research:visibility:verify": "node scripts/phase9-3-verify-web-research-visibility.cjs"
+    "web:research:visibility:verify": "node scripts/phase9-3-verify-web-research-visibility.cjs",
+    "web:research:analytics:patch": "node scripts/phase9-4-patch-web-research-analytics.cjs",
+    "web:research:analytics:verify": "node scripts/phase9-4-verify-web-research-analytics.cjs"
   },
   "repository": {
     "type": "git",

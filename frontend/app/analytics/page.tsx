@@ -8,6 +8,7 @@ import { ExportsPanel } from "../../components/ExportsPanel";
 import { AgentRoutingAnalyticsPanel } from "../../components/AgentRoutingAnalyticsPanel";
 import { KnowledgeAnalyticsPanel } from "../../components/KnowledgeAnalyticsPanel";
 import { MemoryAnalyticsPanel } from "../../components/MemoryAnalyticsPanel";
+import { WebResearchAnalyticsPanel } from "../../components/WebResearchAnalyticsPanel";
 
 export default function AnalyticsPage() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
@@ -98,6 +99,7 @@ export default function AnalyticsPage() {
         <AgentRoutingAnalyticsPanel analytics={data} />
         <KnowledgeAnalyticsPanel analytics={data} />
         <MemoryAnalyticsPanel analytics={data} />
+        <WebResearchAnalyticsPanel analytics={data} />
 
 </main>
   );
