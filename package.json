@@ -59,7 +59,9 @@
     "knowledge:search:repair": "node scripts/phase7-9c-repair-knowledge-base-search.cjs",
     "knowledge:search:repair:verify": "node scripts/phase7-9c-verify-knowledge-base-search-repair.cjs",
     "memory:smoke": "npx ts-node project-memory-smoke-test.ts",
-    "memory:verify": "node scripts/phase8-0-verify-project-memory.cjs"
+    "memory:verify": "node scripts/phase8-0-verify-project-memory.cjs",
+    "memory:context:smoke": "npx ts-node project-memory-context-smoke-test.ts",
+    "memory:context:verify": "node scripts/phase8-1-verify-project-memory-context.cjs"
   },
   "repository": {
     "type": "git",
