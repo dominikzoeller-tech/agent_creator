@@ -183,6 +183,7 @@ export default function MemoryAdminPage() {
       <nav style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 18 }}>
         <a className="nav-link" href="/">Chat</a>
         <a className="nav-link" href="/knowledge">Knowledge</a>
+        <a className="nav-link" href="/web-research-save">Research speichern</a>
         <a className="nav-link" href="/knowledge-quality">Knowledge Quality</a>
         <a className="nav-link" href="/memory">Memory</a>
         <a className="nav-link" href="/memory-quality">Memory Quality</a>

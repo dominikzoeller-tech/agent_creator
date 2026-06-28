@@ -136,6 +136,7 @@ export default function Page() {
         <a className="nav-link" href="/logs">Logs</a>
         <a className="nav-link" href="/system">System</a>
         <a className="nav-link" href="/web-research">Web Research</a>
+        <a className="nav-link" href="/web-research-save">Research speichern</a>
       </nav>
       <div className="page-shell">
         <section className="hero-card" style={{ background: "linear-gradient(135deg, #fef3c7 0%, #f8fafc 100%)", borderColor: '#fde68a' }}>
