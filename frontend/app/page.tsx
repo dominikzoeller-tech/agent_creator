@@ -123,6 +123,13 @@ export default function Page() {
 
   return (
     <main className="page-wrap">
+      <nav style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 18 }}>
+        <a className="nav-link" href="/">Chat</a>
+        <a className="nav-link" href="/logs">Logs</a>
+        <a className="nav-link" href="/analytics">Analytics</a>
+        <a className="nav-link" href="/system">System</a>
+        <a className="nav-link" href="/knowledge">Knowledge</a>
+      </nav>
       <div className="page-shell">
         <section className="hero-card" style={{ background: "linear-gradient(135deg, #fef3c7 0%, #f8fafc 100%)", borderColor: '#fde68a' }}>
           <h1 className="section-title">Phase 6.7 – Routing-Metadaten im Debug</h1>

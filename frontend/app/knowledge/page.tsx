@@ -187,11 +187,18 @@ export default function KnowledgeAdminPage() {
 
   return (
     <main style={{ maxWidth: 1180, margin: "0 auto", padding: 24, display: "grid", gap: 18 }}>
+      <nav style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 18 }}>
+        <a className="nav-link" href="/">Chat</a>
+        <a className="nav-link" href="/logs">Logs</a>
+        <a className="nav-link" href="/analytics">Analytics</a>
+        <a className="nav-link" href="/system">System</a>
+        <a className="nav-link" href="/knowledge">Knowledge</a>
+      </nav>
       <section style={cardStyle}>
         <h1 style={{ marginTop: 0 }}>Knowledge Admin</h1>
         <p className="helper-text" style={{ marginBottom: 0 }}>
           Lokale Knowledge-Dateien aus dem Ordner <strong>knowledge/</strong> ansehen, bearbeiten und hinzufügen.
-          Unterstützt werden <strong>.md</strong> und <strong>.txt</strong> Dateien.
+          Unterstützt werden <strong>.md</strong> und <strong>.txt</strong> Dateien. Änderungen werden lokal im knowledge-Ordner gespeichert.
         </p>
       </section>
 

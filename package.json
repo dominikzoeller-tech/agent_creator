@@ -46,7 +46,9 @@
     "knowledge:analytics:patch": "node scripts/phase7-5-patch-knowledge-logs-analytics.cjs",
     "knowledge:analytics:verify": "node scripts/phase7-5-verify-knowledge-logs-analytics.cjs",
     "knowledge:admin:patch": "node scripts/phase7-6-patch-knowledge-admin.cjs",
-    "knowledge:admin:verify": "node scripts/phase7-6-verify-knowledge-admin.cjs"
+    "knowledge:admin:verify": "node scripts/phase7-6-verify-knowledge-admin.cjs",
+    "knowledge:admin:polish": "node scripts/phase7-7-patch-knowledge-admin-polish.cjs",
+    "knowledge:admin:polish:verify": "node scripts/phase7-7-verify-knowledge-admin-polish.cjs"
   },
   "repository": {
     "type": "git",
