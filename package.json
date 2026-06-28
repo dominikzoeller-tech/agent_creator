@@ -103,7 +103,10 @@
     "tools:preflight:analytics:verify": "node scripts/phase10-5-verify-tool-preflight-analytics.cjs",
     "tools:enforcement:prep:verify": "node scripts/phase10-6-verify-tool-enforcement-prep.cjs",
     "tools:enforcement:panel:verify": "node scripts/phase10-7-verify-tool-enforcement-panel.cjs",
-    "tools:enforcement:analytics:verify": "node scripts/phase10-8-verify-tool-enforcement-analytics.cjs"
+    "tools:enforcement:analytics:verify": "node scripts/phase10-8-verify-tool-enforcement-analytics.cjs",
+    "tools:governance:release:verify": "node scripts/phase10-9-verify-tool-governance-release.cjs",
+    "tools:governance:smoke": "node scripts/phase10-9-tool-governance-smoke.cjs",
+    "tools:governance:release:check": "npm run tools:governance:release:verify && npm run tools:governance:smoke"
   },
   "repository": {
     "type": "git",

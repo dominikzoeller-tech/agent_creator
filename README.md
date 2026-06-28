@@ -877,3 +877,24 @@ npm run web:research:hardening:verify
 npm run web:research:smoke
 npm run stack:health
 ```
+
+
+## Phase 10 Tool Governance
+
+Phase 10 führt eine sichtbare und messbare Tool Governance ein.
+
+Wichtige Seiten:
+
+- `/tools` – Tool Registry
+- `/tool-permissions` – Permissions Matrix
+- `/tool-preflight` – Einzelner Preflight
+- `/analytics` – Preflight- und Enforcement-Analytics
+
+Wichtige Checks:
+
+```powershell
+npm run tools:governance:release:verify
+npm run tools:governance:smoke
+```
+
+Harte Enforcement-Blockade ist in Phase 10 noch nicht standardmäßig aktiv.
