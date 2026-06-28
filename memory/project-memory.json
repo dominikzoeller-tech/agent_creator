@@ -1,6 +1,20 @@
 {
   "entries": [
     {
+      "id": "note-session-summary-2026-06-28-20260628081603",
+      "type": "note",
+      "title": "Session Summary: 2026-06-28",
+      "summary": "Aus den letzten 25 Logeinträgen wurde eine Session-Zusammenfassung erstellt. Project Memory wurde 5 Mal genutzt. Knowledge wurde 6 Mal genutzt. Routenverteilung: council: 15, direct: 10. Top Memory-Titel: Knowledge und Memory bleiben getrennt, Phase 7 Knowledge Layer abgeschlossen. Top Knowledge-Titel: Agent Routing Guide.",
+      "tags": [
+        "session-summary",
+        "memory",
+        "logs"
+      ],
+      "source": "phase8.8-session-summary",
+      "createdAt": "2026-06-28T08:16:03.225Z",
+      "updatedAt": "2026-06-28T08:16:03.225Z"
+    },
+    {
       "id": "note-session-summary-20260628080405",
       "type": "note",
       "title": "Session Summary: 2026-06-28",
