@@ -5,6 +5,7 @@ import { runMasterAgent } from "./master-agent";
 import { appendDecisionLog } from "./decision-log";
 import { buildKnowledgeRoutingContext, mergeKnowledgeContext } from "./knowledge-routing-context";
 import { buildProjectMemoryContext, mergeProjectMemoryContext } from "./project-memory-context";
+import { mergeWebResearchContext, runWebResearch, sanitizeWebResearchQuery, shouldUseWebResearch } from "./web-research";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -262,7 +263,21 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
   const knowledge = await buildKnowledgeRoutingContext(effectiveUserInput, { limit: 3 });
   const knowledgeContext = mergeKnowledgeContext(baseEffectiveContext, knowledge);
   const memory = await buildProjectMemoryContext(effectiveUserInput, { limit: 5 });
-  const effectiveContext = mergeProjectMemoryContext(knowledgeContext, memory);
+  const memoryContext = mergeProjectMemoryContext(knowledgeContext, memory);
+
+  const webResearchIntent = shouldUseWebResearch(effectiveUserInput);
+  const webResearchQuery = sanitizeWebResearchQuery(effectiveUserInput);
+  const webResearch = webResearchIntent && webResearchQuery.allowed
+    ? await runWebResearch({ query: webResearchQuery.query, count: 5 })
+    : {
+        ok: true as const,
+        enabled: process.env.WEB_RESEARCH_ENABLED === "true",
+        provider: "disabled" as const,
+        query: webResearchQuery.query,
+        results: [],
+        message: webResearchIntent ? webResearchQuery.reason : "Web Research für diese Anfrage nicht angefordert.",
+      };
+  const effectiveContext = mergeWebResearchContext(memoryContext, webResearch);
 
   try {
     const result = await runMasterAgent({
@@ -280,6 +295,11 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       usedMemory: memory.hasHits,
       memorySummary: memory.summary,
       memoryHits: memory.hits,
+      usedWebResearch: webResearch.results.length > 0,
+      webResearchEnabled: webResearch.enabled,
+      webResearchQuery: webResearch.query,
+      webResearchMessage: webResearch.message,
+      webResearchResults: webResearch.results,
     };
 
     const response: CloudResponse = {
@@ -319,6 +339,11 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       usedMemory: resultWithKnowledge.usedMemory,
       memorySummary: resultWithKnowledge.memorySummary,
       memoryHits: resultWithKnowledge.memoryHits,
+      usedWebResearch: resultWithKnowledge.usedWebResearch,
+      webResearchEnabled: resultWithKnowledge.webResearchEnabled,
+      webResearchQuery: resultWithKnowledge.webResearchQuery,
+      webResearchMessage: resultWithKnowledge.webResearchMessage,
+      webResearchResults: resultWithKnowledge.webResearchResults,
     });
 
     sendJson(res, 200, response);

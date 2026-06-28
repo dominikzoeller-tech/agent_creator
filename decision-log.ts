@@ -20,6 +20,11 @@ export interface DecisionLogEntry {
   usedMemory?: boolean;
   memorySummary?: string;
   memoryHits?: unknown[];
+  usedWebResearch?: boolean;
+  webResearchEnabled?: boolean;
+  webResearchQuery?: string;
+  webResearchMessage?: string;
+  webResearchResults?: unknown[];
 }
 
 const LOG_DIR = path.join(process.cwd(), "logs");

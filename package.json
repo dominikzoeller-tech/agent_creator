@@ -76,7 +76,9 @@
     "memory:sessions:verify": "node scripts/phase8-8-verify-session-summary-memory.cjs",
     "memory:sessions:ux:patch": "node scripts/phase8-9-patch-memory-session-ux.cjs",
     "memory:sessions:ux:verify": "node scripts/phase8-9-verify-memory-session-ux.cjs",
-    "web:research:verify": "node scripts/phase9-0-verify-web-research-foundation.cjs"
+    "web:research:verify": "node scripts/phase9-0-verify-web-research-foundation.cjs",
+    "web:research:flow:patch": "node scripts/phase9-1-patch-web-research-agent-flow.cjs",
+    "web:research:flow:verify": "node scripts/phase9-1-verify-web-research-agent-flow.cjs"
   },
   "repository": {
     "type": "git",
