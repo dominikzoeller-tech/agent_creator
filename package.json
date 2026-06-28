@@ -48,7 +48,11 @@
     "knowledge:admin:patch": "node scripts/phase7-6-patch-knowledge-admin.cjs",
     "knowledge:admin:verify": "node scripts/phase7-6-verify-knowledge-admin.cjs",
     "knowledge:admin:polish": "node scripts/phase7-7-patch-knowledge-admin-polish.cjs",
-    "knowledge:admin:polish:verify": "node scripts/phase7-7-verify-knowledge-admin-polish.cjs"
+    "knowledge:admin:polish:verify": "node scripts/phase7-7-verify-knowledge-admin-polish.cjs",
+    "knowledge:quality:patch": "node scripts/phase7-8-patch-knowledge-quality.cjs",
+    "knowledge:quality:verify": "node scripts/phase7-8-verify-knowledge-quality.cjs",
+    "knowledge:quality:frontendfix": "node scripts/phase7-8b-fix-knowledge-quality-frontend-import.cjs",
+    "knowledge:quality:frontendfix:verify": "node scripts/phase7-8b-verify-knowledge-quality-frontend-import.cjs"
   },
   "repository": {
     "type": "git",

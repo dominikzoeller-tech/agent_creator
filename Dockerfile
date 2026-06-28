@@ -26,6 +26,7 @@ COPY council-routing-metadata.ts ./
 COPY council-routing-response-types.ts ./
 COPY knowledge-base.ts ./
 COPY knowledge-routing-context.ts ./
+COPY knowledge-quality.ts ./
 COPY knowledge ./knowledge
 
 # Optional documentation / example config inside image
