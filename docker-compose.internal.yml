@@ -31,6 +31,9 @@
     container_name: privacy-first-frontend
     environment:
       NEXT_PUBLIC_AGENT_API_BASE_URL: http://localhost:7071
+      WEB_RESEARCH_ENABLED: ${WEB_RESEARCH_ENABLED:-false}
+      BING_SEARCH_API_KEY: ${BING_SEARCH_API_KEY:-}
+      BING_SEARCH_ENDPOINT: ${BING_SEARCH_ENDPOINT:-https://api.bing.microsoft.com/v7.0/search}
     volumes:
       - ./logs:/logs:ro
       - ./knowledge:/knowledge
@@ -47,5 +50,8 @@
       retries: 5
       start_period: 20s
     restart: unless-stopped
+
+
+
 
 

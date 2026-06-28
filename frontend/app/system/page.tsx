@@ -39,6 +39,7 @@ export default function SystemPage() {
         <a className="nav-link" href="/analytics">Analytics</a>
         <a className="nav-link" href="/logs">Logs</a>
         <a className="nav-link" href="/system">System</a>
+        <a className="nav-link" href="/web-research">Web Research</a>
       </nav>
       <div className="page-shell">
         <section className="hero-card" style={{ background: 'linear-gradient(135deg, #fae8ff 0%, #f8fafc 100%)', borderColor: '#e9d5ff' }}>
