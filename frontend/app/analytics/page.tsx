@@ -6,6 +6,7 @@ import { AnalyticsSummary } from "../../components/AnalyticsSummary";
 import { AnalyticsFiltersBar } from "../../components/AnalyticsFiltersBar";
 import { ExportsPanel } from "../../components/ExportsPanel";
 import { AgentRoutingAnalyticsPanel } from "../../components/AgentRoutingAnalyticsPanel";
+import { KnowledgeAnalyticsPanel } from "../../components/KnowledgeAnalyticsPanel";
 
 export default function AnalyticsPage() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
@@ -82,6 +83,8 @@ export default function AnalyticsPage() {
       </div>
     
         <AgentRoutingAnalyticsPanel analytics={data} />
+        <KnowledgeAnalyticsPanel analytics={data} />
+
 </main>
   );
 }

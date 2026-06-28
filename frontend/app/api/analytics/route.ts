@@ -12,6 +12,9 @@ interface DecisionLogEntry {
   confidence?: number | null;
   extractedOptions?: string[];
   suggestedAgents?: string[];
+  usedKnowledge?: boolean;
+  knowledgeSummary?: string;
+  knowledgeHits?: { id?: string; title?: string; sourcePath?: string; score?: number; snippet?: string; tags?: string[] }[];
   routingSummary?: string;
   routingDetails?: {
     complexity?: string;
@@ -95,6 +98,9 @@ export async function GET(request: Request) {
     const totalEntries = entries.length;
     const directEntries = entries.filter((entry) => entry.route === "direct");
     const councilEntries = entries.filter((entry) => entry.route === "council");
+    const knowledgeUsedEntries = entries.filter((entry) => entry.usedKnowledge === true || (entry.knowledgeHits?.length ?? 0) > 0);
+    const knowledgeUsedCount = knowledgeUsedEntries.length;
+    const knowledgeUsedSharePercent = totalEntries > 0 ? round((knowledgeUsedCount / totalEntries) * 100) : 0;
     const directCount = directEntries.length;
     const councilCount = councilEntries.length;
     const directSharePercent = totalEntries > 0 ? round((directCount / totalEntries) * 100) : 0;
@@ -110,6 +116,8 @@ export async function GET(request: Request) {
     const topSuggestedAgents = toTopItems(councilEntries.flatMap((entry) => entry.suggestedAgents ?? []), 10);
     const topRoutingComplexities = toTopItems(councilEntries.map((entry) => entry.routingDetails?.complexity ?? ""), 5);
     const topPrivacyRisks = toTopItems(councilEntries.map((entry) => entry.routingDetails?.privacyRisk ?? ""), 5);
+    const topKnowledgeFiles = toTopItems(knowledgeUsedEntries.flatMap((entry) => (entry.knowledgeHits ?? []).map((hit) => hit.title ?? hit.sourcePath ?? hit.id ?? "")), 10);
+    const topKnowledgeTags = toTopItems(knowledgeUsedEntries.flatMap((entry) => (entry.knowledgeHits ?? []).flatMap((hit) => hit.tags ?? [])), 10);
 
     const patternMap = new Map<string, { count: number; confidences: number[]; exampleQuestion: string }>();
     for (const entry of councilEntries) {
@@ -138,11 +146,15 @@ export async function GET(request: Request) {
       directSharePercent,
       councilSharePercent,
       avgCouncilConfidencePercent,
+      knowledgeUsedCount,
+      knowledgeUsedSharePercent,
       topRecommendations,
       topFirstSteps,
       topSuggestedAgents,
       topRoutingComplexities,
       topPrivacyRisks,
+      topKnowledgeFiles,
+      topKnowledgeTags,
       topPatterns,
       filters: { route, search },
     });
@@ -155,11 +167,15 @@ export async function GET(request: Request) {
       directSharePercent: 0,
       councilSharePercent: 0,
       avgCouncilConfidencePercent: null,
+      knowledgeUsedCount: 0,
+      knowledgeUsedSharePercent: 0,
       topRecommendations: [],
       topFirstSteps: [],
       topSuggestedAgents: [],
       topRoutingComplexities: [],
       topPrivacyRisks: [],
+      topKnowledgeFiles: [],
+      topKnowledgeTags: [],
       topPatterns: [],
       filters: { route, search },
     });

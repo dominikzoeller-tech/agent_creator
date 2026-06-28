@@ -42,7 +42,9 @@
     "knowledge:flow:patch": "node scripts/phase7-3b-patch-knowledge-flow.cjs",
     "knowledge:flow:verify": "node scripts/phase7-3b-verify-knowledge-flow.cjs",
     "knowledge:visibility:patch": "node scripts/phase7-4-patch-knowledge-visibility.cjs",
-    "knowledge:visibility:verify": "node scripts/phase7-4-verify-knowledge-visibility.cjs"
+    "knowledge:visibility:verify": "node scripts/phase7-4-verify-knowledge-visibility.cjs",
+    "knowledge:analytics:patch": "node scripts/phase7-5-patch-knowledge-logs-analytics.cjs",
+    "knowledge:analytics:verify": "node scripts/phase7-5-verify-knowledge-logs-analytics.cjs"
   },
   "repository": {
     "type": "git",

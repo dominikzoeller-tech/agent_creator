@@ -123,11 +123,15 @@ export interface AnalyticsResponse {
   directSharePercent: number;
   councilSharePercent: number;
   avgCouncilConfidencePercent: number | null;
+  knowledgeUsedCount?: number;
+  knowledgeUsedSharePercent?: number;
   topRecommendations: TopItem[];
   topFirstSteps: TopItem[];
   topSuggestedAgents?: TopItem[];
   topRoutingComplexities?: TopItem[];
   topPrivacyRisks?: TopItem[];
+  topKnowledgeFiles?: TopItem[];
+  topKnowledgeTags?: TopItem[];
   topPatterns: PatternItem[];
   filters?: {
     route: "all" | RouteType;

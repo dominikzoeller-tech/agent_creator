@@ -307,6 +307,9 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       suggestedAgents: routingMetadataForLog.suggestedAgents,
       routingDetails: routingMetadataForLog.routingDetails,
       routingSummary: routingMetadataForLog.routingSummary,
+      usedKnowledge: resultWithKnowledge.usedKnowledge,
+      knowledgeSummary: resultWithKnowledge.knowledgeSummary,
+      knowledgeHits: resultWithKnowledge.knowledgeHits,
     });
 
     sendJson(res, 200, response);
