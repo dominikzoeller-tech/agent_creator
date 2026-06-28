@@ -26,6 +26,20 @@ export type ProjectMemoryType =
   | "system-state"
   | "note";
 
+
+export interface WebResearchResult {
+  title: string;
+  url: string;
+  snippet: string;
+  source?: string;
+}
+
+export interface WebResearchSource {
+  title: string;
+  url: string;
+  source?: string;
+}
+
 export interface ProjectMemoryEntry {
   id: string;
   type: ProjectMemoryType;
@@ -86,6 +100,15 @@ export interface CloudAskResult {
   usedMemory?: boolean;
   memorySummary?: string;
   memoryHits?: ProjectMemoryEntry[];
+  usedWebResearch?: boolean;
+  webResearchEnabled?: boolean;
+  webResearchQuery?: string;
+  webResearchMessage?: string;
+  webResearchResults?: WebResearchResult[];
+  usedWebResearchSummary?: boolean;
+  webResearchSummary?: string;
+  webResearchSummaryMessage?: string;
+  webResearchSources?: WebResearchSource[];
 }
 
 export interface CloudAskResponse {

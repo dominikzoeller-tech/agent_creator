@@ -10,6 +10,7 @@ import { DebugResponsePanel } from "../components/DebugResponsePanel";
 import { RoutingMetadataPanel } from "../components/RoutingMetadataPanel";
 import { KnowledgeHitsPanel } from "../components/KnowledgeHitsPanel";
 import { MemoryHitsPanel } from "../components/MemoryHitsPanel";
+import { WebResearchPanel } from "../components/WebResearchPanel";
 
 const labelStyle: React.CSSProperties = {
   display: "block",
@@ -235,6 +236,7 @@ export default function Page() {
         <RoutingMetadataPanel response={response} />
                         <KnowledgeHitsPanel response={response} />
                 <MemoryHitsPanel response={response} />
+                <WebResearchPanel response={response} />
 <DebugResponsePanel response={response} visible={showDebug} />
       </div>
     </main>
