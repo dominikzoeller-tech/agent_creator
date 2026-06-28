@@ -52,7 +52,12 @@
     "knowledge:quality:patch": "node scripts/phase7-8-patch-knowledge-quality.cjs",
     "knowledge:quality:verify": "node scripts/phase7-8-verify-knowledge-quality.cjs",
     "knowledge:quality:frontendfix": "node scripts/phase7-8b-fix-knowledge-quality-frontend-import.cjs",
-    "knowledge:quality:frontendfix:verify": "node scripts/phase7-8b-verify-knowledge-quality-frontend-import.cjs"
+    "knowledge:quality:frontendfix:verify": "node scripts/phase7-8b-verify-knowledge-quality-frontend-import.cjs",
+    "knowledge:search:tune": "node scripts/phase7-9-patch-knowledge-search-tuning.cjs",
+    "knowledge:search:smoke": "npx ts-node knowledge-search-tuning-smoke-test.ts",
+    "knowledge:search:verify": "node scripts/phase7-9-verify-knowledge-search-tuning.cjs",
+    "knowledge:search:repair": "node scripts/phase7-9c-repair-knowledge-base-search.cjs",
+    "knowledge:search:repair:verify": "node scripts/phase7-9c-verify-knowledge-base-search-repair.cjs"
   },
   "repository": {
     "type": "git",
