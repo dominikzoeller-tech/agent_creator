@@ -17,6 +17,26 @@ export interface RoutingDetails {
   riskNeed: boolean;
 }
 
+
+export type ProjectMemoryType =
+  | "decision"
+  | "milestone"
+  | "issue"
+  | "preference"
+  | "system-state"
+  | "note";
+
+export interface ProjectMemoryEntry {
+  id: string;
+  type: ProjectMemoryType;
+  title: string;
+  summary: string;
+  tags: string[];
+  source?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface KnowledgeSearchResult {
   id: string;
   title: string;
@@ -63,6 +83,9 @@ export interface CloudAskResult {
   usedKnowledge?: boolean;
   knowledgeSummary?: string;
   knowledgeHits?: KnowledgeSearchResult[];
+  usedMemory?: boolean;
+  memorySummary?: string;
+  memoryHits?: ProjectMemoryEntry[];
 }
 
 export interface CloudAskResponse {

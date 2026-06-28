@@ -9,6 +9,7 @@ import { RedactPreviewPanel } from "../components/RedactPreviewPanel";
 import { DebugResponsePanel } from "../components/DebugResponsePanel";
 import { RoutingMetadataPanel } from "../components/RoutingMetadataPanel";
 import { KnowledgeHitsPanel } from "../components/KnowledgeHitsPanel";
+import { MemoryHitsPanel } from "../components/MemoryHitsPanel";
 
 const labelStyle: React.CSSProperties = {
   display: "block",
@@ -228,6 +229,7 @@ export default function Page() {
         <ChatResponseCard response={response} loading={loading} error={error} />
         <RoutingMetadataPanel response={response} />
                         <KnowledgeHitsPanel response={response} />
+                <MemoryHitsPanel response={response} />
 <DebugResponsePanel response={response} visible={showDebug} />
       </div>
     </main>

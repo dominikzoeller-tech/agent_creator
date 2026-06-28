@@ -63,7 +63,9 @@
     "memory:context:smoke": "npx ts-node project-memory-context-smoke-test.ts",
     "memory:context:verify": "node scripts/phase8-1-verify-project-memory-context.cjs",
     "memory:flow:patch": "node scripts/phase8-2-patch-memory-agent-flow.cjs",
-    "memory:flow:verify": "node scripts/phase8-2-verify-memory-agent-flow.cjs"
+    "memory:flow:verify": "node scripts/phase8-2-verify-memory-agent-flow.cjs",
+    "memory:visibility:patch": "node scripts/phase8-3-patch-memory-visibility.cjs",
+    "memory:visibility:verify": "node scripts/phase8-3-verify-memory-visibility.cjs"
   },
   "repository": {
     "type": "git",
