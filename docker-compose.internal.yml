@@ -34,6 +34,7 @@
     volumes:
       - ./logs:/logs:ro
       - ./knowledge:/knowledge
+      - ./memory:/memory
     ports:
       - "3000:3000"
     depends_on:
@@ -46,4 +47,5 @@
       retries: 5
       start_period: 20s
     restart: unless-stopped
+
 
