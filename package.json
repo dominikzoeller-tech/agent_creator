@@ -90,7 +90,9 @@
     "web:research:governance:patch": "node scripts/phase9-6-patch-web-research-governance.cjs",
     "web:research:governance:verify": "node scripts/phase9-6-verify-web-research-governance.cjs",
     "web:research:settings:patch": "node scripts/phase9-7-patch-web-research-settings.cjs",
-    "web:research:settings:verify": "node scripts/phase9-7-verify-web-research-settings.cjs"
+    "web:research:settings:verify": "node scripts/phase9-7-verify-web-research-settings.cjs",
+    "web:research:hardening:verify": "node scripts/phase9-8-verify-web-research-hardening.cjs",
+    "web:research:smoke": "node scripts/phase9-8-web-research-smoke.cjs"
   },
   "repository": {
     "type": "git",

@@ -826,3 +826,23 @@ http://localhost:3000/analytics
 ```
 
 <!-- PHASE6_AGENT_ROUTING_END -->
+
+
+## Web Research Hardening
+
+Web Research ist standardmäßig deaktiviert und wird über Environment-Variablen gesteuert.
+API-Keys dürfen nicht in Logs, Screenshots oder API-Responses ausgegeben werden.
+
+Wichtige Checks:
+
+```powershell
+npm run web:research:hardening:verify
+npm run web:research:smoke
+```
+
+Die Smoke Tests prüfen:
+
+- Web Research API Baseline
+- Governance Checks
+- Settings ohne Secret-Leaks
+- Save API blockiert unsichere Payloads
