@@ -10,6 +10,7 @@
       PORT: 7071
     volumes:
       - ./logs:/app/logs
+      - ./memory:/app/memory
       - ./knowledge:/app/knowledge:ro
     ports:
       - "7071:7071"
@@ -45,3 +46,4 @@
       retries: 5
       start_period: 20s
     restart: unless-stopped
+

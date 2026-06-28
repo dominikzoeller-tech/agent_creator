@@ -4,6 +4,7 @@ import { parse as parseUrl } from "node:url";
 import { runMasterAgent } from "./master-agent";
 import { appendDecisionLog } from "./decision-log";
 import { buildKnowledgeRoutingContext, mergeKnowledgeContext } from "./knowledge-routing-context";
+import { buildProjectMemoryContext, mergeProjectMemoryContext } from "./project-memory-context";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -259,7 +260,9 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
     processingPath === "cloud_redacted" ? redactContext(body.context ?? []) : (body.context ?? []);
 
   const knowledge = await buildKnowledgeRoutingContext(effectiveUserInput, { limit: 3 });
-  const effectiveContext = mergeKnowledgeContext(baseEffectiveContext, knowledge);
+  const knowledgeContext = mergeKnowledgeContext(baseEffectiveContext, knowledge);
+  const memory = await buildProjectMemoryContext(effectiveUserInput, { limit: 5 });
+  const effectiveContext = mergeProjectMemoryContext(knowledgeContext, memory);
 
   try {
     const result = await runMasterAgent({
@@ -274,6 +277,9 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       usedKnowledge: knowledge.hasHits,
       knowledgeSummary: knowledge.summary,
       knowledgeHits: knowledge.hits,
+      usedMemory: memory.hasHits,
+      memorySummary: memory.summary,
+      memoryHits: memory.hits,
     };
 
     const response: CloudResponse = {
@@ -310,6 +316,9 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       usedKnowledge: resultWithKnowledge.usedKnowledge,
       knowledgeSummary: resultWithKnowledge.knowledgeSummary,
       knowledgeHits: resultWithKnowledge.knowledgeHits,
+      usedMemory: resultWithKnowledge.usedMemory,
+      memorySummary: resultWithKnowledge.memorySummary,
+      memoryHits: resultWithKnowledge.memoryHits,
     });
 
     sendJson(res, 200, response);

@@ -26,6 +26,9 @@ COPY council-routing-metadata.ts ./
 COPY council-routing-response-types.ts ./
 COPY knowledge-base.ts ./
 COPY knowledge-routing-context.ts ./
+COPY project-memory.ts ./
+COPY project-memory-context.ts ./
+COPY memory ./memory
 COPY knowledge-quality.ts ./
 COPY knowledge ./knowledge
 

@@ -17,6 +17,9 @@ export interface DecisionLogEntry {
   usedKnowledge?: boolean;
   knowledgeSummary?: string;
   knowledgeHits?: unknown[];
+  usedMemory?: boolean;
+  memorySummary?: string;
+  memoryHits?: unknown[];
 }
 
 const LOG_DIR = path.join(process.cwd(), "logs");
