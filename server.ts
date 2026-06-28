@@ -273,6 +273,18 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
 
   const toolEnforcement = buildToolEnforcementPrep(toolPreflight);
 
+  if (toolEnforcement.hardBlocked) {
+    return res.json({
+      ok: true,
+      mode: "cloud",
+      result: {
+        answer: "Diese Anfrage wurde durch Tool Permission Enforcement blockiert. Bitte Sensitivity, Processing Mode oder Tool-Anfrage prüfen.",
+        toolPreflight,
+        toolEnforcement,
+      },
+    });
+  }
+
   const memory = await buildProjectMemoryContext(effectiveUserInput, { limit: 5 });
   const memoryContext = mergeProjectMemoryContext(knowledgeContext, memory);
 

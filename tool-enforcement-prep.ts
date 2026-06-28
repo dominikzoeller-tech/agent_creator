@@ -18,6 +18,8 @@ export interface ToolEnforcementPrepResult {
   reasons: string[];
   warnings: string[];
   mode: "off" | "dry-run" | "enforce";
+  consentRequired: boolean;
+  hardBlocked: boolean;
 }
 
 export function getToolEnforcementConfig(): ToolEnforcementConfig {
@@ -27,6 +29,9 @@ export function getToolEnforcementConfig(): ToolEnforcementConfig {
     blockExternalNetwork: process.env.TOOL_PERMISSION_BLOCK_EXTERNAL_NETWORK !== "false",
     blockWrites: process.env.TOOL_PERMISSION_BLOCK_WRITES === "true",
     requireConfirmationForHighRisk: process.env.TOOL_PERMISSION_REQUIRE_CONFIRMATION_FOR_HIGH_RISK !== "false",
+    // Phase 11.0: explicit consent flag is informational for UI/rollout.
+    // Hard consent persistence/execution is planned for a later dedicated phase.
+    // TOOL_PERMISSION_REQUIRE_EXPLICIT_CONSENT=true enables stronger UI messaging.
   };
 }
 
@@ -54,6 +59,8 @@ export function buildToolEnforcementPrep(preflight: AgentDebugToolPreflightResul
       reasons,
       warnings: ["Tool Permission Enforcement ist deaktiviert. Ergebnisse sind nur Beobachtung.", ...warnings],
       mode: "off",
+      consentRequired: confirmationRequiredDecisions.length > 0,
+      hardBlocked: false,
     };
   }
 
@@ -72,5 +79,7 @@ export function buildToolEnforcementPrep(preflight: AgentDebugToolPreflightResul
       ? ["Dry-Run aktiv: Der Agent Flow wird noch nicht blockiert.", ...warnings]
       : warnings,
     mode,
+    consentRequired: confirmationRequiredDecisions.length > 0,
+    hardBlocked: config.enabled && !config.dryRun && wouldBlock,
   };
 }

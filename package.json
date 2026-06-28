@@ -106,7 +106,8 @@
     "tools:enforcement:analytics:verify": "node scripts/phase10-8-verify-tool-enforcement-analytics.cjs",
     "tools:governance:release:verify": "node scripts/phase10-9-verify-tool-governance-release.cjs",
     "tools:governance:smoke": "node scripts/phase10-9-tool-governance-smoke.cjs",
-    "tools:governance:release:check": "npm run tools:governance:release:verify && npm run tools:governance:smoke"
+    "tools:governance:release:check": "npm run tools:governance:release:verify && npm run tools:governance:smoke",
+    "tools:enforcement:hard:verify": "node scripts/phase11-0-verify-hard-tool-enforcement-consent.cjs"
   },
   "repository": {
     "type": "git",

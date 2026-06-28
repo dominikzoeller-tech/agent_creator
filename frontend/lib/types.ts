@@ -111,6 +111,7 @@ export interface CloudAskResult {
   webResearchSources?: WebResearchSource[];
   toolPreflight?: unknown;
   toolEnforcement?: unknown;
+  toolConsent?: unknown;
 }
 
 export interface CloudAskResponse {
