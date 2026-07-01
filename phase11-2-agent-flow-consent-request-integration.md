@@ -9,3 +9,6 @@ npm run tools:consent:verify
 ```
 
 Danach Build/Health pr√ºfen.
+
+Verify-Hinweis: Die Response enth‰lt consentRequestId und consentUrl. Resume nach Approval kommt in Phase 11.3.
+

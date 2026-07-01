@@ -32,6 +32,9 @@ export function AgentFlowConsentRequestPanel({ response }: Props) {
       {consentUrl ? (
         <a className="nav-link" href={String(consentUrl)}>Consent Request öffnen</a>
       ) : null}
+      <p className="helper-text" style={{ marginTop: 10 }}>
+        Phase 11.3 Resume: Nach Genehmigung kann derselbe Agent Request mit dieser Consent Request ID erneut gesendet werden.
+      </p>
     </section>
   );
 }

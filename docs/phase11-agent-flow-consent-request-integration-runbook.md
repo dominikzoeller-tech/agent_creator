@@ -7,3 +7,6 @@
 5. Build und Stack Health prüfen.
 
 Hinweis: Phase 11.2 erstellt Requests und blockiert Ausführung bis Approval. Resume folgt in Phase 11.3.
+
+Manueller Consent-Link: /tool-consent?requestId=<id>
+

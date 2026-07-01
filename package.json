@@ -116,7 +116,10 @@
     "phase11:2a:hotfix": "node scripts/phase11-2a-hotfix-compose-consent-data-dir.cjs",
     "phase11:2a:verify": "node scripts/phase11-2a-verify-compose-consent-data-dir.cjs",
     "phase11:2b:hotfix": "node scripts/phase11-2b-hotfix-tsconfig-typescript6-deprecation.cjs",
-    "phase11:2b:verify": "node scripts/phase11-2b-verify-tsconfig-typescript6-deprecation.cjs"
+    "phase11:2b:verify": "node scripts/phase11-2b-verify-tsconfig-typescript6-deprecation.cjs",
+    "phase11:3:patch": "node scripts/phase11-3-patch-consent-resume-approved-execution.cjs",
+    "phase11:3:verify": "node scripts/phase11-3-verify-consent-resume-approved-execution.cjs",
+    "tools:consent:resume:verify": "node scripts/phase11-3-verify-consent-resume-approved-execution.cjs"
   },
   "repository": {
     "type": "git",

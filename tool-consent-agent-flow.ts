@@ -96,3 +96,28 @@ export function createAgentFlowToolConsentRequest(input: {
   writeRequests([request, ...requests]);
   return request;
 }
+
+
+export function getAgentFlowToolConsentRequest(id: string): AgentFlowToolConsentRequest | null {
+  const requestId = id.trim();
+  if (!requestId) return null;
+  const requests = readRequests();
+  const request = requests.find((entry) => entry.id === requestId);
+  if (!request) return null;
+  if (request.status === "pending" && request.expiresAt && new Date(request.expiresAt).getTime() < Date.now()) {
+    request.status = "expired";
+    request.decidedAt = new Date().toISOString();
+    request.decisionNote = request.decisionNote || "Automatisch abgelaufen.";
+    writeRequests(requests);
+  }
+  return request;
+}
+
+export function isAgentFlowToolConsentApproved(id: string | undefined, toolId?: string): boolean {
+  if (!id) return false;
+  const request = getAgentFlowToolConsentRequest(id);
+  if (!request) return false;
+  if (request.status !== "approved") return false;
+  if (toolId && request.toolId !== toolId) return false;
+  return true;
+}

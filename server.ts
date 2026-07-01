@@ -9,7 +9,7 @@ import { mergeWebResearchContext, runWebResearch, sanitizeWebResearchQuery, shou
 import { summarizeWebResearchResults } from "./web-research-summary";
 import { buildAgentDebugToolPreflight } from "./tool-preflight-debug";
 import { buildToolEnforcementPrep } from "./tool-enforcement-prep";
-import { createAgentFlowToolConsentRequest } from "./tool-consent-agent-flow";
+import { createAgentFlowToolConsentRequest, getAgentFlowToolConsentRequest } from "./tool-consent-agent-flow";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -30,6 +30,7 @@ interface AskRequestBody {
   sensitivity?: DataSensitivity;
   processingMode?: ProcessingMode;
   allowCloudForSensitive?: boolean;
+  consentRequestId?: string;
 }
 
 interface ErrorResponse {
@@ -128,6 +129,7 @@ function normalizeRequestBody(input: unknown): AskRequestBody {
     sensitivity: isSensitivity(body.sensitivity) ? body.sensitivity : "internal",
     processingMode: isProcessingMode(body.processingMode) ? body.processingMode : "auto",
     allowCloudForSensitive: body.allowCloudForSensitive === true,
+    consentRequestId: typeof body.consentRequestId === "string" ? body.consentRequestId : undefined,
   };
 }
 
@@ -290,12 +292,57 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
   }
 
 
+  // PHASE 11.3: Approved Consent Resume Gate
+  const phase113ConsentToolId =
+    toolEnforcement.confirmationRequiredToolIds?.[0] ??
+    toolPreflight.candidateToolIds?.[0] ??
+    "unknown-tool";
+  const phase113ConsentRequest = body.consentRequestId
+    ? getAgentFlowToolConsentRequest(body.consentRequestId)
+    : null;
+  const approvedToolConsent =
+    toolEnforcement.consentRequired === true &&
+    Boolean(phase113ConsentRequest) &&
+    phase113ConsentRequest?.status === "approved" &&
+    phase113ConsentRequest?.toolId === phase113ConsentToolId;
+
+  if (toolEnforcement.consentRequired && body.consentRequestId && !approvedToolConsent) {
+    const consentUrl = "/tool-consent?requestId=" + encodeURIComponent(body.consentRequestId);
+    const status = phase113ConsentRequest?.status ?? "missing";
+    const payload = {
+      ok: true,
+      mode: "cloud",
+      sensitivity: body.sensitivity ?? "internal",
+      processingMode: body.processingMode ?? "auto",
+      processingPath,
+      redacted: processingPath === "cloud_redacted",
+      result: {
+        answer: "Die Tool-Ausführung bleibt gesperrt, weil der Consent Request nicht approved ist.",
+        consentRequired: true,
+        consentRequestId: body.consentRequestId,
+        consentUrl,
+        toolId: phase113ConsentToolId,
+        status,
+        toolPreflight,
+        toolEnforcement,
+        toolConsent: {
+          required: true,
+          approved: false,
+          source: "agent-flow-resume",
+          requestId: body.consentRequestId,
+          url: consentUrl,
+          status,
+          toolId: phase113ConsentToolId,
+        },
+      },
+    };
+    sendJson(res, 200, payload);
+    return;
+  }
+
   // PHASE 11.2: Agent Flow Consent Request Gate
-  if (toolEnforcement.consentRequired) {
-    const consentToolId =
-      toolEnforcement.confirmationRequiredToolIds?.[0] ??
-      toolPreflight.candidateToolIds?.[0] ??
-      "unknown-tool";
+  if (toolEnforcement.consentRequired && !approvedToolConsent) {
+    const consentToolId = phase113ConsentToolId;
     const consentRequest = createAgentFlowToolConsentRequest({
       toolId: consentToolId,
       reason: "Agent Flow benötigt explizite Tool-Freigabe, bevor das Tool ausgeführt werden darf.",
@@ -407,6 +454,14 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
       webResearchSources: webResearchSummary.sources,
       toolPreflight,
       toolEnforcement,
+      toolConsent: approvedToolConsent ? {
+        required: true,
+        approved: true,
+        source: "agent-flow-resume",
+        requestId: phase113ConsentRequest?.id,
+        status: phase113ConsentRequest?.status,
+        toolId: phase113ConsentRequest?.toolId,
+      } : undefined,
     };
 
     const response: CloudResponse = {
