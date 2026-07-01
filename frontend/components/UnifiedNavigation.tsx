@@ -12,6 +12,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/capability-requests", label: "Capability Requests", key: "capability-requests" },
   { href: "/agent-blueprints", label: "Agent Blueprints", key: "agent-blueprints" },
   { href: "/agent-registry", label: "Agent Registry", key: "agent-registry" },
+  { href: "/governance-audit", label: "Audit Trail", key: "governance-audit" },
   { href: "/analytics", label: "Analytics", key: "analytics" },
   { href: "/logs", label: "Logs", key: "logs" },
   { href: "/system", label: "System", key: "system" },

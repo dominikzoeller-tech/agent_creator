@@ -133,7 +133,10 @@
     "phase11:7:verify": "node scripts/phase11-7-verify-registry-ui-polish-unified-navigation.cjs",
     "ui:navigation:verify": "node scripts/phase11-7-verify-registry-ui-polish-unified-navigation.cjs",
     "phase11:7b:hotfix": "node scripts/phase11-7b-hotfix-tool-consent-navigation-docs.cjs",
-    "phase11:7b:verify": "node scripts/phase11-7b-verify-tool-consent-navigation-docs.cjs"
+    "phase11:7b:verify": "node scripts/phase11-7b-verify-tool-consent-navigation-docs.cjs",
+    "phase11:8:patch": "node scripts/phase11-8-patch-agent-registry-analytics-audit-trail.cjs",
+    "phase11:8:verify": "node scripts/phase11-8-verify-agent-registry-analytics-audit-trail.cjs",
+    "governance:audit:verify": "node scripts/phase11-8-verify-agent-registry-analytics-audit-trail.cjs"
   },
   "repository": {
     "type": "git",
