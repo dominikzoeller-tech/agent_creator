@@ -153,3 +153,19 @@ code {
 .phase11-form-row textarea {
   min-width: 220px;
 }
+
+
+/* Phase 11.9 – Governance Release Polish */
+.unified-nav {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.unified-nav-link:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 2px;
+}
+.governance-release-note {
+  font-size: 0.92rem;
+  color: #475569;
+}

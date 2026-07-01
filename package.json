@@ -136,7 +136,11 @@
     "phase11:7b:verify": "node scripts/phase11-7b-verify-tool-consent-navigation-docs.cjs",
     "phase11:8:patch": "node scripts/phase11-8-patch-agent-registry-analytics-audit-trail.cjs",
     "phase11:8:verify": "node scripts/phase11-8-verify-agent-registry-analytics-audit-trail.cjs",
-    "governance:audit:verify": "node scripts/phase11-8-verify-agent-registry-analytics-audit-trail.cjs"
+    "governance:audit:verify": "node scripts/phase11-8-verify-agent-registry-analytics-audit-trail.cjs",
+    "phase11:9:patch": "node scripts/phase11-9-patch-governance-release-polish.cjs",
+    "phase11:9:verify": "node scripts/phase11-9-verify-governance-release-polish.cjs",
+    "phase11:9:smoke": "node scripts/phase11-9-governance-release-smoke.cjs",
+    "governance:release:check": "npm run phase11:9:verify && npm run phase11:9:smoke"
   },
   "repository": {
     "type": "git",
