@@ -143,7 +143,10 @@
     "governance:release:check": "npm run phase11:9:verify && npm run phase11:9:smoke",
     "phase11:10:patch": "node scripts/phase11-10-patch-final-governance-handoff.cjs",
     "phase11:10:verify": "node scripts/phase11-10-verify-final-governance-handoff.cjs",
-    "governance:final:check": "npm run phase11:7:verify && npm run phase11:8:verify && npm run phase11:9:verify && npm run phase11:9:smoke && npm run phase11:10:verify"
+    "governance:final:check": "npm run phase11:7:verify && npm run phase11:8:verify && npm run phase11:9:verify && npm run phase11:9:smoke && npm run phase11:10:verify",
+    "phase12:0:patch": "node scripts/phase12-0-patch-controlled-agent-runtime-foundation.cjs",
+    "phase12:0:verify": "node scripts/phase12-0-verify-controlled-agent-runtime-foundation.cjs",
+    "agents:runtime:verify": "node scripts/phase12-0-verify-controlled-agent-runtime-foundation.cjs"
   },
   "repository": {
     "type": "git",
