@@ -152,7 +152,10 @@
     "agents:runtime:consent:verify": "node scripts/phase12-1-verify-runtime-consent-binding.cjs",
     "phase12:2:patch": "node scripts/phase12-2-patch-approved-runtime-resume-envelope.cjs",
     "phase12:2:verify": "node scripts/phase12-2-verify-approved-runtime-resume-envelope.cjs",
-    "agents:runtime:resume:verify": "node scripts/phase12-2-verify-approved-runtime-resume-envelope.cjs"
+    "agents:runtime:resume:verify": "node scripts/phase12-2-verify-approved-runtime-resume-envelope.cjs",
+    "phase12:3:patch": "node scripts/phase12-3-patch-runtime-audit-policy-simulation.cjs",
+    "phase12:3:verify": "node scripts/phase12-3-verify-runtime-audit-policy-simulation.cjs",
+    "agents:runtime:policy:verify": "node scripts/phase12-3-verify-runtime-audit-policy-simulation.cjs"
   },
   "repository": {
     "type": "git",
