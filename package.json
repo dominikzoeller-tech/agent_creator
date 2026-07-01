@@ -155,7 +155,11 @@
     "agents:runtime:resume:verify": "node scripts/phase12-2-verify-approved-runtime-resume-envelope.cjs",
     "phase12:3:patch": "node scripts/phase12-3-patch-runtime-audit-policy-simulation.cjs",
     "phase12:3:verify": "node scripts/phase12-3-verify-runtime-audit-policy-simulation.cjs",
-    "agents:runtime:policy:verify": "node scripts/phase12-3-verify-runtime-audit-policy-simulation.cjs"
+    "agents:runtime:policy:verify": "node scripts/phase12-3-verify-runtime-audit-policy-simulation.cjs",
+    "phase12:4:patch": "node scripts/phase12-4-patch-runtime-dashboard-smoke.cjs",
+    "phase12:4:verify": "node scripts/phase12-4-verify-runtime-dashboard-smoke.cjs",
+    "phase12:4:smoke": "node scripts/phase12-4-runtime-dashboard-smoke.cjs",
+    "runtime:release:check": "npm run phase12:0:verify && npm run phase12:1:verify && npm run phase12:2:verify && npm run phase12:3:verify && npm run phase12:4:verify && npm run phase12:4:smoke"
   },
   "repository": {
     "type": "git",
