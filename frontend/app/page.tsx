@@ -147,6 +147,7 @@ export default function Page() {
         <a className="nav-link" href="/tool-consent">Tool Consent</a>
         <a className="nav-link" href="/capability-requests">Capability Requests</a>
         <a className="nav-link" href="/agent-blueprints">Agent Blueprints</a>
+        <a className="nav-link" href="/agent-registry">Agent Registry</a>
         <a className="nav-link" href="/web-research">Web Research</a>
         <a className="nav-link" href="/web-research-save">Research speichern</a>
         <a className="nav-link" href="/web-research-governance">Research Governance</a>

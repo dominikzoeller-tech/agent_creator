@@ -35,6 +35,7 @@ COPY tool-enforcement-prep.ts ./
 COPY tool-consent-agent-flow.ts ./
 COPY tool-capability-request-agent-flow.ts ./
 COPY agent-blueprint-proposal-agent-flow.ts ./
+COPY controlled-agent-registry.ts ./
 COPY memory ./memory
 COPY knowledge-quality.ts ./
 COPY knowledge ./knowledge

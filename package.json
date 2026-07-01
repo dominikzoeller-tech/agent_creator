@@ -125,7 +125,10 @@
     "tools:capabilities:verify": "node scripts/phase11-4-verify-missing-tool-capability-request-flow.cjs",
     "phase11:5:patch": "node scripts/phase11-5-patch-agent-blueprint-proposal.cjs",
     "phase11:5:verify": "node scripts/phase11-5-verify-agent-blueprint-proposal.cjs",
-    "agents:blueprints:verify": "node scripts/phase11-5-verify-agent-blueprint-proposal.cjs"
+    "agents:blueprints:verify": "node scripts/phase11-5-verify-agent-blueprint-proposal.cjs",
+    "phase11:6:patch": "node scripts/phase11-6-patch-controlled-agent-registry-activation.cjs",
+    "phase11:6:verify": "node scripts/phase11-6-verify-controlled-agent-registry-activation.cjs",
+    "agents:registry:verify": "node scripts/phase11-6-verify-controlled-agent-registry-activation.cjs"
   },
   "repository": {
     "type": "git",
