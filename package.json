@@ -146,7 +146,10 @@
     "governance:final:check": "npm run phase11:7:verify && npm run phase11:8:verify && npm run phase11:9:verify && npm run phase11:9:smoke && npm run phase11:10:verify",
     "phase12:0:patch": "node scripts/phase12-0-patch-controlled-agent-runtime-foundation.cjs",
     "phase12:0:verify": "node scripts/phase12-0-verify-controlled-agent-runtime-foundation.cjs",
-    "agents:runtime:verify": "node scripts/phase12-0-verify-controlled-agent-runtime-foundation.cjs"
+    "agents:runtime:verify": "node scripts/phase12-0-verify-controlled-agent-runtime-foundation.cjs",
+    "phase12:1:patch": "node scripts/phase12-1-patch-runtime-consent-binding.cjs",
+    "phase12:1:verify": "node scripts/phase12-1-verify-runtime-consent-binding.cjs",
+    "agents:runtime:consent:verify": "node scripts/phase12-1-verify-runtime-consent-binding.cjs"
   },
   "repository": {
     "type": "git",

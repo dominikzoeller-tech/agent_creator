@@ -15,6 +15,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/agent-registry", label: "Agent Registry", key: "agent-registry" },
   { href: "/governance-audit", label: "Audit Trail", key: "governance-audit" },
   { href: "/agent-runtime", label: "Agent Runtime", key: "agent-runtime" },
+  { href: "/agent-runtime-consent", label: "Runtime Consent", key: "agent-runtime-consent" },
   { href: "/analytics", label: "Analytics", key: "analytics" },
   { href: "/logs", label: "Logs", key: "logs" },
   { href: "/system", label: "System", key: "system" },
