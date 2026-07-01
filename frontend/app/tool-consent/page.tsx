@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { UnifiedNavigation } from "../../components/UnifiedNavigation";
 
 type ConsentStatus = "pending" | "approved" | "denied" | "expired";
 type ConsentRequest = {
@@ -79,15 +80,8 @@ export default function ToolConsentPage() {
 
   return (
     <main style={{ maxWidth: 1150, margin: "0 auto", padding: 24, display: "grid", gap: 18 }}>
-      <nav style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-        <a className="nav-link" href="/">Chat</a>
-        <a className="nav-link" href="/tools">Tools</a>
-        <a className="nav-link" href="/tool-permissions">Tool Permissions</a>
-        <a className="nav-link" href="/tool-preflight">Tool Preflight</a>
-        <a className="nav-link" href="/tool-consent">Tool Consent</a>
-        <a className="nav-link" href="/analytics">Analytics</a>
-      </nav>
-
+      <UnifiedNavigation active="tool-consent" />
+      
       <section style={cardStyle}>
         <h1 style={{ marginTop: 0 }}>Tool Consent Requests</h1>
         <p className="helper-text" style={{ marginBottom: 0 }}>Persistente Consent Requests für bestätigungspflichtige Tool-Ausführung. Phase 11.1 speichert Entscheidungen und macht sie bedienbar.</p>

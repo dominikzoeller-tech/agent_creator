@@ -105,3 +105,51 @@ code {
     font-size: 28px;
   }
 }
+
+
+/* Phase 11.7 – Unified Navigation Polish */
+.unified-nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 0 0 22px;
+  padding: 10px 0;
+  align-items: center;
+}
+.unified-nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 7px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0f172a;
+  text-decoration: none;
+  font-weight: 650;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+.unified-nav-link:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+.unified-nav-link.active {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+.phase11-card-grid {
+  display: grid;
+  gap: 18px;
+}
+.phase11-form-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.phase11-form-row input,
+.phase11-form-row textarea {
+  min-width: 220px;
+}

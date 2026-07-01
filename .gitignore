@@ -34,4 +34,5 @@ frontend/.next/
 
 # Generated helper zip files
 *.zip
-
+# Runtime stores for consent/capability/agent registry data
+data/

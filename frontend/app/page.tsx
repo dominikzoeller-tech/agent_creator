@@ -17,6 +17,7 @@ import { ToolConsentPanel } from "../components/ToolConsentPanel";
 import { AgentFlowConsentRequestPanel } from "../components/AgentFlowConsentRequestPanel";
 import { MissingCapabilityRequestPanel } from "../components/MissingCapabilityRequestPanel";
 import { AgentBlueprintProposalPanel } from "../components/AgentBlueprintProposalPanel";
+import { UnifiedNavigation } from "../components/UnifiedNavigation";
 
 const labelStyle: React.CSSProperties = {
   display: "block",
@@ -131,28 +132,7 @@ export default function Page() {
 
   return (
     <main className="page-wrap">
-      <nav style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 18 }}>
-        <a className="nav-link" href="/">Chat</a>
-        <a className="nav-link" href="/knowledge">Knowledge</a>
-        <a className="nav-link" href="/knowledge-quality">Knowledge Quality</a>
-        <a className="nav-link" href="/memory">Memory</a>
-        <a className="nav-link" href="/memory-quality">Memory Quality</a>
-        <a className="nav-link" href="/memory-sessions">Session Summary</a>
-        <a className="nav-link" href="/analytics">Analytics</a>
-        <a className="nav-link" href="/logs">Logs</a>
-        <a className="nav-link" href="/system">System</a>
-        <a className="nav-link" href="/tools">Tools</a>
-        <a className="nav-link" href="/tool-permissions">Tool Permissions</a>
-        <a className="nav-link" href="/tool-preflight">Tool Preflight</a>
-        <a className="nav-link" href="/tool-consent">Tool Consent</a>
-        <a className="nav-link" href="/capability-requests">Capability Requests</a>
-        <a className="nav-link" href="/agent-blueprints">Agent Blueprints</a>
-        <a className="nav-link" href="/agent-registry">Agent Registry</a>
-        <a className="nav-link" href="/web-research">Web Research</a>
-        <a className="nav-link" href="/web-research-save">Research speichern</a>
-        <a className="nav-link" href="/web-research-governance">Research Governance</a>
-        <a className="nav-link" href="/web-research-settings">Research Settings</a>
-      </nav>
+      <UnifiedNavigation active="chat" />
       <div className="page-shell">
         <section className="hero-card" style={{ background: "linear-gradient(135deg, #fef3c7 0%, #f8fafc 100%)", borderColor: '#fde68a' }}>
           <h1 className="section-title">Phase 6.7 – Routing-Metadaten im Debug</h1>

@@ -11,6 +11,7 @@ import { MemoryAnalyticsPanel } from "../../components/MemoryAnalyticsPanel";
 import { WebResearchAnalyticsPanel } from "../../components/WebResearchAnalyticsPanel";
 import { ToolPreflightAnalyticsPanel } from "../../components/ToolPreflightAnalyticsPanel";
 import { ToolEnforcementAnalyticsPanel } from "../../components/ToolEnforcementAnalyticsPanel";
+import { UnifiedNavigation } from "../../components/UnifiedNavigation";
 
 export default function AnalyticsPage() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
@@ -66,22 +67,7 @@ export default function AnalyticsPage() {
 
   return (
     <main className="page-wrap">
-      <nav style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 18 }}>
-        <a className="nav-link" href="/">Chat</a>
-        <a className="nav-link" href="/knowledge">Knowledge</a>
-        <a className="nav-link" href="/knowledge-quality">Knowledge Quality</a>
-        <a className="nav-link" href="/memory">Memory</a>
-        <a className="nav-link" href="/memory-quality">Memory Quality</a>
-        <a className="nav-link" href="/memory-sessions">Session Summary</a>
-        <a className="nav-link" href="/analytics">Analytics</a>
-        <a className="nav-link" href="/logs">Logs</a>
-        <a className="nav-link" href="/system">System</a>
-        <a className="nav-link" href="/tools">Tools</a>
-        <a className="nav-link" href="/web-research">Web Research</a>
-              <a className="nav-link" href="/web-research-save">Research speichern</a>
-        <a className="nav-link" href="/web-research-governance">Research Governance</a>
-        <a className="nav-link" href="/web-research-settings">Research Settings</a>
-      </nav>
+      <UnifiedNavigation active="analytics" />
       <div className="page-shell">
         <section className="hero-card" style={{ background: 'linear-gradient(135deg, #dcfce7 0%, #f8fafc 100%)', borderColor: '#bbf7d0' }}>
           <h1 className="section-title">Phase 4.8 – Analytics & Exporte</h1>
