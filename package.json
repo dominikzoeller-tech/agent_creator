@@ -119,7 +119,10 @@
     "phase11:2b:verify": "node scripts/phase11-2b-verify-tsconfig-typescript6-deprecation.cjs",
     "phase11:3:patch": "node scripts/phase11-3-patch-consent-resume-approved-execution.cjs",
     "phase11:3:verify": "node scripts/phase11-3-verify-consent-resume-approved-execution.cjs",
-    "tools:consent:resume:verify": "node scripts/phase11-3-verify-consent-resume-approved-execution.cjs"
+    "tools:consent:resume:verify": "node scripts/phase11-3-verify-consent-resume-approved-execution.cjs",
+    "phase11:4:patch": "node scripts/phase11-4-patch-missing-tool-capability-request-flow.cjs",
+    "phase11:4:verify": "node scripts/phase11-4-verify-missing-tool-capability-request-flow.cjs",
+    "tools:capabilities:verify": "node scripts/phase11-4-verify-missing-tool-capability-request-flow.cjs"
   },
   "repository": {
     "type": "git",

@@ -33,6 +33,7 @@ COPY web-research-summary.ts ./
 COPY tool-preflight-debug.ts ./
 COPY tool-enforcement-prep.ts ./
 COPY tool-consent-agent-flow.ts ./
+COPY tool-capability-request-agent-flow.ts ./
 COPY memory ./memory
 COPY knowledge-quality.ts ./
 COPY knowledge ./knowledge

@@ -10,6 +10,7 @@ import { summarizeWebResearchResults } from "./web-research-summary";
 import { buildAgentDebugToolPreflight } from "./tool-preflight-debug";
 import { buildToolEnforcementPrep } from "./tool-enforcement-prep";
 import { createAgentFlowToolConsentRequest, getAgentFlowToolConsentRequest } from "./tool-consent-agent-flow";
+import { createAgentFlowCapabilityRequest, inferMissingCapabilityRequest } from "./tool-capability-request-agent-flow";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -291,6 +292,66 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
     return;
   }
 
+
+  // PHASE 11.4: Missing Tool / Capability Request Flow
+  const missingCapability = inferMissingCapabilityRequest(effectiveUserInput, toolPreflight.candidateToolIds ?? []);
+  if (missingCapability.shouldCreate) {
+    const capabilityRequest = createAgentFlowCapabilityRequest({
+      requestedCapability: missingCapability.requestedCapability,
+      reason: missingCapability.reason,
+      userInputPreview: body.userInput,
+      riskLevel: missingCapability.riskLevel,
+      metadata: { source: "agent-flow", toolPreflight, toolEnforcement },
+    });
+    const capabilityUrl = "/capability-requests?requestId=" + encodeURIComponent(capabilityRequest.id);
+    const payload = {
+      ok: true,
+      mode: "cloud",
+      sensitivity: body.sensitivity ?? "internal",
+      processingMode: body.processingMode ?? "auto",
+      processingPath,
+      redacted: processingPath === "cloud_redacted",
+      result: {
+        answer: "Für diese Anfrage fehlt eine passende Tool- oder Agent-Fähigkeit. Es wurde ein kontrollierter Capability Request erstellt; es wird nichts automatisch gebaut oder ausgeführt.",
+        capabilityRequestCreated: true,
+        capabilityRequestId: capabilityRequest.id,
+        capabilityUrl,
+        requestedCapability: capabilityRequest.requestedCapability,
+        status: capabilityRequest.status,
+        riskLevel: capabilityRequest.riskLevel,
+        toolPreflight,
+        toolEnforcement,
+        capabilityRequest: {
+          id: capabilityRequest.id,
+          url: capabilityUrl,
+          requestedCapability: capabilityRequest.requestedCapability,
+          status: capabilityRequest.status,
+          riskLevel: capabilityRequest.riskLevel,
+          source: "agent-flow",
+        },
+      },
+    };
+    await appendDecisionLog({
+      timestamp: new Date().toISOString(),
+      route: "direct",
+      userInput: body.userInput,
+      recommendation: null,
+      firstStep: "Capability Request erstellt: " + capabilityUrl,
+      confidence: null,
+      context: body.context ?? [],
+      extractedOptions: [],
+      suggestedAgents: ["privacy_agent"],
+      routingSummary: "Missing Capability Request | Agent Flow | " + capabilityRequest.requestedCapability,
+      routingDetails: undefined,
+      toolPreflight,
+      toolEnforcement,
+      capabilityRequestCreated: true,
+      capabilityRequestId: capabilityRequest.id,
+      capabilityUrl,
+    } as any);
+    sendJson(res, 200, payload);
+    return;
+  }
 
   // PHASE 11.3: Approved Consent Resume Gate
   const phase113ConsentToolId =
