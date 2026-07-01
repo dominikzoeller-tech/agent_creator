@@ -122,7 +122,10 @@
     "tools:consent:resume:verify": "node scripts/phase11-3-verify-consent-resume-approved-execution.cjs",
     "phase11:4:patch": "node scripts/phase11-4-patch-missing-tool-capability-request-flow.cjs",
     "phase11:4:verify": "node scripts/phase11-4-verify-missing-tool-capability-request-flow.cjs",
-    "tools:capabilities:verify": "node scripts/phase11-4-verify-missing-tool-capability-request-flow.cjs"
+    "tools:capabilities:verify": "node scripts/phase11-4-verify-missing-tool-capability-request-flow.cjs",
+    "phase11:5:patch": "node scripts/phase11-5-patch-agent-blueprint-proposal.cjs",
+    "phase11:5:verify": "node scripts/phase11-5-verify-agent-blueprint-proposal.cjs",
+    "agents:blueprints:verify": "node scripts/phase11-5-verify-agent-blueprint-proposal.cjs"
   },
   "repository": {
     "type": "git",

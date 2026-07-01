@@ -16,6 +16,7 @@ import { ToolEnforcementPanel } from "../components/ToolEnforcementPanel";
 import { ToolConsentPanel } from "../components/ToolConsentPanel";
 import { AgentFlowConsentRequestPanel } from "../components/AgentFlowConsentRequestPanel";
 import { MissingCapabilityRequestPanel } from "../components/MissingCapabilityRequestPanel";
+import { AgentBlueprintProposalPanel } from "../components/AgentBlueprintProposalPanel";
 
 const labelStyle: React.CSSProperties = {
   display: "block",
@@ -145,6 +146,7 @@ export default function Page() {
         <a className="nav-link" href="/tool-preflight">Tool Preflight</a>
         <a className="nav-link" href="/tool-consent">Tool Consent</a>
         <a className="nav-link" href="/capability-requests">Capability Requests</a>
+        <a className="nav-link" href="/agent-blueprints">Agent Blueprints</a>
         <a className="nav-link" href="/web-research">Web Research</a>
         <a className="nav-link" href="/web-research-save">Research speichern</a>
         <a className="nav-link" href="/web-research-governance">Research Governance</a>
@@ -255,6 +257,7 @@ export default function Page() {
                 <ToolConsentPanel response={response} />
                 <AgentFlowConsentRequestPanel response={response} />
                 <MissingCapabilityRequestPanel response={response} />
+                <AgentBlueprintProposalPanel response={response} />
 <DebugResponsePanel response={response} visible={showDebug} />
       </div>
     </main>

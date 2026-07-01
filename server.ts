@@ -11,6 +11,7 @@ import { buildAgentDebugToolPreflight } from "./tool-preflight-debug";
 import { buildToolEnforcementPrep } from "./tool-enforcement-prep";
 import { createAgentFlowToolConsentRequest, getAgentFlowToolConsentRequest } from "./tool-consent-agent-flow";
 import { createAgentFlowCapabilityRequest, inferMissingCapabilityRequest } from "./tool-capability-request-agent-flow";
+import { createAgentBlueprintProposal, inferAgentBlueprintProposal } from "./agent-blueprint-proposal-agent-flow";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -292,6 +293,68 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
     return;
   }
 
+
+  // PHASE 11.5: Agent Blueprint Proposal Flow
+  const blueprintIntent = inferAgentBlueprintProposal({ userInput: effectiveUserInput });
+  if (blueprintIntent.shouldCreate) {
+    const proposal = createAgentBlueprintProposal({
+      requestedCapability: blueprintIntent.requestedCapability,
+      userInput: body.userInput,
+      source: "agent-flow",
+      metadata: { source: "agent-flow", blueprintIntent, toolPreflight, toolEnforcement },
+    });
+    const agentBlueprintProposalUrl = "/agent-blueprints?proposalId=" + encodeURIComponent(proposal.id);
+    const payload = {
+      ok: true,
+      mode: "cloud",
+      sensitivity: body.sensitivity ?? "internal",
+      processingMode: body.processingMode ?? "auto",
+      processingPath,
+      redacted: processingPath === "cloud_redacted",
+      result: {
+        answer: "Es wurde ein kontrollierter Agent Blueprint Proposal erstellt. Der Agent wird nicht automatisch aktiviert.",
+        agentBlueprintProposalCreated: true,
+        agentBlueprintProposalId: proposal.id,
+        agentBlueprintProposalUrl,
+        agentName: proposal.agentName,
+        status: proposal.status,
+        riskLevel: proposal.riskLevel,
+        requestedCapability: proposal.requestedCapability,
+        proposedTools: proposal.proposedTools,
+        proposedPermissions: proposal.proposedPermissions,
+        toolPreflight,
+        toolEnforcement,
+        agentBlueprintProposal: {
+          id: proposal.id,
+          url: agentBlueprintProposalUrl,
+          agentName: proposal.agentName,
+          status: proposal.status,
+          riskLevel: proposal.riskLevel,
+          source: "agent-flow",
+        },
+      },
+    };
+    await appendDecisionLog({
+      timestamp: new Date().toISOString(),
+      route: "direct",
+      userInput: body.userInput,
+      recommendation: null,
+      firstStep: "Agent Blueprint Proposal erstellt: " + agentBlueprintProposalUrl,
+      confidence: null,
+      context: body.context ?? [],
+      extractedOptions: [],
+      suggestedAgents: [proposal.agentName],
+      routingSummary: "Agent Blueprint Proposal | Agent Flow | " + proposal.agentName,
+      routingDetails: undefined,
+      toolPreflight,
+      toolEnforcement,
+      agentBlueprintProposalCreated: true,
+      agentBlueprintProposalId: proposal.id,
+      agentBlueprintProposalUrl,
+    } as any);
+    sendJson(res, 200, payload);
+    return;
+  }
 
   // PHASE 11.4: Missing Tool / Capability Request Flow
   const missingCapability = inferMissingCapabilityRequest(effectiveUserInput, toolPreflight.candidateToolIds ?? []);
