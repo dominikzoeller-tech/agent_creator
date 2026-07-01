@@ -108,7 +108,15 @@
     "tools:governance:smoke": "node scripts/phase10-9-tool-governance-smoke.cjs",
     "tools:governance:release:check": "npm run tools:governance:release:verify && npm run tools:governance:smoke",
     "tools:enforcement:hard:verify": "node scripts/phase11-0-verify-hard-tool-enforcement-consent.cjs",
-    "tools:consent:verify": "node scripts/phase11-1-verify-persistent-consent-requests.cjs"
+    "tools:consent:verify": "node scripts/phase11-1-verify-persistent-consent-requests.cjs",
+    "phase11:2:patch": "node scripts/phase11-2-patch-agent-flow-consent-request-integration.cjs",
+    "phase11:2:verify": "node scripts/phase11-2-verify-agent-flow-consent-request-integration.cjs",
+    "tools:consent:flow:verify": "node scripts/phase11-2-verify-agent-flow-consent-request-integration.cjs",
+    "build": "npm --prefix frontend run build && npx tsc --noEmit --project tsconfig.json",
+    "phase11:2a:hotfix": "node scripts/phase11-2a-hotfix-compose-consent-data-dir.cjs",
+    "phase11:2a:verify": "node scripts/phase11-2a-verify-compose-consent-data-dir.cjs",
+    "phase11:2b:hotfix": "node scripts/phase11-2b-hotfix-tsconfig-typescript6-deprecation.cjs",
+    "phase11:2b:verify": "node scripts/phase11-2b-verify-tsconfig-typescript6-deprecation.cjs"
   },
   "repository": {
     "type": "git",

@@ -9,6 +9,7 @@ import { mergeWebResearchContext, runWebResearch, sanitizeWebResearchQuery, shou
 import { summarizeWebResearchResults } from "./web-research-summary";
 import { buildAgentDebugToolPreflight } from "./tool-preflight-debug";
 import { buildToolEnforcementPrep } from "./tool-enforcement-prep";
+import { createAgentFlowToolConsentRequest } from "./tool-consent-agent-flow";
 import {
   type DataSensitivity,
   type ProcessingMode,
@@ -285,6 +286,76 @@ async function handleAsk(req: IncomingMessage, res: ServerResponse) {
     };
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(payload));
+    return;
+  }
+
+
+  // PHASE 11.2: Agent Flow Consent Request Gate
+  if (toolEnforcement.consentRequired) {
+    const consentToolId =
+      toolEnforcement.confirmationRequiredToolIds?.[0] ??
+      toolPreflight.candidateToolIds?.[0] ??
+      "unknown-tool";
+    const consentRequest = createAgentFlowToolConsentRequest({
+      toolId: consentToolId,
+      reason: "Agent Flow benötigt explizite Tool-Freigabe, bevor das Tool ausgeführt werden darf.",
+      userInputPreview: body.userInput,
+      sensitivity: body.sensitivity,
+      processingMode: body.processingMode,
+      metadata: {
+        source: "agent-flow",
+        toolEnforcement,
+        candidateToolIds: toolPreflight.candidateToolIds,
+      },
+    });
+    const consentUrl = "/tool-consent?requestId=" + encodeURIComponent(consentRequest.id);
+    const payload = {
+      ok: true,
+      mode: "cloud",
+      sensitivity: body.sensitivity ?? "internal",
+      processingMode: body.processingMode ?? "auto",
+      processingPath,
+      redacted: processingPath === "cloud_redacted",
+      result: {
+        answer: "Für diese Tool-Ausführung ist eine explizite Freigabe erforderlich. Die Ausführung wurde bis zur Entscheidung blockiert.",
+        consentRequired: true,
+        consentRequestCreated: true,
+        consentRequestId: consentRequest.id,
+        consentUrl,
+        toolId: consentRequest.toolId,
+        status: consentRequest.status,
+        toolPreflight,
+        toolEnforcement,
+        toolConsent: {
+          required: true,
+          source: "agent-flow",
+          requestId: consentRequest.id,
+          url: consentUrl,
+          status: consentRequest.status,
+          toolId: consentRequest.toolId,
+        },
+      },
+    };
+    await appendDecisionLog({
+      timestamp: new Date().toISOString(),
+      route: "direct",
+      userInput: body.userInput,
+      recommendation: null,
+      firstStep: "Consent Request erstellt: " + consentUrl,
+      confidence: null,
+      context: body.context ?? [],
+      extractedOptions: [],
+      suggestedAgents: ["privacy_agent"],
+      routingSummary: "Tool Consent Required | Agent Flow | " + consentRequest.toolId,
+      routingDetails: undefined,
+      toolPreflight,
+      toolEnforcement,
+      consentRequestCreated: true,
+      consentRequestId: consentRequest.id,
+      consentUrl,
+      toolConsent: payload.result.toolConsent,
+    } as any);
+    sendJson(res, 200, payload);
     return;
   }
 

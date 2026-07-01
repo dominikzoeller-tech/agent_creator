@@ -8,10 +8,12 @@
       - .env
     environment:
       PORT: 7071
+      TOOL_CONSENT_DATA_DIR: /data
     volumes:
       - ./logs:/app/logs
       - ./memory:/app/memory
       - ./knowledge:/app/knowledge:ro
+      - ./data:/data
     ports:
       - "7071:7071"
     healthcheck:
@@ -31,6 +33,7 @@
     container_name: privacy-first-frontend
     environment:
       NEXT_PUBLIC_AGENT_API_BASE_URL: http://localhost:7071
+      TOOL_CONSENT_DATA_DIR: /data
       WEB_RESEARCH_ENABLED: ${WEB_RESEARCH_ENABLED:-false}
       BING_SEARCH_API_KEY: ${BING_SEARCH_API_KEY:-}
       BING_SEARCH_ENDPOINT: ${BING_SEARCH_ENDPOINT:-https://api.bing.microsoft.com/v7.0/search}
@@ -38,6 +41,7 @@
       - ./logs:/logs:ro
       - ./knowledge:/knowledge
       - ./memory:/memory
+      - ./data:/data
     ports:
       - "3000:3000"
     depends_on:
