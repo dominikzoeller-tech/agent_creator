@@ -286,7 +286,11 @@
     "llm:approved-envelope:verify": "node scripts/phase21-0-verify-approved-real-llm-invocation-envelope.cjs",
     "phase21:1:patch": "node scripts/phase21-1-patch-invocation-envelope-policy-audit.cjs",
     "phase21:1:verify": "node scripts/phase21-1-verify-invocation-envelope-policy-audit.cjs",
-    "llm:approved-envelope:policy:verify": "node scripts/phase21-1-verify-invocation-envelope-policy-audit.cjs"
+    "llm:approved-envelope:policy:verify": "node scripts/phase21-1-verify-invocation-envelope-policy-audit.cjs",
+    "phase21:2:patch": "node scripts/phase21-2-patch-invocation-envelope-dashboard-smoke.cjs",
+    "phase21:2:verify": "node scripts/phase21-2-verify-invocation-envelope-dashboard-smoke.cjs",
+    "phase21:2:smoke": "node scripts/phase21-2-invocation-envelope-dashboard-smoke.cjs",
+    "llm:approved-envelope:release:check": "npm run phase21:0:verify && npm run phase21:1:verify && npm run phase21:2:verify && npm run phase21:2:smoke"
   },
   "repository": {
     "type": "git",

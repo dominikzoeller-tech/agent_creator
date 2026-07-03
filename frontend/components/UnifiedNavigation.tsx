@@ -30,6 +30,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/governance-audit", label: "Audit", key: "governance-audit" },
   { href: "/approved-real-llm-invocation-envelope", label: "Invocation Envelope", key: "approved-real-llm-invocation-envelope" },
   { href: "/approved-real-llm-invocation-envelope-policy", label: "Envelope Policy", key: "approved-real-llm-invocation-envelope-policy" },
+  { href: "/approved-real-llm-invocation-envelope-dashboard", label: "Envelope Dashboard", key: "approved-real-llm-invocation-envelope-dashboard" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [
