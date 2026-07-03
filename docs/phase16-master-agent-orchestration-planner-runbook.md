@@ -21,3 +21,6 @@ Docker nur für Browser-Test:
 npm run stack:up:detached
 npm run stack:health
 ```
+
+Browser-Test: http://localhost:3000/master-planner
+
