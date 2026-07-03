@@ -270,7 +270,10 @@
     "llm:real-gate:final:check": "npm run phase19:0:verify && npm run phase19:1:verify && npm run phase19:2:verify && npm run phase19:3:verify",
     "phase20:0:patch": "node scripts/phase20-0-patch-real-llm-invocation-consent-gate.cjs",
     "phase20:0:verify": "node scripts/phase20-0-verify-real-llm-invocation-consent-gate.cjs",
-    "llm:real-consent:verify": "node scripts/phase20-0-verify-real-llm-invocation-consent-gate.cjs"
+    "llm:real-consent:verify": "node scripts/phase20-0-verify-real-llm-invocation-consent-gate.cjs",
+    "phase20:1:patch": "node scripts/phase20-1-patch-real-llm-consent-decision-simulation-audit.cjs",
+    "phase20:1:verify": "node scripts/phase20-1-verify-real-llm-consent-decision-simulation-audit.cjs",
+    "llm:real-consent:decision:verify": "node scripts/phase20-1-verify-real-llm-consent-decision-simulation-audit.cjs"
   },
   "repository": {
     "type": "git",
