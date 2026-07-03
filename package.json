@@ -178,7 +178,10 @@
     "phase13:4:patch": "node scripts/phase13-4-patch-tool-adapter-dashboard-smoke.cjs",
     "phase13:4:verify": "node scripts/phase13-4-verify-tool-adapter-dashboard-smoke.cjs",
     "phase13:4:smoke": "node scripts/phase13-4-tool-adapter-smoke.cjs",
-    "tool-adapter:release:check": "npm run phase13:0:verify && npm run phase13:1:verify && npm run phase13:2:verify && npm run phase13:3:verify && npm run phase13:4:verify && npm run phase13:4:smoke"
+    "tool-adapter:release:check": "npm run phase13:0:verify && npm run phase13:1:verify && npm run phase13:2:verify && npm run phase13:3:verify && npm run phase13:4:verify && npm run phase13:4:smoke",
+    "phase13:5:patch": "node scripts/phase13-5-patch-final-tool-adapter-handoff.cjs",
+    "phase13:5:verify": "node scripts/phase13-5-verify-final-tool-adapter-handoff.cjs",
+    "tool-adapter:final:check": "npm run phase13:0:verify && npm run phase13:1:verify && npm run phase13:2:verify && npm run phase13:3:verify && npm run phase13:4:verify && npm run phase13:4:smoke && npm run phase13:5:verify"
   },
   "repository": {
     "type": "git",
