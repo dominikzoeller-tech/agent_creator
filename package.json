@@ -185,7 +185,11 @@
     "phase14:0:patch": "node scripts/phase14-0-patch-master-agent-cockpit.cjs",
     "phase14:0:verify": "node scripts/phase14-0-verify-master-agent-cockpit.cjs",
     "cockpit:verify": "node scripts/phase14-0-verify-master-agent-cockpit.cjs",
-    "phase14:0:smoke": "node scripts/phase14-0-master-cockpit-smoke.cjs"
+    "phase14:0:smoke": "node scripts/phase14-0-master-cockpit-smoke.cjs",
+    "phase14:1:patch": "node scripts/phase14-1-patch-navigation-cleanup-admin-mode.cjs",
+    "phase14:1:verify": "node scripts/phase14-1-verify-navigation-cleanup-admin-mode.cjs",
+    "phase14:1:smoke": "node scripts/phase14-1-navigation-cleanup-smoke.cjs",
+    "navigation:cleanup:verify": "node scripts/phase14-1-verify-navigation-cleanup-admin-mode.cjs"
   },
   "repository": {
     "type": "git",
