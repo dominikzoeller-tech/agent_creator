@@ -254,7 +254,10 @@
     "llm:stub:verify": "node scripts/phase18-0a-verify-llm-stub-response-hotfix.cjs",
     "phase18:3:patch": "node scripts/phase18-3-patch-final-llm-stub-handoff.cjs",
     "phase18:3:verify": "node scripts/phase18-3-verify-final-llm-stub-handoff.cjs",
-    "llm:stub:final:check": "npm run phase18:0:verify && npm run phase18:1:verify && npm run phase18:2:verify && npm run phase18:3:verify"
+    "llm:stub:final:check": "npm run phase18:0:verify && npm run phase18:1:verify && npm run phase18:2:verify && npm run phase18:3:verify",
+    "phase19:1:patch": "node scripts/phase19-1-patch-real-llm-gate-policy-audit.cjs",
+    "phase19:1:verify": "node scripts/phase19-1-verify-real-llm-gate-policy-audit.cjs",
+    "llm:real-gate:policy:verify": "node scripts/phase19-1-verify-real-llm-gate-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
