@@ -290,7 +290,10 @@
     "phase21:2:patch": "node scripts/phase21-2-patch-invocation-envelope-dashboard-smoke.cjs",
     "phase21:2:verify": "node scripts/phase21-2-verify-invocation-envelope-dashboard-smoke.cjs",
     "phase21:2:smoke": "node scripts/phase21-2-invocation-envelope-dashboard-smoke.cjs",
-    "llm:approved-envelope:release:check": "npm run phase21:0:verify && npm run phase21:1:verify && npm run phase21:2:verify && npm run phase21:2:smoke"
+    "llm:approved-envelope:release:check": "npm run phase21:0:verify && npm run phase21:1:verify && npm run phase21:2:verify && npm run phase21:2:smoke",
+    "phase21:3:patch": "node scripts/phase21-3-patch-final-invocation-envelope-handoff.cjs",
+    "phase21:3:verify": "node scripts/phase21-3-verify-final-invocation-envelope-handoff.cjs",
+    "llm:approved-envelope:final:check": "npm run phase21:0:verify && npm run phase21:1:verify && npm run phase21:2:verify && npm run phase21:3:verify"
   },
   "repository": {
     "type": "git",
