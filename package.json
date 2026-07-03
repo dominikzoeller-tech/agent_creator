@@ -212,7 +212,10 @@
     "phase15:2:patch": "node scripts/phase15-2-patch-orchestrator-dashboard-smoke.cjs",
     "phase15:2:verify": "node scripts/phase15-2-verify-orchestrator-dashboard-smoke.cjs",
     "phase15:2:smoke": "node scripts/phase15-2-orchestrator-dashboard-smoke.cjs",
-    "orchestrator:release:check": "npm run phase15:0:verify && npm run phase15:1:verify && npm run phase15:2:verify && npm run phase15:2:smoke"
+    "orchestrator:release:check": "npm run phase15:0:verify && npm run phase15:1:verify && npm run phase15:2:verify && npm run phase15:2:smoke",
+    "phase15:3:patch": "node scripts/phase15-3-patch-final-orchestrator-handoff.cjs",
+    "phase15:3:verify": "node scripts/phase15-3-verify-final-orchestrator-handoff.cjs",
+    "orchestrator:final:check": "npm run phase15:0:verify && npm run phase15:1:verify && npm run phase15:2:verify && npm run phase15:3:verify"
   },
   "repository": {
     "type": "git",
