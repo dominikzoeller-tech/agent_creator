@@ -238,7 +238,10 @@
     "phase17:2:patch": "node scripts/phase17-2-patch-llm-routing-dashboard-smoke.cjs",
     "phase17:2:verify": "node scripts/phase17-2-verify-llm-routing-dashboard-smoke.cjs",
     "phase17:2:smoke": "node scripts/phase17-2-llm-routing-dashboard-smoke.cjs",
-    "llm:routing:release:check": "npm run phase17:0:verify && npm run phase17:1:verify && npm run phase17:2:verify && npm run phase17:2:smoke"
+    "llm:routing:release:check": "npm run phase17:0:verify && npm run phase17:1:verify && npm run phase17:2:verify && npm run phase17:2:smoke",
+    "phase17:3:patch": "node scripts/phase17-3-patch-final-llm-routing-handoff.cjs",
+    "phase17:3:verify": "node scripts/phase17-3-verify-final-llm-routing-handoff.cjs",
+    "llm:routing:final:check": "npm run phase17:0:verify && npm run phase17:1:verify && npm run phase17:2:verify && npm run phase17:3:verify"
   },
   "repository": {
     "type": "git",
