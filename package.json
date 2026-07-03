@@ -244,7 +244,14 @@
     "llm:routing:final:check": "npm run phase17:0:verify && npm run phase17:1:verify && npm run phase17:2:verify && npm run phase17:3:verify",
     "phase18:1:patch": "node scripts/phase18-1-patch-llm-stub-response-policy-audit.cjs",
     "phase18:1:verify": "node scripts/phase18-1-verify-llm-stub-response-policy-audit.cjs",
-    "llm:stub:policy:verify": "node scripts/phase18-1-verify-llm-stub-response-policy-audit.cjs"
+    "llm:stub:policy:verify": "node scripts/phase18-1-verify-llm-stub-response-policy-audit.cjs",
+    "phase18:2:patch": "node scripts/phase18-2-patch-llm-stub-dashboard-smoke.cjs",
+    "phase18:2:verify": "node scripts/phase18-2-verify-llm-stub-dashboard-smoke.cjs",
+    "phase18:2:smoke": "node scripts/phase18-2-llm-stub-dashboard-smoke.cjs",
+    "llm:stub:release:check": "npm run phase18:0:verify && npm run phase18:1:verify && npm run phase18:2:verify && npm run phase18:2:smoke",
+    "phase18:0:verify": "node scripts/phase18-0a-verify-llm-stub-response-hotfix.cjs",
+    "phase18:0:patch": "node scripts/phase18-0a-hotfix-llm-stub-response-direct.cjs",
+    "llm:stub:verify": "node scripts/phase18-0a-verify-llm-stub-response-hotfix.cjs"
   },
   "repository": {
     "type": "git",
