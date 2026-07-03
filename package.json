@@ -261,7 +261,10 @@
     "phase19:2:patch": "node scripts/phase19-2-patch-real-llm-gate-dashboard-smoke.cjs",
     "phase19:2:verify": "node scripts/phase19-2-verify-real-llm-gate-dashboard-smoke.cjs",
     "phase19:2:smoke": "node scripts/phase19-2-real-llm-gate-dashboard-smoke.cjs",
-    "llm:real-gate:release:check": "npm run phase19:0:verify && npm run phase19:1:verify && npm run phase19:2:verify && npm run phase19:2:smoke"
+    "llm:real-gate:release:check": "npm run phase19:0:verify && npm run phase19:1:verify && npm run phase19:2:verify && npm run phase19:2:smoke",
+    "phase19:0:patch": "node scripts/phase19-0-patch-controlled-real-llm-call-gate.cjs",
+    "phase19:0:verify": "node scripts/phase19-0-verify-controlled-real-llm-call-gate.cjs",
+    "llm:real-gate:verify": "node scripts/phase19-0-verify-controlled-real-llm-call-gate.cjs"
   },
   "repository": {
     "type": "git",
