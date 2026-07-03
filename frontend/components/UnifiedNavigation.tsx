@@ -24,6 +24,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/master-planner-dashboard", label: "Planner Dashboard", key: "master-planner-dashboard" },
   { href: "/llm-routing-envelope", label: "LLM Routing", key: "llm-routing-envelope" },
   { href: "/llm-routing-policy", label: "LLM Policy", key: "llm-routing-policy" },
+  { href: "/llm-routing-dashboard", label: "LLM Dashboard", key: "llm-routing-dashboard" },
   { href: "/", label: "Chat", key: "chat" },
   { href: "/tool-consent", label: "Approvals", key: "tool-consent" },
   { href: "/governance-audit", label: "Audit", key: "governance-audit" },

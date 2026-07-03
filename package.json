@@ -234,7 +234,11 @@
     "llm:routing:verify": "node scripts/phase17-0-verify-controlled-llm-routing-envelope.cjs",
     "phase17:1:patch": "node scripts/phase17-1-patch-llm-routing-policy-simulation-audit.cjs",
     "phase17:1:verify": "node scripts/phase17-1-verify-llm-routing-policy-simulation-audit.cjs",
-    "llm:routing:policy:verify": "node scripts/phase17-1-verify-llm-routing-policy-simulation-audit.cjs"
+    "llm:routing:policy:verify": "node scripts/phase17-1-verify-llm-routing-policy-simulation-audit.cjs",
+    "phase17:2:patch": "node scripts/phase17-2-patch-llm-routing-dashboard-smoke.cjs",
+    "phase17:2:verify": "node scripts/phase17-2-verify-llm-routing-dashboard-smoke.cjs",
+    "phase17:2:smoke": "node scripts/phase17-2-llm-routing-dashboard-smoke.cjs",
+    "llm:routing:release:check": "npm run phase17:0:verify && npm run phase17:1:verify && npm run phase17:2:verify && npm run phase17:2:smoke"
   },
   "repository": {
     "type": "git",
