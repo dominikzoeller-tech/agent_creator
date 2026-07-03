@@ -12,3 +12,6 @@ npm run stack:up:detached
 npm run stack:health
 npm run phase13:4:smoke
 ```
+
+Nächster Schritt: Phase 13.5 – Final Tool Adapter Handoff / Release Summary.
+
