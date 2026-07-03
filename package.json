@@ -165,7 +165,10 @@
     "runtime:final:check": "npm run phase12:0:verify && npm run phase12:1:verify && npm run phase12:2:verify && npm run phase12:3:verify && npm run phase12:4:verify && npm run phase12:4:smoke && npm run phase12:5:verify",
     "phase13:0:patch": "node scripts/phase13-0-patch-tool-adapter-registry-sandbox.cjs",
     "phase13:0:verify": "node scripts/phase13-0-verify-tool-adapter-registry-sandbox.cjs",
-    "tools:adapter:verify": "node scripts/phase13-0-verify-tool-adapter-registry-sandbox.cjs"
+    "tools:adapter:verify": "node scripts/phase13-0-verify-tool-adapter-registry-sandbox.cjs",
+    "phase13:1:patch": "node scripts/phase13-1-patch-tool-adapter-consent-binding.cjs",
+    "phase13:1:verify": "node scripts/phase13-1-verify-tool-adapter-consent-binding.cjs",
+    "tools:adapter:consent:verify": "node scripts/phase13-1-verify-tool-adapter-consent-binding.cjs"
   },
   "repository": {
     "type": "git",
