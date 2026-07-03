@@ -264,7 +264,10 @@
     "llm:real-gate:release:check": "npm run phase19:0:verify && npm run phase19:1:verify && npm run phase19:2:verify && npm run phase19:2:smoke",
     "phase19:0:patch": "node scripts/phase19-0-patch-controlled-real-llm-call-gate.cjs",
     "phase19:0:verify": "node scripts/phase19-0-verify-controlled-real-llm-call-gate.cjs",
-    "llm:real-gate:verify": "node scripts/phase19-0-verify-controlled-real-llm-call-gate.cjs"
+    "llm:real-gate:verify": "node scripts/phase19-0-verify-controlled-real-llm-call-gate.cjs",
+    "phase19:3:patch": "node scripts/phase19-3-patch-final-real-llm-gate-handoff.cjs",
+    "phase19:3:verify": "node scripts/phase19-3-verify-final-real-llm-gate-handoff.cjs",
+    "llm:real-gate:final:check": "npm run phase19:0:verify && npm run phase19:1:verify && npm run phase19:2:verify && npm run phase19:3:verify"
   },
   "repository": {
     "type": "git",
