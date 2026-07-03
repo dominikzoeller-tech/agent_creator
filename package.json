@@ -225,7 +225,10 @@
     "phase16:2:patch": "node scripts/phase16-2-patch-planner-dashboard-smoke.cjs",
     "phase16:2:verify": "node scripts/phase16-2-verify-planner-dashboard-smoke.cjs",
     "phase16:2:smoke": "node scripts/phase16-2-planner-dashboard-smoke.cjs",
-    "planner:release:check": "npm run phase16:0:verify && npm run phase16:1:verify && npm run phase16:2:verify && npm run phase16:2:smoke"
+    "planner:release:check": "npm run phase16:0:verify && npm run phase16:1:verify && npm run phase16:2:verify && npm run phase16:2:smoke",
+    "phase16:3:patch": "node scripts/phase16-3-patch-final-planner-handoff.cjs",
+    "phase16:3:verify": "node scripts/phase16-3-verify-final-planner-handoff.cjs",
+    "planner:final:check": "npm run phase16:0:verify && npm run phase16:1:verify && npm run phase16:2:verify && npm run phase16:3:verify"
   },
   "repository": {
     "type": "git",
