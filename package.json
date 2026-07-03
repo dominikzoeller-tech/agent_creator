@@ -283,7 +283,10 @@
     "llm:real-consent:final:check": "npm run phase20:0:verify && npm run phase20:1:verify && npm run phase20:2:verify && npm run phase20:3:verify",
     "phase21:0:patch": "node scripts/phase21-0-patch-approved-real-llm-invocation-envelope.cjs",
     "phase21:0:verify": "node scripts/phase21-0-verify-approved-real-llm-invocation-envelope.cjs",
-    "llm:approved-envelope:verify": "node scripts/phase21-0-verify-approved-real-llm-invocation-envelope.cjs"
+    "llm:approved-envelope:verify": "node scripts/phase21-0-verify-approved-real-llm-invocation-envelope.cjs",
+    "phase21:1:patch": "node scripts/phase21-1-patch-invocation-envelope-policy-audit.cjs",
+    "phase21:1:verify": "node scripts/phase21-1-verify-invocation-envelope-policy-audit.cjs",
+    "llm:approved-envelope:policy:verify": "node scripts/phase21-1-verify-invocation-envelope-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
