@@ -280,7 +280,10 @@
     "llm:real-consent:release:check": "npm run phase20:0:verify && npm run phase20:1:verify && npm run phase20:2:verify && npm run phase20:2:smoke",
     "phase20:3:patch": "node scripts/phase20-3-patch-final-real-llm-consent-handoff.cjs",
     "phase20:3:verify": "node scripts/phase20-3-verify-final-real-llm-consent-handoff.cjs",
-    "llm:real-consent:final:check": "npm run phase20:0:verify && npm run phase20:1:verify && npm run phase20:2:verify && npm run phase20:3:verify"
+    "llm:real-consent:final:check": "npm run phase20:0:verify && npm run phase20:1:verify && npm run phase20:2:verify && npm run phase20:3:verify",
+    "phase21:0:patch": "node scripts/phase21-0-patch-approved-real-llm-invocation-envelope.cjs",
+    "phase21:0:verify": "node scripts/phase21-0-verify-approved-real-llm-invocation-envelope.cjs",
+    "llm:approved-envelope:verify": "node scripts/phase21-0-verify-approved-real-llm-invocation-envelope.cjs"
   },
   "repository": {
     "type": "git",
