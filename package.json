@@ -192,7 +192,10 @@
     "navigation:cleanup:verify": "node scripts/phase14-1-verify-navigation-cleanup-admin-mode.cjs",
     "phase14:2:patch": "node scripts/phase14-2-patch-cockpit-next-actions-guided-flow.cjs",
     "phase14:2:verify": "node scripts/phase14-2-verify-cockpit-next-actions-guided-flow.cjs",
-    "cockpit:guided:verify": "node scripts/phase14-2-verify-cockpit-next-actions-guided-flow.cjs"
+    "cockpit:guided:verify": "node scripts/phase14-2-verify-cockpit-next-actions-guided-flow.cjs",
+    "phase14:3:patch": "node scripts/phase14-3-patch-cockpit-actions-orchestration-prep.cjs",
+    "phase14:3:verify": "node scripts/phase14-3-verify-cockpit-actions-orchestration-prep.cjs",
+    "cockpit:actions:verify": "node scripts/phase14-3-verify-cockpit-actions-orchestration-prep.cjs"
   },
   "repository": {
     "type": "git",
