@@ -218,7 +218,10 @@
     "orchestrator:final:check": "npm run phase15:0:verify && npm run phase15:1:verify && npm run phase15:2:verify && npm run phase15:3:verify",
     "phase16:0:patch": "node scripts/phase16-0-patch-orchestration-planner-llm-routing-prep.cjs",
     "phase16:0:verify": "node scripts/phase16-0-verify-orchestration-planner-llm-routing-prep.cjs",
-    "planner:routing:verify": "node scripts/phase16-0-verify-orchestration-planner-llm-routing-prep.cjs"
+    "planner:routing:verify": "node scripts/phase16-0-verify-orchestration-planner-llm-routing-prep.cjs",
+    "phase16:1:patch": "node scripts/phase16-1-patch-planner-policy-simulation-audit.cjs",
+    "phase16:1:verify": "node scripts/phase16-1-verify-planner-policy-simulation-audit.cjs",
+    "planner:policy:verify": "node scripts/phase16-1-verify-planner-policy-simulation-audit.cjs"
   },
   "repository": {
     "type": "git",
