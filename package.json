@@ -277,7 +277,10 @@
     "phase20:2:patch": "node scripts/phase20-2-patch-real-llm-consent-dashboard-smoke.cjs",
     "phase20:2:verify": "node scripts/phase20-2-verify-real-llm-consent-dashboard-smoke.cjs",
     "phase20:2:smoke": "node scripts/phase20-2-real-llm-consent-dashboard-smoke.cjs",
-    "llm:real-consent:release:check": "npm run phase20:0:verify && npm run phase20:1:verify && npm run phase20:2:verify && npm run phase20:2:smoke"
+    "llm:real-consent:release:check": "npm run phase20:0:verify && npm run phase20:1:verify && npm run phase20:2:verify && npm run phase20:2:smoke",
+    "phase20:3:patch": "node scripts/phase20-3-patch-final-real-llm-consent-handoff.cjs",
+    "phase20:3:verify": "node scripts/phase20-3-verify-final-real-llm-consent-handoff.cjs",
+    "llm:real-consent:final:check": "npm run phase20:0:verify && npm run phase20:1:verify && npm run phase20:2:verify && npm run phase20:3:verify"
   },
   "repository": {
     "type": "git",
