@@ -221,7 +221,11 @@
     "planner:routing:verify": "node scripts/phase16-0-verify-orchestration-planner-llm-routing-prep.cjs",
     "phase16:1:patch": "node scripts/phase16-1-patch-planner-policy-simulation-audit.cjs",
     "phase16:1:verify": "node scripts/phase16-1-verify-planner-policy-simulation-audit.cjs",
-    "planner:policy:verify": "node scripts/phase16-1-verify-planner-policy-simulation-audit.cjs"
+    "planner:policy:verify": "node scripts/phase16-1-verify-planner-policy-simulation-audit.cjs",
+    "phase16:2:patch": "node scripts/phase16-2-patch-planner-dashboard-smoke.cjs",
+    "phase16:2:verify": "node scripts/phase16-2-verify-planner-dashboard-smoke.cjs",
+    "phase16:2:smoke": "node scripts/phase16-2-planner-dashboard-smoke.cjs",
+    "planner:release:check": "npm run phase16:0:verify && npm run phase16:1:verify && npm run phase16:2:verify && npm run phase16:2:smoke"
   },
   "repository": {
     "type": "git",

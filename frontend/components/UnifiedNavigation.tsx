@@ -21,6 +21,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/master-orchestrator-dashboard", label: "Orch Dashboard", key: "master-orchestrator-dashboard" },
   { href: "/master-planner", label: "Planner", key: "master-planner" },
   { href: "/master-planner-policy", label: "Planner Policy", key: "master-planner-policy" },
+  { href: "/master-planner-dashboard", label: "Planner Dashboard", key: "master-planner-dashboard" },
   { href: "/", label: "Chat", key: "chat" },
   { href: "/tool-consent", label: "Approvals", key: "tool-consent" },
   { href: "/governance-audit", label: "Audit", key: "governance-audit" },
