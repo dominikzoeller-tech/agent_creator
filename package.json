@@ -174,7 +174,11 @@
     "tools:adapter:resume:verify": "node scripts/phase13-2-verify-approved-tool-adapter-resume-plan.cjs",
     "phase13:3:patch": "node scripts/phase13-3-patch-tool-adapter-policy-simulation-audit.cjs",
     "phase13:3:verify": "node scripts/phase13-3-verify-tool-adapter-policy-simulation-audit.cjs",
-    "tools:adapter:policy:verify": "node scripts/phase13-3-verify-tool-adapter-policy-simulation-audit.cjs"
+    "tools:adapter:policy:verify": "node scripts/phase13-3-verify-tool-adapter-policy-simulation-audit.cjs",
+    "phase13:4:patch": "node scripts/phase13-4-patch-tool-adapter-dashboard-smoke.cjs",
+    "phase13:4:verify": "node scripts/phase13-4-verify-tool-adapter-dashboard-smoke.cjs",
+    "phase13:4:smoke": "node scripts/phase13-4-tool-adapter-smoke.cjs",
+    "tool-adapter:release:check": "npm run phase13:0:verify && npm run phase13:1:verify && npm run phase13:2:verify && npm run phase13:3:verify && npm run phase13:4:verify && npm run phase13:4:smoke"
   },
   "repository": {
     "type": "git",
