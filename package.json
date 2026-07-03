@@ -205,7 +205,10 @@
     "cockpit:final:check": "npm run phase14:0:verify && npm run phase14:1:verify && npm run phase14:2:verify && npm run phase14:3:verify && npm run phase14:4:verify && npm run phase14:5:verify",
     "phase15:0:patch": "node scripts/phase15-0-patch-master-agent-orchestrator-planning.cjs",
     "phase15:0:verify": "node scripts/phase15-0-verify-master-agent-orchestrator-planning.cjs",
-    "orchestrator:planning:verify": "node scripts/phase15-0-verify-master-agent-orchestrator-planning.cjs"
+    "orchestrator:planning:verify": "node scripts/phase15-0-verify-master-agent-orchestrator-planning.cjs",
+    "phase15:1:patch": "node scripts/phase15-1-patch-orchestration-policy-simulation-audit.cjs",
+    "phase15:1:verify": "node scripts/phase15-1-verify-orchestration-policy-simulation-audit.cjs",
+    "orchestrator:policy:verify": "node scripts/phase15-1-verify-orchestration-policy-simulation-audit.cjs"
   },
   "repository": {
     "type": "git",
