@@ -162,7 +162,10 @@
     "runtime:release:check": "npm run phase12:0:verify && npm run phase12:1:verify && npm run phase12:2:verify && npm run phase12:3:verify && npm run phase12:4:verify && npm run phase12:4:smoke",
     "phase12:5:patch": "node scripts/phase12-5-patch-final-runtime-handoff.cjs",
     "phase12:5:verify": "node scripts/phase12-5-verify-final-runtime-handoff.cjs",
-    "runtime:final:check": "npm run phase12:0:verify && npm run phase12:1:verify && npm run phase12:2:verify && npm run phase12:3:verify && npm run phase12:4:verify && npm run phase12:4:smoke && npm run phase12:5:verify"
+    "runtime:final:check": "npm run phase12:0:verify && npm run phase12:1:verify && npm run phase12:2:verify && npm run phase12:3:verify && npm run phase12:4:verify && npm run phase12:4:smoke && npm run phase12:5:verify",
+    "phase13:0:patch": "node scripts/phase13-0-patch-tool-adapter-registry-sandbox.cjs",
+    "phase13:0:verify": "node scripts/phase13-0-verify-tool-adapter-registry-sandbox.cjs",
+    "tools:adapter:verify": "node scripts/phase13-0-verify-tool-adapter-registry-sandbox.cjs"
   },
   "repository": {
     "type": "git",

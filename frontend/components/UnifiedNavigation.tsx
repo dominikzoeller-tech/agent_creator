@@ -19,6 +19,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/agent-runtime-resume", label: "Runtime Resume", key: "agent-runtime-resume" },
   { href: "/agent-runtime-policy", label: "Runtime Policy", key: "agent-runtime-policy" },
   { href: "/agent-runtime-dashboard", label: "Runtime Dashboard", key: "agent-runtime-dashboard" },
+  { href: "/tool-sandbox", label: "Tool Sandbox", key: "tool-sandbox" },
   { href: "/analytics", label: "Analytics", key: "analytics" },
   { href: "/logs", label: "Logs", key: "logs" },
   { href: "/system", label: "System", key: "system" },
