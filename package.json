@@ -241,7 +241,10 @@
     "llm:routing:release:check": "npm run phase17:0:verify && npm run phase17:1:verify && npm run phase17:2:verify && npm run phase17:2:smoke",
     "phase17:3:patch": "node scripts/phase17-3-patch-final-llm-routing-handoff.cjs",
     "phase17:3:verify": "node scripts/phase17-3-verify-final-llm-routing-handoff.cjs",
-    "llm:routing:final:check": "npm run phase17:0:verify && npm run phase17:1:verify && npm run phase17:2:verify && npm run phase17:3:verify"
+    "llm:routing:final:check": "npm run phase17:0:verify && npm run phase17:1:verify && npm run phase17:2:verify && npm run phase17:3:verify",
+    "phase18:1:patch": "node scripts/phase18-1-patch-llm-stub-response-policy-audit.cjs",
+    "phase18:1:verify": "node scripts/phase18-1-verify-llm-stub-response-policy-audit.cjs",
+    "llm:stub:policy:verify": "node scripts/phase18-1-verify-llm-stub-response-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
