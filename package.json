@@ -208,7 +208,11 @@
     "orchestrator:planning:verify": "node scripts/phase15-0-verify-master-agent-orchestrator-planning.cjs",
     "phase15:1:patch": "node scripts/phase15-1-patch-orchestration-policy-simulation-audit.cjs",
     "phase15:1:verify": "node scripts/phase15-1-verify-orchestration-policy-simulation-audit.cjs",
-    "orchestrator:policy:verify": "node scripts/phase15-1-verify-orchestration-policy-simulation-audit.cjs"
+    "orchestrator:policy:verify": "node scripts/phase15-1-verify-orchestration-policy-simulation-audit.cjs",
+    "phase15:2:patch": "node scripts/phase15-2-patch-orchestrator-dashboard-smoke.cjs",
+    "phase15:2:verify": "node scripts/phase15-2-verify-orchestrator-dashboard-smoke.cjs",
+    "phase15:2:smoke": "node scripts/phase15-2-orchestrator-dashboard-smoke.cjs",
+    "orchestrator:release:check": "npm run phase15:0:verify && npm run phase15:1:verify && npm run phase15:2:verify && npm run phase15:2:smoke"
   },
   "repository": {
     "type": "git",
