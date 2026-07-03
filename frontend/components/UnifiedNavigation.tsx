@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 type NavItem = {
   href: string;
@@ -11,8 +11,8 @@ type NavGroup = {
   items: NavItem[];
 };
 
-// Phase 14.1 – Navigation Cleanup / Admin Mode Grouping
-// Ziel: wenige primäre Links, technische Seiten gruppiert im Admin/Developer Bereich.
+// Phase 14.1 â€“ Navigation Cleanup / Admin Mode Grouping
+// Ziel: wenige primÃ¤re Links, technische Seiten gruppiert im Admin/Developer Bereich.
 const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/master-cockpit", label: "Master Cockpit", key: "master-cockpit" },
   { href: "/cockpit-actions", label: "Actions", key: "cockpit-actions" },
@@ -28,6 +28,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Chat", key: "chat" },
   { href: "/tool-consent", label: "Approvals", key: "tool-consent" },
   { href: "/governance-audit", label: "Audit", key: "governance-audit" },
+  { href: "/approved-real-llm-invocation-envelope", label: "Invocation Envelope", key: "approved-real-llm-invocation-envelope" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [

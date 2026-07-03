@@ -17,3 +17,6 @@ npm run build
 ```
 
 Docker nur für Browser-Test.
+
+Browser-Test: http://localhost:3000/approved-real-llm-invocation-envelope
+
