@@ -171,7 +171,10 @@
     "tools:adapter:consent:verify": "node scripts/phase13-1-verify-tool-adapter-consent-binding.cjs",
     "phase13:2:patch": "node scripts/phase13-2-patch-approved-tool-adapter-resume-plan.cjs",
     "phase13:2:verify": "node scripts/phase13-2-verify-approved-tool-adapter-resume-plan.cjs",
-    "tools:adapter:resume:verify": "node scripts/phase13-2-verify-approved-tool-adapter-resume-plan.cjs"
+    "tools:adapter:resume:verify": "node scripts/phase13-2-verify-approved-tool-adapter-resume-plan.cjs",
+    "phase13:3:patch": "node scripts/phase13-3-patch-tool-adapter-policy-simulation-audit.cjs",
+    "phase13:3:verify": "node scripts/phase13-3-verify-tool-adapter-policy-simulation-audit.cjs",
+    "tools:adapter:policy:verify": "node scripts/phase13-3-verify-tool-adapter-policy-simulation-audit.cjs"
   },
   "repository": {
     "type": "git",

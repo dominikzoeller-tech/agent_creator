@@ -22,6 +22,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/tool-sandbox", label: "Tool Sandbox", key: "tool-sandbox" },
   { href: "/tool-adapter-consent", label: "Tool Consent Binding", key: "tool-adapter-consent" },
   { href: "/tool-adapter-resume", label: "Tool Resume", key: "tool-adapter-resume" },
+  { href: "/tool-adapter-policy", label: "Tool Policy", key: "tool-adapter-policy" },
   { href: "/analytics", label: "Analytics", key: "analytics" },
   { href: "/logs", label: "Logs", key: "logs" },
   { href: "/system", label: "System", key: "system" },
