@@ -159,7 +159,10 @@
     "phase12:4:patch": "node scripts/phase12-4-patch-runtime-dashboard-smoke.cjs",
     "phase12:4:verify": "node scripts/phase12-4-verify-runtime-dashboard-smoke.cjs",
     "phase12:4:smoke": "node scripts/phase12-4-runtime-dashboard-smoke.cjs",
-    "runtime:release:check": "npm run phase12:0:verify && npm run phase12:1:verify && npm run phase12:2:verify && npm run phase12:3:verify && npm run phase12:4:verify && npm run phase12:4:smoke"
+    "runtime:release:check": "npm run phase12:0:verify && npm run phase12:1:verify && npm run phase12:2:verify && npm run phase12:3:verify && npm run phase12:4:verify && npm run phase12:4:smoke",
+    "phase12:5:patch": "node scripts/phase12-5-patch-final-runtime-handoff.cjs",
+    "phase12:5:verify": "node scripts/phase12-5-verify-final-runtime-handoff.cjs",
+    "runtime:final:check": "npm run phase12:0:verify && npm run phase12:1:verify && npm run phase12:2:verify && npm run phase12:3:verify && npm run phase12:4:verify && npm run phase12:4:smoke && npm run phase12:5:verify"
   },
   "repository": {
     "type": "git",
