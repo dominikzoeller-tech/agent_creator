@@ -228,7 +228,10 @@
     "planner:release:check": "npm run phase16:0:verify && npm run phase16:1:verify && npm run phase16:2:verify && npm run phase16:2:smoke",
     "phase16:3:patch": "node scripts/phase16-3-patch-final-planner-handoff.cjs",
     "phase16:3:verify": "node scripts/phase16-3-verify-final-planner-handoff.cjs",
-    "planner:final:check": "npm run phase16:0:verify && npm run phase16:1:verify && npm run phase16:2:verify && npm run phase16:3:verify"
+    "planner:final:check": "npm run phase16:0:verify && npm run phase16:1:verify && npm run phase16:2:verify && npm run phase16:3:verify",
+    "phase17:0:patch": "node scripts/phase17-0-patch-controlled-llm-routing-envelope.cjs",
+    "phase17:0:verify": "node scripts/phase17-0-verify-controlled-llm-routing-envelope.cjs",
+    "llm:routing:verify": "node scripts/phase17-0-verify-controlled-llm-routing-envelope.cjs"
   },
   "repository": {
     "type": "git",
