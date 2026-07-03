@@ -293,7 +293,10 @@
     "llm:approved-envelope:release:check": "npm run phase21:0:verify && npm run phase21:1:verify && npm run phase21:2:verify && npm run phase21:2:smoke",
     "phase21:3:patch": "node scripts/phase21-3-patch-final-invocation-envelope-handoff.cjs",
     "phase21:3:verify": "node scripts/phase21-3-verify-final-invocation-envelope-handoff.cjs",
-    "llm:approved-envelope:final:check": "npm run phase21:0:verify && npm run phase21:1:verify && npm run phase21:2:verify && npm run phase21:3:verify"
+    "llm:approved-envelope:final:check": "npm run phase21:0:verify && npm run phase21:1:verify && npm run phase21:2:verify && npm run phase21:3:verify",
+    "phase22:0:patch": "node scripts/phase22-0-patch-provider-agnostic-llm-adapter-stub.cjs",
+    "phase22:0:verify": "node scripts/phase22-0-verify-provider-agnostic-llm-adapter-stub.cjs",
+    "llm:provider-stub:verify": "node scripts/phase22-0-verify-provider-agnostic-llm-adapter-stub.cjs"
   },
   "repository": {
     "type": "git",
