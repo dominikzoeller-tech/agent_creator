@@ -195,7 +195,11 @@
     "cockpit:guided:verify": "node scripts/phase14-2-verify-cockpit-next-actions-guided-flow.cjs",
     "phase14:3:patch": "node scripts/phase14-3-patch-cockpit-actions-orchestration-prep.cjs",
     "phase14:3:verify": "node scripts/phase14-3-verify-cockpit-actions-orchestration-prep.cjs",
-    "cockpit:actions:verify": "node scripts/phase14-3-verify-cockpit-actions-orchestration-prep.cjs"
+    "cockpit:actions:verify": "node scripts/phase14-3-verify-cockpit-actions-orchestration-prep.cjs",
+    "phase14:4:patch": "node scripts/phase14-4-patch-cockpit-action-history-dashboard.cjs",
+    "phase14:4:verify": "node scripts/phase14-4-verify-cockpit-action-history-dashboard.cjs",
+    "phase14:4:smoke": "node scripts/phase14-4-cockpit-action-history-smoke.cjs",
+    "cockpit:history:verify": "node scripts/phase14-4-verify-cockpit-action-history-dashboard.cjs"
   },
   "repository": {
     "type": "git",

@@ -15,6 +15,7 @@ type NavGroup = {
 // Ziel: wenige primäre Links, technische Seiten gruppiert im Admin/Developer Bereich.
 const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/master-cockpit", label: "Master Cockpit", key: "master-cockpit" },
+  { href: "/cockpit-actions", label: "Actions", key: "cockpit-actions" },
   { href: "/", label: "Chat", key: "chat" },
   { href: "/tool-consent", label: "Approvals", key: "tool-consent" },
   { href: "/governance-audit", label: "Audit", key: "governance-audit" },
