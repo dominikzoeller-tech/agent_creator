@@ -181,7 +181,11 @@
     "tool-adapter:release:check": "npm run phase13:0:verify && npm run phase13:1:verify && npm run phase13:2:verify && npm run phase13:3:verify && npm run phase13:4:verify && npm run phase13:4:smoke",
     "phase13:5:patch": "node scripts/phase13-5-patch-final-tool-adapter-handoff.cjs",
     "phase13:5:verify": "node scripts/phase13-5-verify-final-tool-adapter-handoff.cjs",
-    "tool-adapter:final:check": "npm run phase13:0:verify && npm run phase13:1:verify && npm run phase13:2:verify && npm run phase13:3:verify && npm run phase13:4:verify && npm run phase13:4:smoke && npm run phase13:5:verify"
+    "tool-adapter:final:check": "npm run phase13:0:verify && npm run phase13:1:verify && npm run phase13:2:verify && npm run phase13:3:verify && npm run phase13:4:verify && npm run phase13:4:smoke && npm run phase13:5:verify",
+    "phase14:0:patch": "node scripts/phase14-0-patch-master-agent-cockpit.cjs",
+    "phase14:0:verify": "node scripts/phase14-0-verify-master-agent-cockpit.cjs",
+    "cockpit:verify": "node scripts/phase14-0-verify-master-agent-cockpit.cjs",
+    "phase14:0:smoke": "node scripts/phase14-0-master-cockpit-smoke.cjs"
   },
   "repository": {
     "type": "git",

@@ -8,6 +8,7 @@ type NavItem = {
 
 // Phase 11.9 release navigation: single source for governance routes.
 const NAV_ITEMS: NavItem[] = [
+  { href: "/master-cockpit", label: "Master Cockpit", key: "master-cockpit" },
   { href: "/", label: "Chat", key: "chat" },
   { href: "/tool-consent", label: "Tool Consent", key: "tool-consent" },
   { href: "/capability-requests", label: "Capability Requests", key: "capability-requests" },
