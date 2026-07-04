@@ -41,6 +41,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/provider-readiness-policy", label: "Readiness Policy", key: "provider-readiness-policy" },
   { href: "/provider-readiness-dashboard", label: "Readiness Dashboard", key: "provider-readiness-dashboard" },
   { href: "/controlled-provider-invocation-simulation-envelope", label: "Provider Simulation", key: "controlled-provider-invocation-simulation-envelope" },
+  { href: "/controlled-provider-invocation-simulation-policy", label: "Simulation Policy", key: "controlled-provider-invocation-simulation-policy" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [

@@ -335,7 +335,10 @@
     "llm:provider-readiness:final:check": "npm run phase24:0:verify && npm run phase24:1:verify && npm run phase24:2:verify && npm run phase24:3:verify",
     "phase25:0:patch": "node scripts/phase25-0-patch-controlled-provider-invocation-simulation-envelope.cjs",
     "phase25:0:verify": "node scripts/phase25-0-verify-controlled-provider-invocation-simulation-envelope.cjs",
-    "llm:provider-simulation-envelope:verify": "node scripts/phase25-0-verify-controlled-provider-invocation-simulation-envelope.cjs"
+    "llm:provider-simulation-envelope:verify": "node scripts/phase25-0-verify-controlled-provider-invocation-simulation-envelope.cjs",
+    "phase25:1:patch": "node scripts/phase25-1-patch-provider-simulation-policy-audit.cjs",
+    "phase25:1:verify": "node scripts/phase25-1-verify-provider-simulation-policy-audit.cjs",
+    "llm:provider-simulation:policy:verify": "node scripts/phase25-1-verify-provider-simulation-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
