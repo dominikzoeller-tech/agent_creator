@@ -322,7 +322,10 @@
     "llm:provider-config:final:check": "npm run phase23:0:verify && npm run phase23:1:verify && npm run phase23:2:verify && npm run phase23:3:verify",
     "phase24:0:patch": "node scripts/phase24-0-patch-provider-invocation-readiness-preflight.cjs",
     "phase24:0:verify": "node scripts/phase24-0-verify-provider-invocation-readiness-preflight.cjs",
-    "llm:provider-readiness:verify": "node scripts/phase24-0-verify-provider-invocation-readiness-preflight.cjs"
+    "llm:provider-readiness:verify": "node scripts/phase24-0-verify-provider-invocation-readiness-preflight.cjs",
+    "phase24:1:patch": "node scripts/phase24-1-patch-readiness-policy-audit.cjs",
+    "phase24:1:verify": "node scripts/phase24-1-verify-readiness-policy-audit.cjs",
+    "llm:provider-readiness:policy:verify": "node scripts/phase24-1-verify-readiness-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
