@@ -319,7 +319,10 @@
     "llm:provider-config:release:check": "npm run phase23:0:verify && npm run phase23:1:verify && npm run phase23:2:verify && npm run phase23:2:smoke",
     "phase23:3:patch": "node scripts/phase23-3-patch-final-provider-config-handoff.cjs",
     "phase23:3:verify": "node scripts/phase23-3-verify-final-provider-config-handoff.cjs",
-    "llm:provider-config:final:check": "npm run phase23:0:verify && npm run phase23:1:verify && npm run phase23:2:verify && npm run phase23:3:verify"
+    "llm:provider-config:final:check": "npm run phase23:0:verify && npm run phase23:1:verify && npm run phase23:2:verify && npm run phase23:3:verify",
+    "phase24:0:patch": "node scripts/phase24-0-patch-provider-invocation-readiness-preflight.cjs",
+    "phase24:0:verify": "node scripts/phase24-0-verify-provider-invocation-readiness-preflight.cjs",
+    "llm:provider-readiness:verify": "node scripts/phase24-0-verify-provider-invocation-readiness-preflight.cjs"
   },
   "repository": {
     "type": "git",
