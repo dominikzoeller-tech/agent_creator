@@ -39,6 +39,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/provider-config-dashboard", label: "Provider Config Dashboard", key: "provider-config-dashboard" },
   { href: "/provider-invocation-readiness-preflight", label: "Provider Readiness", key: "provider-invocation-readiness-preflight" },
   { href: "/provider-readiness-policy", label: "Readiness Policy", key: "provider-readiness-policy" },
+  { href: "/provider-readiness-dashboard", label: "Readiness Dashboard", key: "provider-readiness-dashboard" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [

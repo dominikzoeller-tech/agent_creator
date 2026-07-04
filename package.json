@@ -325,7 +325,11 @@
     "llm:provider-readiness:verify": "node scripts/phase24-0-verify-provider-invocation-readiness-preflight.cjs",
     "phase24:1:patch": "node scripts/phase24-1-patch-readiness-policy-audit.cjs",
     "phase24:1:verify": "node scripts/phase24-1-verify-readiness-policy-audit.cjs",
-    "llm:provider-readiness:policy:verify": "node scripts/phase24-1-verify-readiness-policy-audit.cjs"
+    "llm:provider-readiness:policy:verify": "node scripts/phase24-1-verify-readiness-policy-audit.cjs",
+    "phase24:2:patch": "node scripts/phase24-2-patch-provider-readiness-dashboard-smoke.cjs",
+    "phase24:2:verify": "node scripts/phase24-2-verify-provider-readiness-dashboard-smoke.cjs",
+    "phase24:2:smoke": "node scripts/phase24-2-provider-readiness-dashboard-smoke.cjs",
+    "llm:provider-readiness:release:check": "npm run phase24:0:verify && npm run phase24:1:verify && npm run phase24:2:verify && npm run phase24:2:smoke"
   },
   "repository": {
     "type": "git",
