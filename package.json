@@ -361,7 +361,11 @@
     "llm:human-approval-token-request:verify": "node scripts/phase27-0-verify-human-approval-token-request.cjs",
     "phase27:1:patch": "node scripts/phase27-1-patch-approval-token-request-policy-audit.cjs",
     "phase27:1:verify": "node scripts/phase27-1-verify-approval-token-request-policy-audit.cjs",
-    "llm:approval-token-request:policy:verify": "node scripts/phase27-1-verify-approval-token-request-policy-audit.cjs"
+    "llm:approval-token-request:policy:verify": "node scripts/phase27-1-verify-approval-token-request-policy-audit.cjs",
+    "phase27:2:patch": "node scripts/phase27-2-patch-approval-token-request-dashboard-smoke.cjs",
+    "phase27:2:verify": "node scripts/phase27-2-verify-approval-token-request-dashboard-smoke.cjs",
+    "phase27:2:smoke": "node scripts/phase27-2-approval-token-request-dashboard-smoke.cjs",
+    "llm:approval-token-request:release:check": "npm run phase27:0:verify && npm run phase27:1:verify && npm run phase27:2:verify && npm run phase27:2:smoke"
   },
   "repository": {
     "type": "git",
