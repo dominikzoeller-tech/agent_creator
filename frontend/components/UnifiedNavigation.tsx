@@ -33,6 +33,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/approved-real-llm-invocation-envelope-dashboard", label: "Envelope Dashboard", key: "approved-real-llm-invocation-envelope-dashboard" },
   { href: "/provider-llm-adapter-stub", label: "Provider Stub", key: "provider-llm-adapter-stub" },
   { href: "/provider-llm-adapter-policy", label: "Provider Policy", key: "provider-llm-adapter-policy" },
+  { href: "/provider-llm-adapter-dashboard", label: "Provider Dashboard", key: "provider-llm-adapter-dashboard" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [

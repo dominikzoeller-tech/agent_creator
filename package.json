@@ -299,7 +299,14 @@
     "llm:provider-stub:verify": "node scripts/phase22-0-verify-provider-agnostic-llm-adapter-stub.cjs",
     "phase22:1:patch": "node scripts/phase22-1-patch-provider-adapter-policy-audit.cjs",
     "phase22:1:verify": "node scripts/phase22-1-verify-provider-adapter-policy-audit.cjs",
-    "llm:provider-stub:policy:verify": "node scripts/phase22-1-verify-provider-adapter-policy-audit.cjs"
+    "llm:provider-stub:policy:verify": "node scripts/phase22-1-verify-provider-adapter-policy-audit.cjs",
+    "phase22:2:patch": "node scripts/phase22-2-patch-provider-adapter-dashboard-smoke.cjs",
+    "phase22:2:verify": "node scripts/phase22-2-verify-provider-adapter-dashboard-smoke.cjs",
+    "phase22:2:smoke": "node scripts/phase22-2-provider-adapter-dashboard-smoke.cjs",
+    "llm:provider-stub:release:check": "npm run phase22:0:verify && npm run phase22:1:verify && npm run phase22:2:verify && npm run phase22:2:smoke",
+    "phase22:3:patch": "node scripts/phase22-3-patch-final-provider-adapter-handoff.cjs",
+    "phase22:3:verify": "node scripts/phase22-3-verify-final-provider-adapter-handoff.cjs",
+    "llm:provider-stub:final:check": "npm run phase22:0:verify && npm run phase22:1:verify && npm run phase22:2:verify && npm run phase22:3:verify"
   },
   "repository": {
     "type": "git",
