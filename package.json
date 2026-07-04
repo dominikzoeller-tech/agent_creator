@@ -316,7 +316,10 @@
     "phase23:2:patch": "node scripts/phase23-2-patch-provider-config-dashboard-smoke.cjs",
     "phase23:2:verify": "node scripts/phase23-2-verify-provider-config-dashboard-smoke.cjs",
     "phase23:2:smoke": "node scripts/phase23-2-provider-config-dashboard-smoke.cjs",
-    "llm:provider-config:release:check": "npm run phase23:0:verify && npm run phase23:1:verify && npm run phase23:2:verify && npm run phase23:2:smoke"
+    "llm:provider-config:release:check": "npm run phase23:0:verify && npm run phase23:1:verify && npm run phase23:2:verify && npm run phase23:2:smoke",
+    "phase23:3:patch": "node scripts/phase23-3-patch-final-provider-config-handoff.cjs",
+    "phase23:3:verify": "node scripts/phase23-3-verify-final-provider-config-handoff.cjs",
+    "llm:provider-config:final:check": "npm run phase23:0:verify && npm run phase23:1:verify && npm run phase23:2:verify && npm run phase23:3:verify"
   },
   "repository": {
     "type": "git",
