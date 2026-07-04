@@ -46,6 +46,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/controlled-real-provider-invocation-gate", label: "Real Provider Gate", key: "controlled-real-provider-invocation-gate" },
   { href: "/real-provider-gate-dashboard", label: "Real Gate Dashboard", key: "real-provider-gate-dashboard" },
   { href: "/human-approval-token-request", label: "Approval Token Request", key: "human-approval-token-request" },
+  { href: "/approval-token-request-policy", label: "Approval Token Policy", key: "approval-token-request-policy" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [

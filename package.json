@@ -358,7 +358,10 @@
     "llm:real-provider-gate:final:check": "npm run phase26:0:verify && npm run phase26:1:verify && npm run phase26:2:verify && npm run phase26:3:verify",
     "phase27:0:patch": "node scripts/phase27-0-patch-human-approval-token-request.cjs",
     "phase27:0:verify": "node scripts/phase27-0-verify-human-approval-token-request.cjs",
-    "llm:human-approval-token-request:verify": "node scripts/phase27-0-verify-human-approval-token-request.cjs"
+    "llm:human-approval-token-request:verify": "node scripts/phase27-0-verify-human-approval-token-request.cjs",
+    "phase27:1:patch": "node scripts/phase27-1-patch-approval-token-request-policy-audit.cjs",
+    "phase27:1:verify": "node scripts/phase27-1-verify-approval-token-request-policy-audit.cjs",
+    "llm:approval-token-request:policy:verify": "node scripts/phase27-1-verify-approval-token-request-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
