@@ -332,7 +332,10 @@
     "llm:provider-readiness:release:check": "npm run phase24:0:verify && npm run phase24:1:verify && npm run phase24:2:verify && npm run phase24:2:smoke",
     "phase24:3:patch": "node scripts/phase24-3-patch-final-provider-readiness-handoff.cjs",
     "phase24:3:verify": "node scripts/phase24-3-verify-final-provider-readiness-handoff.cjs",
-    "llm:provider-readiness:final:check": "npm run phase24:0:verify && npm run phase24:1:verify && npm run phase24:2:verify && npm run phase24:3:verify"
+    "llm:provider-readiness:final:check": "npm run phase24:0:verify && npm run phase24:1:verify && npm run phase24:2:verify && npm run phase24:3:verify",
+    "phase25:0:patch": "node scripts/phase25-0-patch-controlled-provider-invocation-simulation-envelope.cjs",
+    "phase25:0:verify": "node scripts/phase25-0-verify-controlled-provider-invocation-simulation-envelope.cjs",
+    "llm:provider-simulation-envelope:verify": "node scripts/phase25-0-verify-controlled-provider-invocation-simulation-envelope.cjs"
   },
   "repository": {
     "type": "git",
