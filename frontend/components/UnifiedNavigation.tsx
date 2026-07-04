@@ -36,6 +36,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/provider-llm-adapter-dashboard", label: "Provider Dashboard", key: "provider-llm-adapter-dashboard" },
   { href: "/provider-config-secret-boundary", label: "Secret Boundary", key: "provider-config-secret-boundary" },
   { href: "/provider-config-policy", label: "Provider Config Policy", key: "provider-config-policy" },
+  { href: "/provider-config-dashboard", label: "Provider Config Dashboard", key: "provider-config-dashboard" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [
