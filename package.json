@@ -342,7 +342,10 @@
     "phase25:2:patch": "node scripts/phase25-2-patch-provider-simulation-dashboard-smoke.cjs",
     "phase25:2:verify": "node scripts/phase25-2-verify-provider-simulation-dashboard-smoke.cjs",
     "phase25:2:smoke": "node scripts/phase25-2-provider-simulation-dashboard-smoke.cjs",
-    "llm:provider-simulation:release:check": "npm run phase25:0:verify && npm run phase25:1:verify && npm run phase25:2:verify && npm run phase25:2:smoke"
+    "llm:provider-simulation:release:check": "npm run phase25:0:verify && npm run phase25:1:verify && npm run phase25:2:verify && npm run phase25:2:smoke",
+    "phase25:3:patch": "node scripts/phase25-3-patch-final-provider-simulation-handoff.cjs",
+    "phase25:3:verify": "node scripts/phase25-3-verify-final-provider-simulation-handoff.cjs",
+    "llm:provider-simulation:final:check": "npm run phase25:0:verify && npm run phase25:1:verify && npm run phase25:2:verify && npm run phase25:3:verify"
   },
   "repository": {
     "type": "git",
