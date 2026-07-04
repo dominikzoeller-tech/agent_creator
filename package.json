@@ -352,7 +352,10 @@
     "phase26:2:patch": "node scripts/phase26-2-patch-real-provider-gate-dashboard-smoke.cjs",
     "phase26:2:verify": "node scripts/phase26-2-verify-real-provider-gate-dashboard-smoke.cjs",
     "phase26:2:smoke": "node scripts/phase26-2-real-provider-gate-dashboard-smoke.cjs",
-    "llm:real-provider-gate:release:check": "npm run phase26:0:verify && npm run phase26:1:verify && npm run phase26:2:verify && npm run phase26:2:smoke"
+    "llm:real-provider-gate:release:check": "npm run phase26:0:verify && npm run phase26:1:verify && npm run phase26:2:verify && npm run phase26:2:smoke",
+    "phase26:3:patch": "node scripts/phase26-3-patch-final-real-provider-gate-handoff.cjs",
+    "phase26:3:verify": "node scripts/phase26-3-verify-final-real-provider-gate-handoff.cjs",
+    "llm:real-provider-gate:final:check": "npm run phase26:0:verify && npm run phase26:1:verify && npm run phase26:2:verify && npm run phase26:3:verify"
   },
   "repository": {
     "type": "git",
