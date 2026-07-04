@@ -44,6 +44,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/controlled-provider-invocation-simulation-policy", label: "Simulation Policy", key: "controlled-provider-invocation-simulation-policy" },
   { href: "/provider-simulation-dashboard", label: "Simulation Dashboard", key: "provider-simulation-dashboard" },
   { href: "/controlled-real-provider-invocation-gate", label: "Real Provider Gate", key: "controlled-real-provider-invocation-gate" },
+  { href: "/real-provider-gate-dashboard", label: "Real Gate Dashboard", key: "real-provider-gate-dashboard" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [
