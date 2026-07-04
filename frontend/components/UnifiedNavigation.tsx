@@ -50,6 +50,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/approval-token-request-dashboard", label: "Approval Token Dashboard", key: "approval-token-request-dashboard" },
   { href: "/approval-token-issuance-gate", label: "Token Issuance Gate", key: "approval-token-issuance-gate" },
   { href: "/approval-token-issuance-policy", label: "Token Issuance Policy", key: "approval-token-issuance-policy" },
+  { href: "/approval-token-issuance-dashboard", label: "Token Issuance Dashboard", key: "approval-token-issuance-dashboard" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [
