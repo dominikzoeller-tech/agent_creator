@@ -345,7 +345,10 @@
     "llm:provider-simulation:release:check": "npm run phase25:0:verify && npm run phase25:1:verify && npm run phase25:2:verify && npm run phase25:2:smoke",
     "phase25:3:patch": "node scripts/phase25-3-patch-final-provider-simulation-handoff.cjs",
     "phase25:3:verify": "node scripts/phase25-3-verify-final-provider-simulation-handoff.cjs",
-    "llm:provider-simulation:final:check": "npm run phase25:0:verify && npm run phase25:1:verify && npm run phase25:2:verify && npm run phase25:3:verify"
+    "llm:provider-simulation:final:check": "npm run phase25:0:verify && npm run phase25:1:verify && npm run phase25:2:verify && npm run phase25:3:verify",
+    "phase26:0:patch": "node scripts/phase26-0-patch-controlled-real-provider-invocation-gate.cjs",
+    "phase26:0:verify": "node scripts/phase26-0-verify-controlled-real-provider-invocation-gate.cjs",
+    "llm:real-provider-gate:verify": "node scripts/phase26-0-verify-controlled-real-provider-invocation-gate.cjs"
   },
   "repository": {
     "type": "git",
