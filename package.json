@@ -306,7 +306,10 @@
     "llm:provider-stub:release:check": "npm run phase22:0:verify && npm run phase22:1:verify && npm run phase22:2:verify && npm run phase22:2:smoke",
     "phase22:3:patch": "node scripts/phase22-3-patch-final-provider-adapter-handoff.cjs",
     "phase22:3:verify": "node scripts/phase22-3-verify-final-provider-adapter-handoff.cjs",
-    "llm:provider-stub:final:check": "npm run phase22:0:verify && npm run phase22:1:verify && npm run phase22:2:verify && npm run phase22:3:verify"
+    "llm:provider-stub:final:check": "npm run phase22:0:verify && npm run phase22:1:verify && npm run phase22:2:verify && npm run phase22:3:verify",
+    "phase23:0:patch": "node scripts/phase23-0-patch-provider-config-secret-boundary.cjs",
+    "phase23:0:verify": "node scripts/phase23-0-verify-provider-config-secret-boundary.cjs",
+    "llm:provider-config:verify": "node scripts/phase23-0-verify-provider-config-secret-boundary.cjs"
   },
   "repository": {
     "type": "git",
