@@ -309,7 +309,10 @@
     "llm:provider-stub:final:check": "npm run phase22:0:verify && npm run phase22:1:verify && npm run phase22:2:verify && npm run phase22:3:verify",
     "phase23:0:patch": "node scripts/phase23-0-patch-provider-config-secret-boundary.cjs",
     "phase23:0:verify": "node scripts/phase23-0-verify-provider-config-secret-boundary.cjs",
-    "llm:provider-config:verify": "node scripts/phase23-0-verify-provider-config-secret-boundary.cjs"
+    "llm:provider-config:verify": "node scripts/phase23-0-verify-provider-config-secret-boundary.cjs",
+    "phase23:1:patch": "node scripts/phase23-1-patch-provider-config-policy-audit.cjs",
+    "phase23:1:verify": "node scripts/phase23-1-verify-provider-config-policy-audit.cjs",
+    "llm:provider-config:policy:verify": "node scripts/phase23-1-verify-provider-config-policy-audit.cjs"
   },
   "repository": {
     "type": "git",

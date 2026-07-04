@@ -20,3 +20,6 @@ Docker nur für Browser-Test.
 
 Browser-Test: http://localhost:3000/provider-config-secret-boundary
 
+
+Browser-Test: http://localhost:3000/provider-config-secret-boundary
+
