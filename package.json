@@ -296,7 +296,10 @@
     "llm:approved-envelope:final:check": "npm run phase21:0:verify && npm run phase21:1:verify && npm run phase21:2:verify && npm run phase21:3:verify",
     "phase22:0:patch": "node scripts/phase22-0-patch-provider-agnostic-llm-adapter-stub.cjs",
     "phase22:0:verify": "node scripts/phase22-0-verify-provider-agnostic-llm-adapter-stub.cjs",
-    "llm:provider-stub:verify": "node scripts/phase22-0-verify-provider-agnostic-llm-adapter-stub.cjs"
+    "llm:provider-stub:verify": "node scripts/phase22-0-verify-provider-agnostic-llm-adapter-stub.cjs",
+    "phase22:1:patch": "node scripts/phase22-1-patch-provider-adapter-policy-audit.cjs",
+    "phase22:1:verify": "node scripts/phase22-1-verify-provider-adapter-policy-audit.cjs",
+    "llm:provider-stub:policy:verify": "node scripts/phase22-1-verify-provider-adapter-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
