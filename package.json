@@ -520,7 +520,10 @@
     "llm:provider-dispatch-transcript-envelope:final:check": "npm run phase39:0:verify && npm run phase39:1:verify && npm run phase39:2:verify && npm run build",
     "phase40:0:patch": "node scripts/phase40-0-patch-provider-dispatch-release-candidate-envelope.cjs",
     "phase40:0:verify": "node scripts/phase40-0-verify-provider-dispatch-release-candidate-envelope.cjs",
-    "llm:provider-dispatch-release-candidate-envelope:verify": "node scripts/phase40-0-verify-provider-dispatch-release-candidate-envelope.cjs"
+    "llm:provider-dispatch-release-candidate-envelope:verify": "node scripts/phase40-0-verify-provider-dispatch-release-candidate-envelope.cjs",
+    "phase40:1:patch": "node scripts/phase40-1-patch-provider-dispatch-release-candidate-envelope-policy-audit.cjs",
+    "phase40:1:verify": "node scripts/phase40-1-verify-provider-dispatch-release-candidate-envelope-policy-audit.cjs",
+    "llm:provider-dispatch-release-candidate-envelope:policy:verify": "node scripts/phase40-1-verify-provider-dispatch-release-candidate-envelope-policy-audit.cjs"
   },
   "repository": {
     "type": "git",

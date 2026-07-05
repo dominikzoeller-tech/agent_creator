@@ -28,6 +28,7 @@ type NavGroup = {
   { href: "/provider-dispatch-transcript-envelope-policy", label: "Dispatch Transcript Policy", key: "provider-dispatch-transcript-envelope-policy" },
   { href: "/provider-dispatch-transcript-envelope-dashboard", label: "Transcript Dashboard", key: "provider-dispatch-transcript-envelope-dashboard" },
   { href: "/provider-dispatch-release-candidate-envelope", label: "Dispatch Release Candidate", key: "provider-dispatch-release-candidate-envelope" },
+  { href: "/provider-dispatch-release-candidate-envelope-policy", label: "Dispatch Release Policy", key: "provider-dispatch-release-candidate-envelope-policy" },
 ];
 };
 
