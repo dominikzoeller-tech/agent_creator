@@ -401,7 +401,10 @@
     "phase30:2:patch": "node scripts/phase30-2-patch-token-backed-provider-preflight-dashboard-smoke.cjs",
     "phase30:2:verify": "node scripts/phase30-2-verify-token-backed-provider-preflight-dashboard-smoke.cjs",
     "phase30:2:smoke": "node scripts/phase30-2-token-backed-provider-preflight-dashboard-smoke.cjs",
-    "llm:token-backed-provider:release:check": "npm run phase30:0:verify && npm run phase30:1:verify && npm run phase30:2:verify && npm run phase30:2:smoke"
+    "llm:token-backed-provider:release:check": "npm run phase30:0:verify && npm run phase30:1:verify && npm run phase30:2:verify && npm run phase30:2:smoke",
+    "phase30:3:patch": "node scripts/phase30-3-patch-final-token-backed-provider-preflight-handoff.cjs",
+    "phase30:3:verify": "node scripts/phase30-3-verify-final-token-backed-provider-preflight-handoff.cjs",
+    "llm:token-backed-provider:final:check": "npm run phase30:0:verify && npm run phase30:1:verify && npm run phase30:2:verify && npm run phase30:3:verify"
   },
   "repository": {
     "type": "git",
