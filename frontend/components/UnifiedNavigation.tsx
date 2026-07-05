@@ -9,6 +9,7 @@ type NavItem = {
 type NavGroup = {
   title: string;
   items: NavItem[  { href: "/provider-dispatch-readiness-dashboard", label: "Provider Dispatch Dashboard", key: "provider-dispatch-readiness-dashboard" },
+  { href: "/provider-dispatch-token-binding", label: "Dispatch Token Binding", key: "provider-dispatch-token-binding" },
 ];
 };
 
