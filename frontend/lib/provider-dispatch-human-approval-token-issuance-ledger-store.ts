@@ -71,28 +71,71 @@ export interface ProviderDispatchHumanApprovalTokenIssuanceLedgerEntry {
   metadata?: Record<string, unknown>;
 }
 
-function dataDir(): string { return process.env.TOOL_CONSENT_DATA_DIR || process.env.DATA_DIR || path.join(process.cwd(), "..", "data"); }
-function confirmationPath(): string { return path.join(dataDir(), "provider-dispatch-human-approval-token-issuance-confirmation-envelopes.jsonl"); }
-function ledgerPath(): string { return path.join(dataDir(), "provider-dispatch-human-approval-token-issuance-ledger.jsonl"); }
-function ensureStore(): void { mkdirSync(dataDir(), { recursive: true }); }
-function readJsonl(file: string): any[] { try { return readFileSync(file, "utf8").split("
-").map((line) => line.trim()).filter(Boolean).map((line) => { try { return JSON.parse(line); } catch { return null; } }).filter(Boolean); } catch { return []; } }
-function makeId(prefix: string): string { return prefix + "-" + new Date().toISOString().replace(/[^0-9]/g, "").slice(0, 14) + "-" + Math.random().toString(36).slice(2, 8); }
-function containsSecretValue(value: unknown): boolean { return /(sk-[a-z0-9_-]{10,}|api[_-]?key\s*[:=]\s*[^\s,;]+|token\s*[:=]\s*[^\s,;]+|secret\s*[:=]\s*[^\s,;]+|password\s*[:=]\s*[^\s,;]+)/i.test(JSON.stringify(value || {})); }
-function appendEntry(entry: ProviderDispatchHumanApprovalTokenIssuanceLedgerEntry): void { ensureStore(); appendFileSync(ledgerPath(), JSON.stringify(entry) + "
-", "utf8"); }
+function dataDir(): string {
+  return process.env.TOOL_CONSENT_DATA_DIR || process.env.DATA_DIR || path.join(process.cwd(), "..", "data");
+}
+
+function confirmationPath(): string {
+  return path.join(dataDir(), "provider-dispatch-human-approval-token-issuance-confirmation-envelopes.jsonl");
+}
+
+function ledgerPath(): string {
+  return path.join(dataDir(), "provider-dispatch-human-approval-token-issuance-ledger.jsonl");
+}
+
+function ensureStore(): void {
+  mkdirSync(dataDir(), { recursive: true });
+}
+
+function readJsonl(file: string): any[] {
+  try {
+    return readFileSync(file, "utf8")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => {
+        try {
+          return JSON.parse(line);
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+function makeId(prefix: string): string {
+  return prefix + "-" + new Date().toISOString().replace(/[^0-9]/g, "").slice(0, 14) + "-" + Math.random().toString(36).slice(2, 8);
+}
+
+function containsSecretValue(value: unknown): boolean {
+  return /(sk-[a-z0-9_-]{10,}|api[_-]?key\s*[:=]\s*[^\s,;]+|token\s*[:=]\s*[^\s,;]+|secret\s*[:=]\s*[^\s,;]+|password\s*[:=]\s*[^\s,;]+)/i.test(JSON.stringify(value || {}));
+}
+
+function appendEntry(entry: ProviderDispatchHumanApprovalTokenIssuanceLedgerEntry): void {
+  ensureStore();
+  appendFileSync(ledgerPath(), JSON.stringify(entry) + "\n", "utf8");
+}
 
 export function listProviderDispatchHumanApprovalTokenIssuanceLedgerEntries(limit = 100): ProviderDispatchHumanApprovalTokenIssuanceLedgerEntry[] {
   ensureStore();
-  return readJsonl(ledgerPath()).sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp))).slice(0, Math.max(1, Math.min(limit, 500)));
+  return readJsonl(ledgerPath())
+    .sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)))
+    .slice(0, Math.max(1, Math.min(limit, 500)));
 }
 
 export function createProviderDispatchHumanApprovalTokenIssuanceLedgerEntry(input: { providerDispatchHumanApprovalTokenIssuanceConfirmationEnvelopeId?: string; metadata?: Record<string, unknown> }): ProviderDispatchHumanApprovalTokenIssuanceLedgerEntry {
   ensureStore();
   const confirmations = readJsonl(confirmationPath());
-  const confirmation = input.providerDispatchHumanApprovalTokenIssuanceConfirmationEnvelopeId ? confirmations.find((entry: any) => entry.id === input.providerDispatchHumanApprovalTokenIssuanceConfirmationEnvelopeId) : confirmations[0];
+  const confirmation = input.providerDispatchHumanApprovalTokenIssuanceConfirmationEnvelopeId
+    ? confirmations.find((entry: any) => entry.id === input.providerDispatchHumanApprovalTokenIssuanceConfirmationEnvelopeId)
+    : confirmations[0];
+
   let decision: ProviderDispatchHumanApprovalTokenIssuanceLedgerDecision = "provider_dispatch_human_approval_token_issuance_ledger_recorded_no_provider_call";
   let reason = "Human Approval Token Issuance Ledger wurde metadata-only geschrieben. Ledger dokumentiert nur Review-only Confirmation. Token bleibt nicht issued, nicht aktiviert und nicht konsumiert. Kein Provider Dispatch und kein Provider-/Netzwerk-Aufruf.";
+
   if (!confirmation) { decision = "blocked_missing_human_approval_token_issuance_confirmation"; reason = "Issuance Confirmation fehlt."; }
   else if (confirmation.humanApprovalTokenIssuanceConfirmedForReviewOnly !== true) { decision = "blocked_issuance_confirmation_not_review_only"; reason = "Issuance Confirmation ist nicht review-only."; }
   else if (confirmation.humanApprovalTokenIssued !== false) { decision = "blocked_token_issued"; reason = "Human Approval Token wurde issued."; }
@@ -105,29 +148,77 @@ export function createProviderDispatchHumanApprovalTokenIssuanceLedgerEntry(inpu
   else if (confirmation.secretValuesIncluded !== false || confirmation.noSecretsIncluded !== true || containsSecretValue(confirmation)) { decision = "blocked_secret_values_included"; reason = "Secret Boundary verletzt."; }
 
   const entry: ProviderDispatchHumanApprovalTokenIssuanceLedgerEntry = {
-    id: makeId("provider-dispatch-human-approval-token-issuance-ledger"), timestamp: new Date().toISOString(),
+    id: makeId("provider-dispatch-human-approval-token-issuance-ledger"),
+    timestamp: new Date().toISOString(),
     providerDispatchHumanApprovalTokenIssuanceConfirmationEnvelopeId: confirmation?.id || input.providerDispatchHumanApprovalTokenIssuanceConfirmationEnvelopeId,
     providerDispatchHumanApprovalTokenIssuanceConfirmationPolicySimulationId: confirmation?.providerDispatchHumanApprovalTokenIssuanceCandidatePolicySimulationId,
     providerDispatchHumanApprovalTokenIssuanceCandidateEnvelopeId: confirmation?.providerDispatchHumanApprovalTokenIssuanceCandidateEnvelopeId,
     providerDispatchHumanApprovalTokenEnvelopeId: confirmation?.providerDispatchHumanApprovalTokenEnvelopeId,
-    decision, ledgerMode: "controlled_provider_dispatch_human_approval_token_issuance_ledger_no_provider_call",
-    providerDispatchHumanApprovalTokenIssuanceLedgerRecorded: true, humanApprovalTokenIssuanceLedgerEntryPrepared: true, humanApprovalTokenIssuanceLedgerEntryPersisted: true,
-    humanApprovalTokenIssuanceConfirmedForReviewOnly: true, humanApprovalTokenReadyForIssuanceReview: true, humanApprovalTokenReadyForHumanApproval: true,
-    humanApprovalTokenIssued: false, humanApprovalTokenActivated: false, humanApprovalTokenConsumed: false,
-    approvalPolicyConfirmedForHumanApprovalOnly: true, approvalCandidateReadyForHumanApproval: true, approvalCandidateApproved: false, approvalCandidateExecuted: false,
-    approvalCandidateContainsProviderResponse: false, approvalCandidateContainsPromptPayload: false, approvalCandidateContainsSecrets: false,
-    releaseCandidateReadyForHumanReview: true, releaseCandidateApproved: false, releaseCandidateExecuted: false,
-    finalDispatchAllowed: false, providerDispatchPerformed: false, commandEnvelopeExecuted: false, executionGateOpen: false,
-    metadataOnly: true, provider: "none", modelSelected: "none", promptPayloadIncluded: false, promptIncluded: false, providerResponseIncluded: false, providerResultIncluded: false,
-    secretValuesIncluded: false, requestBodyIncluded: false, sensitiveRequestBodyIncluded: false,
-    networkCallAllowed: false, networkCallPerformed: false, providerExecutionAllowed: false, realLlmCallAllowed: false, llmCallPerformed: false,
-    executionAllowed: false, toolExecutionAllowed: false, agentExecutionAllowed: false, dryRunOnly: true,
-    noSecretsIncluded: decision !== "blocked_secret_values_included", reason,
+    decision,
+    ledgerMode: "controlled_provider_dispatch_human_approval_token_issuance_ledger_no_provider_call",
+    providerDispatchHumanApprovalTokenIssuanceLedgerRecorded: true,
+    humanApprovalTokenIssuanceLedgerEntryPrepared: true,
+    humanApprovalTokenIssuanceLedgerEntryPersisted: true,
+    humanApprovalTokenIssuanceConfirmedForReviewOnly: true,
+    humanApprovalTokenReadyForIssuanceReview: true,
+    humanApprovalTokenReadyForHumanApproval: true,
+    humanApprovalTokenIssued: false,
+    humanApprovalTokenActivated: false,
+    humanApprovalTokenConsumed: false,
+    approvalPolicyConfirmedForHumanApprovalOnly: true,
+    approvalCandidateReadyForHumanApproval: true,
+    approvalCandidateApproved: false,
+    approvalCandidateExecuted: false,
+    approvalCandidateContainsProviderResponse: false,
+    approvalCandidateContainsPromptPayload: false,
+    approvalCandidateContainsSecrets: false,
+    releaseCandidateReadyForHumanReview: true,
+    releaseCandidateApproved: false,
+    releaseCandidateExecuted: false,
+    finalDispatchAllowed: false,
+    providerDispatchPerformed: false,
+    commandEnvelopeExecuted: false,
+    executionGateOpen: false,
+    metadataOnly: true,
+    provider: "none",
+    modelSelected: "none",
+    promptPayloadIncluded: false,
+    promptIncluded: false,
+    providerResponseIncluded: false,
+    providerResultIncluded: false,
+    secretValuesIncluded: false,
+    requestBodyIncluded: false,
+    sensitiveRequestBodyIncluded: false,
+    networkCallAllowed: false,
+    networkCallPerformed: false,
+    providerExecutionAllowed: false,
+    realLlmCallAllowed: false,
+    llmCallPerformed: false,
+    executionAllowed: false,
+    toolExecutionAllowed: false,
+    agentExecutionAllowed: false,
+    dryRunOnly: true,
+    noSecretsIncluded: decision !== "blocked_secret_values_included",
+    reason,
     metadata: { ...(input.metadata || {}), phase: "46.0", noProviderCall: true, noNetworkCall: true, noDispatch: true, ledgerOnly: true, humanApprovalTokenIssued: false, humanApprovalTokenActivated: false, humanApprovalTokenConsumed: false }
   };
+
   appendEntry(entry);
-  appendGovernanceAuditEvent({ type: "agent_registry_status_changed", actor: "api", entityType: "agent-registry", entityId: entry.providerDispatchHumanApprovalTokenIssuanceConfirmationEnvelopeId, status: entry.decision, riskLevel: "critical", summary: "Provider Dispatch Human Approval Token Issuance Ledger: " + entry.decision, metadata: { source: "phase46.0-provider-dispatch-human-approval-token-issuance-ledger", ledgerEntryId: entry.id, ledgerOnly: true, humanApprovalTokenIssued: false, humanApprovalTokenActivated: false, humanApprovalTokenConsumed: false, networkCallPerformed: false, providerExecutionAllowed: false, llmCallPerformed: false } });
+  appendGovernanceAuditEvent({
+    type: "agent_registry_status_changed",
+    actor: "api",
+    entityType: "agent-registry",
+    entityId: entry.providerDispatchHumanApprovalTokenIssuanceConfirmationEnvelopeId,
+    status: entry.decision,
+    riskLevel: "critical",
+    summary: "Provider Dispatch Human Approval Token Issuance Ledger: " + entry.decision,
+    metadata: { source: "phase46.0-provider-dispatch-human-approval-token-issuance-ledger", ledgerEntryId: entry.id, ledgerOnly: true, humanApprovalTokenIssued: false, humanApprovalTokenActivated: false, humanApprovalTokenConsumed: false, networkCallPerformed: false, providerExecutionAllowed: false, llmCallPerformed: false }
+  });
   return entry;
 }
 
-export function summarizeProviderDispatchHumanApprovalTokenIssuanceLedgerEntries(entries: ProviderDispatchHumanApprovalTokenIssuanceLedgerEntry[]) { const byDecision: Record<string, number> = {}; for (const item of entries) byDecision[item.decision] = (byDecision[item.decision] || 0) + 1; return { total: entries.length, byDecision }; }
+export function summarizeProviderDispatchHumanApprovalTokenIssuanceLedgerEntries(entries: ProviderDispatchHumanApprovalTokenIssuanceLedgerEntry[]) {
+  const byDecision: Record<string, number> = {};
+  for (const item of entries) byDecision[item.decision] = (byDecision[item.decision] || 0) + 1;
+  return { total: entries.length, byDecision };
+}
