@@ -416,7 +416,10 @@
     "llm:provider-request-contract:final:check": "npm run phase31:0:verify && npm run phase31:1:verify && npm run phase31:2:verify && npm run phase31:3:verify",
     "phase32:0:patch": "node scripts/phase32-0-patch-provider-request-envelope-assembly.cjs",
     "phase32:0:verify": "node scripts/phase32-0-verify-provider-request-envelope-assembly.cjs",
-    "llm:provider-request-envelope:verify": "node scripts/phase32-0-verify-provider-request-envelope-assembly.cjs"
+    "llm:provider-request-envelope:verify": "node scripts/phase32-0-verify-provider-request-envelope-assembly.cjs",
+    "phase32:1:patch": "node scripts/phase32-1-patch-provider-request-envelope-policy-audit.cjs",
+    "phase32:1:verify": "node scripts/phase32-1-verify-provider-request-envelope-policy-audit.cjs",
+    "llm:provider-request-envelope:policy:verify": "node scripts/phase32-1-verify-provider-request-envelope-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
