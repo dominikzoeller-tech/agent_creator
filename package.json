@@ -481,7 +481,10 @@
     "llm:provider-dispatch-execution-gate:final:check": "npm run phase36:0:verify && npm run phase36:1:verify && npm run phase36:2:verify && npm run build",
     "phase37:0:patch": "node scripts/phase37-0-patch-provider-dispatch-dry-run-command-envelope.cjs",
     "phase37:0:verify": "node scripts/phase37-0-verify-provider-dispatch-dry-run-command-envelope.cjs",
-    "llm:provider-dispatch-dry-run-command-envelope:verify": "node scripts/phase37-0-verify-provider-dispatch-dry-run-command-envelope.cjs"
+    "llm:provider-dispatch-dry-run-command-envelope:verify": "node scripts/phase37-0-verify-provider-dispatch-dry-run-command-envelope.cjs",
+    "phase37:1:patch": "node scripts/phase37-1-patch-provider-dispatch-dry-run-command-envelope-policy-audit.cjs",
+    "phase37:1:verify": "node scripts/phase37-1-verify-provider-dispatch-dry-run-command-envelope-policy-audit.cjs",
+    "llm:provider-dispatch-dry-run-command-envelope:policy:verify": "node scripts/phase37-1-verify-provider-dispatch-dry-run-command-envelope-policy-audit.cjs"
   },
   "repository": {
     "type": "git",

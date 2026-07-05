@@ -1,0 +1,14 @@
+const fs=require("fs"); const path=require("path");
+function full(f){return path.join(process.cwd(),f)} function exists(f){return fs.existsSync(full(f))} function read(f){return exists(f)?fs.readFileSync(full(f),"utf8"):""}
+function check(f, patterns){ if(!exists(f)){ console.log("MISS "+f); return false; } const c=read(f); let ok=true; for(const p of patterns){ const found=c.includes(p); console.log((found?"OK  ":"MISS")+" "+f+": "+p); if(!found) ok=false; } return ok; }
+console.log("======================================"); console.log(" Phase 37.1 Provider Dispatch Dry-Run Command Envelope Policy Verify"); console.log("======================================");
+let ok=true;
+ok=check("frontend/lib/provider-dispatch-dry-run-command-envelope-policy-store.ts",["simulateProviderDispatchDryRunCommandEnvelopePolicy","appendGovernanceAuditEvent","provider_dispatch_dry_run_command_envelope_policy_allowed_command_blocked_no_provider_call","providerDispatchDryRunCommandEnvelopePrepared:true","commandEnvelopePrepared:true","commandEnvelopeExecuted:false","executionGateOpen:false","finalDispatchAllowed:false","networkCallAllowed:false","networkCallPerformed:false","providerExecutionAllowed:false","llmCallPerformed:false"])&&ok;
+ok=check("frontend/app/api/provider-dispatch-dry-run-command-envelope-policy/route.ts",["simulateProviderDispatchDryRunCommandEnvelopePolicy","GET","POST"])&&ok;
+ok=check("frontend/app/provider-dispatch-dry-run-command-envelope-policy/page.tsx",["Provider Dispatch Dry-Run Command Envelope Policy","Provider Dispatch Dry-Run Command Envelope Policy simulieren","providerDispatchDryRunCommandEnvelopePrepared","commandEnvelopePrepared","commandEnvelopeExecuted","executionGateOpen","finalDispatchAllowed","networkCallAllowed","networkCallPerformed"])&&ok;
+ok=check("frontend/components/UnifiedNavigation.tsx",["/provider-dispatch-dry-run-command-envelope-policy","Dispatch Dry-Run Policy","provider-dispatch-dry-run-command-envelope-policy"])&&ok;
+ok=check("phase37-1-provider-dispatch-dry-run-command-envelope-policy-audit.md",["Phase 37.1","Phase 37.2","providerDispatchDryRunCommandEnvelopePrepared=true","commandEnvelopePrepared=true","commandEnvelopeExecuted=false","executionGateOpen=false","finalDispatchAllowed=false","networkCallAllowed=false","networkCallPerformed=false","providerExecutionAllowed=false","dryRunOnly=true"])&&ok;
+ok=check("docs/phase37-provider-dispatch-dry-run-command-envelope-policy-audit-runbook.md",["phase37:1:patch","phase37:1:verify"])&&ok;
+ok=check("package.json",["phase37:1:patch","phase37:1:verify","llm:provider-dispatch-dry-run-command-envelope:policy:verify"])&&ok;
+if(!ok){ console.error("Verify fehlgeschlagen."); process.exit(1); }
+console.log("Verify OK. Phase 37.1 Provider Dispatch Dry-Run Command Envelope Policy & Audit ist vorbereitet.");
