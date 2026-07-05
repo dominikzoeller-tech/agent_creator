@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -83,10 +83,10 @@ export function createHumanApprovalTokenRequest(input:{ gateId?: string; approva
   checks.push({ name:"human_not_approved_yet", passed:approval.humanApproved === false, reason:"Approval Request darf noch keine Approval erteilen." });
   checks.push({ name:"approval_token_not_issued", passed:approval.approvalTokenIssued === false, reason:"Approval Token darf noch nicht automatisch erteilt sein." });
   checks.push({ name:"provider_call_blocked", passed:plan.providerSelectionAllowed === false && plan.provider === "none" && plan.modelSelected === "none" && plan.networkCallAllowed === false && plan.automaticInvocationAllowed === false, reason:"Provider-/Netzwerk-Aufruf bleibt blockiert." });
-  checks.push({ name:"secret_boundary", passed:gate?.noSecretsIncluded === true && !containsSecretValue(gate), reason:"Gate und Request dürfen keine Secret-ähnlichen Werte enthalten." });
+  checks.push({ name:"secret_boundary", passed:gate?.noSecretsIncluded === true && !containsSecretValue(gate), reason:"Gate und Request dÃ¼rfen keine Secret-Ã¤hnlichen Werte enthalten." });
   checks.push({ name:"operational_controls_metadata_only", passed:controls.timeoutMs === 30000 && controls.maxRetries === 0 && controls.rateLimitPolicy === "not_configured_metadata_only" && controls.costLimitPolicy === "not_configured_metadata_only" && controls.observabilityMode === "metadata_only_no_prompt_or_secret_values", reason:"Operational Controls bleiben Metadata-only." });
   checks.push({ name:"real_llm_blocked", passed:gate?.realLlmCallAllowed === false && gate?.llmCallPerformed === false, reason:"Real LLM Call bleibt ohne Approval blockiert." });
-  checks.push({ name:"execution_blocked", passed:gate?.executionAllowed === false && gate?.toolExecutionAllowed === false && gate?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"execution_blocked", passed:gate?.executionAllowed === false && gate?.toolExecutionAllowed === false && gate?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   checks.push({ name:"dry_run_only", passed:gate?.dryRunOnly === true, reason: gate?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   let decision:HumanApprovalTokenRequestDecision="approval_token_request_recorded_no_provider_call";
   let reason="Human Approval Token Request erfasst. Approval Token wird nicht automatisch erteilt. Kein Provider-/Netzwerk-Aufruf.";
@@ -140,3 +140,4 @@ export function createHumanApprovalTokenRequest(input:{ gateId?: string; approva
   return req;
 }
 export function summarizeHumanApprovalTokenRequests(requests:HumanApprovalTokenRequest[]){ const byDecision:Record<string,number>={}; for(const req of requests){ byDecision[req.decision]=(byDecision[req.decision]||0)+1; } return { total:requests.length, byDecision }; }
+

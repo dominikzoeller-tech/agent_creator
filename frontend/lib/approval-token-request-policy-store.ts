@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -69,11 +69,11 @@ export function simulateApprovalTokenRequestPolicy(input:{ approvalTokenRequestI
   checks.push({ name:"human_not_approved", passed:approval.humanApproved === false, reason:"Human Approval darf durch Policy Simulation nicht erteilt werden." });
   checks.push({ name:"human_approval_required", passed:approval.humanApprovalRequired === true, reason:"Human Approval muss weiterhin zwingend erforderlich sein." });
   checks.push({ name:"provider_call_blocked", passed:plan.providerSelectionAllowed === false && plan.provider === "none" && plan.modelSelected === "none" && plan.networkCallAllowed === false && plan.automaticInvocationAllowed === false, reason:"Provider-/Netzwerk-Aufruf muss blockiert bleiben." });
-  checks.push({ name:"secret_boundary", passed:req?.noSecretsIncluded === true && !containsSecretValue(req), reason:"Approval Token Request darf keine Secret-ähnlichen Werte enthalten." });
-  checks.push({ name:"operational_controls_metadata_only", passed:controls.timeoutMs === 30000 && controls.maxRetries === 0 && controls.rateLimitPolicy === "not_configured_metadata_only" && controls.costLimitPolicy === "not_configured_metadata_only" && controls.observabilityMode === "metadata_only_no_prompt_or_secret_values", reason:"Operational Controls müssen Metadata-only bleiben." });
+  checks.push({ name:"secret_boundary", passed:req?.noSecretsIncluded === true && !containsSecretValue(req), reason:"Approval Token Request darf keine Secret-Ã¤hnlichen Werte enthalten." });
+  checks.push({ name:"operational_controls_metadata_only", passed:controls.timeoutMs === 30000 && controls.maxRetries === 0 && controls.rateLimitPolicy === "not_configured_metadata_only" && controls.costLimitPolicy === "not_configured_metadata_only" && controls.observabilityMode === "metadata_only_no_prompt_or_secret_values", reason:"Operational Controls mÃ¼ssen Metadata-only bleiben." });
   checks.push({ name:"real_llm_blocked", passed:req?.realLlmCallAllowed === false && req?.llmCallPerformed === false, reason:"Real LLM Call bleibt ohne Approval blockiert." });
-  checks.push({ name:"network_provider_blocked", passed:req?.networkCallPerformed === false && req?.providerExecutionAllowed === false, reason:"Netzwerk-/Provider-Ausführung bleibt blockiert." });
-  checks.push({ name:"execution_blocked", passed:req?.executionAllowed === false && req?.toolExecutionAllowed === false && req?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"network_provider_blocked", passed:req?.networkCallPerformed === false && req?.providerExecutionAllowed === false, reason:"Netzwerk-/Provider-AusfÃ¼hrung bleibt blockiert." });
+  checks.push({ name:"execution_blocked", passed:req?.executionAllowed === false && req?.toolExecutionAllowed === false && req?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   checks.push({ name:"dry_run_only", passed:req?.dryRunOnly === true, reason:req?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   let decision:ApprovalTokenRequestPolicyDecision="approval_token_request_policy_allowed_no_token_issued";
   let reason="Approval Token Request Policy erlaubt nur Request/Audit-Zustand. Token bleibt nicht erteilt. Kein Provider-/Netzwerk-Aufruf.";
@@ -131,3 +131,4 @@ export function simulateApprovalTokenRequestPolicy(input:{ approvalTokenRequestI
   return sim;
 }
 export function summarizeApprovalTokenRequestPolicySimulations(sims:ApprovalTokenRequestPolicySimulation[]){ const byDecision:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; } return { total:sims.length, byDecision }; }
+

@@ -1,4 +1,4 @@
-import { readFile, readdir, stat } from "node:fs/promises";
+﻿import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 
 export type KnowledgeIssueSeverity = "info" | "warning" | "error";
@@ -127,7 +127,7 @@ function evaluateFile(
   }
 
   if (!trimmed.startsWith("# ")) {
-    issues.push({ code: "missing-title", severity: "warning", message: "Datei hat keine Markdown-H1-Überschrift." });
+    issues.push({ code: "missing-title", severity: "warning", message: "Datei hat keine Markdown-H1-Ãœberschrift." });
   }
 
   if (file.tags.length === 0) {
@@ -139,7 +139,7 @@ function evaluateFile(
   }
 
   if (file.wordCount > 2500) {
-    issues.push({ code: "very-long", severity: "info", message: "Datei ist sehr lang. Aufteilen könnte die Trefferqualität verbessern." });
+    issues.push({ code: "very-long", severity: "info", message: "Datei ist sehr lang. Aufteilen kÃ¶nnte die TrefferqualitÃ¤t verbessern." });
   }
 
   if (duplicateTitleNames.has(file.fileName)) {
@@ -147,7 +147,7 @@ function evaluateFile(
   }
 
   if (duplicateContentNames.has(file.fileName)) {
-    issues.push({ code: "duplicate-content", severity: "warning", message: "Inhalt wirkt sehr ähnlich zu einer anderen Knowledge-Datei." });
+    issues.push({ code: "duplicate-content", severity: "warning", message: "Inhalt wirkt sehr Ã¤hnlich zu einer anderen Knowledge-Datei." });
   }
 
   return issues;
@@ -204,3 +204,4 @@ function findDuplicateGroups(files: LoadedKnowledgeFile[], keyFn: (file: LoadedK
 function countSeverity(files: KnowledgeQualityFileReport[], severity: KnowledgeIssueSeverity): number {
   return files.reduce((sum, file) => sum + file.issues.filter((issue) => issue.severity === severity).length, 0);
 }
+

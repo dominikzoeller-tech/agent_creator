@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type CockpitActionType =
@@ -38,12 +38,12 @@ export function listCockpitActionPlans(limit = 100): CockpitActionPlan[] {
 }
 function actionConfig(actionType: CockpitActionType): { title:string; targetHref:string; reason:string } {
   const map: Record<CockpitActionType, { title:string; targetHref:string; reason:string }> = {
-    review_capabilities: { title:"Fehlende Fähigkeiten prüfen", targetHref:"/capability-requests", reason:"Capability Requests prüfen, bevor Agenten oder Tools vorbereitet werden." },
+    review_capabilities: { title:"Fehlende FÃ¤higkeiten prÃ¼fen", targetHref:"/capability-requests", reason:"Capability Requests prÃ¼fen, bevor Agenten oder Tools vorbereitet werden." },
     prepare_agent_blueprint: { title:"Agent Blueprint vorbereiten", targetHref:"/agent-blueprints", reason:"Agent Blueprint als Vorschlag vorbereiten, keine automatische Aktivierung." },
-    review_agent_registry: { title:"Agent Registry prüfen", targetHref:"/agent-registry", reason:"Controlled Agent Registry prüfen, bevor Runtime Dry-runs entstehen." },
-    prepare_runtime_dry_run: { title:"Runtime Dry-run vorbereiten", targetHref:"/agent-runtime-dashboard", reason:"Runtime nur als Dry-run vorbereiten; keine echte Ausführung." },
-    prepare_tool_adapter_plan: { title:"Tool Adapter Plan vorbereiten", targetHref:"/tool-adapter-dashboard", reason:"Tool Adapter nur als Dry-run Plan vorbereiten; keine echte Tool-Ausführung." },
-    review_audit: { title:"Audit Trail prüfen", targetHref:"/governance-audit", reason:"Audit Trail prüfen, bevor weitere Schritte ausgeführt werden." },
+    review_agent_registry: { title:"Agent Registry prÃ¼fen", targetHref:"/agent-registry", reason:"Controlled Agent Registry prÃ¼fen, bevor Runtime Dry-runs entstehen." },
+    prepare_runtime_dry_run: { title:"Runtime Dry-run vorbereiten", targetHref:"/agent-runtime-dashboard", reason:"Runtime nur als Dry-run vorbereiten; keine echte AusfÃ¼hrung." },
+    prepare_tool_adapter_plan: { title:"Tool Adapter Plan vorbereiten", targetHref:"/tool-adapter-dashboard", reason:"Tool Adapter nur als Dry-run Plan vorbereiten; keine echte Tool-AusfÃ¼hrung." },
+    review_audit: { title:"Audit Trail prÃ¼fen", targetHref:"/governance-audit", reason:"Audit Trail prÃ¼fen, bevor weitere Schritte ausgefÃ¼hrt werden." },
   };
   return map[actionType];
 }
@@ -68,3 +68,4 @@ export function createCockpitActionPlan(input: { actionType: CockpitActionType; 
   return plan;
 }
 export function summarizeCockpitActionPlans(plans: CockpitActionPlan[]) { const byActionType: Record<string, number> = {}; for(const plan of plans) byActionType[plan.actionType] = (byActionType[plan.actionType] || 0) + 1; return { total: plans.length, byActionType }; }
+

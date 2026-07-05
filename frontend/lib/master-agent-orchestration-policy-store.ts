@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -39,13 +39,13 @@ export function simulateMasterAgentOrchestrationPolicy(input:{ orchestrationPlan
   const plan=input.orchestrationPlanId ? plans.find((entry:any)=>entry.id===input.orchestrationPlanId) : plans[0];
   const checks: Array<{ name:string; passed:boolean; reason:string }> = [];
   checks.push({ name:"orchestration_plan_exists", passed:Boolean(plan), reason: plan ? "Orchestration Plan gefunden." : "Orchestration Plan fehlt." });
-  checks.push({ name:"execution_blocked", passed: plan?.executionAllowed === false, reason: plan?.executionAllowed === false ? "Execution bleibt blockiert." : "Execution wäre nicht blockiert." });
-  checks.push({ name:"tool_execution_blocked", passed: plan?.toolExecutionAllowed === false, reason: plan?.toolExecutionAllowed === false ? "Tool-Ausführung bleibt blockiert." : "Tool-Ausführung wäre nicht blockiert." });
-  checks.push({ name:"agent_execution_blocked", passed: plan?.agentExecutionAllowed === false, reason: plan?.agentExecutionAllowed === false ? "Agent-Ausführung bleibt blockiert." : "Agent-Ausführung wäre nicht blockiert." });
+  checks.push({ name:"execution_blocked", passed: plan?.executionAllowed === false, reason: plan?.executionAllowed === false ? "Execution bleibt blockiert." : "Execution wÃ¤re nicht blockiert." });
+  checks.push({ name:"tool_execution_blocked", passed: plan?.toolExecutionAllowed === false, reason: plan?.toolExecutionAllowed === false ? "Tool-AusfÃ¼hrung bleibt blockiert." : "Tool-AusfÃ¼hrung wÃ¤re nicht blockiert." });
+  checks.push({ name:"agent_execution_blocked", passed: plan?.agentExecutionAllowed === false, reason: plan?.agentExecutionAllowed === false ? "Agent-AusfÃ¼hrung bleibt blockiert." : "Agent-AusfÃ¼hrung wÃ¤re nicht blockiert." });
   checks.push({ name:"dry_run_only", passed: plan?.dryRunOnly === true, reason: plan?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name:"safety_steps_present", passed: Array.isArray(plan?.orchestrationSteps) && plan.orchestrationSteps.length > 0, reason: Array.isArray(plan?.orchestrationSteps) && plan.orchestrationSteps.length > 0 ? "Safety Steps vorhanden." : "Safety Steps fehlen." });
   let decision: OrchestrationPolicyDecision = "simulation_allowed_dry_run";
-  let reason = "Master Agent Orchestration Policy Simulation erlaubt ausschließlich Dry-run-Planung. Keine echte Ausführung.";
+  let reason = "Master Agent Orchestration Policy Simulation erlaubt ausschlieÃŸlich Dry-run-Planung. Keine echte AusfÃ¼hrung.";
   if(!plan){ decision="blocked_missing_orchestration_plan"; reason="Orchestration Plan nicht gefunden."; }
   else if(plan.executionAllowed !== false || plan.toolExecutionAllowed !== false || plan.agentExecutionAllowed !== false || plan.dryRunOnly !== true){ decision="blocked_execution_not_safe"; reason="Execution Safety Invariants verletzt."; }
   else if(!Array.isArray(plan.orchestrationSteps) || plan.orchestrationSteps.length === 0){ decision="blocked_missing_safety_steps"; reason="Orchestration Safety Steps fehlen."; }
@@ -80,3 +80,4 @@ export function simulateMasterAgentOrchestrationPolicy(input:{ orchestrationPlan
   return simulation;
 }
 export function summarizeMasterAgentOrchestrationPolicySimulations(sims: MasterAgentOrchestrationPolicySimulation[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; if(sim.actionType) byActionType[sim.actionType]=(byActionType[sim.actionType]||0)+1; } return { total:sims.length, byDecision, byActionType }; }
+

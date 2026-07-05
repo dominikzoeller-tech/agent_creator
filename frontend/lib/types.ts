@@ -1,4 +1,4 @@
-export type DataSensitivity = "public" | "internal" | "confidential" | "restricted";
+﻿export type DataSensitivity = "public" | "internal" | "confidential" | "restricted";
 export type ProcessingMode = "auto" | "local_only" | "hybrid" | "cloud_allowed";
 export type ProcessingPath = "cloud_raw" | "cloud_redacted" | "local_policy";
 export type RouteType = "direct" | "council";
@@ -239,3 +239,4 @@ export interface ExportFileEntry {
 }
 
 export type AskResponse = CloudAskResponse | LocalPolicyResponse | ApiErrorResponse;
+

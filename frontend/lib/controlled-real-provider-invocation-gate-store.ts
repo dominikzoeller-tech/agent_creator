@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -86,20 +86,20 @@ export function createControlledRealProviderInvocationGate(input:{ simulationEnv
   checks.push({ name:"human_not_approved_yet", passed:true, reason:"Dieses Gate erteilt noch keine Approval und gibt keinen Approval Token aus." });
   checks.push({ name:"provider_selection_blocked", passed:request.provider === "none" && request.modelSelected === "none", reason:"Provider und Modell bleiben im Gate blockiert." });
   checks.push({ name:"automatic_invocation_blocked", passed:request.networkCallAllowed === false && envelope?.networkCallPerformed === false && envelope?.providerExecutionAllowed === false, reason:"Automatischer Provider-/Netzwerk-Aufruf ist blockiert." });
-  checks.push({ name:"secret_boundary", passed:envelope?.noSecretsIncluded === true && request.promptIncluded === false && request.secretValuesIncluded === false && !containsSecretValue(envelope), reason:"Keine Prompt- oder Secret-Werte dürfen in Gate-Daten enthalten sein." });
+  checks.push({ name:"secret_boundary", passed:envelope?.noSecretsIncluded === true && request.promptIncluded === false && request.secretValuesIncluded === false && !containsSecretValue(envelope), reason:"Keine Prompt- oder Secret-Werte dÃ¼rfen in Gate-Daten enthalten sein." });
   checks.push({ name:"real_llm_blocked_without_approval", passed:envelope?.realLlmCallAllowed === false && envelope?.llmCallPerformed === false, reason:"Real LLM Call bleibt ohne Approval blockiert." });
-  checks.push({ name:"execution_blocked", passed:envelope?.executionAllowed === false && envelope?.toolExecutionAllowed === false && envelope?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"execution_blocked", passed:envelope?.executionAllowed === false && envelope?.toolExecutionAllowed === false && envelope?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   checks.push({ name:"dry_run_only", passed:envelope?.dryRunOnly === true, reason:envelope?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
-  checks.push({ name:"output_contract_locked", passed:output.outputType === "recommendation_explanation_only" && output.mayExecuteTools === false && output.mayExecuteAgents === false && output.mayRevealSecrets === false && output.mayChangeState === false, reason:"Output Contract muss nicht-ausführend bleiben." });
+  checks.push({ name:"output_contract_locked", passed:output.outputType === "recommendation_explanation_only" && output.mayExecuteTools === false && output.mayExecuteAgents === false && output.mayRevealSecrets === false && output.mayChangeState === false, reason:"Output Contract muss nicht-ausfÃ¼hrend bleiben." });
   checks.push({ name:"operational_controls_metadata_only", passed:defaults.timeoutMs === 30000 && defaults.maxRetries === 0 && defaults.rateLimitPolicy === "not_configured_metadata_only" && defaults.costLimitPolicy === "not_configured_metadata_only" && defaults.observabilityMode === "metadata_only_no_prompt_or_secret_values", reason:"Operational Controls bleiben Metadata-only." });
   let decision:ControlledRealProviderInvocationGateDecision="real_provider_invocation_gate_prepared_human_approval_required";
-  let reason="Controlled Real Provider Invocation Gate vorbereitet. Echte Provider Invocation benötigt explizite Human Approval. Kein automatischer Provider-/Netzwerk-Aufruf.";
+  let reason="Controlled Real Provider Invocation Gate vorbereitet. Echte Provider Invocation benÃ¶tigt explizite Human Approval. Kein automatischer Provider-/Netzwerk-Aufruf.";
   if(!envelope){ decision="blocked_missing_simulation_envelope"; reason="Simulation Envelope nicht gefunden."; }
   else if(request.networkCallAllowed !== false || envelope.networkCallPerformed !== false || envelope.providerExecutionAllowed !== false || request.provider !== "none" || request.modelSelected !== "none"){ decision="blocked_auto_provider_call_attempt"; reason="Automatischer Provider-/Netzwerk-Aufruf oder Provider-Auswahl erkannt."; }
   else if(envelope.noSecretsIncluded !== true || request.promptIncluded !== false || request.secretValuesIncluded !== false || containsSecretValue(envelope)){ decision="blocked_secret_boundary_violation"; reason="Secret Boundary verletzt."; }
   else if(envelope.realLlmCallAllowed !== false || envelope.llmCallPerformed !== false){ decision="blocked_real_llm_allowed_without_approval"; reason="Real LLM Call ist ohne explizite Approval nicht blockiert."; }
   else if(envelope.executionAllowed !== false || envelope.toolExecutionAllowed !== false || envelope.agentExecutionAllowed !== false || envelope.dryRunOnly !== true){ decision="blocked_execution_not_safe"; reason="Execution Safety Invariants verletzt."; }
-  else if(checks.find((c)=>c.name==="output_contract_locked")?.passed !== true){ decision="blocked_output_contract_violation"; reason="Output Contract verletzt nicht-ausführende Regeln."; }
+  else if(checks.find((c)=>c.name==="output_contract_locked")?.passed !== true){ decision="blocked_output_contract_violation"; reason="Output Contract verletzt nicht-ausfÃ¼hrende Regeln."; }
   else if(checks.find((c)=>c.name==="operational_controls_metadata_only")?.passed !== true){ decision="blocked_operational_controls_violation"; reason="Operational Controls verletzen Metadata-only Vorgaben."; }
   const gate:ControlledRealProviderInvocationGate={
     id:makeId("real-provider-gate"),
@@ -142,3 +142,4 @@ export function createControlledRealProviderInvocationGate(input:{ simulationEnv
   return gate;
 }
 export function summarizeControlledRealProviderInvocationGates(gates:ControlledRealProviderInvocationGate[]){ const byDecision:Record<string,number>={}; for(const gate of gates){ byDecision[gate.decision]=(byDecision[gate.decision]||0)+1; } return { total:gates.length, byDecision }; }
+

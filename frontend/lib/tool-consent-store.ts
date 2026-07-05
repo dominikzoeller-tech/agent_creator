@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 
 export type ToolConsentStatus = "pending" | "approved" | "denied" | "expired";
@@ -105,7 +105,7 @@ export function createToolConsentRequest(input: {
     id: createId(),
     toolId: input.toolId,
     status: "pending",
-    reason: input.reason || "Tool-Ausführung benötigt explizite Bestätigung.",
+    reason: input.reason || "Tool-AusfÃ¼hrung benÃ¶tigt explizite BestÃ¤tigung.",
     userInputPreview: sanitizePreview(input.userInputPreview),
     sensitivity: input.sensitivity,
     processingMode: input.processingMode,
@@ -150,3 +150,4 @@ export function expireOldRequests(requests: ToolConsentRequest[]): ToolConsentRe
   if (changed) writeRequests(updated);
   return updated;
 }
+

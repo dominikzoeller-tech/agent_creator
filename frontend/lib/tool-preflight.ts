@@ -1,4 +1,4 @@
-import { buildToolRegistry, AgentToolDefinition } from "./tool-registry";
+﻿import { buildToolRegistry, AgentToolDefinition } from "./tool-registry";
 import { evaluateToolPermission, ProcessingMode, SensitivityLevel, ToolPermissionDecision } from "./tool-permissions";
 
 export interface ToolPreflightInput {
@@ -66,7 +66,7 @@ export function runToolPreflight(input: ToolPreflightInput): ToolPreflightResult
   const warnings = [...decision.warnings];
 
   if (tool.requiresExternalNetwork && containsSensitiveData(userInput)) {
-    reasons.push("User Input enthält potenziell sensible Daten. Externe Netzwerktools werden blockiert.");
+    reasons.push("User Input enthÃ¤lt potenziell sensible Daten. Externe Netzwerktools werden blockiert.");
   }
 
   if (tool.category === "web-research" && userInput.trim().length === 0) {
@@ -75,7 +75,7 @@ export function runToolPreflight(input: ToolPreflightInput): ToolPreflightResult
 
   const requiresConfirmation = input.requireConfirmation === true || tool.writesData || tool.riskLevel === "high";
   if (requiresConfirmation) {
-    warnings.push("Preflight empfiehlt manuelle Bestätigung vor Tool-Ausführung.");
+    warnings.push("Preflight empfiehlt manuelle BestÃ¤tigung vor Tool-AusfÃ¼hrung.");
   }
 
   return {
@@ -102,3 +102,4 @@ export function runToolPreflight(input: ToolPreflightInput): ToolPreflightResult
 function containsSensitiveData(value: string): boolean {
   return SENSITIVE_PATTERNS.some((pattern) => pattern.test(value));
 }
+

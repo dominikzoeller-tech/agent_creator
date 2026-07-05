@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type LlmStubDecision = "stub_response_created" | "blocked_missing_envelope" | "blocked_execution_not_safe" | "blocked_secret_risk" | "blocked_output_contract_violation";
@@ -34,16 +34,16 @@ function hasSecretLikeText(value: unknown): boolean { return /(api[_-]?key|token
 function safeText(value: unknown, fallback: string): string { return typeof value === "string" && value.trim() ? value.trim().slice(0, 1200) : fallback; }
 function buildSections(envelope:any){
   const ctx=envelope?.sanitizedContext || {};
-  const next=safeText(ctx.recommendedNextAction, "Zuerst sichere Vorbedingungen prüfen.");
+  const next=safeText(ctx.recommendedNextAction, "Zuerst sichere Vorbedingungen prÃ¼fen.");
   const missing=Array.isArray(ctx.missingSafetyGates)?ctx.missingSafetyGates:[];
   const consent=Array.isArray(ctx.requiredConsentSteps)?ctx.requiredConsentSteps:[];
   const policy=Array.isArray(ctx.requiredPolicySteps)?ctx.requiredPolicySteps:[];
   return [
-    { title:"Empfohlener nächster Schritt", body: next },
+    { title:"Empfohlener nÃ¤chster Schritt", body: next },
     { title:"Fehlende Safety Gates", body: missing.length ? missing.join(", ") : "Keine fehlenden Safety Gates im Envelope erkannt." },
-    { title:"Erforderliche Consent-Schritte", body: consent.length ? consent.join(", ") : "Keine zusätzlichen Consent-Schritte im Envelope erkannt." },
-    { title:"Erforderliche Policy-/Audit-Schritte", body: policy.length ? policy.join(", ") : "Policy Simulation und Audit prüfen." },
-    { title:"Sicherheitsgrenze", body:"Diese Antwort ist ein Stub. Es wurde kein LLM aufgerufen, kein Tool gestartet und kein Agent ausgeführt." },
+    { title:"Erforderliche Consent-Schritte", body: consent.length ? consent.join(", ") : "Keine zusÃ¤tzlichen Consent-Schritte im Envelope erkannt." },
+    { title:"Erforderliche Policy-/Audit-Schritte", body: policy.length ? policy.join(", ") : "Policy Simulation und Audit prÃ¼fen." },
+    { title:"Sicherheitsgrenze", body:"Diese Antwort ist ein Stub. Es wurde kein LLM aufgerufen, kein Tool gestartet und kein Agent ausgefÃ¼hrt." },
   ];
 }
 export function listControlledLlmStubResponses(limit=100): ControlledLlmStubResponse[] { ensureStore(); return readJsonl(responsePath()).sort((a,b)=>String(b.timestamp).localeCompare(String(a.timestamp))).slice(0, Math.max(1, Math.min(limit,500))); }
@@ -52,7 +52,7 @@ export function createControlledLlmStubResponse(input:{ envelopeId?: string; met
   const envelopes=readJsonl(envelopePath());
   const envelope=input.envelopeId ? envelopes.find((entry:any)=>entry.id===input.envelopeId) : envelopes[0];
   let decision:LlmStubDecision="stub_response_created";
-  let reason="Dry-run Explainer Response erstellt. Kein produktiver LLM-Aufruf, keine Ausführung.";
+  let reason="Dry-run Explainer Response erstellt. Kein produktiver LLM-Aufruf, keine AusfÃ¼hrung.";
   if(!envelope){ decision="blocked_missing_envelope"; reason="Controlled LLM Routing Envelope nicht gefunden."; }
   else if(envelope.executionAllowed!==false || envelope.toolExecutionAllowed!==false || envelope.agentExecutionAllowed!==false || envelope.dryRunOnly!==true || envelope.llmRoutingPrepOnly!==true){ decision="blocked_execution_not_safe"; reason="Envelope verletzt Safety Invariants."; }
   else if(envelope.noSecretsIncluded!==true || hasSecretLikeText(envelope.sanitizedContext) || hasSecretLikeText(envelope.explainerPrompt)){ decision="blocked_secret_risk"; reason="Secret-Risiko im Envelope erkannt."; }
@@ -69,3 +69,4 @@ export function createControlledLlmStubResponse(input:{ envelopeId?: string; met
   appendResponse(response); return response;
 }
 export function summarizeControlledLlmStubResponses(responses:ControlledLlmStubResponse[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const response of responses){ byDecision[response.decision]=(byDecision[response.decision]||0)+1; if(response.actionType) byActionType[response.actionType]=(byActionType[response.actionType]||0)+1; } return { total:responses.length, byDecision, byActionType }; }
+

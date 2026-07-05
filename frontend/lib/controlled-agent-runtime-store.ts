@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync, appendFileSync } from "node:fs";
+﻿import { readFileSync, writeFileSync, mkdirSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type RuntimeMode = "dry_run" | "test_mode";
@@ -67,12 +67,12 @@ export function createControlledAgentRuntimeEnvelope(input: { agentId?: string; 
   const grantedPermissions = Array.isArray(agent?.permissions) ? agent.permissions.filter((p: unknown): p is string => typeof p === "string") : [];
   const missingPermissions = requiredPermissions.filter((permission) => !grantedPermissions.includes(permission));
   let decision: RuntimeDecision = "allowed_dry_run";
-  let reason = "Dry-run Runtime Envelope erstellt. Keine echte Tool-Ausführung erlaubt.";
+  let reason = "Dry-run Runtime Envelope erstellt. Keine echte Tool-AusfÃ¼hrung erlaubt.";
   if (!agent) { decision = "blocked_missing_agent"; reason = "Controlled Agent Registry Entry nicht gefunden."; }
   else if (agent.status === "disabled") { decision = "blocked_disabled"; reason = "Controlled Agent ist disabled."; }
   else if (agent.status !== "active" && agent.status !== "test_mode") { decision = "blocked_not_active"; reason = "Controlled Agent ist nicht active/test_mode."; }
   else if (missingPermissions.length > 0) { decision = "blocked_permission"; reason = "Erforderliche Permissions fehlen."; }
-  else if (agent.requiresConsent !== false) { decision = "consent_required"; reason = "Consent wäre vor echter Ausführung erforderlich; Phase 12.0 erlaubt nur Dry-run."; }
+  else if (agent.requiresConsent !== false) { decision = "consent_required"; reason = "Consent wÃ¤re vor echter AusfÃ¼hrung erforderlich; Phase 12.0 erlaubt nur Dry-run."; }
   const envelope: ControlledAgentRuntimeEnvelope = {
     id: makeId("runtime-envelope"),
     timestamp: new Date().toISOString(),
@@ -104,3 +104,4 @@ export function summarizeControlledAgentRuntime(envelopes: ControlledAgentRuntim
   }
   return { total: envelopes.length, byDecision, byMode };
 }
+

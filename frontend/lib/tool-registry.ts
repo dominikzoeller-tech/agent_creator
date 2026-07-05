@@ -1,4 +1,4 @@
-export type ToolRiskLevel = "low" | "medium" | "high";
+﻿export type ToolRiskLevel = "low" | "medium" | "high";
 export type ToolCategory = "core" | "knowledge" | "memory" | "web-research" | "analytics" | "system";
 
 export interface AgentToolDefinition {
@@ -49,7 +49,7 @@ export function buildToolRegistry(): ToolRegistryResponse {
       writesData: false,
       riskLevel: "medium",
       allowedSensitivity: ["public", "internal", "confidential"],
-      governanceNotes: ["Nutzt je nach Konfiguration das LLM über den API-Container.", "Keine Secrets im Debug JSON anzeigen."],
+      governanceNotes: ["Nutzt je nach Konfiguration das LLM Ã¼ber den API-Container.", "Keine Secrets im Debug JSON anzeigen."],
     },
     {
       id: "knowledge-search",
@@ -77,7 +77,7 @@ export function buildToolRegistry(): ToolRegistryResponse {
       writesData: true,
       riskLevel: "medium",
       allowedSensitivity: ["public", "internal", "confidential"],
-      governanceNotes: ["Änderungen wirken dauerhaft auf lokale Knowledge-Dateien."],
+      governanceNotes: ["Ã„nderungen wirken dauerhaft auf lokale Knowledge-Dateien."],
     },
     {
       id: "project-memory",
@@ -91,12 +91,12 @@ export function buildToolRegistry(): ToolRegistryResponse {
       writesData: true,
       riskLevel: "medium",
       allowedSensitivity: ["public", "internal", "confidential"],
-      governanceNotes: ["Speichert in memory/project-memory.json.", "Memory-Einträge sollten kurz, prüfbar und getaggt sein."],
+      governanceNotes: ["Speichert in memory/project-memory.json.", "Memory-EintrÃ¤ge sollten kurz, prÃ¼fbar und getaggt sein."],
     },
     {
       id: "web-research",
       label: "Web Research",
-      description: "Kontrollierte Websuche über Bing Search API.",
+      description: "Kontrollierte Websuche Ã¼ber Bing Search API.",
       category: "web-research",
       route: "/web-research",
       apiRoute: "/api/web-research",
@@ -106,12 +106,12 @@ export function buildToolRegistry(): ToolRegistryResponse {
       writesData: false,
       riskLevel: "high",
       allowedSensitivity: ["public"],
-      governanceNotes: ["Nur öffentliche Queries verwenden.", "WEB_RESEARCH_ENABLED muss explizit true sein.", "BING_SEARCH_API_KEY wird nie angezeigt."],
+      governanceNotes: ["Nur Ã¶ffentliche Queries verwenden.", "WEB_RESEARCH_ENABLED muss explizit true sein.", "BING_SEARCH_API_KEY wird nie angezeigt."],
     },
     {
       id: "web-research-save",
       label: "Web Research Save",
-      description: "Geprüfte Web-Research-Ergebnisse als Knowledge/Memory speichern.",
+      description: "GeprÃ¼fte Web-Research-Ergebnisse als Knowledge/Memory speichern.",
       category: "web-research",
       route: "/web-research-save",
       apiRoute: "/api/web-research-save",
@@ -121,7 +121,7 @@ export function buildToolRegistry(): ToolRegistryResponse {
       writesData: true,
       riskLevel: "high",
       allowedSensitivity: ["public"],
-      governanceNotes: ["Speicherung wird durch Governance geprüft.", "Nur kuratierte öffentliche Inhalte speichern."],
+      governanceNotes: ["Speicherung wird durch Governance geprÃ¼ft.", "Nur kuratierte Ã¶ffentliche Inhalte speichern."],
     },
     {
       id: "analytics",
@@ -162,3 +162,4 @@ export function buildToolRegistry(): ToolRegistryResponse {
     tools,
   };
 }
+

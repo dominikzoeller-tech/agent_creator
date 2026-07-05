@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -86,14 +86,14 @@ export function createProviderRequestEnvelope(input:{ providerRequestContractId?
   checks.push({ name:"provider_request_contract_prepared", passed:contract?.providerRequestContractPrepared===true, reason:"Provider Request Contract muss vorbereitet sein." });
   checks.push({ name:"contract_metadata_only", passed:contract?.metadataOnly===true, reason:"Contract muss metadata-only bleiben." });
   checks.push({ name:"provider_none", passed:contract?.provider==="none" && contract?.modelSelected==="none", reason:"Provider und Modell bleiben none." });
-  checks.push({ name:"prompt_payload_not_included", passed:contract?.promptIncluded===false && contract?.promptRedactedPreviewIncluded===false, reason:"Prompt Payload und redacted Preview dürfen nicht enthalten sein." });
-  checks.push({ name:"secret_values_not_included", passed:contract?.secretValuesIncluded===false && contract?.noSecretsIncluded===true && !containsSecretValue(contract), reason:"Secret-Werte dürfen nicht enthalten sein." });
+  checks.push({ name:"prompt_payload_not_included", passed:contract?.promptIncluded===false && contract?.promptRedactedPreviewIncluded===false, reason:"Prompt Payload und redacted Preview dÃ¼rfen nicht enthalten sein." });
+  checks.push({ name:"secret_values_not_included", passed:contract?.secretValuesIncluded===false && contract?.noSecretsIncluded===true && !containsSecretValue(contract), reason:"Secret-Werte dÃ¼rfen nicht enthalten sein." });
   checks.push({ name:"request_body_not_included", passed:contract?.requestBodyIncluded===false, reason:"Request Body darf nicht enthalten sein." });
   checks.push({ name:"envelope_payload_not_included", passed:true, reason:"Envelope Payload bleibt in Phase 32.0 nicht enthalten." });
   checks.push({ name:"metadata_only_envelope", passed:true, reason:"Provider Request Envelope bleibt metadata-only." });
   checks.push({ name:"network_provider_blocked", passed:contract?.networkCallPerformed===false && contract?.providerExecutionAllowed===false, reason:"Kein Netzwerk-/Provider-Aufruf." });
   checks.push({ name:"llm_blocked", passed:contract?.realLlmCallAllowed===false && contract?.llmCallPerformed===false, reason:"Real LLM Call bleibt blockiert." });
-  checks.push({ name:"execution_blocked", passed:contract?.executionAllowed===false && contract?.toolExecutionAllowed===false && contract?.agentExecutionAllowed===false && contract?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"execution_blocked", passed:contract?.executionAllowed===false && contract?.toolExecutionAllowed===false && contract?.agentExecutionAllowed===false && contract?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   let decision:ProviderRequestEnvelopeDecision="provider_request_envelope_assembled_no_provider_call";
   let reason="Provider Request Envelope metadata-only assembliert. Kein Provider-/Netzwerk-Aufruf, kein Prompt Payload, keine Secret-Werte, kein sensibler Request Body.";
   if(!contract){ decision="blocked_missing_provider_request_contract"; reason="Provider Request Contract fehlt."; }
@@ -119,3 +119,4 @@ export function createProviderRequestEnvelope(input:{ providerRequestContractId?
   return item;
 }
 export function summarizeProviderRequestEnvelopes(items:ProviderRequestEnvelope[]){ const byDecision:Record<string,number>={}; for(const item of items){ byDecision[item.decision]=(byDecision[item.decision]||0)+1; } return { total:items.length, byDecision }; }
+

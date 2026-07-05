@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -39,10 +39,10 @@ export function simulateTokenBackedProviderPreflightPolicy(input:{ preflightId?:
   checks.push({name:"token_not_active",passed:preflight?.tokenActive===false,reason:"Token darf in Phase 30.1 nicht aktiv sein."});
   checks.push({name:"provider_none",passed:preflight?.provider==="none" && preflight?.modelSelected==="none",reason:"Provider und Modell bleiben none."});
   checks.push({name:"prompt_not_included",passed:preflight?.promptIncluded===false,reason:"Prompt darf nicht enthalten sein."});
-  checks.push({name:"secrets_not_included",passed:preflight?.secretValuesIncluded===false && preflight?.noSecretsIncluded===true,reason:"Secret-Werte dürfen nicht enthalten sein."});
-  checks.push({name:"network_provider_blocked",passed:preflight?.networkCallPerformed===false && preflight?.providerExecutionAllowed===false,reason:"Netzwerk-/Provider-Ausführung bleibt blockiert."});
+  checks.push({name:"secrets_not_included",passed:preflight?.secretValuesIncluded===false && preflight?.noSecretsIncluded===true,reason:"Secret-Werte dÃ¼rfen nicht enthalten sein."});
+  checks.push({name:"network_provider_blocked",passed:preflight?.networkCallPerformed===false && preflight?.providerExecutionAllowed===false,reason:"Netzwerk-/Provider-AusfÃ¼hrung bleibt blockiert."});
   checks.push({name:"llm_blocked",passed:preflight?.realLlmCallAllowed===false && preflight?.llmCallPerformed===false,reason:"Real LLM Call bleibt blockiert."});
-  checks.push({name:"execution_blocked",passed:preflight?.executionAllowed===false && preflight?.toolExecutionAllowed===false && preflight?.agentExecutionAllowed===false && preflight?.dryRunOnly===true,reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert."});
+  checks.push({name:"execution_blocked",passed:preflight?.executionAllowed===false && preflight?.toolExecutionAllowed===false && preflight?.agentExecutionAllowed===false && preflight?.dryRunOnly===true,reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert."});
   let decision:TokenBackedProviderPreflightPolicyDecision="token_backed_provider_preflight_policy_allowed_no_provider_call";
   let reason="Token-backed Provider Preflight Policy erlaubt nur Simulation. Kein Provider-/Netzwerk-Aufruf.";
   if(!preflight){ decision="blocked_missing_token_backed_preflight"; reason="Token-backed Provider Preflight fehlt."; }
@@ -64,3 +64,4 @@ export function simulateTokenBackedProviderPreflightPolicy(input:{ preflightId?:
   return sim;
 }
 export function summarizeTokenBackedProviderPreflightPolicySimulations(sims:TokenBackedProviderPreflightPolicySimulation[]){ const byDecision:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; } return { total:sims.length, byDecision }; }
+

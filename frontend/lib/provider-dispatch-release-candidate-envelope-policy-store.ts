@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -99,18 +99,18 @@ export function simulateProviderDispatchReleaseCandidateEnvelopePolicy(input:{ p
   const checks:Array<{name:string; passed:boolean; reason:string}>=[];
   checks.push({ name:"release_candidate_exists", passed:Boolean(envelope), reason:envelope?"Release Candidate Envelope gefunden.":"Release Candidate Envelope fehlt." });
   checks.push({ name:"release_candidate_prepared", passed:envelope?.providerDispatchReleaseCandidateEnvelopePrepared===true && envelope?.releaseCandidateEnvelopePrepared===true && envelope?.releaseCandidateEnvelopePersisted===true, reason:"Release Candidate Envelope muss vorbereitet und persistiert sein." });
-  checks.push({ name:"human_review_only", passed:envelope?.releaseCandidateReadyForHumanReview===true && envelope?.releaseCandidateApproved===false && envelope?.releaseCandidateExecuted===false, reason:"Release Candidate ist nur Human-Review-ready, nicht approved und nicht ausgeführt." });
+  checks.push({ name:"human_review_only", passed:envelope?.releaseCandidateReadyForHumanReview===true && envelope?.releaseCandidateApproved===false && envelope?.releaseCandidateExecuted===false, reason:"Release Candidate ist nur Human-Review-ready, nicht approved und nicht ausgefÃ¼hrt." });
   checks.push({ name:"release_candidate_no_provider_response", passed:envelope?.releaseCandidateContainsProviderResponse===false && envelope?.providerResponseIncluded===false && envelope?.providerResultIncluded===false, reason:"Release Candidate darf keine Provider Response und kein Provider Result enthalten." });
   checks.push({ name:"release_candidate_no_prompt_payload", passed:envelope?.releaseCandidateContainsPromptPayload===false && envelope?.promptPayloadIncluded===false && envelope?.promptIncluded===false, reason:"Release Candidate darf keinen Prompt Payload enthalten." });
   checks.push({ name:"release_candidate_no_secrets", passed:envelope?.releaseCandidateContainsSecrets===false && envelope?.secretValuesIncluded===false && envelope?.noSecretsIncluded===true && !containsSecretValue(envelope), reason:"Release Candidate darf keine Secret-Werte enthalten." });
   checks.push({ name:"transcript_clean", passed:envelope?.transcriptEnvelopeContainsProviderResponse===false && envelope?.transcriptEnvelopeContainsPromptPayload===false && envelope?.transcriptEnvelopeContainsSecrets===false, reason:"Transcript bleibt ohne Provider Response, Prompt Payload und Secrets." });
-  checks.push({ name:"command_envelope_not_executed", passed:envelope?.commandEnvelopeExecuted===false, reason:"Command Envelope darf nicht ausgeführt sein." });
+  checks.push({ name:"command_envelope_not_executed", passed:envelope?.commandEnvelopeExecuted===false, reason:"Command Envelope darf nicht ausgefÃ¼hrt sein." });
   checks.push({ name:"execution_gate_closed", passed:envelope?.executionGateOpen===false, reason:"Execution Gate muss geschlossen bleiben." });
   checks.push({ name:"final_dispatch_not_allowed", passed:envelope?.finalDispatchAllowed===false, reason:"Final Dispatch darf nicht erlaubt sein." });
-  checks.push({ name:"dispatch_not_performed", passed:envelope?.providerDispatchPerformed===false, reason:"Provider Dispatch darf nicht ausgeführt sein." });
+  checks.push({ name:"dispatch_not_performed", passed:envelope?.providerDispatchPerformed===false, reason:"Provider Dispatch darf nicht ausgefÃ¼hrt sein." });
   checks.push({ name:"provider_none", passed:envelope?.provider==="none" && envelope?.modelSelected==="none", reason:"Provider und Modell bleiben none." });
-  checks.push({ name:"network_provider_blocked", passed:envelope?.networkCallAllowed===false && envelope?.networkCallPerformed===false && envelope?.providerExecutionAllowed===false, reason:"Netzwerk-/Provider-Ausführung bleibt blockiert." });
-  checks.push({ name:"execution_blocked", passed:envelope?.executionAllowed===false && envelope?.toolExecutionAllowed===false && envelope?.agentExecutionAllowed===false && envelope?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"network_provider_blocked", passed:envelope?.networkCallAllowed===false && envelope?.networkCallPerformed===false && envelope?.providerExecutionAllowed===false, reason:"Netzwerk-/Provider-AusfÃ¼hrung bleibt blockiert." });
+  checks.push({ name:"execution_blocked", passed:envelope?.executionAllowed===false && envelope?.toolExecutionAllowed===false && envelope?.agentExecutionAllowed===false && envelope?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
 
   let decision:ProviderDispatchReleaseCandidateEnvelopePolicyDecision="provider_dispatch_release_candidate_envelope_policy_allowed_human_review_only_no_provider_call";
   let reason="Policy erlaubt nur Human-Review-ready Release Candidate ohne Approval, ohne Execution, ohne Provider-/Netzwerk-Aufruf und ohne Provider Response, Prompt Payload oder Secrets.";
@@ -118,17 +118,17 @@ export function simulateProviderDispatchReleaseCandidateEnvelopePolicy(input:{ p
   else if(envelope.providerDispatchReleaseCandidateEnvelopePrepared!==true || envelope.releaseCandidateEnvelopePrepared!==true || envelope.releaseCandidateEnvelopePersisted!==true){ decision="blocked_release_candidate_envelope_not_prepared"; reason="Release Candidate Envelope ist nicht vorbereitet oder nicht persistiert."; }
   else if(envelope.releaseCandidateReadyForHumanReview!==true){ decision="blocked_release_candidate_not_ready_for_human_review"; reason="Release Candidate ist nicht Human-Review-ready."; }
   else if(envelope.releaseCandidateApproved!==false){ decision="blocked_release_candidate_approved"; reason="Release Candidate wurde approved."; }
-  else if(envelope.releaseCandidateExecuted!==false){ decision="blocked_release_candidate_executed"; reason="Release Candidate wurde ausgeführt."; }
-  else if(envelope.releaseCandidateContainsProviderResponse!==false || envelope.providerResponseIncluded!==false || envelope.providerResultIncluded!==false){ decision="blocked_release_candidate_contains_provider_response"; reason="Release Candidate enthält Provider Response oder Provider Result."; }
-  else if(envelope.releaseCandidateContainsPromptPayload!==false || envelope.promptPayloadIncluded!==false || envelope.promptIncluded!==false){ decision="blocked_release_candidate_contains_prompt_payload"; reason="Release Candidate enthält Prompt Payload."; }
-  else if(envelope.releaseCandidateContainsSecrets!==false || envelope.secretValuesIncluded!==false || envelope.noSecretsIncluded!==true || containsSecretValue(envelope)){ decision="blocked_release_candidate_contains_secrets"; reason="Release Candidate enthält Secret-Werte."; }
-  else if(envelope.transcriptEnvelopeContainsProviderResponse!==false){ decision="blocked_transcript_contains_provider_response"; reason="Transcript enthält Provider Response."; }
-  else if(envelope.transcriptEnvelopeContainsPromptPayload!==false){ decision="blocked_transcript_contains_prompt_payload"; reason="Transcript enthält Prompt Payload."; }
-  else if(envelope.transcriptEnvelopeContainsSecrets!==false){ decision="blocked_transcript_contains_secrets"; reason="Transcript enthält Secrets."; }
-  else if(envelope.commandEnvelopeExecuted!==false){ decision="blocked_command_envelope_executed"; reason="Command Envelope wurde ausgeführt."; }
+  else if(envelope.releaseCandidateExecuted!==false){ decision="blocked_release_candidate_executed"; reason="Release Candidate wurde ausgefÃ¼hrt."; }
+  else if(envelope.releaseCandidateContainsProviderResponse!==false || envelope.providerResponseIncluded!==false || envelope.providerResultIncluded!==false){ decision="blocked_release_candidate_contains_provider_response"; reason="Release Candidate enthÃ¤lt Provider Response oder Provider Result."; }
+  else if(envelope.releaseCandidateContainsPromptPayload!==false || envelope.promptPayloadIncluded!==false || envelope.promptIncluded!==false){ decision="blocked_release_candidate_contains_prompt_payload"; reason="Release Candidate enthÃ¤lt Prompt Payload."; }
+  else if(envelope.releaseCandidateContainsSecrets!==false || envelope.secretValuesIncluded!==false || envelope.noSecretsIncluded!==true || containsSecretValue(envelope)){ decision="blocked_release_candidate_contains_secrets"; reason="Release Candidate enthÃ¤lt Secret-Werte."; }
+  else if(envelope.transcriptEnvelopeContainsProviderResponse!==false){ decision="blocked_transcript_contains_provider_response"; reason="Transcript enthÃ¤lt Provider Response."; }
+  else if(envelope.transcriptEnvelopeContainsPromptPayload!==false){ decision="blocked_transcript_contains_prompt_payload"; reason="Transcript enthÃ¤lt Prompt Payload."; }
+  else if(envelope.transcriptEnvelopeContainsSecrets!==false){ decision="blocked_transcript_contains_secrets"; reason="Transcript enthÃ¤lt Secrets."; }
+  else if(envelope.commandEnvelopeExecuted!==false){ decision="blocked_command_envelope_executed"; reason="Command Envelope wurde ausgefÃ¼hrt."; }
   else if(envelope.executionGateOpen!==false){ decision="blocked_execution_gate_open"; reason="Execution Gate ist offen."; }
   else if(envelope.finalDispatchAllowed!==false){ decision="blocked_final_dispatch_allowed"; reason="Final Dispatch ist erlaubt."; }
-  else if(envelope.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde ausgeführt."; }
+  else if(envelope.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde ausgefÃ¼hrt."; }
   else if(envelope.provider!=="none" || envelope.modelSelected!=="none"){ decision="blocked_provider_selection_attempt"; reason="Provider- oder Modell-Auswahl erkannt."; }
   else if(envelope.networkCallAllowed!==false || envelope.networkCallPerformed!==false || envelope.providerExecutionAllowed!==false){ decision="blocked_network_or_provider_execution_attempt"; reason="Netzwerk-/Provider-Aufruf erkannt."; }
   else if(envelope.dispatchPayloadIncluded!==false || envelope.commandPayloadIncluded!==false || envelope.requestBodyIncluded!==false || envelope.sensitiveRequestBodyIncluded!==false){ decision="blocked_payload_or_request_body_included"; reason="Payload oder Request Body ist enthalten."; }
@@ -141,3 +141,4 @@ export function simulateProviderDispatchReleaseCandidateEnvelopePolicy(input:{ p
   return sim;
 }
 export function summarizeProviderDispatchReleaseCandidateEnvelopePolicySimulations(sims:ProviderDispatchReleaseCandidateEnvelopePolicySimulation[]){ const byDecision:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; } return { total:sims.length, byDecision }; }
+

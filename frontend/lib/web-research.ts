@@ -1,4 +1,4 @@
-export interface WebResearchResult {
+﻿export interface WebResearchResult {
   title: string;
   url: string;
   snippet: string;
@@ -102,3 +102,4 @@ export async function runWebResearch(options: WebResearchOptions): Promise<WebRe
     results,
   };
 }
+

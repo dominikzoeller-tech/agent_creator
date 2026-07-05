@@ -1,4 +1,4 @@
-import { readFile, readdir, writeFile, mkdir } from "node:fs/promises";
+﻿import { readFile, readdir, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
 export interface SessionSummaryOptions {
@@ -144,7 +144,7 @@ function buildMemoryProposal(input: {
     type: "note",
     title: `Session Summary: ${new Date().toISOString().slice(0, 10)}`,
     summary: [
-      `Aus den letzten ${input.total} Logeinträgen wurde eine Session-Zusammenfassung erstellt.`,
+      `Aus den letzten ${input.total} LogeintrÃ¤gen wurde eine Session-Zusammenfassung erstellt.`,
       `Project Memory wurde ${input.usedMemoryCount} Mal genutzt.`,
       `Knowledge wurde ${input.usedKnowledgeCount} Mal genutzt.`,
       `Routenverteilung: ${routeSummary}.`,
@@ -185,3 +185,4 @@ async function saveProposalAsMemory(memoryDir: string, proposal: SessionSummaryP
   await writeFile(memoryFile, JSON.stringify({ entries: [entry, ...entries] }, null, 2) + "\n", "utf8");
   return id;
 }
+

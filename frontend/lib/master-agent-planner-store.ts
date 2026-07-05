@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type PlannerRecommendationDecision = "recommendation_created" | "blocked_missing_orchestration_plan" | "blocked_execution_not_safe";
@@ -38,14 +38,14 @@ function missingGates(plan:any): string[] {
   if(String(plan?.actionType||"").includes("blueprint")) required.push("human_review_required", "registry_required");
   return required.filter((g)=>!gates.has(g));
 }
-function consentSteps(plan:any): string[] { const type=String(plan?.actionType||""); if(type.includes("tool")) return ["Tool Adapter Consent Binding prüfen"]; if(type.includes("runtime")) return ["Runtime Consent Binding prüfen"]; return []; }
-function policySteps(plan:any): string[] { return ["Orchestration Policy Simulation ausführen", "Governance Audit prüfen"]; }
+function consentSteps(plan:any): string[] { const type=String(plan?.actionType||""); if(type.includes("tool")) return ["Tool Adapter Consent Binding prÃ¼fen"]; if(type.includes("runtime")) return ["Runtime Consent Binding prÃ¼fen"]; return []; }
+function policySteps(plan:any): string[] { return ["Orchestration Policy Simulation ausfÃ¼hren", "Governance Audit prÃ¼fen"]; }
 function nextAction(plan:any, missing:string[]): string {
-  if(missing.length>0) return "Fehlende Safety Gates ergänzen: "+missing.join(", ");
-  if(String(plan?.actionType||"")==="prepare_tool_adapter_plan") return "Tool Adapter Dry-run Plan und Consent prüfen";
-  if(String(plan?.actionType||"")==="prepare_runtime_dry_run") return "Runtime Dry-run und Consent prüfen";
-  if(String(plan?.actionType||"")==="prepare_agent_blueprint") return "Agent Blueprint und Registry Gate prüfen";
-  return "Audit und nächste sichere Cockpit Action prüfen";
+  if(missing.length>0) return "Fehlende Safety Gates ergÃ¤nzen: "+missing.join(", ");
+  if(String(plan?.actionType||"")==="prepare_tool_adapter_plan") return "Tool Adapter Dry-run Plan und Consent prÃ¼fen";
+  if(String(plan?.actionType||"")==="prepare_runtime_dry_run") return "Runtime Dry-run und Consent prÃ¼fen";
+  if(String(plan?.actionType||"")==="prepare_agent_blueprint") return "Agent Blueprint und Registry Gate prÃ¼fen";
+  return "Audit und nÃ¤chste sichere Cockpit Action prÃ¼fen";
 }
 export function listMasterAgentPlannerRecommendations(limit=100): MasterAgentPlannerRecommendation[] { ensureStore(); return readJsonl(recommendationsPath()).sort((a,b)=>String(b.timestamp).localeCompare(String(a.timestamp))).slice(0, Math.max(1, Math.min(limit,500))); }
 export function createMasterAgentPlannerRecommendation(input:{ orchestrationPlanId?: string; metadata?: Record<string, unknown> }): MasterAgentPlannerRecommendation {
@@ -53,7 +53,7 @@ export function createMasterAgentPlannerRecommendation(input:{ orchestrationPlan
   const plans=readJsonl(orchestrationPath());
   const plan=input.orchestrationPlanId ? plans.find((entry:any)=>entry.id===input.orchestrationPlanId) : plans[0];
   let decision: PlannerRecommendationDecision="recommendation_created";
-  let reason="Planner Recommendation erstellt. Phase 16.0 bereitet nur LLM-Routing vor, keine Ausführung.";
+  let reason="Planner Recommendation erstellt. Phase 16.0 bereitet nur LLM-Routing vor, keine AusfÃ¼hrung.";
   if(!plan){ decision="blocked_missing_orchestration_plan"; reason="Orchestration Plan nicht gefunden."; }
   else if(plan.executionAllowed!==false || plan.toolExecutionAllowed!==false || plan.agentExecutionAllowed!==false || plan.dryRunOnly!==true){ decision="blocked_execution_not_safe"; reason="Orchestration Plan verletzt Safety Invariants."; }
   const missing=plan?missingGates(plan):[];
@@ -81,3 +81,4 @@ export function createMasterAgentPlannerRecommendation(input:{ orchestrationPlan
   return rec;
 }
 export function summarizeMasterAgentPlannerRecommendations(recs: MasterAgentPlannerRecommendation[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const rec of recs){ byDecision[rec.decision]=(byDecision[rec.decision]||0)+1; if(rec.actionType) byActionType[rec.actionType]=(byActionType[rec.actionType]||0)+1; } return { total:recs.length, byDecision, byActionType }; }
+

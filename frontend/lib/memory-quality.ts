@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+﻿import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 export type MemoryQualitySeverity = "info" | "warning" | "error";
@@ -99,10 +99,10 @@ function evaluateEntry(entry: RawMemoryEntry, duplicateTitleIds: Set<string>): M
   if (!ALLOWED_TYPES.has(type)) issues.push({ code: "invalid-type", severity: "warning", message: `Memory-Typ ist unbekannt: ${type || "leer"}.` });
   if (tags.length === 0) issues.push({ code: "missing-tags", severity: "warning", message: "Memory-Eintrag hat keine Tags." });
   if (summary && countWords(summary) < 8) issues.push({ code: "very-short-summary", severity: "info", message: "Summary ist sehr kurz und liefert eventuell wenig Kontext." });
-  if (summary.length > 4000) issues.push({ code: "very-long-summary", severity: "info", message: "Summary ist sehr lang. Kürzen könnte die Trefferqualität verbessern." });
-  if (duplicateTitleIds.has(id)) issues.push({ code: "duplicate-title", severity: "warning", message: "Titel kommt in mehreren Memory-Einträgen vor." });
+  if (summary.length > 4000) issues.push({ code: "very-long-summary", severity: "info", message: "Summary ist sehr lang. KÃ¼rzen kÃ¶nnte die TrefferqualitÃ¤t verbessern." });
+  if (duplicateTitleIds.has(id)) issues.push({ code: "duplicate-title", severity: "warning", message: "Titel kommt in mehreren Memory-EintrÃ¤gen vor." });
   if (type === "system-state" && entry.updatedAt && isOlderThanDays(entry.updatedAt, 30)) {
-    issues.push({ code: "old-system-state", severity: "info", message: "System-State ist älter als 30 Tage und sollte geprüft werden." });
+    issues.push({ code: "old-system-state", severity: "info", message: "System-State ist Ã¤lter als 30 Tage und sollte geprÃ¼ft werden." });
   }
   if (!entry.createdAt || !entry.updatedAt) issues.push({ code: "missing-timestamps", severity: "info", message: "createdAt oder updatedAt fehlt." });
 
@@ -122,7 +122,7 @@ function findDuplicateTitleGroups(entries: RawMemoryEntry[]): string[][] {
 }
 
 function countWords(value: string): number {
-  return value.split(/\s+/).map((word) => word.trim()).filter(Boolean).length;
+  return value.split(/\r?\n/).map((word) => word.trim()).filter(Boolean).length;
 }
 
 function countSeverity(reports: MemoryQualityEntryReport[], severity: MemoryQualitySeverity): number {
@@ -138,3 +138,4 @@ function isOlderThanDays(value: string, days: number): boolean {
 function normalizeText(value: string): string {
   return value.toLowerCase().replace(/\s+/g, " ").trim();
 }
+

@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -66,8 +66,8 @@ export function simulateApprovalTokenActivationPolicy(input:{ activationGateId?:
   checks.push({ name:"provider_call_blocked", passed:plan.providerSelectionAllowed === false && plan.provider === "none" && plan.modelSelected === "none" && plan.networkCallAllowed === false && plan.automaticInvocationAllowed === false, reason:"Provider-/Netzwerk-Aufruf bleibt blockiert." });
   checks.push({ name:"secret_boundary", passed:gate?.noSecretsIncluded === true && !containsSecretValue(gate), reason:"Policy darf keine Secret-Werte enthalten." });
   checks.push({ name:"real_llm_blocked", passed:gate?.realLlmCallAllowed === false && gate?.llmCallPerformed === false, reason:"Real LLM Call bleibt blockiert." });
-  checks.push({ name:"network_provider_blocked", passed:gate?.networkCallPerformed === false && gate?.providerExecutionAllowed === false, reason:"Netzwerk-/Provider-Ausführung bleibt blockiert." });
-  checks.push({ name:"execution_blocked", passed:gate?.executionAllowed === false && gate?.toolExecutionAllowed === false && gate?.agentExecutionAllowed === false && gate?.dryRunOnly === true, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"network_provider_blocked", passed:gate?.networkCallPerformed === false && gate?.providerExecutionAllowed === false, reason:"Netzwerk-/Provider-AusfÃ¼hrung bleibt blockiert." });
+  checks.push({ name:"execution_blocked", passed:gate?.executionAllowed === false && gate?.toolExecutionAllowed === false && gate?.agentExecutionAllowed === false && gate?.dryRunOnly === true, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   let decision:ApprovalTokenActivationPolicyDecision="approval_token_activation_policy_allowed_no_activation";
   let reason="Approval Token Activation Policy erlaubt nur Simulation. Token bleibt nicht aktiv. Kein Provider-/Netzwerk-Aufruf.";
   if(!gate){ decision="blocked_missing_activation_gate"; reason="Approval Token Activation Gate nicht gefunden."; }
@@ -112,3 +112,4 @@ export function simulateApprovalTokenActivationPolicy(input:{ activationGateId?:
   return sim;
 }
 export function summarizeApprovalTokenActivationPolicySimulations(sims:ApprovalTokenActivationPolicySimulation[]){ const byDecision:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; } return { total:sims.length, byDecision }; }
+

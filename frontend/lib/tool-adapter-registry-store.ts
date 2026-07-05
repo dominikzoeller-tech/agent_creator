@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type ToolAdapterStatus = "draft" | "registered" | "disabled" | "test_mode";
@@ -48,7 +48,7 @@ function readRegistry(): ToolAdapterRegistryEntry[] { ensureStore(); try { const
 function writeRegistry(entries: ToolAdapterRegistryEntry[]): void { ensureStore(); writeFileSync(registryPath(), JSON.stringify(entries, null, 2) + "\n", "utf8"); }
 function readPlans(limit = 100): ToolExecutionSandboxPlan[] { ensureStore(); try { return readFileSync(plansPath(), "utf8").split(/\r?\n/).map((line)=>line.trim()).filter(Boolean).map((line)=>{ try { return JSON.parse(line) as ToolExecutionSandboxPlan; } catch { return null; } }).filter((entry): entry is ToolExecutionSandboxPlan => Boolean(entry)).sort((a,b)=>b.timestamp.localeCompare(a.timestamp)).slice(0, Math.max(1, Math.min(limit, 500))); } catch { return []; } }
 function appendPlan(plan: ToolExecutionSandboxPlan): void { ensureStore(); appendFileSync(plansPath(), JSON.stringify(plan) + "\n", "utf8"); }
-function slug(value: string): string { return value.toLowerCase().replace(/[^a-z0-9äöüß_-]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "tool-adapter"; }
+function slug(value: string): string { return value.toLowerCase().replace(/[^a-z0-9Ã¤Ã¶Ã¼ÃŸ_-]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "tool-adapter"; }
 function makeId(prefix: string, value?: string): string { const now = new Date().toISOString(); return prefix + "-" + slug(value || prefix) + "-" + now.replace(/[^0-9]/g, "").slice(0,14) + "-" + Math.random().toString(36).slice(2,8); }
 function redact(value: unknown): unknown { if(typeof value !== "string") return value; return value.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[redacted-email]").replace(/(api[_-]?key|token|secret|password)\s*[:=]\s*[^\s,;]+/gi, "$1=[redacted]").slice(0, 500); }
 function normalizeList(value: unknown): string[] { if(Array.isArray(value)) return value.filter((item): item is string => typeof item === "string").map((item)=>item.trim()).filter(Boolean); if(typeof value === "string") return value.split(",").map((item)=>item.trim()).filter(Boolean); return []; }
@@ -100,12 +100,12 @@ export function createToolExecutionSandboxPlan(input: { adapterId?: string; adap
   const requiredPermissions = adapter?.requiredPermissions || [];
   const missingPermissions = requiredPermissions.filter((permission) => !grantedPermissions.includes(permission));
   let decision: ToolExecutionPlanDecision = "plan_created";
-  let reason = "Dry-run Tool Execution Plan erstellt. Keine echte Tool-Ausführung erlaubt.";
+  let reason = "Dry-run Tool Execution Plan erstellt. Keine echte Tool-AusfÃ¼hrung erlaubt.";
   if(!adapter) { decision = "blocked_missing_adapter"; reason = "Tool Adapter nicht gefunden."; }
   else if(adapter.status === "disabled") { decision = "blocked_disabled"; reason = "Tool Adapter ist disabled."; }
-  else if(rejectedInputKeys.length > 0) { decision = "blocked_unsafe_input"; reason = "Input enthält nicht erlaubte Keys."; }
+  else if(rejectedInputKeys.length > 0) { decision = "blocked_unsafe_input"; reason = "Input enthÃ¤lt nicht erlaubte Keys."; }
   else if(missingPermissions.length > 0) { decision = "blocked_permission"; reason = "Erforderliche Permissions fehlen."; }
-  else if(adapter.requiresConsent !== false) { decision = "consent_required"; reason = "Consent wäre vor echter Tool-Ausführung erforderlich; Phase 13.0 erlaubt nur Dry-run Plan."; }
+  else if(adapter.requiresConsent !== false) { decision = "consent_required"; reason = "Consent wÃ¤re vor echter Tool-AusfÃ¼hrung erforderlich; Phase 13.0 erlaubt nur Dry-run Plan."; }
   const plan: ToolExecutionSandboxPlan = {
     id: makeId("tool-plan", adapter?.adapterName || input.adapterName || input.adapterId || "unknown"),
     timestamp: new Date().toISOString(),
@@ -130,3 +130,4 @@ export function createToolExecutionSandboxPlan(input: { adapterId?: string; adap
 export function listToolExecutionSandboxPlans(limit = 100): ToolExecutionSandboxPlan[] { return readPlans(limit); }
 export function summarizeToolSandboxPlans(plans: ToolExecutionSandboxPlan[]) { const byDecision: Record<string, number> = {}; for(const plan of plans) byDecision[plan.decision] = (byDecision[plan.decision] || 0) + 1; return { total: plans.length, byDecision }; }
 export function summarizeToolAdapters(entries: ToolAdapterRegistryEntry[]) { const byStatus: Record<string, number> = {}; const byRiskLevel: Record<string, number> = {}; for(const entry of entries){ byStatus[entry.status] = (byStatus[entry.status] || 0) + 1; byRiskLevel[entry.riskLevel] = (byRiskLevel[entry.riskLevel] || 0) + 1; } return { total: entries.length, byStatus, byRiskLevel }; }
+

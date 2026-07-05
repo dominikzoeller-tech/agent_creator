@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -49,21 +49,21 @@ export function simulateControlledLlmStubPolicy(input:{ responseId?: string; met
   const response=input.responseId ? responses.find((entry:any)=>entry.id===input.responseId) : responses[0];
   const checks: Array<{name:string; passed:boolean; reason:string}> = [];
   checks.push({ name:"stub_response_exists", passed:Boolean(response), reason: response ? "Stub Response gefunden." : "Stub Response fehlt." });
-  checks.push({ name:"llm_call_not_performed", passed: response?.llmCallPerformed === false, reason: response?.llmCallPerformed === false ? "Kein LLM-Aufruf erfolgt." : "LLM-Aufruf wäre erfolgt." });
+  checks.push({ name:"llm_call_not_performed", passed: response?.llmCallPerformed === false, reason: response?.llmCallPerformed === false ? "Kein LLM-Aufruf erfolgt." : "LLM-Aufruf wÃ¤re erfolgt." });
   checks.push({ name:"stub_only", passed: response?.stubOnly === true, reason: response?.stubOnly === true ? "Stub-only ist aktiv." : "Stub-only fehlt." });
-  checks.push({ name:"execution_blocked", passed: response?.executionAllowed === false, reason: response?.executionAllowed === false ? "Execution bleibt blockiert." : "Execution wäre nicht blockiert." });
-  checks.push({ name:"tool_execution_blocked", passed: response?.toolExecutionAllowed === false, reason: response?.toolExecutionAllowed === false ? "Tool-Ausführung bleibt blockiert." : "Tool-Ausführung wäre nicht blockiert." });
-  checks.push({ name:"agent_execution_blocked", passed: response?.agentExecutionAllowed === false, reason: response?.agentExecutionAllowed === false ? "Agent-Ausführung bleibt blockiert." : "Agent-Ausführung wäre nicht blockiert." });
+  checks.push({ name:"execution_blocked", passed: response?.executionAllowed === false, reason: response?.executionAllowed === false ? "Execution bleibt blockiert." : "Execution wÃ¤re nicht blockiert." });
+  checks.push({ name:"tool_execution_blocked", passed: response?.toolExecutionAllowed === false, reason: response?.toolExecutionAllowed === false ? "Tool-AusfÃ¼hrung bleibt blockiert." : "Tool-AusfÃ¼hrung wÃ¤re nicht blockiert." });
+  checks.push({ name:"agent_execution_blocked", passed: response?.agentExecutionAllowed === false, reason: response?.agentExecutionAllowed === false ? "Agent-AusfÃ¼hrung bleibt blockiert." : "Agent-AusfÃ¼hrung wÃ¤re nicht blockiert." });
   checks.push({ name:"dry_run_only", passed: response?.dryRunOnly === true, reason: response?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name:"no_secrets", passed: response?.noSecretsIncluded === true && !containsSecretPattern(response?.responseText), reason: response?.noSecretsIncluded === true && !containsSecretPattern(response?.responseText) ? "Keine Secret-Muster in Response." : "Secret-Risiko in Response." });
-  checks.push({ name:"explanation_only", passed: response ? explanationOnly(response) : false, reason: response && explanationOnly(response) ? "Response bleibt Explanation-only." : "Response enthält potenziell ausführende Inhalte." });
+  checks.push({ name:"explanation_only", passed: response ? explanationOnly(response) : false, reason: response && explanationOnly(response) ? "Response bleibt Explanation-only." : "Response enthÃ¤lt potenziell ausfÃ¼hrende Inhalte." });
   let decision: StubPolicyDecision="simulation_allowed_stub_only";
-  let reason="Stub Response Policy Simulation erlaubt nur Stub-/Dry-run-Erklärung. Keine echte Ausführung.";
+  let reason="Stub Response Policy Simulation erlaubt nur Stub-/Dry-run-ErklÃ¤rung. Keine echte AusfÃ¼hrung.";
   if(!response){ decision="blocked_missing_stub_response"; reason="Stub Response nicht gefunden."; }
   else if(response.executionAllowed!==false || response.toolExecutionAllowed!==false || response.agentExecutionAllowed!==false || response.dryRunOnly!==true){ decision="blocked_execution_not_safe"; reason="Stub Response verletzt Execution Safety Invariants."; }
   else if(response.llmCallPerformed!==false || response.stubOnly!==true){ decision="blocked_llm_call_detected"; reason="Stub Response ist nicht eindeutig stub-only / no-LLM-call."; }
   else if(response.noSecretsIncluded!==true || containsSecretPattern(response.responseText)){ decision="blocked_secret_risk"; reason="Secret-Risiko in Stub Response erkannt."; }
-  else if(!explanationOnly(response)){ decision="blocked_output_not_explanation_only"; reason="Stub Response enthält potenziell ausführende Inhalte."; }
+  else if(!explanationOnly(response)){ decision="blocked_output_not_explanation_only"; reason="Stub Response enthÃ¤lt potenziell ausfÃ¼hrende Inhalte."; }
   const sim:ControlledLlmStubPolicySimulation={
     id:makeId("llm-stub-policy-sim"),
     timestamp:new Date().toISOString(),
@@ -97,3 +97,4 @@ export function simulateControlledLlmStubPolicy(input:{ responseId?: string; met
   return sim;
 }
 export function summarizeControlledLlmStubPolicySimulations(sims:ControlledLlmStubPolicySimulation[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; if(sim.actionType) byActionType[sim.actionType]=(byActionType[sim.actionType]||0)+1; } return { total:sims.length, byDecision, byActionType }; }
+

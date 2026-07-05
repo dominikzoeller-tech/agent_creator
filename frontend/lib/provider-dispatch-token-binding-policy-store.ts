@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -55,8 +55,7 @@ function dataDir(): string { return process.env.TOOL_CONSENT_DATA_DIR || process
 function bindingPath(): string { return path.join(dataDir(), "provider-dispatch-token-bindings.jsonl"); }
 function simulationPath(): string { return path.join(dataDir(), "provider-dispatch-token-binding-policy-simulations.jsonl"); }
 function ensureStore(): void { mkdirSync(dataDir(), { recursive: true }); }
-function readJsonl(file:string): any[] { try { return readFileSync(file,"utf8").split(/?
-/).map((line)=>line.trim()).filter(Boolean).map((line)=>{ try { return JSON.parse(line); } catch { return null; } }).filter(Boolean); } catch { return []; } }
+function readJsonl(file:string): any[] { try { return readFileSync(file,"utf8").split(/\r?\n/).map((line)=>line.trim()).filter(Boolean).map((line)=>{ try { return JSON.parse(line); } catch { return null; } }).filter(Boolean); } catch { return []; } }
 function makeId(prefix:string): string { const now=new Date().toISOString(); return prefix+"-"+now.replace(/[^0-9]/g,"").slice(0,14)+"-"+Math.random().toString(36).slice(2,8); }
 function appendSimulation(sim:ProviderDispatchTokenBindingPolicySimulation): void { ensureStore(); appendFileSync(simulationPath(), JSON.stringify(sim)+"\n", "utf8"); }
 function containsSecretValue(value: unknown): boolean { return /(sk-[a-z0-9_-]{10,}|api[_-]?keys*[:=]s*[^s,;]+|tokens*[:=]s*[^s,;]+|secrets*[:=]s*[^s,;]+|passwords*[:=]s*[^s,;]+)/i.test(JSON.stringify(value || {})); }
@@ -69,21 +68,21 @@ export function simulateProviderDispatchTokenBindingPolicy(input:{ providerDispa
   checks.push({ name:"binding_exists", passed:Boolean(binding), reason:binding?"Provider Dispatch Token Binding gefunden.":"Provider Dispatch Token Binding fehlt." });
   checks.push({ name:"binding_prepared", passed:binding?.providerDispatchTokenBindingPrepared===true, reason:"Token Binding muss nur vorbereitet sein." });
   checks.push({ name:"token_not_bound_or_active", passed:binding?.tokenBoundToDispatch===false && binding?.tokenBindingActive===false && binding?.tokenActive===false, reason:"Token darf nicht aktiv gebunden sein." });
-  checks.push({ name:"dispatch_not_performed", passed:binding?.providerDispatchPerformed===false, reason:"Provider Dispatch darf nicht ausgeführt sein." });
+  checks.push({ name:"dispatch_not_performed", passed:binding?.providerDispatchPerformed===false, reason:"Provider Dispatch darf nicht ausgefÃ¼hrt sein." });
   checks.push({ name:"metadata_only", passed:binding?.metadataOnly===true, reason:"Binding bleibt metadata-only." });
   checks.push({ name:"provider_none", passed:binding?.provider==="none" && binding?.modelSelected==="none", reason:"Provider und Modell bleiben none." });
-  checks.push({ name:"payloads_not_included", passed:binding?.dispatchPayloadIncluded===false && binding?.promptPayloadIncluded===false && binding?.requestBodyIncluded===false && binding?.sensitiveRequestBodyIncluded===false, reason:"Dispatch-, Prompt- und Request-Payloads dürfen nicht enthalten sein." });
-  checks.push({ name:"secrets_not_included", passed:binding?.secretValuesIncluded===false && binding?.noSecretsIncluded===true && !containsSecretValue(binding), reason:"Secret-Werte dürfen nicht enthalten sein." });
-  checks.push({ name:"network_provider_blocked", passed:binding?.networkCallPerformed===false && binding?.providerExecutionAllowed===false, reason:"Netzwerk-/Provider-Ausführung bleibt blockiert." });
+  checks.push({ name:"payloads_not_included", passed:binding?.dispatchPayloadIncluded===false && binding?.promptPayloadIncluded===false && binding?.requestBodyIncluded===false && binding?.sensitiveRequestBodyIncluded===false, reason:"Dispatch-, Prompt- und Request-Payloads dÃ¼rfen nicht enthalten sein." });
+  checks.push({ name:"secrets_not_included", passed:binding?.secretValuesIncluded===false && binding?.noSecretsIncluded===true && !containsSecretValue(binding), reason:"Secret-Werte dÃ¼rfen nicht enthalten sein." });
+  checks.push({ name:"network_provider_blocked", passed:binding?.networkCallPerformed===false && binding?.providerExecutionAllowed===false, reason:"Netzwerk-/Provider-AusfÃ¼hrung bleibt blockiert." });
   checks.push({ name:"llm_blocked", passed:binding?.realLlmCallAllowed===false && binding?.llmCallPerformed===false, reason:"LLM Call bleibt blockiert." });
-  checks.push({ name:"execution_blocked", passed:binding?.executionAllowed===false && binding?.toolExecutionAllowed===false && binding?.agentExecutionAllowed===false && binding?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"execution_blocked", passed:binding?.executionAllowed===false && binding?.toolExecutionAllowed===false && binding?.agentExecutionAllowed===false && binding?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   let decision:ProviderDispatchTokenBindingPolicyDecision="provider_dispatch_token_binding_policy_allowed_no_provider_call";
   let reason="Provider Dispatch Token Binding Policy erlaubt nur no-provider-call Simulation. Token bleibt nicht aktiv gebunden.";
   if(!binding){ decision="blocked_missing_token_binding"; reason="Provider Dispatch Token Binding fehlt."; }
   else if(binding.providerDispatchTokenBindingPrepared!==true){ decision="blocked_binding_not_prepared"; reason="Provider Dispatch Token Binding ist nicht vorbereitet."; }
   else if(binding.tokenBoundToDispatch!==false || binding.tokenBindingActive!==false){ decision="blocked_token_bound_or_active"; reason="Token ist gebunden oder Binding aktiv."; }
   else if(binding.tokenActive!==false){ decision="blocked_token_active"; reason="Token ist aktiv."; }
-  else if(binding.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde ausgeführt."; }
+  else if(binding.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde ausgefÃ¼hrt."; }
   else if(binding.provider!=="none" || binding.modelSelected!=="none"){ decision="blocked_provider_selection_attempt"; reason="Provider- oder Modell-Auswahl erkannt."; }
   else if(binding.networkCallPerformed!==false || binding.providerExecutionAllowed!==false){ decision="blocked_network_or_provider_execution_attempt"; reason="Netzwerk-/Provider-Aufruf erkannt."; }
   else if(binding.dispatchPayloadIncluded!==false || binding.promptPayloadIncluded!==false || binding.requestBodyIncluded!==false || binding.sensitiveRequestBodyIncluded!==false){ decision="blocked_prompt_or_payload_included"; reason="Payload oder Request Body ist enthalten."; }
@@ -95,3 +94,4 @@ export function simulateProviderDispatchTokenBindingPolicy(input:{ providerDispa
   return sim;
 }
 export function summarizeProviderDispatchTokenBindingPolicySimulations(sims:ProviderDispatchTokenBindingPolicySimulation[]){ const byDecision:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; } return { total:sims.length, byDecision }; }
+

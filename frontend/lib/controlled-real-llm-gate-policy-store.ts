@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -46,13 +46,13 @@ export function simulateControlledRealLlmGatePolicy(input:{ gateId?: string; met
   const gate=input.gateId ? gates.find((entry:any)=>entry.id===input.gateId) : gates[0];
   const checks: Array<{name:string; passed:boolean; reason:string}> = [];
   checks.push({ name:"gate_exists", passed:Boolean(gate), reason: gate ? "Real LLM Call Gate gefunden." : "Real LLM Call Gate fehlt." });
-  checks.push({ name:"real_llm_not_allowed", passed: gate?.realLlmCallAllowed === false, reason: gate?.realLlmCallAllowed === false ? "Real LLM Call bleibt blockiert." : "Real LLM Call wäre erlaubt." });
-  checks.push({ name:"llm_call_not_performed", passed: gate?.llmCallPerformed === false, reason: gate?.llmCallPerformed === false ? "Kein LLM-Aufruf erfolgt." : "LLM-Aufruf wurde durchgeführt." });
+  checks.push({ name:"real_llm_not_allowed", passed: gate?.realLlmCallAllowed === false, reason: gate?.realLlmCallAllowed === false ? "Real LLM Call bleibt blockiert." : "Real LLM Call wÃ¤re erlaubt." });
+  checks.push({ name:"llm_call_not_performed", passed: gate?.llmCallPerformed === false, reason: gate?.llmCallPerformed === false ? "Kein LLM-Aufruf erfolgt." : "LLM-Aufruf wurde durchgefÃ¼hrt." });
   checks.push({ name:"policy_gate_required", passed: gate?.policyGateRequired === true && gate?.invocationPlan?.policyGateRequired === true, reason: "Policy Gate muss vor Invocation verpflichtend sein." });
   checks.push({ name:"secret_scan_required", passed: gate?.invocationPlan?.secretScanRequired === true, reason: "Secret Scan muss vor Invocation verpflichtend sein." });
   checks.push({ name:"output_contract_required", passed: gate?.invocationPlan?.outputContractRequired === true, reason: "Output Contract muss vor Invocation verpflichtend sein." });
   checks.push({ name:"audit_required", passed: gate?.invocationPlan?.auditRequiredBeforeCall === true && gate?.invocationPlan?.auditRequiredAfterDecision === true, reason: "Audit muss vor Call und nach Entscheidung verpflichtend sein." });
-  checks.push({ name:"execution_blocked", passed: gate?.executionAllowed === false && gate?.toolExecutionAllowed === false && gate?.agentExecutionAllowed === false, reason: "Execution-, Tool- und Agent-Ausführung müssen blockiert bleiben." });
+  checks.push({ name:"execution_blocked", passed: gate?.executionAllowed === false && gate?.toolExecutionAllowed === false && gate?.agentExecutionAllowed === false, reason: "Execution-, Tool- und Agent-AusfÃ¼hrung mÃ¼ssen blockiert bleiben." });
   checks.push({ name:"dry_run_only", passed: gate?.dryRunOnly === true, reason: gate?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name:"no_secret_risk", passed: gate?.noSecretsIncluded === true && !containsSecretPattern(gate?.sanitizedPromptPreview), reason: gate?.noSecretsIncluded === true && !containsSecretPattern(gate?.sanitizedPromptPreview) ? "Kein Secret-Risiko im Prompt Preview." : "Secret-Risiko erkannt." });
   let decision: RealLlmGatePolicyDecision="simulation_allowed_gate_only";
@@ -97,3 +97,4 @@ export function simulateControlledRealLlmGatePolicy(input:{ gateId?: string; met
   return sim;
 }
 export function summarizeControlledRealLlmGatePolicySimulations(sims:ControlledRealLlmGatePolicySimulation[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; if(sim.actionType) byActionType[sim.actionType]=(byActionType[sim.actionType]||0)+1; } return { total:sims.length, byDecision, byActionType }; }
+

@@ -1,4 +1,4 @@
-export interface WebResearchSettingsStatus {
+﻿export interface WebResearchSettingsStatus {
   ok: true;
   webResearchEnabled: boolean;
   bingSearchConfigured: boolean;
@@ -36,10 +36,10 @@ export function getWebResearchSettingsStatus(): WebResearchSettingsStatus {
   const notes: string[] = [];
   if (!webResearchEnabled) notes.push("Web Research ist deaktiviert. Setze WEB_RESEARCH_ENABLED=true, um Websuche zu aktivieren.");
   if (webResearchEnabled && !bingSearchConfigured) notes.push("BING_SEARCH_API_KEY fehlt. Websuche ist aktiviert, kann aber keine echten Ergebnisse laden.");
-  if (webResearchEnabled && bingSearchConfigured) notes.push("Bing Search ist konfiguriert. Bitte nur öffentliche, nicht-sensitive Queries verwenden.");
-  if (!openAiConfigured) notes.push("OPENAI_API_KEY fehlt. AI Research Summary ist nicht verfügbar.");
-  if (!governanceEnabled) notes.push("Governance ist deaktiviert. Dauerhafte Speicherung sollte dann manuell besonders geprüft werden.");
-  if (!safeMode) notes.push("Safe Mode ist deaktiviert. Das ist nur für lokale Tests empfohlen.");
+  if (webResearchEnabled && bingSearchConfigured) notes.push("Bing Search ist konfiguriert. Bitte nur Ã¶ffentliche, nicht-sensitive Queries verwenden.");
+  if (!openAiConfigured) notes.push("OPENAI_API_KEY fehlt. AI Research Summary ist nicht verfÃ¼gbar.");
+  if (!governanceEnabled) notes.push("Governance ist deaktiviert. Dauerhafte Speicherung sollte dann manuell besonders geprÃ¼ft werden.");
+  if (!safeMode) notes.push("Safe Mode ist deaktiviert. Das ist nur fÃ¼r lokale Tests empfohlen.");
 
   return {
     ok: true,
@@ -54,3 +54,4 @@ export function getWebResearchSettingsStatus(): WebResearchSettingsStatus {
     notes,
   };
 }
+

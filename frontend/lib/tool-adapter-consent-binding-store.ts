@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 export type ToolAdapterConsentBindingStatus = "pending" | "approved" | "denied" | "expired";
@@ -56,7 +56,7 @@ export function createToolAdapterConsentBinding(input: { toolExecutionPlanId: st
     status:"pending",
     toolId:"tool-adapter:"+(plan.adapterName||plan.adapterId||"unknown-adapter"),
     toolName:"Controlled Tool Adapter Sandbox",
-    reason:"Tool Adapter Consent Binding für Dry-run Tool Execution Plan. Phase 13.1 erlaubt weiterhin keine echte Tool-Ausführung.",
+    reason:"Tool Adapter Consent Binding fÃ¼r Dry-run Tool Execution Plan. Phase 13.1 erlaubt weiterhin keine echte Tool-AusfÃ¼hrung.",
     userInputPreview:String(plan.requestedAction||"tool-adapter-action").slice(0,240),
     sensitivity:"internal",
     processingMode:"local_only",
@@ -83,3 +83,4 @@ export function syncToolAdapterConsentBindingStatuses(): ToolAdapterConsentBindi
   return synced.sort((a:any,b:any)=>String(b.requestedAt).localeCompare(String(a.requestedAt)));
 }
 export function summarizeToolAdapterConsentBindings(bindings: ToolAdapterConsentBinding[]) { const byStatus: Record<string, number>={}; for(const binding of bindings) byStatus[binding.status]=(byStatus[binding.status]||0)+1; return { total: bindings.length, byStatus }; }
+

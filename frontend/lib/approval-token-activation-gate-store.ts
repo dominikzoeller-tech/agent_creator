@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -100,7 +100,7 @@ export function createApprovalTokenActivationGate(input:{ issuanceGateId?: strin
   checks.push({name:"provider_call_blocked",passed:plan.providerSelectionAllowed===false && plan.provider==="none" && plan.modelSelected==="none" && plan.networkCallAllowed===false && plan.automaticInvocationAllowed===false,reason:"Provider-/Netzwerk-Aufruf bleibt blockiert."});
   checks.push({name:"secret_boundary",passed:issuance?.noSecretsIncluded===true && !containsSecretValue(issuance),reason:"Activation Gate darf keine Secret-Werte enthalten."});
   checks.push({name:"real_llm_blocked",passed:issuance?.realLlmCallAllowed===false && issuance?.llmCallPerformed===false,reason:"Real LLM Call bleibt blockiert."});
-  checks.push({name:"execution_blocked",passed:issuance?.executionAllowed===false && issuance?.toolExecutionAllowed===false && issuance?.agentExecutionAllowed===false && issuance?.dryRunOnly===true,reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert."});
+  checks.push({name:"execution_blocked",passed:issuance?.executionAllowed===false && issuance?.toolExecutionAllowed===false && issuance?.agentExecutionAllowed===false && issuance?.dryRunOnly===true,reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert."});
   let decision:ApprovalTokenActivationGateDecision="approval_token_activation_gate_prepared_no_provider_call";
   let reason="Approval Token Activation Gate vorbereitet. Token bleibt nicht aktiv. Kein Provider-/Netzwerk-Aufruf.";
   if(!issuance){ decision="blocked_missing_issuance_gate"; reason="Approval Token Issuance Gate fehlt."; }
@@ -124,3 +124,4 @@ export function createApprovalTokenActivationGate(input:{ issuanceGateId?: strin
   return gate;
 }
 export function summarizeApprovalTokenActivationGates(gates:ApprovalTokenActivationGate[]){const byDecision:Record<string,number>={};for(const gate of gates){byDecision[gate.decision]=(byDecision[gate.decision]||0)+1;}return{total:gates.length,byDecision};}
+

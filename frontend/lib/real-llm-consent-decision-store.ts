@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -54,11 +54,11 @@ export function simulateRealLlmConsentDecision(input:{ consentRequestId?: string
   checks.push({ name:"explicit_human_approval_required", passed: req?.humanApprovalRequired === true && req?.consentScope?.requiresExplicitHumanApproval === true, reason: "Explizite Human Approval muss verpflichtend sein." });
   checks.push({ name:"consent_required", passed: req?.consentRequired === true, reason: req?.consentRequired === true ? "Consent ist verpflichtend." : "Consent fehlt." });
   checks.push({ name:"real_llm_still_blocked", passed: req?.realLlmCallAllowed === false && req?.llmCallPerformed === false, reason: "Real LLM Call muss vor expliziter Freigabe blockiert bleiben." });
-  checks.push({ name:"execution_blocked", passed: req?.executionAllowed === false && req?.toolExecutionAllowed === false && req?.agentExecutionAllowed === false, reason: "Execution-, Tool- und Agent-Ausführung müssen blockiert bleiben." });
+  checks.push({ name:"execution_blocked", passed: req?.executionAllowed === false && req?.toolExecutionAllowed === false && req?.agentExecutionAllowed === false, reason: "Execution-, Tool- und Agent-AusfÃ¼hrung mÃ¼ssen blockiert bleiben." });
   checks.push({ name:"dry_run_only", passed: req?.dryRunOnly === true, reason: req?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name:"no_secret_risk", passed: req?.noSecretsIncluded === true && !containsSecretPattern(req?.promptPreview), reason: req?.noSecretsIncluded === true && !containsSecretPattern(req?.promptPreview) ? "Kein Secret-Risiko im Prompt Preview." : "Secret-Risiko erkannt." });
   let decision: RealLlmConsentSimulationDecision="consent_decision_simulated_pending";
-  let reason="Consent Decision Simulation hält den Request im Pending Review. Kein produktiver LLM-Aufruf.";
+  let reason="Consent Decision Simulation hÃ¤lt den Request im Pending Review. Kein produktiver LLM-Aufruf.";
   if(!req){ decision="blocked_missing_consent_request"; reason="Consent Request nicht gefunden."; }
   else if(req.consentScope?.approvalStatus !== "pending"){ decision="blocked_not_pending"; reason="Consent Request ist nicht pending."; }
   else if(req.realLlmCallAllowed !== false || req.llmCallPerformed !== false){ decision="blocked_real_llm_allowed"; reason="Real LLM Call ist vor expliziter Approval nicht eindeutig blockiert."; }
@@ -103,3 +103,4 @@ export function simulateRealLlmConsentDecision(input:{ consentRequestId?: string
   return sim;
 }
 export function summarizeRealLlmConsentDecisionSimulations(sims:RealLlmConsentDecisionSimulation[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; if(sim.actionType) byActionType[sim.actionType]=(byActionType[sim.actionType]||0)+1; } return { total:sims.length, byDecision, byActionType }; }
+

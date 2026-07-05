@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -75,10 +75,10 @@ export function createProviderDispatchTokenBinding(input:{ providerDispatchReadi
 
   if(!readiness){ decision="blocked_missing_dispatch_readiness"; reason="Provider Dispatch Readiness fehlt."; }
   else if(readiness.providerDispatchPrepared!==true){ decision="blocked_dispatch_not_prepared"; reason="Provider Dispatch ist nicht vorbereitet."; }
-  else if(readiness.providerDispatchPerformed!==false){ decision="blocked_dispatch_already_performed"; reason="Provider Dispatch wurde bereits ausgeführt oder Status ist nicht false."; }
+  else if(readiness.providerDispatchPerformed!==false){ decision="blocked_dispatch_already_performed"; reason="Provider Dispatch wurde bereits ausgefÃ¼hrt oder Status ist nicht false."; }
   else if(activation && activation.tokenActive!==false){ decision="blocked_token_not_active"; reason="Token-Status ist nicht explizit false im No-Provider-Call-Pfad."; }
   else if(readiness.provider!=="none" || readiness.modelSelected!=="none"){ decision="blocked_provider_selection_attempt"; reason="Provider- oder Modell-Auswahl erkannt."; }
-  else if(readiness.networkCallPerformed!==false || readiness.providerExecutionAllowed!==false){ decision="blocked_network_or_provider_execution_attempt"; reason="Netzwerk-/Provider-Ausführung erkannt."; }
+  else if(readiness.networkCallPerformed!==false || readiness.providerExecutionAllowed!==false){ decision="blocked_network_or_provider_execution_attempt"; reason="Netzwerk-/Provider-AusfÃ¼hrung erkannt."; }
   else if(readiness.dispatchPayloadIncluded!==false || readiness.promptPayloadIncluded!==false || readiness.requestBodyIncluded!==false || readiness.sensitiveRequestBodyIncluded!==false){ decision="blocked_prompt_or_payload_included"; reason="Dispatch-, Prompt- oder Request-Payload ist enthalten."; }
   else if(readiness.secretValuesIncluded!==false || readiness.noSecretsIncluded!==true || containsSecretValue(readiness)){ decision="blocked_secret_values_included"; reason="Secret Boundary verletzt."; }
   else if(readiness.executionAllowed!==false || readiness.toolExecutionAllowed!==false || readiness.agentExecutionAllowed!==false || readiness.dryRunOnly!==true){ decision="blocked_execution_not_safe"; reason="Execution Safety Invariants verletzt."; }
@@ -124,3 +124,4 @@ export function createProviderDispatchTokenBinding(input:{ providerDispatchReadi
 }
 
 export function summarizeProviderDispatchTokenBindings(bindings:ProviderDispatchTokenBinding[]){ const byDecision:Record<string,number>={}; for(const binding of bindings){ byDecision[binding.decision]=(byDecision[binding.decision]||0)+1; } return { total:bindings.length, byDecision }; }
+

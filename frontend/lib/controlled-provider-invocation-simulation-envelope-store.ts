@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -79,21 +79,21 @@ export function createControlledProviderInvocationSimulationEnvelope(input:{ pre
   const checks: Array<{name:string; passed:boolean; reason:string}> = [];
   checks.push({ name:"readiness_preflight_exists", passed:Boolean(preflight), reason: preflight ? "Readiness Preflight gefunden." : "Readiness Preflight fehlt." });
   checks.push({ name:"readiness_preflight_no_provider_call", passed:preflight?.readinessMode === "provider_invocation_readiness_preflight_no_provider_call", reason:"Readiness Preflight muss no-provider-call bleiben." });
-  checks.push({ name:"no_secret_values", passed:preflight?.noSecretsIncluded === true && !containsSecretValue(preflight), reason:"Keine Secret-Werte oder Secret-ähnlichen Werte dürfen enthalten sein." });
+  checks.push({ name:"no_secret_values", passed:preflight?.noSecretsIncluded === true && !containsSecretValue(preflight), reason:"Keine Secret-Werte oder Secret-Ã¤hnlichen Werte dÃ¼rfen enthalten sein." });
   checks.push({ name:"no_network_or_provider_call", passed:preflight?.networkCallPerformed === false && preflight?.providerExecutionAllowed === false, reason:"Provider-/Netzwerk-Aufruf muss blockiert bleiben." });
   checks.push({ name:"real_llm_blocked", passed:preflight?.realLlmCallAllowed === false && preflight?.llmCallPerformed === false, reason:"Produktiver LLM-Aufruf muss blockiert bleiben." });
-  checks.push({ name:"execution_blocked", passed:preflight?.executionAllowed === false && preflight?.toolExecutionAllowed === false && preflight?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-Ausführung müssen blockiert bleiben." });
+  checks.push({ name:"execution_blocked", passed:preflight?.executionAllowed === false && preflight?.toolExecutionAllowed === false && preflight?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung mÃ¼ssen blockiert bleiben." });
   checks.push({ name:"dry_run_only", passed:preflight?.dryRunOnly === true, reason:preflight?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
-  checks.push({ name:"output_contract_locked", passed:output.outputType === "recommendation_explanation_only" && output.mayExecuteTools === false && output.mayExecuteAgents === false && output.mayRevealSecrets === false && output.mayChangeState === false, reason:"Output Contract muss explanation-only und nicht-ausführend bleiben." });
-  checks.push({ name:"operational_metadata_only", passed:defaults.timeoutMs === 30000 && defaults.maxRetries === 0 && defaults.rateLimitPolicy === "not_configured_metadata_only" && defaults.costLimitPolicy === "not_configured_metadata_only" && defaults.observabilityMode === "metadata_only_no_prompt_or_secret_values", reason:"Operational Defaults müssen metadata-only bleiben." });
+  checks.push({ name:"output_contract_locked", passed:output.outputType === "recommendation_explanation_only" && output.mayExecuteTools === false && output.mayExecuteAgents === false && output.mayRevealSecrets === false && output.mayChangeState === false, reason:"Output Contract muss explanation-only und nicht-ausfÃ¼hrend bleiben." });
+  checks.push({ name:"operational_metadata_only", passed:defaults.timeoutMs === 30000 && defaults.maxRetries === 0 && defaults.rateLimitPolicy === "not_configured_metadata_only" && defaults.costLimitPolicy === "not_configured_metadata_only" && defaults.observabilityMode === "metadata_only_no_prompt_or_secret_values", reason:"Operational Defaults mÃ¼ssen metadata-only bleiben." });
   let decision: ControlledProviderInvocationSimulationDecision="simulation_envelope_prepared_no_external_call";
   let reason="Controlled Provider Invocation Simulation Envelope vorbereitet. Kein externer Provider-/Netzwerk-Aufruf.";
   if(!preflight){ decision="blocked_missing_readiness_preflight"; reason="Readiness Preflight nicht gefunden."; }
-  else if(preflight.noSecretsIncluded !== true || containsSecretValue(preflight)){ decision="blocked_secret_boundary_violation"; reason="Secret Boundary verletzt oder Secret-ähnlicher Wert erkannt."; }
-  else if(preflight.networkCallPerformed !== false || preflight.providerExecutionAllowed !== false){ decision="blocked_network_or_provider_call"; reason="Provider-/Netzwerk-Ausführung ist nicht eindeutig blockiert."; }
+  else if(preflight.noSecretsIncluded !== true || containsSecretValue(preflight)){ decision="blocked_secret_boundary_violation"; reason="Secret Boundary verletzt oder Secret-Ã¤hnlicher Wert erkannt."; }
+  else if(preflight.networkCallPerformed !== false || preflight.providerExecutionAllowed !== false){ decision="blocked_network_or_provider_call"; reason="Provider-/Netzwerk-AusfÃ¼hrung ist nicht eindeutig blockiert."; }
   else if(preflight.realLlmCallAllowed !== false || preflight.llmCallPerformed !== false){ decision="blocked_real_llm_allowed"; reason="Produktiver LLM-Aufruf ist nicht eindeutig blockiert."; }
   else if(preflight.executionAllowed !== false || preflight.toolExecutionAllowed !== false || preflight.agentExecutionAllowed !== false || preflight.dryRunOnly !== true){ decision="blocked_execution_not_safe"; reason="Execution Safety Invariants verletzt."; }
-  else if(checks.find((c)=>c.name==="output_contract_locked")?.passed !== true){ decision="blocked_output_contract_violation"; reason="Output Contract verletzt nicht-ausführende Regeln."; }
+  else if(checks.find((c)=>c.name==="output_contract_locked")?.passed !== true){ decision="blocked_output_contract_violation"; reason="Output Contract verletzt nicht-ausfÃ¼hrende Regeln."; }
   const env: ControlledProviderInvocationSimulationEnvelope={
     id:makeId("provider-simulation-envelope"),
     timestamp:new Date().toISOString(),
@@ -134,3 +134,4 @@ export function createControlledProviderInvocationSimulationEnvelope(input:{ pre
   return env;
 }
 export function summarizeControlledProviderInvocationSimulationEnvelopes(envelopes:ControlledProviderInvocationSimulationEnvelope[]){ const byDecision:Record<string,number>={}; for(const env of envelopes){ byDecision[env.decision]=(byDecision[env.decision]||0)+1; } return { total:envelopes.length, byDecision }; }
+

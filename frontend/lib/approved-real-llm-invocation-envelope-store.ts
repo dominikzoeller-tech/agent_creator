@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -81,18 +81,18 @@ export function createApprovedRealLlmInvocationEnvelope(input:{ consentRequestId
   const acceptedForEnvelopePrep=status === "pending" || status === "approved";
   const checks: Array<{name:string; passed:boolean; reason:string}> = [];
   checks.push({ name:"consent_request_exists", passed:Boolean(req), reason: req ? "Consent Request gefunden." : "Consent Request fehlt." });
-  checks.push({ name:"approval_state_valid_for_prep", passed:acceptedForEnvelopePrep, reason:"Für Envelope-Prep sind pending oder approved erlaubt; echte Invocation bleibt blockiert." });
+  checks.push({ name:"approval_state_valid_for_prep", passed:acceptedForEnvelopePrep, reason:"FÃ¼r Envelope-Prep sind pending oder approved erlaubt; echte Invocation bleibt blockiert." });
   checks.push({ name:"consent_not_expired", passed:notExpired, reason:notExpired ? "Consent Request ist nicht abgelaufen." : "Consent Request ist abgelaufen oder Ablaufzeit fehlt." });
   checks.push({ name:"human_approval_required", passed:req?.humanApprovalRequired === true && req?.consentScope?.requiresExplicitHumanApproval === true, reason:"Explizite Human Approval muss weiterhin verpflichtend sein." });
   checks.push({ name:"real_llm_still_blocked", passed:req?.realLlmCallAllowed === false && req?.llmCallPerformed === false, reason:"Real LLM Call bleibt im Envelope blockiert." });
   checks.push({ name:"execution_blocked", passed:req?.executionAllowed === false && req?.toolExecutionAllowed === false && req?.agentExecutionAllowed === false, reason:"Tool-, Agent- und Execution-Freigaben bleiben blockiert." });
   checks.push({ name:"dry_run_only", passed:req?.dryRunOnly === true, reason:req?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name:"final_secret_scan", passed:req?.noSecretsIncluded === true && !containsSecretPattern(req?.promptPreview), reason:req?.noSecretsIncluded === true && !containsSecretPattern(req?.promptPreview) ? "Finaler Secret Scan ohne Treffer." : "Secret-Risiko erkannt." });
-  checks.push({ name:"output_contract_locked", passed:req?.outputContract?.outputType === "recommendation_explanation_only" && req?.outputContract?.mayExecuteTools === false && req?.outputContract?.mayExecuteAgents === false && req?.outputContract?.mayRevealSecrets === false && req?.outputContract?.mayChangeState === false, reason:"Output Contract muss explanation-only und nicht-ausführend sein." });
+  checks.push({ name:"output_contract_locked", passed:req?.outputContract?.outputType === "recommendation_explanation_only" && req?.outputContract?.mayExecuteTools === false && req?.outputContract?.mayExecuteAgents === false && req?.outputContract?.mayRevealSecrets === false && req?.outputContract?.mayChangeState === false, reason:"Output Contract muss explanation-only und nicht-ausfÃ¼hrend sein." });
   let decision: ApprovedInvocationEnvelopeDecision="invocation_envelope_prepared";
-  let reason="Approved Real LLM Invocation Envelope vorbereitet. Keine Tool-/Agent-Ausführung und kein produktiver LLM-Aufruf.";
+  let reason="Approved Real LLM Invocation Envelope vorbereitet. Keine Tool-/Agent-AusfÃ¼hrung und kein produktiver LLM-Aufruf.";
   if(!req){ decision="blocked_missing_consent_request"; reason="Consent Request nicht gefunden."; }
-  else if(!acceptedForEnvelopePrep){ decision="blocked_consent_not_pending_or_approved"; reason="Consent Status ist nicht für Envelope Prep geeignet."; }
+  else if(!acceptedForEnvelopePrep){ decision="blocked_consent_not_pending_or_approved"; reason="Consent Status ist nicht fÃ¼r Envelope Prep geeignet."; }
   else if(!notExpired){ decision="blocked_consent_expired"; reason="Consent Request ist abgelaufen."; }
   else if(req.humanApprovalRequired !== true || req.consentScope?.requiresExplicitHumanApproval !== true){ decision="blocked_missing_human_approval_requirement"; reason="Human Approval Requirement fehlt."; }
   else if(req.realLlmCallAllowed !== false || req.llmCallPerformed !== false){ decision="blocked_real_llm_call_already_allowed"; reason="Real LLM Call ist nicht eindeutig blockiert."; }
@@ -140,3 +140,4 @@ export function createApprovedRealLlmInvocationEnvelope(input:{ consentRequestId
   return env;
 }
 export function summarizeApprovedRealLlmInvocationEnvelopes(envs:ApprovedRealLlmInvocationEnvelope[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const env of envs){ byDecision[env.decision]=(byDecision[env.decision]||0)+1; if(env.actionType) byActionType[env.actionType]=(byActionType[env.actionType]||0)+1; } return { total:envs.length, byDecision, byActionType }; }
+

@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type RealLlmCallGateDecision =
@@ -57,14 +57,14 @@ export function createControlledRealLlmCallGate(input:{ responseId?: string; met
   const checks: Array<{name:string; passed:boolean; reason:string}> = [];
   checks.push({ name:"stub_response_exists", passed:Boolean(response), reason: response ? "Stub Response gefunden." : "Stub Response fehlt." });
   checks.push({ name:"stub_only", passed: response?.stubOnly === true, reason: response?.stubOnly === true ? "Stub-only ist aktiv." : "Stub-only fehlt." });
-  checks.push({ name:"llm_call_not_performed", passed: response?.llmCallPerformed === false, reason: response?.llmCallPerformed === false ? "Bisher kein LLM-Aufruf." : "LLM-Aufruf wurde bereits durchgeführt." });
-  checks.push({ name:"execution_blocked", passed: response?.executionAllowed === false && response?.toolExecutionAllowed === false && response?.agentExecutionAllowed === false, reason: "Tool-, Agent- und Execution-Freigaben müssen blockiert bleiben." });
+  checks.push({ name:"llm_call_not_performed", passed: response?.llmCallPerformed === false, reason: response?.llmCallPerformed === false ? "Bisher kein LLM-Aufruf." : "LLM-Aufruf wurde bereits durchgefÃ¼hrt." });
+  checks.push({ name:"execution_blocked", passed: response?.executionAllowed === false && response?.toolExecutionAllowed === false && response?.agentExecutionAllowed === false, reason: "Tool-, Agent- und Execution-Freigaben mÃ¼ssen blockiert bleiben." });
   checks.push({ name:"dry_run_only", passed: response?.dryRunOnly === true, reason: response?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name:"secret_scan", passed: response?.noSecretsIncluded === true && !containsSecretPattern(response?.responseText), reason: response?.noSecretsIncluded === true && !containsSecretPattern(response?.responseText) ? "Kein Secret-Muster im Stub Response Text." : "Secret-Risiko erkannt." });
-  checks.push({ name:"output_contract_required", passed:true, reason:"Output Contract muss vor echter Invocation erneut geprüft werden." });
+  checks.push({ name:"output_contract_required", passed:true, reason:"Output Contract muss vor echter Invocation erneut geprÃ¼ft werden." });
   checks.push({ name:"policy_gate_required", passed:true, reason:"Policy Gate ist vor produktivem LLM-Aufruf erforderlich." });
   let decision: RealLlmCallGateDecision="gate_prepared_dry_run";
-  let reason="Controlled Real LLM Call Gate vorbereitet. Phase 19.0 führt keinen produktiven LLM-Aufruf aus.";
+  let reason="Controlled Real LLM Call Gate vorbereitet. Phase 19.0 fÃ¼hrt keinen produktiven LLM-Aufruf aus.";
   if(!response){ decision="blocked_missing_stub_response"; reason="Stub Response nicht gefunden."; }
   else if(response.executionAllowed!==false || response.toolExecutionAllowed!==false || response.agentExecutionAllowed!==false || response.dryRunOnly!==true){ decision="blocked_execution_not_safe"; reason="Stub Response verletzt Execution Safety Invariants."; }
   else if(response.llmCallPerformed!==false || response.stubOnly!==true){ decision="blocked_llm_call_not_allowed"; reason="Stub Response ist nicht eindeutig no-LLM-call/stub-only."; }
@@ -95,3 +95,4 @@ export function createControlledRealLlmCallGate(input:{ responseId?: string; met
   return gate;
 }
 export function summarizeControlledRealLlmCallGates(gates:ControlledRealLlmCallGate[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const gate of gates){ byDecision[gate.decision]=(byDecision[gate.decision]||0)+1; if(gate.actionType) byActionType[gate.actionType]=(byActionType[gate.actionType]||0)+1; } return { total:gates.length, byDecision, byActionType }; }
+

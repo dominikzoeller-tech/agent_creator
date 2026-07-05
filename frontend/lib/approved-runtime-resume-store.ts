@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type RuntimeResumeDecision = "resume_dry_run_allowed" | "blocked_missing_binding" | "blocked_not_approved" | "blocked_missing_envelope" | "blocked_tool_execution";
@@ -45,7 +45,7 @@ export function createApprovedRuntimeResumeEnvelope(input: { runtimeEnvelopeId?:
   const consentRequestId = input.consentRequestId || binding?.consentRequestId;
   const consentRequest = consentRequests.find((entry:any) => entry.id === consentRequestId);
   let decision: RuntimeResumeDecision = "resume_dry_run_allowed";
-  let reason = "Approved Runtime Resume Envelope erstellt. Phase 12.2 erlaubt weiterhin nur Dry-run Resume ohne Tool-Ausführung.";
+  let reason = "Approved Runtime Resume Envelope erstellt. Phase 12.2 erlaubt weiterhin nur Dry-run Resume ohne Tool-AusfÃ¼hrung.";
   if (!binding) { decision = "blocked_missing_binding"; reason = "Runtime Consent Binding nicht gefunden."; }
   else if (!runtimeEnvelope) { decision = "blocked_missing_envelope"; reason = "Runtime Envelope nicht gefunden."; }
   else if ((consentRequest?.status || binding.status) !== "approved") { decision = "blocked_not_approved"; reason = "Consent Binding ist nicht approved."; }
@@ -72,3 +72,4 @@ export function createApprovedRuntimeResumeEnvelope(input: { runtimeEnvelopeId?:
   return envelope;
 }
 export function summarizeApprovedRuntimeResumeEnvelopes(envelopes: ApprovedRuntimeResumeEnvelope[]) { const byDecision: Record<string, number> = {}; for (const envelope of envelopes) byDecision[envelope.decision] = (byDecision[envelope.decision] || 0) + 1; return { total: envelopes.length, byDecision }; }
+

@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -91,13 +91,13 @@ export function createProviderDispatchReadiness(input:{ providerRequestEnvelopeI
   checks.push({ name:"metadata_only", passed:envelope?.metadataOnly===true, reason:"Dispatch Readiness bleibt metadata-only." });
   checks.push({ name:"provider_none", passed:envelope?.provider==="none" && envelope?.modelSelected==="none", reason:"Provider und Modell bleiben none." });
   checks.push({ name:"envelope_payload_not_included", passed:envelope?.envelopePayloadIncluded===false, reason:"Envelope Payload darf nicht enthalten sein." });
-  checks.push({ name:"prompt_payload_not_included", passed:envelope?.promptPayloadIncluded===false && envelope?.promptIncluded===false && envelope?.promptRedactedPreviewIncluded===false, reason:"Prompt Payload, Prompt und redacted Preview dürfen nicht enthalten sein." });
-  checks.push({ name:"secret_values_not_included", passed:envelope?.secretValuesIncluded===false && envelope?.noSecretsIncluded===true && !containsSecretValue(envelope), reason:"Secret-Werte dürfen nicht enthalten sein." });
-  checks.push({ name:"request_body_not_included", passed:envelope?.requestBodyIncluded===false && envelope?.sensitiveRequestBodyIncluded===false, reason:"Request Body und sensitive Request Body dürfen nicht enthalten sein." });
-  checks.push({ name:"dispatch_not_performed", passed:true, reason:"Provider Dispatch wird in Phase 33.0 nicht ausgeführt." });
+  checks.push({ name:"prompt_payload_not_included", passed:envelope?.promptPayloadIncluded===false && envelope?.promptIncluded===false && envelope?.promptRedactedPreviewIncluded===false, reason:"Prompt Payload, Prompt und redacted Preview dÃ¼rfen nicht enthalten sein." });
+  checks.push({ name:"secret_values_not_included", passed:envelope?.secretValuesIncluded===false && envelope?.noSecretsIncluded===true && !containsSecretValue(envelope), reason:"Secret-Werte dÃ¼rfen nicht enthalten sein." });
+  checks.push({ name:"request_body_not_included", passed:envelope?.requestBodyIncluded===false && envelope?.sensitiveRequestBodyIncluded===false, reason:"Request Body und sensitive Request Body dÃ¼rfen nicht enthalten sein." });
+  checks.push({ name:"dispatch_not_performed", passed:true, reason:"Provider Dispatch wird in Phase 33.0 nicht ausgefÃ¼hrt." });
   checks.push({ name:"network_provider_blocked", passed:envelope?.networkCallPerformed===false && envelope?.providerExecutionAllowed===false, reason:"Kein Netzwerk-/Provider-Aufruf." });
   checks.push({ name:"llm_blocked", passed:envelope?.realLlmCallAllowed===false && envelope?.llmCallPerformed===false, reason:"Real LLM Call bleibt blockiert." });
-  checks.push({ name:"execution_blocked", passed:envelope?.executionAllowed===false && envelope?.toolExecutionAllowed===false && envelope?.agentExecutionAllowed===false && envelope?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"execution_blocked", passed:envelope?.executionAllowed===false && envelope?.toolExecutionAllowed===false && envelope?.agentExecutionAllowed===false && envelope?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   let decision:ProviderDispatchReadinessDecision="provider_dispatch_readiness_prepared_no_provider_call";
   let reason="Provider Dispatch Readiness metadata-only vorbereitet. Kein Dispatch, kein Provider-/Netzwerk-Aufruf, kein Prompt Payload, keine Secret-Werte, kein sensibler Request Body.";
   if(!envelope){ decision="blocked_missing_provider_request_envelope"; reason="Provider Request Envelope fehlt."; }
@@ -124,3 +124,4 @@ export function createProviderDispatchReadiness(input:{ providerRequestEnvelopeI
   return item;
 }
 export function summarizeProviderDispatchReadiness(items:ProviderDispatchReadiness[]){ const byDecision:Record<string,number>={}; for(const item of items){ byDecision[item.decision]=(byDecision[item.decision]||0)+1; } return { total:items.length, byDecision }; }
+

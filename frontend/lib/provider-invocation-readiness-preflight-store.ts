@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -68,12 +68,12 @@ export function createProviderInvocationReadinessPreflight(input:{ boundaryCheck
   checks.push({ name:"provider_config_boundary_exists", passed:Boolean(boundary), reason: boundary ? "Provider Config Secret Boundary gefunden." : "Provider Config Secret Boundary fehlt." });
   checks.push({ name:"provider_adapter_stub_exists", passed:Boolean(adapter), reason: adapter ? "Provider Adapter Stub gefunden." : "Provider Adapter Stub fehlt." });
   checks.push({ name:"secret_boundary_presence_metadata_only", passed: boundary?.providerConfigMode === "secret_boundary_presence_metadata_only", reason:"Provider Config darf nur Presence-/Metadata speichern." });
-  checks.push({ name:"no_secret_values_stored_or_exposed", passed: providers.every((p:any)=>p.secretValuesStored === false && p.secretValuesExposed === false) && boundary?.metadata?.noSecretValuesStored === true && boundary?.metadata?.noSecretValuesExposed === true, reason:"Secret-Werte dürfen nicht gespeichert oder angezeigt werden." });
-  checks.push({ name:"no_secret_patterns", passed: boundary?.noSecretsIncluded === true && adapter?.noSecretsIncluded === true && !containsSecretValue({ boundary, adapter }), reason:"Boundary und Adapter dürfen keine Secret-ähnlichen Werte enthalten." });
+  checks.push({ name:"no_secret_values_stored_or_exposed", passed: providers.every((p:any)=>p.secretValuesStored === false && p.secretValuesExposed === false) && boundary?.metadata?.noSecretValuesStored === true && boundary?.metadata?.noSecretValuesExposed === true, reason:"Secret-Werte dÃ¼rfen nicht gespeichert oder angezeigt werden." });
+  checks.push({ name:"no_secret_patterns", passed: boundary?.noSecretsIncluded === true && adapter?.noSecretsIncluded === true && !containsSecretValue({ boundary, adapter }), reason:"Boundary und Adapter dÃ¼rfen keine Secret-Ã¤hnlichen Werte enthalten." });
   checks.push({ name:"no_network_or_provider_call", passed: boundary?.networkCallPerformed === false && adapter?.networkCallPerformed === false && adapter?.providerRequestPreview?.networkCallAllowed === false, reason:"Netzwerk-/Provider-Aufruf muss blockiert bleiben." });
   checks.push({ name:"provider_execution_blocked", passed: boundary?.providerExecutionAllowed === false && adapter?.providerExecutionAllowed === false, reason:"Provider Execution muss blockiert bleiben." });
   checks.push({ name:"real_llm_blocked", passed: boundary?.realLlmCallAllowed === false && boundary?.llmCallPerformed === false && adapter?.realLlmCallAllowed === false && adapter?.llmCallPerformed === false, reason:"Real LLM Call muss blockiert bleiben." });
-  checks.push({ name:"execution_blocked", passed: boundary?.executionAllowed === false && boundary?.toolExecutionAllowed === false && boundary?.agentExecutionAllowed === false && adapter?.executionAllowed === false && adapter?.toolExecutionAllowed === false && adapter?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-Ausführung müssen blockiert bleiben." });
+  checks.push({ name:"execution_blocked", passed: boundary?.executionAllowed === false && boundary?.toolExecutionAllowed === false && boundary?.agentExecutionAllowed === false && adapter?.executionAllowed === false && adapter?.toolExecutionAllowed === false && adapter?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung mÃ¼ssen blockiert bleiben." });
   checks.push({ name:"dry_run_only", passed: boundary?.dryRunOnly === true && adapter?.dryRunOnly === true, reason:"Dry-run-only muss aktiv bleiben." });
   checks.push({ name:"output_contract", passed: adapter?.providerRequestPreview?.outputContractType === "recommendation_explanation_only", reason:"Output Contract muss recommendation_explanation_only bleiben." });
   checks.push({ name:"operational_defaults_metadata_only", passed:true, reason:"Timeout, Cost und RateLimit werden nur als Metadata Defaults vorbereitet." });
@@ -81,8 +81,8 @@ export function createProviderInvocationReadinessPreflight(input:{ boundaryCheck
   let reason="Provider Invocation Readiness Preflight vorbereitet. Kein Provider-/Netzwerk-Aufruf und kein produktiver LLM-Aufruf.";
   if(!boundary){ decision="blocked_missing_provider_config_boundary"; reason="Provider Config Secret Boundary fehlt."; }
   else if(!adapter){ decision="blocked_missing_provider_adapter_stub"; reason="Provider Adapter Stub fehlt."; }
-  else if(boundary.noSecretsIncluded !== true || adapter.noSecretsIncluded !== true || containsSecretValue({ boundary, adapter })){ decision="blocked_secret_boundary_violation"; reason="Secret Boundary verletzt oder Secret-ähnlicher Wert erkannt."; }
-  else if(boundary.networkCallPerformed !== false || adapter.networkCallPerformed !== false || adapter.providerRequestPreview?.networkCallAllowed !== false || boundary.providerExecutionAllowed !== false || adapter.providerExecutionAllowed !== false){ decision="blocked_network_or_provider_call"; reason="Netzwerk-/Provider-Ausführung ist nicht eindeutig blockiert."; }
+  else if(boundary.noSecretsIncluded !== true || adapter.noSecretsIncluded !== true || containsSecretValue({ boundary, adapter })){ decision="blocked_secret_boundary_violation"; reason="Secret Boundary verletzt oder Secret-Ã¤hnlicher Wert erkannt."; }
+  else if(boundary.networkCallPerformed !== false || adapter.networkCallPerformed !== false || adapter.providerRequestPreview?.networkCallAllowed !== false || boundary.providerExecutionAllowed !== false || adapter.providerExecutionAllowed !== false){ decision="blocked_network_or_provider_call"; reason="Netzwerk-/Provider-AusfÃ¼hrung ist nicht eindeutig blockiert."; }
   else if(boundary.realLlmCallAllowed !== false || boundary.llmCallPerformed !== false || adapter.realLlmCallAllowed !== false || adapter.llmCallPerformed !== false){ decision="blocked_real_llm_allowed"; reason="Real LLM Call ist nicht eindeutig blockiert."; }
   else if(boundary.executionAllowed !== false || boundary.toolExecutionAllowed !== false || boundary.agentExecutionAllowed !== false || adapter.executionAllowed !== false || adapter.toolExecutionAllowed !== false || adapter.agentExecutionAllowed !== false || boundary.dryRunOnly !== true || adapter.dryRunOnly !== true){ decision="blocked_execution_not_safe"; reason="Execution Safety Invariants verletzt."; }
   else if(adapter.providerRequestPreview?.outputContractType !== "recommendation_explanation_only"){ decision="blocked_output_contract_violation"; reason="Output Contract verletzt recommendation_explanation_only."; }
@@ -123,3 +123,4 @@ export function createProviderInvocationReadinessPreflight(input:{ boundaryCheck
   return preflight;
 }
 export function summarizeProviderInvocationReadinessPreflights(preflights:ProviderInvocationReadinessPreflight[]){ const byDecision:Record<string,number>={}; for(const preflight of preflights){ byDecision[preflight.decision]=(byDecision[preflight.decision]||0)+1; } return { total:preflights.length, byDecision }; }
+

@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+﻿import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 export interface WebResearchSavePayload {
@@ -107,7 +107,7 @@ async function saveKnowledgeDocument(input: {
     "## Quellen",
     "",
     ...(input.sources.length
-      ? input.sources.map((source, index) => `- Quelle ${index + 1}: [${source.title ?? source.url ?? "Quelle"}](${source.url ?? ""})${source.source ? ` — ${source.source}` : ""}`)
+      ? input.sources.map((source, index) => `- Quelle ${index + 1}: [${source.title ?? source.url ?? "Quelle"}](${source.url ?? ""})${source.source ? ` â€” ${source.source}` : ""}`)
       : ["- Keine Quellen gespeichert."]),
     "",
   ].join("\n");
@@ -163,5 +163,6 @@ function normalizeTags(value: unknown): string[] {
 }
 
 function slugify(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9äöüß]+/g, "-").replace(/^-|-$/g, "");
+  return value.toLowerCase().replace(/[^a-z0-9Ã¤Ã¶Ã¼ÃŸ]+/g, "-").replace(/^-|-$/g, "");
 }
+

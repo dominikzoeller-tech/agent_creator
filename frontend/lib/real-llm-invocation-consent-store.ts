@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -65,9 +65,9 @@ export function createRealLlmInvocationConsentRequest(input:{ gateId?: string; m
   const checks: Array<{name:string; passed:boolean; reason:string}> = [];
   checks.push({ name:"real_llm_gate_exists", passed:Boolean(gate), reason: gate ? "Real LLM Call Gate gefunden." : "Real LLM Call Gate fehlt." });
   checks.push({ name:"policy_gate_required", passed: gate?.policyGateRequired === true && gate?.invocationPlan?.policyGateRequired === true, reason: "Policy Gate muss vor Consent vorhanden sein." });
-  checks.push({ name:"real_llm_not_yet_allowed", passed: gate?.realLlmCallAllowed === false, reason: gate?.realLlmCallAllowed === false ? "Real LLM Call ist noch blockiert." : "Real LLM Call wäre bereits erlaubt." });
-  checks.push({ name:"llm_call_not_performed", passed: gate?.llmCallPerformed === false, reason: gate?.llmCallPerformed === false ? "Kein LLM-Aufruf erfolgt." : "LLM-Aufruf wurde bereits durchgeführt." });
-  checks.push({ name:"execution_blocked", passed: gate?.executionAllowed === false && gate?.toolExecutionAllowed === false && gate?.agentExecutionAllowed === false, reason: "Tool-, Agent- und Execution-Freigaben müssen blockiert bleiben." });
+  checks.push({ name:"real_llm_not_yet_allowed", passed: gate?.realLlmCallAllowed === false, reason: gate?.realLlmCallAllowed === false ? "Real LLM Call ist noch blockiert." : "Real LLM Call wÃ¤re bereits erlaubt." });
+  checks.push({ name:"llm_call_not_performed", passed: gate?.llmCallPerformed === false, reason: gate?.llmCallPerformed === false ? "Kein LLM-Aufruf erfolgt." : "LLM-Aufruf wurde bereits durchgefÃ¼hrt." });
+  checks.push({ name:"execution_blocked", passed: gate?.executionAllowed === false && gate?.toolExecutionAllowed === false && gate?.agentExecutionAllowed === false, reason: "Tool-, Agent- und Execution-Freigaben mÃ¼ssen blockiert bleiben." });
   checks.push({ name:"dry_run_only", passed: gate?.dryRunOnly === true, reason: gate?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name:"secret_scan_before_consent", passed: gate?.noSecretsIncluded === true && !containsSecretPattern(gate?.sanitizedPromptPreview), reason: gate?.noSecretsIncluded === true && !containsSecretPattern(gate?.sanitizedPromptPreview) ? "Kein Secret-Risiko vor Consent." : "Secret-Risiko erkannt." });
   checks.push({ name:"output_contract_before_consent", passed:true, reason:"Output Contract wird vor Consent fixiert." });
@@ -117,3 +117,4 @@ export function createRealLlmInvocationConsentRequest(input:{ gateId?: string; m
   return req;
 }
 export function summarizeRealLlmInvocationConsentRequests(reqs:RealLlmInvocationConsentRequest[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const req of reqs){ byDecision[req.decision]=(byDecision[req.decision]||0)+1; if(req.actionType) byActionType[req.actionType]=(byActionType[req.actionType]||0)+1; } return { total:reqs.length, byDecision, byActionType }; }
+

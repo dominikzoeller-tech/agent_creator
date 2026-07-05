@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -86,7 +86,7 @@ export function createTokenBackedProviderInvocationPreflight(input:{ activationG
   checks.push({ name:"network_blocked", passed:plan.networkCallAllowed===false && plan.automaticInvocationAllowed===false && gate?.networkCallPerformed===false && gate?.providerExecutionAllowed===false, reason:"Kein Netzwerk-/Provider-Aufruf." });
   checks.push({ name:"secret_boundary", passed:gate?.noSecretsIncluded===true && !containsSecretValue(gate), reason:"Keine Secret-Werte im Preflight." });
   checks.push({ name:"prompt_not_included", passed:true, reason:"Prompt wird in Phase 30.0 nicht eingebettet." });
-  checks.push({ name:"execution_blocked", passed:gate?.executionAllowed===false && gate?.toolExecutionAllowed===false && gate?.agentExecutionAllowed===false && gate?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"execution_blocked", passed:gate?.executionAllowed===false && gate?.toolExecutionAllowed===false && gate?.agentExecutionAllowed===false && gate?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   let decision:TokenBackedProviderInvocationPreflightDecision="token_backed_provider_invocation_preflight_prepared_no_provider_call";
   let reason="Token-backed Provider Invocation Preflight vorbereitet. Kein Provider-/Netzwerk-Aufruf, kein Prompt, keine Secret-Werte.";
   if(!gate){ decision="blocked_missing_activation_gate"; reason="Approval Token Activation Gate fehlt."; }
@@ -110,3 +110,4 @@ export function createTokenBackedProviderInvocationPreflight(input:{ activationG
   return item;
 }
 export function summarizeTokenBackedProviderInvocationPreflights(items:TokenBackedProviderInvocationPreflight[]){ const byDecision:Record<string,number>={}; for(const item of items){ byDecision[item.decision]=(byDecision[item.decision]||0)+1; } return { total:items.length, byDecision }; }
+

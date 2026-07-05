@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -80,12 +80,12 @@ export function createProviderRequestContract(input:{ tokenBackedPreflightId?: s
   checks.push({ name:"token_not_active", passed:preflight?.tokenActive===false, reason:"Provider Request Contract darf Token nicht aktiv setzen." });
   checks.push({ name:"provider_none", passed:preflight?.provider==="none" && preflight?.modelSelected==="none", reason:"Provider und Modell bleiben none." });
   checks.push({ name:"prompt_not_included", passed:preflight?.promptIncluded===false, reason:"Prompt darf nicht enthalten sein." });
-  checks.push({ name:"secret_values_not_included", passed:preflight?.secretValuesIncluded===false && preflight?.noSecretsIncluded===true && !containsSecretValue(preflight), reason:"Secret-Werte dürfen nicht enthalten sein." });
+  checks.push({ name:"secret_values_not_included", passed:preflight?.secretValuesIncluded===false && preflight?.noSecretsIncluded===true && !containsSecretValue(preflight), reason:"Secret-Werte dÃ¼rfen nicht enthalten sein." });
   checks.push({ name:"request_body_not_included", passed:true, reason:"Request Body wird in Phase 31.0 nicht eingebettet." });
   checks.push({ name:"metadata_only_contract", passed:true, reason:"Provider Request Contract bleibt metadata-only." });
   checks.push({ name:"network_provider_blocked", passed:preflight?.networkCallPerformed===false && preflight?.providerExecutionAllowed===false, reason:"Kein Netzwerk-/Provider-Aufruf." });
   checks.push({ name:"llm_blocked", passed:preflight?.realLlmCallAllowed===false && preflight?.llmCallPerformed===false, reason:"Real LLM Call bleibt blockiert." });
-  checks.push({ name:"execution_blocked", passed:preflight?.executionAllowed===false && preflight?.toolExecutionAllowed===false && preflight?.agentExecutionAllowed===false && preflight?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"execution_blocked", passed:preflight?.executionAllowed===false && preflight?.toolExecutionAllowed===false && preflight?.agentExecutionAllowed===false && preflight?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   let decision:ProviderRequestContractDecision="provider_request_contract_prepared_no_provider_call";
   let reason="Provider Request Contract metadata-only vorbereitet. Kein Provider-/Netzwerk-Aufruf, kein Prompt, keine Secret-Werte, kein Request Body.";
   if(!preflight){ decision="blocked_missing_token_backed_preflight"; reason="Token-backed Provider Preflight fehlt."; }
@@ -110,3 +110,4 @@ export function createProviderRequestContract(input:{ tokenBackedPreflightId?: s
   return item;
 }
 export function summarizeProviderRequestContracts(items:ProviderRequestContract[]){ const byDecision:Record<string,number>={}; for(const item of items){ byDecision[item.decision]=(byDecision[item.decision]||0)+1; } return { total:items.length, byDecision }; }
+

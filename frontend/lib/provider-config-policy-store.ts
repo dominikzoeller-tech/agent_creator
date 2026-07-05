@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -56,20 +56,20 @@ export function simulateProviderConfigPolicy(input:{ boundaryCheckId?: string; m
   const checks: Array<{name:string; passed:boolean; reason:string}> = [];
   checks.push({ name:"boundary_check_exists", passed:Boolean(boundary), reason: boundary ? "Provider Config Boundary Check gefunden." : "Provider Config Boundary Check fehlt." });
   checks.push({ name:"presence_metadata_only", passed: boundary?.providerConfigMode === "secret_boundary_presence_metadata_only", reason:"Boundary Check muss nur Presence-/Metadata speichern." });
-  checks.push({ name:"no_secret_values_stored", passed: providers.every((p:any)=>p.secretValuesStored === false) && boundary?.metadata?.noSecretValuesStored === true, reason:"Secret-Werte dürfen nicht gespeichert werden." });
-  checks.push({ name:"no_secret_values_exposed", passed: providers.every((p:any)=>p.secretValuesExposed === false) && boundary?.metadata?.noSecretValuesExposed === true, reason:"Secret-Werte dürfen nicht angezeigt oder geloggt werden." });
-  checks.push({ name:"no_secret_patterns", passed: boundary?.noSecretsIncluded === true && !containsSecretValue(boundary), reason:"Boundary Payload darf keine Secret-ähnlichen Werte enthalten." });
-  checks.push({ name:"local_stub_available", passed: providers.some((p:any)=>p.providerKey === "local_stub" && p.enabled === true), reason:"Local Stub muss als No-Network-Fallback verfügbar bleiben." });
+  checks.push({ name:"no_secret_values_stored", passed: providers.every((p:any)=>p.secretValuesStored === false) && boundary?.metadata?.noSecretValuesStored === true, reason:"Secret-Werte dÃ¼rfen nicht gespeichert werden." });
+  checks.push({ name:"no_secret_values_exposed", passed: providers.every((p:any)=>p.secretValuesExposed === false) && boundary?.metadata?.noSecretValuesExposed === true, reason:"Secret-Werte dÃ¼rfen nicht angezeigt oder geloggt werden." });
+  checks.push({ name:"no_secret_patterns", passed: boundary?.noSecretsIncluded === true && !containsSecretValue(boundary), reason:"Boundary Payload darf keine Secret-Ã¤hnlichen Werte enthalten." });
+  checks.push({ name:"local_stub_available", passed: providers.some((p:any)=>p.providerKey === "local_stub" && p.enabled === true), reason:"Local Stub muss als No-Network-Fallback verfÃ¼gbar bleiben." });
   checks.push({ name:"network_blocked", passed: boundary?.networkCallPerformed === false, reason:"Netzwerk-/Provider-Aufruf muss blockiert bleiben." });
   checks.push({ name:"provider_execution_blocked", passed: boundary?.providerExecutionAllowed === false, reason:"Provider Execution muss blockiert bleiben." });
   checks.push({ name:"real_llm_blocked", passed: boundary?.realLlmCallAllowed === false && boundary?.llmCallPerformed === false, reason:"Real LLM Call muss blockiert bleiben." });
-  checks.push({ name:"execution_blocked", passed: boundary?.executionAllowed === false && boundary?.toolExecutionAllowed === false && boundary?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-Ausführung müssen blockiert bleiben." });
+  checks.push({ name:"execution_blocked", passed: boundary?.executionAllowed === false && boundary?.toolExecutionAllowed === false && boundary?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung mÃ¼ssen blockiert bleiben." });
   checks.push({ name:"dry_run_only", passed: boundary?.dryRunOnly === true, reason: boundary?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   let decision: ProviderConfigPolicyDecision="simulation_allowed_secret_boundary_only";
   let reason="Provider Config Policy Simulation erlaubt nur Secret Boundary Presence-/Metadata-Checks. Kein Provider Call.";
   if(!boundary){ decision="blocked_missing_boundary_check"; reason="Provider Config Boundary Check nicht gefunden."; }
-  else if(containsSecretValue(boundary) || boundary.noSecretsIncluded !== true){ decision="blocked_secret_value_detected"; reason="Secret-ähnlicher Wert im Boundary Check erkannt."; }
-  else if(boundary.networkCallPerformed !== false || boundary.providerExecutionAllowed !== false){ decision="blocked_network_or_provider_call"; reason="Netzwerk- oder Provider-Ausführung nicht eindeutig blockiert."; }
+  else if(containsSecretValue(boundary) || boundary.noSecretsIncluded !== true){ decision="blocked_secret_value_detected"; reason="Secret-Ã¤hnlicher Wert im Boundary Check erkannt."; }
+  else if(boundary.networkCallPerformed !== false || boundary.providerExecutionAllowed !== false){ decision="blocked_network_or_provider_call"; reason="Netzwerk- oder Provider-AusfÃ¼hrung nicht eindeutig blockiert."; }
   else if(boundary.executionAllowed !== false || boundary.toolExecutionAllowed !== false || boundary.agentExecutionAllowed !== false || boundary.dryRunOnly !== true){ decision="blocked_execution_not_safe"; reason="Boundary Check verletzt Execution Safety Invariants."; }
   else if(providers.some((p:any)=>p.secretValuesStored !== false || p.secretValuesExposed !== false) || boundary.providerConfigMode !== "secret_boundary_presence_metadata_only"){ decision="blocked_secret_boundary_violation"; reason="Secret Boundary wurde verletzt."; }
   const sim: ProviderConfigPolicySimulation={
@@ -107,3 +107,4 @@ export function simulateProviderConfigPolicy(input:{ boundaryCheckId?: string; m
   return sim;
 }
 export function summarizeProviderConfigPolicySimulations(sims:ProviderConfigPolicySimulation[]){ const byDecision:Record<string,number>={}; const providerPresence:Record<string,{enabled:number,total:number}>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; for(const provider of sim.providers||[]){ const key=provider.providerKey; providerPresence[key]=providerPresence[key]||{enabled:0,total:0}; providerPresence[key].total+=1; if(provider.enabled) providerPresence[key].enabled+=1; } } return { total:sims.length, byDecision, providerPresence }; }
+

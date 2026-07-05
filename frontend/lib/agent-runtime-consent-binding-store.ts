@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type RuntimeConsentBindingStatus = "pending" | "approved" | "denied" | "expired";
@@ -54,7 +54,7 @@ export function createRuntimeConsentBinding(input: { runtimeEnvelopeId: string; 
     status: "pending",
     toolId: "agent-runtime:" + (envelope.agentName || envelope.agentId || "unknown-agent"),
     toolName: "Controlled Agent Runtime",
-    reason: "Runtime Consent Binding für Dry-run Envelope. Phase 12.1 erlaubt weiterhin keine echte Tool-Ausführung.",
+    reason: "Runtime Consent Binding fÃ¼r Dry-run Envelope. Phase 12.1 erlaubt weiterhin keine echte Tool-AusfÃ¼hrung.",
     userInputPreview: String(envelope.requestedAction || "runtime-action").slice(0,240),
     sensitivity: "internal",
     processingMode: "local_only",
@@ -81,3 +81,4 @@ export function syncRuntimeConsentBindingStatuses(): RuntimeConsentBinding[] {
   return synced.sort((a,b)=>String(b.requestedAt).localeCompare(String(a.requestedAt)));
 }
 export function summarizeRuntimeConsentBindings(bindings: RuntimeConsentBinding[]) { const byStatus: Record<string, number> = {}; for (const binding of bindings) byStatus[binding.status] = (byStatus[binding.status] || 0) + 1; return { total: bindings.length, byStatus }; }
+

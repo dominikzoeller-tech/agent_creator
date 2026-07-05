@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -40,11 +40,11 @@ export function simulateToolAdapterPolicy(input: { resumePlanId?: string; metada
   const checks: Array<{ name: string; passed: boolean; reason: string }> = [];
   checks.push({ name: "resume_exists", passed: Boolean(resume), reason: resume ? "Tool Adapter Resume Plan gefunden." : "Tool Adapter Resume Plan fehlt." });
   checks.push({ name: "resume_allowed", passed: resume?.resumeAllowed === true, reason: resume?.resumeAllowed === true ? "Dry-run Resume ist erlaubt." : "Resume ist nicht erlaubt." });
-  checks.push({ name: "tool_execution_blocked", passed: resume?.toolExecutionAllowed === false, reason: resume?.toolExecutionAllowed === false ? "Tool-Ausführung bleibt blockiert." : "Tool-Ausführung wäre nicht blockiert." });
+  checks.push({ name: "tool_execution_blocked", passed: resume?.toolExecutionAllowed === false, reason: resume?.toolExecutionAllowed === false ? "Tool-AusfÃ¼hrung bleibt blockiert." : "Tool-AusfÃ¼hrung wÃ¤re nicht blockiert." });
   checks.push({ name: "dry_run_only", passed: resume?.dryRunOnly === true, reason: resume?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name: "consent_approved", passed: resume?.consentStatus === "approved", reason: resume?.consentStatus === "approved" ? "Consent ist approved." : "Consent ist nicht approved." });
   let decision: ToolAdapterPolicyDecision = "simulation_allowed_dry_run";
-  let reason = "Tool Adapter Policy Simulation erlaubt ausschließlich Dry-run. Keine echte Tool-Ausführung.";
+  let reason = "Tool Adapter Policy Simulation erlaubt ausschlieÃŸlich Dry-run. Keine echte Tool-AusfÃ¼hrung.";
   if (!resume) { decision = "blocked_missing_resume"; reason = "Tool Adapter Resume Plan nicht gefunden."; }
   else if (resume.resumeAllowed !== true) { decision = "blocked_resume_not_allowed"; reason = "Resume Plan erlaubt keinen Resume."; }
   else if (resume.toolExecutionAllowed !== false || resume.dryRunOnly !== true) { decision = "blocked_tool_execution"; reason = "Dry-run Sicherheitsregeln verletzt."; }
@@ -79,3 +79,4 @@ export function simulateToolAdapterPolicy(input: { resumePlanId?: string; metada
   return result;
 }
 export function summarizeToolAdapterPolicySimulations(results: ToolAdapterPolicySimulationResult[]) { const byDecision: Record<string, number> = {}; for (const result of results) byDecision[result.decision] = (byDecision[result.decision] || 0) + 1; return { total: results.length, byDecision }; }
+

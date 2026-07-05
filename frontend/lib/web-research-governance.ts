@@ -1,4 +1,4 @@
-export type GovernanceSeverity = "info" | "warning" | "error";
+﻿export type GovernanceSeverity = "info" | "warning" | "error";
 
 export interface WebResearchGovernanceIssue {
   code: string;
@@ -54,7 +54,7 @@ export function evaluateWebResearchGovernance(input: WebResearchGovernanceInput)
   }
 
   if (results.length === 0) {
-    issues.push({ code: "no-results", severity: "warning", message: "Es wurden keine Web-Research-Treffer übergeben." });
+    issues.push({ code: "no-results", severity: "warning", message: "Es wurden keine Web-Research-Treffer Ã¼bergeben." });
   }
 
   if (deduplicatedSources.length < 2) {
@@ -75,7 +75,7 @@ export function evaluateWebResearchGovernance(input: WebResearchGovernanceInput)
   for (const source of deduplicatedSources) {
     const domain = safeDomain(source.url ?? "");
     if (!domain) {
-      issues.push({ code: "invalid-source-url", severity: "warning", message: `Quelle ohne gültige URL: ${source.title ?? "Ohne Titel"}.` });
+      issues.push({ code: "invalid-source-url", severity: "warning", message: `Quelle ohne gÃ¼ltige URL: ${source.title ?? "Ohne Titel"}.` });
       continue;
     }
     if (LOW_VALUE_DOMAINS.includes(domain)) {
@@ -84,11 +84,11 @@ export function evaluateWebResearchGovernance(input: WebResearchGovernanceInput)
   }
 
   if (input.saveMemory && summary.length > 3000) {
-    issues.push({ code: "long-memory-summary", severity: "info", message: "Memory-Summary ist lang. Für Memory besser kürzen." });
+    issues.push({ code: "long-memory-summary", severity: "info", message: "Memory-Summary ist lang. FÃ¼r Memory besser kÃ¼rzen." });
   }
 
   if (!input.saveKnowledge && !input.saveMemory) {
-    issues.push({ code: "nothing-selected", severity: "error", message: "Weder Knowledge noch Memory ist als Speicherziel ausgewählt." });
+    issues.push({ code: "nothing-selected", severity: "error", message: "Weder Knowledge noch Memory ist als Speicherziel ausgewÃ¤hlt." });
   }
 
   const errorCount = issues.filter((issue) => issue.severity === "error").length;
@@ -142,3 +142,4 @@ function safeDomain(value: string): string {
     return "";
   }
 }
+

@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type ToolAdapterResumeDecision =
@@ -52,7 +52,7 @@ export function createApprovedToolAdapterResumePlan(input: { toolExecutionPlanId
   const consentRequestId = input.consentRequestId || binding?.consentRequestId;
   const consentRequest = consentRequests.find((entry:any)=>entry.id === consentRequestId);
   let decision: ToolAdapterResumeDecision = "resume_dry_run_allowed";
-  let reason = "Approved Tool Adapter Resume Plan erstellt. Phase 13.2 erlaubt weiterhin nur Dry-run Resume ohne Tool-Ausführung.";
+  let reason = "Approved Tool Adapter Resume Plan erstellt. Phase 13.2 erlaubt weiterhin nur Dry-run Resume ohne Tool-AusfÃ¼hrung.";
   if(!binding){ decision = "blocked_missing_binding"; reason = "Tool Adapter Consent Binding nicht gefunden."; }
   else if(!plan){ decision = "blocked_missing_plan"; reason = "Tool Execution Plan nicht gefunden."; }
   else if((consentRequest?.status || binding.status) !== "approved"){ decision = "blocked_not_approved"; reason = "Tool Adapter Consent Binding ist nicht approved."; }
@@ -79,3 +79,4 @@ export function createApprovedToolAdapterResumePlan(input: { toolExecutionPlanId
   return resume;
 }
 export function summarizeApprovedToolAdapterResumePlans(plans: ApprovedToolAdapterResumePlan[]) { const byDecision: Record<string, number> = {}; for(const plan of plans) byDecision[plan.decision] = (byDecision[plan.decision] || 0) + 1; return { total: plans.length, byDecision }; }
+

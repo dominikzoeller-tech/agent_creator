@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 export type GovernanceAuditEventType =
@@ -63,3 +63,4 @@ export function summarizeGovernanceAudit(events: GovernanceAuditEvent[]) {
   }
   return { total: events.length, byType, byEntityType, byStatus, byRiskLevel };
 }
+

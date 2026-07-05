@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -41,18 +41,18 @@ export function simulateLlmRoutingPolicy(input:{ envelopeId?: string; metadata?:
   const envelope=input.envelopeId ? envelopes.find((entry:any)=>entry.id===input.envelopeId) : envelopes[0];
   const checks: Array<{name:string; passed:boolean; reason:string}> = [];
   checks.push({ name:"envelope_exists", passed:Boolean(envelope), reason: envelope ? "LLM Routing Envelope gefunden." : "LLM Routing Envelope fehlt." });
-  checks.push({ name:"execution_blocked", passed: envelope?.executionAllowed === false, reason: envelope?.executionAllowed === false ? "Execution bleibt blockiert." : "Execution wäre nicht blockiert." });
-  checks.push({ name:"tool_execution_blocked", passed: envelope?.toolExecutionAllowed === false, reason: envelope?.toolExecutionAllowed === false ? "Tool-Ausführung bleibt blockiert." : "Tool-Ausführung wäre nicht blockiert." });
-  checks.push({ name:"agent_execution_blocked", passed: envelope?.agentExecutionAllowed === false, reason: envelope?.agentExecutionAllowed === false ? "Agent-Ausführung bleibt blockiert." : "Agent-Ausführung wäre nicht blockiert." });
+  checks.push({ name:"execution_blocked", passed: envelope?.executionAllowed === false, reason: envelope?.executionAllowed === false ? "Execution bleibt blockiert." : "Execution wÃ¤re nicht blockiert." });
+  checks.push({ name:"tool_execution_blocked", passed: envelope?.toolExecutionAllowed === false, reason: envelope?.toolExecutionAllowed === false ? "Tool-AusfÃ¼hrung bleibt blockiert." : "Tool-AusfÃ¼hrung wÃ¤re nicht blockiert." });
+  checks.push({ name:"agent_execution_blocked", passed: envelope?.agentExecutionAllowed === false, reason: envelope?.agentExecutionAllowed === false ? "Agent-AusfÃ¼hrung bleibt blockiert." : "Agent-AusfÃ¼hrung wÃ¤re nicht blockiert." });
   checks.push({ name:"dry_run_only", passed: envelope?.dryRunOnly === true, reason: envelope?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name:"llm_routing_prep_only", passed: envelope?.llmRoutingPrepOnly === true, reason: envelope?.llmRoutingPrepOnly === true ? "Nur LLM-Routing-Prep." : "LLM-Routing-Prep fehlt." });
-  checks.push({ name:"no_secrets", passed: envelope?.noSecretsIncluded === true && !containsSecretPattern(envelope?.sanitizedContext), reason: envelope?.noSecretsIncluded === true && !containsSecretPattern(envelope?.sanitizedContext) ? "Sanitized Context enthält keine secret-artigen Muster." : "Secret-Risiko im Kontext." });
-  checks.push({ name:"output_contract", passed: envelope?.allowedOutputContract?.outputType === "recommendation_explanation_only" && envelope?.allowedOutputContract?.mayExecuteTools === false && envelope?.allowedOutputContract?.mayExecuteAgents === false && envelope?.allowedOutputContract?.mayRevealSecrets === false && envelope?.allowedOutputContract?.mayChangeState === false, reason: "Output Contract muss Erklärung-only und nicht-ausführend sein." });
+  checks.push({ name:"no_secrets", passed: envelope?.noSecretsIncluded === true && !containsSecretPattern(envelope?.sanitizedContext), reason: envelope?.noSecretsIncluded === true && !containsSecretPattern(envelope?.sanitizedContext) ? "Sanitized Context enthÃ¤lt keine secret-artigen Muster." : "Secret-Risiko im Kontext." });
+  checks.push({ name:"output_contract", passed: envelope?.allowedOutputContract?.outputType === "recommendation_explanation_only" && envelope?.allowedOutputContract?.mayExecuteTools === false && envelope?.allowedOutputContract?.mayExecuteAgents === false && envelope?.allowedOutputContract?.mayRevealSecrets === false && envelope?.allowedOutputContract?.mayChangeState === false, reason: "Output Contract muss ErklÃ¤rung-only und nicht-ausfÃ¼hrend sein." });
   let decision: LlmRoutingPolicyDecision="simulation_allowed_explanation_only";
-  let reason="LLM Routing Policy Simulation erlaubt nur Empfehlung/Erklärung. Keine echte Ausführung und kein LLM-Aufruf.";
+  let reason="LLM Routing Policy Simulation erlaubt nur Empfehlung/ErklÃ¤rung. Keine echte AusfÃ¼hrung und kein LLM-Aufruf.";
   if(!envelope){ decision="blocked_missing_envelope"; reason="LLM Routing Envelope nicht gefunden."; }
   else if(envelope.executionAllowed!==false || envelope.toolExecutionAllowed!==false || envelope.agentExecutionAllowed!==false || envelope.dryRunOnly!==true || envelope.llmRoutingPrepOnly!==true){ decision="blocked_execution_not_safe"; reason="LLM Routing Envelope verletzt Safety Invariants."; }
-  else if(envelope.noSecretsIncluded!==true || containsSecretPattern(envelope.sanitizedContext)){ decision="blocked_secret_risk"; reason="Sanitized Context enthält Secret-Risiko."; }
+  else if(envelope.noSecretsIncluded!==true || containsSecretPattern(envelope.sanitizedContext)){ decision="blocked_secret_risk"; reason="Sanitized Context enthÃ¤lt Secret-Risiko."; }
   else if(checks.find((c)=>c.name==="output_contract")?.passed !== true){ decision="blocked_output_contract_violation"; reason="Output Contract verletzt Explanation-only-Regeln."; }
   const sim: LlmRoutingPolicySimulation={
     id: makeId("llm-policy-sim"),
@@ -85,3 +85,4 @@ export function simulateLlmRoutingPolicy(input:{ envelopeId?: string; metadata?:
   return sim;
 }
 export function summarizeLlmRoutingPolicySimulations(sims: LlmRoutingPolicySimulation[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; if(sim.actionType) byActionType[sim.actionType]=(byActionType[sim.actionType]||0)+1; } return { total:sims.length, byDecision, byActionType }; }
+

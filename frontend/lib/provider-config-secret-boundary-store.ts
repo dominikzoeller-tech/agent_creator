@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -60,13 +60,13 @@ export function createProviderConfigSecretBoundaryCheck(input:{ metadata?: Recor
   const checks: Array<{name:string; passed:boolean; reason:string}> = [];
   checks.push({ name:"presence_metadata_only", passed:true, reason:"Nur ENV-Key-Namen und Presence-Status werden gespeichert, keine Werte." });
   checks.push({ name:"no_secret_values_in_payload", passed:!containsSecretValue({ providers, metadata: input.metadata }), reason:"Payload darf keine Secret-Werte enthalten." });
-  checks.push({ name:"local_stub_available", passed:localStub?.enabled === true, reason:"Local Stub bleibt als sichere No-Network-Fallback-Konfiguration verfügbar." });
-  checks.push({ name:"no_network_call", passed:true, reason:"Phase 23.0 führt keinen Netzwerk- oder Provider-Aufruf aus." });
+  checks.push({ name:"local_stub_available", passed:localStub?.enabled === true, reason:"Local Stub bleibt als sichere No-Network-Fallback-Konfiguration verfÃ¼gbar." });
+  checks.push({ name:"no_network_call", passed:true, reason:"Phase 23.0 fÃ¼hrt keinen Netzwerk- oder Provider-Aufruf aus." });
   checks.push({ name:"provider_execution_blocked", passed:true, reason:"Provider Execution bleibt blockiert." });
-  checks.push({ name:"tool_agent_execution_blocked", passed:true, reason:"Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"tool_agent_execution_blocked", passed:true, reason:"Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   let decision: ProviderConfigDecision="provider_config_boundary_prepared";
   let reason="Provider Configuration & Secret Boundary vorbereitet. Nur Presence-/Metadata-Checks, keine Secrets, kein Provider Call.";
-  if(containsSecretValue({ providers, metadata: input.metadata })){ decision="blocked_secret_value_detected"; reason="Secret-ähnlicher Wert in Payload erkannt."; }
+  if(containsSecretValue({ providers, metadata: input.metadata })){ decision="blocked_secret_value_detected"; reason="Secret-Ã¤hnlicher Wert in Payload erkannt."; }
   const check: ProviderConfigSecretBoundaryCheck={
     id:makeId("provider-config-boundary"),
     timestamp:new Date().toISOString(),
@@ -100,3 +100,4 @@ export function createProviderConfigSecretBoundaryCheck(input:{ metadata?: Recor
   return check;
 }
 export function summarizeProviderConfigSecretBoundaryChecks(checks:ProviderConfigSecretBoundaryCheck[]){ const byDecision:Record<string,number>={}; const providerPresence:Record<string,{enabled:number,total:number}>={}; for(const check of checks){ byDecision[check.decision]=(byDecision[check.decision]||0)+1; for(const provider of check.providers||[]){ const key=provider.providerKey; providerPresence[key]=providerPresence[key]||{enabled:0,total:0}; providerPresence[key].total+=1; if(provider.enabled) providerPresence[key].enabled+=1; } } return { total:checks.length, byDecision, providerPresence }; }
+

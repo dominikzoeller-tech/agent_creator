@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -58,8 +58,7 @@ function dataDir(): string { return process.env.TOOL_CONSENT_DATA_DIR || process
 function finalPreflightPath(): string { return path.join(dataDir(), "provider-dispatch-final-preflights.jsonl"); }
 function gatePath(): string { return path.join(dataDir(), "provider-dispatch-execution-gates.jsonl"); }
 function ensureStore(): void { mkdirSync(dataDir(), { recursive: true }); }
-function readJsonl(file:string): any[] { try { return readFileSync(file,"utf8").split(/?
-/).map((line)=>line.trim()).filter(Boolean).map((line)=>{ try { return JSON.parse(line); } catch { return null; } }).filter(Boolean); } catch { return []; } }
+function readJsonl(file:string): any[] { try { return readFileSync(file,"utf8").split(/\r?\n/).map((line)=>line.trim()).filter(Boolean).map((line)=>{ try { return JSON.parse(line); } catch { return null; } }).filter(Boolean); } catch { return []; } }
 function makeId(prefix:string): string { const now=new Date().toISOString(); return prefix+"-"+now.replace(/[^0-9]/g,"").slice(0,14)+"-"+Math.random().toString(36).slice(2,8); }
 function appendGate(gate:ProviderDispatchExecutionGate): void { ensureStore(); appendFileSync(gatePath(), JSON.stringify(gate)+"\n", "utf8"); }
 function containsSecretValue(value: unknown): boolean { return /(sk-[a-z0-9_-]{10,}|api[_-]?keys*[:=]s*[^s,;]+|tokens*[:=]s*[^s,;]+|secrets*[:=]s*[^s,;]+|passwords*[:=]s*[^s,;]+)/i.test(JSON.stringify(value || {})); }
@@ -80,12 +79,12 @@ export function createProviderDispatchExecutionGate(input:{ providerDispatchFina
   if(!preflight){ decision="blocked_missing_final_preflight"; reason="Provider Dispatch Final Preflight fehlt."; }
   else if(preflight.providerDispatchFinalPreflightPrepared!==true){ decision="blocked_final_preflight_not_prepared"; reason="Final Preflight ist nicht vorbereitet."; }
   else if(preflight.finalDispatchAllowed!==false){ decision="blocked_final_dispatch_allowed"; reason="Final Dispatch ist erlaubt."; }
-  else if(preflight.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde bereits ausgeführt oder nicht sicher false."; }
+  else if(preflight.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde bereits ausgefÃ¼hrt oder nicht sicher false."; }
   else if(preflight.tokenBoundToDispatch!==false || preflight.tokenBindingActive!==false || preflight.tokenActive!==false){ decision="blocked_token_bound_or_active"; reason="Token ist gebunden, Binding aktiv oder Token aktiv."; }
   else if(preflight.provider!=="none" || preflight.modelSelected!=="none"){ decision="blocked_provider_selection_attempt"; reason="Provider- oder Modell-Auswahl erkannt."; }
   else if(preflight.dispatchPayloadIncluded!==false || preflight.promptPayloadIncluded!==false || preflight.promptIncluded!==false || preflight.requestBodyIncluded!==false || preflight.sensitiveRequestBodyIncluded!==false){ decision="blocked_payload_or_request_body_included"; reason="Dispatch-/Prompt-Payload oder Request Body ist enthalten."; }
   else if(preflight.secretValuesIncluded!==false || preflight.noSecretsIncluded!==true || containsSecretValue(preflight)){ decision="blocked_secret_values_included"; reason="Secret Boundary verletzt."; }
-  else if(preflight.networkCallAllowed!==false || preflight.networkCallPerformed!==false || preflight.providerExecutionAllowed!==false){ decision="blocked_network_or_provider_execution_attempt"; reason="Netzwerk-/Provider-Ausführung erkannt."; }
+  else if(preflight.networkCallAllowed!==false || preflight.networkCallPerformed!==false || preflight.providerExecutionAllowed!==false){ decision="blocked_network_or_provider_execution_attempt"; reason="Netzwerk-/Provider-AusfÃ¼hrung erkannt."; }
   else if(preflight.executionAllowed!==false || preflight.toolExecutionAllowed!==false || preflight.agentExecutionAllowed!==false || preflight.dryRunOnly!==true){ decision="blocked_execution_not_safe"; reason="Execution Safety Invariants verletzt."; }
 
   const gate:ProviderDispatchExecutionGate={
@@ -133,3 +132,4 @@ export function createProviderDispatchExecutionGate(input:{ providerDispatchFina
 }
 
 export function summarizeProviderDispatchExecutionGates(gates:ProviderDispatchExecutionGate[]){ const byDecision:Record<string,number>={}; for(const item of gates){ byDecision[item.decision]=(byDecision[item.decision]||0)+1; } return { total:gates.length, byDecision }; }
+

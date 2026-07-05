@@ -1,4 +1,4 @@
-import { AskRequestBody, AskResponse, HealthResponse, RedactResponse } from "./types";
+﻿import { AskRequestBody, AskResponse, HealthResponse, RedactResponse } from "./types";
 
 const DEFAULT_BASE_URL = process.env.NEXT_PUBLIC_AGENT_API_BASE_URL || "http://localhost:7071";
 
@@ -7,7 +7,7 @@ async function parseJsonSafe<T>(res: Response): Promise<T> {
   try {
     return JSON.parse(text) as T;
   } catch {
-    throw new Error(`Ungültige JSON-Antwort von ${res.url}: ${text}`);
+    throw new Error(`UngÃ¼ltige JSON-Antwort von ${res.url}: ${text}`);
   }
 }
 
@@ -49,3 +49,4 @@ export async function getRedactPreview(
   if (!res.ok) throw new Error(`Redact-Preview fehlgeschlagen (${res.status})`);
   return parseJsonSafe<RedactResponse>(res);
 }
+

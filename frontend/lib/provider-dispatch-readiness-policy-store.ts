@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -70,22 +70,22 @@ export function simulateProviderDispatchReadinessPolicy(input:{ providerDispatch
   checks.push({ name:"readiness_exists", passed:Boolean(readiness), reason:readiness?"Provider Dispatch Readiness gefunden.":"Provider Dispatch Readiness fehlt." });
   checks.push({ name:"readiness_mode_metadata_only_no_provider_call", passed:readiness?.readinessMode === "controlled_provider_dispatch_readiness_metadata_only_no_provider_call", reason:"Readiness muss metadata-only und no-provider-call bleiben." });
   checks.push({ name:"dispatch_prepared", passed:readiness?.providerDispatchPrepared===true, reason:"Provider Dispatch muss nur vorbereitet sein." });
-  checks.push({ name:"dispatch_not_performed", passed:readiness?.providerDispatchPerformed===false, reason:"Provider Dispatch darf nicht ausgeführt sein." });
+  checks.push({ name:"dispatch_not_performed", passed:readiness?.providerDispatchPerformed===false, reason:"Provider Dispatch darf nicht ausgefÃ¼hrt sein." });
   checks.push({ name:"metadata_only", passed:readiness?.metadataOnly===true, reason:"Dispatch Readiness muss metadata-only bleiben." });
   checks.push({ name:"provider_none", passed:readiness?.provider==="none" && readiness?.modelSelected==="none", reason:"Provider und Modell bleiben none." });
   checks.push({ name:"dispatch_payload_not_included", passed:readiness?.dispatchPayloadIncluded===false, reason:"Dispatch Payload darf nicht enthalten sein." });
   checks.push({ name:"envelope_payload_not_included", passed:readiness?.envelopePayloadIncluded===false, reason:"Envelope Payload darf nicht enthalten sein." });
-  checks.push({ name:"prompt_payload_not_included", passed:readiness?.promptPayloadIncluded===false && readiness?.promptIncluded===false && readiness?.promptRedactedPreviewIncluded===false, reason:"Prompt Payload, Prompt und redacted Preview dürfen nicht enthalten sein." });
-  checks.push({ name:"secrets_not_included", passed:readiness?.secretValuesIncluded===false && readiness?.noSecretsIncluded===true && !containsSecretValue(readiness), reason:"Secret-Werte dürfen nicht enthalten sein." });
-  checks.push({ name:"request_body_not_included", passed:readiness?.requestBodyIncluded===false && readiness?.sensitiveRequestBodyIncluded===false, reason:"Request Body und sensitive Request Body dürfen nicht enthalten sein." });
-  checks.push({ name:"network_provider_blocked", passed:readiness?.networkCallPerformed===false && readiness?.providerExecutionAllowed===false, reason:"Netzwerk-/Provider-Ausführung bleibt blockiert." });
+  checks.push({ name:"prompt_payload_not_included", passed:readiness?.promptPayloadIncluded===false && readiness?.promptIncluded===false && readiness?.promptRedactedPreviewIncluded===false, reason:"Prompt Payload, Prompt und redacted Preview dÃ¼rfen nicht enthalten sein." });
+  checks.push({ name:"secrets_not_included", passed:readiness?.secretValuesIncluded===false && readiness?.noSecretsIncluded===true && !containsSecretValue(readiness), reason:"Secret-Werte dÃ¼rfen nicht enthalten sein." });
+  checks.push({ name:"request_body_not_included", passed:readiness?.requestBodyIncluded===false && readiness?.sensitiveRequestBodyIncluded===false, reason:"Request Body und sensitive Request Body dÃ¼rfen nicht enthalten sein." });
+  checks.push({ name:"network_provider_blocked", passed:readiness?.networkCallPerformed===false && readiness?.providerExecutionAllowed===false, reason:"Netzwerk-/Provider-AusfÃ¼hrung bleibt blockiert." });
   checks.push({ name:"llm_blocked", passed:readiness?.realLlmCallAllowed===false && readiness?.llmCallPerformed===false, reason:"Real LLM Call bleibt blockiert." });
-  checks.push({ name:"execution_blocked", passed:readiness?.executionAllowed===false && readiness?.toolExecutionAllowed===false && readiness?.agentExecutionAllowed===false && readiness?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-Ausführung bleiben blockiert." });
+  checks.push({ name:"execution_blocked", passed:readiness?.executionAllowed===false && readiness?.toolExecutionAllowed===false && readiness?.agentExecutionAllowed===false && readiness?.dryRunOnly===true, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung bleiben blockiert." });
   let decision:ProviderDispatchReadinessPolicyDecision="provider_dispatch_readiness_policy_allowed_metadata_only_no_provider_call";
   let reason="Provider Dispatch Readiness Policy erlaubt nur metadata-only Simulation. Kein Dispatch, kein Provider-/Netzwerk-Aufruf.";
   if(!readiness){ decision="blocked_missing_provider_dispatch_readiness"; reason="Provider Dispatch Readiness fehlt."; }
   else if(readiness.providerDispatchPrepared!==true){ decision="blocked_dispatch_not_prepared"; reason="Provider Dispatch ist nicht vorbereitet."; }
-  else if(readiness.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde ausgeführt oder Status ist nicht false."; }
+  else if(readiness.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde ausgefÃ¼hrt oder Status ist nicht false."; }
   else if(readiness.metadataOnly!==true){ decision="blocked_not_metadata_only"; reason="Provider Dispatch Readiness ist nicht metadata-only."; }
   else if(readiness.dispatchPayloadIncluded!==false){ decision="blocked_dispatch_payload_included"; reason="Dispatch Payload ist enthalten."; }
   else if(readiness.envelopePayloadIncluded!==false){ decision="blocked_envelope_payload_included"; reason="Envelope Payload ist enthalten."; }
@@ -107,3 +107,4 @@ export function simulateProviderDispatchReadinessPolicy(input:{ providerDispatch
   return sim;
 }
 export function summarizeProviderDispatchReadinessPolicySimulations(sims:ProviderDispatchReadinessPolicySimulation[]){ const byDecision:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; } return { total:sims.length, byDecision }; }
+

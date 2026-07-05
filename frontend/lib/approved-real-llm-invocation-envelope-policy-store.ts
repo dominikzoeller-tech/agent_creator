@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -52,12 +52,12 @@ export function simulateInvocationEnvelopePolicy(input:{ invocationEnvelopeId?: 
   checks.push({ name:"invocation_envelope_exists", passed:Boolean(env), reason: env ? "Invocation Envelope gefunden." : "Invocation Envelope fehlt." });
   checks.push({ name:"prep_only_mode", passed: env?.invocationEnvelope?.mode === "approved_invocation_envelope_prep_only", reason:"Envelope muss Prep-only bleiben." });
   checks.push({ name:"real_llm_blocked", passed: env?.realLlmCallAllowed === false && env?.llmCallPerformed === false && env?.invocationEnvelope?.realLlmCallAllowed === false, reason:"Real LLM Call muss blockiert bleiben." });
-  checks.push({ name:"consent_required", passed: env?.consentRequired === true && env?.humanApprovalRequired === true, reason:"Consent und Human Approval müssen verpflichtend bleiben." });
-  checks.push({ name:"consent_state_valid", passed: env?.approvalState?.acceptedForEnvelopePrep === true && env?.approvalState?.notExpired === true, reason:"Consent muss für Envelope Prep akzeptiert und nicht abgelaufen sein." });
-  checks.push({ name:"execution_blocked", passed: env?.executionAllowed === false && env?.toolExecutionAllowed === false && env?.agentExecutionAllowed === false && env?.invocationEnvelope?.toolExecutionAllowed === false && env?.invocationEnvelope?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-Ausführung müssen blockiert bleiben." });
+  checks.push({ name:"consent_required", passed: env?.consentRequired === true && env?.humanApprovalRequired === true, reason:"Consent und Human Approval mÃ¼ssen verpflichtend bleiben." });
+  checks.push({ name:"consent_state_valid", passed: env?.approvalState?.acceptedForEnvelopePrep === true && env?.approvalState?.notExpired === true, reason:"Consent muss fÃ¼r Envelope Prep akzeptiert und nicht abgelaufen sein." });
+  checks.push({ name:"execution_blocked", passed: env?.executionAllowed === false && env?.toolExecutionAllowed === false && env?.agentExecutionAllowed === false && env?.invocationEnvelope?.toolExecutionAllowed === false && env?.invocationEnvelope?.agentExecutionAllowed === false, reason:"Execution-, Tool- und Agent-AusfÃ¼hrung mÃ¼ssen blockiert bleiben." });
   checks.push({ name:"dry_run_only", passed: env?.dryRunOnly === true, reason: env?.dryRunOnly === true ? "Dry-run-only ist aktiv." : "Dry-run-only fehlt." });
   checks.push({ name:"final_secret_scan", passed: env?.noSecretsIncluded === true && !containsSecretPattern(env?.promptPreview), reason: env?.noSecretsIncluded === true && !containsSecretPattern(env?.promptPreview) ? "Kein Secret-Risiko im Prompt Preview." : "Secret-Risiko erkannt." });
-  checks.push({ name:"output_contract_locked", passed: env?.outputContract?.outputType === "recommendation_explanation_only" && env?.outputContract?.mayExecuteTools === false && env?.outputContract?.mayExecuteAgents === false && env?.outputContract?.mayRevealSecrets === false && env?.outputContract?.mayChangeState === false && env?.invocationEnvelope?.outputContractLocked === true, reason:"Output Contract muss locked, explanation-only und nicht-ausführend sein." });
+  checks.push({ name:"output_contract_locked", passed: env?.outputContract?.outputType === "recommendation_explanation_only" && env?.outputContract?.mayExecuteTools === false && env?.outputContract?.mayExecuteAgents === false && env?.outputContract?.mayRevealSecrets === false && env?.outputContract?.mayChangeState === false && env?.invocationEnvelope?.outputContractLocked === true, reason:"Output Contract muss locked, explanation-only und nicht-ausfÃ¼hrend sein." });
   checks.push({ name:"audit_before_invocation_required", passed: env?.invocationEnvelope?.auditBeforeInvocationRequired === true, reason:"Audit vor Invocation bleibt erforderlich." });
   let decision: InvocationEnvelopePolicyDecision="simulation_allowed_envelope_only";
   let reason="Invocation Envelope Policy Simulation erlaubt nur Envelope/Prep. Kein produktiver LLM-Aufruf.";
@@ -66,7 +66,7 @@ export function simulateInvocationEnvelopePolicy(input:{ invocationEnvelopeId?: 
   else if(env.executionAllowed !== false || env.toolExecutionAllowed !== false || env.agentExecutionAllowed !== false || env.dryRunOnly !== true){ decision="blocked_execution_not_safe"; reason="Envelope verletzt Execution Safety Invariants."; }
   else if(env.noSecretsIncluded !== true || containsSecretPattern(env.promptPreview)){ decision="blocked_secret_risk"; reason="Secret-Risiko im Invocation Envelope erkannt."; }
   else if(checks.find((c)=>c.name==="output_contract_locked")?.passed !== true){ decision="blocked_output_contract_violation"; reason="Output Contract ist nicht korrekt locked/explanation-only."; }
-  else if(env.approvalState?.acceptedForEnvelopePrep !== true || env.approvalState?.notExpired !== true){ decision="blocked_consent_state_invalid"; reason="Consent State ist nicht gültig für Envelope Prep."; }
+  else if(env.approvalState?.acceptedForEnvelopePrep !== true || env.approvalState?.notExpired !== true){ decision="blocked_consent_state_invalid"; reason="Consent State ist nicht gÃ¼ltig fÃ¼r Envelope Prep."; }
   const sim: InvocationEnvelopePolicySimulation={
     id:makeId("approved-envelope-policy-sim"),
     timestamp:new Date().toISOString(),
@@ -105,3 +105,4 @@ export function simulateInvocationEnvelopePolicy(input:{ invocationEnvelopeId?: 
   return sim;
 }
 export function summarizeInvocationEnvelopePolicySimulations(sims:InvocationEnvelopePolicySimulation[]){ const byDecision:Record<string,number>={}; const byActionType:Record<string,number>={}; for(const sim of sims){ byDecision[sim.decision]=(byDecision[sim.decision]||0)+1; if(sim.actionType) byActionType[sim.actionType]=(byActionType[sim.actionType]||0)+1; } return { total:sims.length, byDecision, byActionType }; }
+

@@ -8,8 +8,7 @@ type NavItem = {
 
 type NavGroup = {
   title: string;
-  items: NavItem[  { href: "/provider-dispatch-release-candidate-envelope-dashboard", label: "RC Dashboard", key: "provider-dispatch-release-candidate-envelope-dashboard" },
-];
+  items: NavItem[];
 };
 
 // Phase 14.1 â€“ Navigation Cleanup / Admin Mode Grouping
@@ -169,3 +168,6 @@ export function UnifiedNavigation({ active }: { active?: string }) {
     </nav>
   );
 }
+
+
+// Phase 40.2 navigation marker: /provider-dispatch-release-candidate-envelope-dashboard RC Dashboard provider-dispatch-release-candidate-envelope-dashboard

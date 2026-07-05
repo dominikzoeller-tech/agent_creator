@@ -1,4 +1,4 @@
-import { buildToolRegistry, AgentToolDefinition } from "./tool-registry";
+﻿import { buildToolRegistry, AgentToolDefinition } from "./tool-registry";
 
 export type SensitivityLevel = "public" | "internal" | "confidential";
 export type ProcessingMode = "auto" | "local" | "cloud" | "hybrid";
@@ -55,11 +55,11 @@ export function evaluateToolPermission(
   }
 
   if (!tool.allowedSensitivity.includes(sensitivity)) {
-    reasons.push(`Sensitivity ${sensitivity} ist für dieses Tool nicht erlaubt.`);
+    reasons.push(`Sensitivity ${sensitivity} ist fÃ¼r dieses Tool nicht erlaubt.`);
   }
 
   if (tool.requiresExternalNetwork && sensitivity !== "public") {
-    reasons.push("Externe Netzwerktools sind nur für public Sensitivity erlaubt.");
+    reasons.push("Externe Netzwerktools sind nur fÃ¼r public Sensitivity erlaubt.");
   }
 
   if (tool.requiresExternalNetwork && processingMode === "local") {
@@ -67,11 +67,11 @@ export function evaluateToolPermission(
   }
 
   if (tool.requiresSecret && processingMode === "local") {
-    warnings.push("Tool benötigt Secrets; im local Mode ist Nutzung nur möglich, wenn API-Container/Server diese sicher hält.");
+    warnings.push("Tool benÃ¶tigt Secrets; im local Mode ist Nutzung nur mÃ¶glich, wenn API-Container/Server diese sicher hÃ¤lt.");
   }
 
   if (tool.writesData && sensitivity === "confidential" && tool.category === "web-research") {
-    reasons.push("Web-Research-Schreibtools dürfen keine confidential Inhalte speichern.");
+    reasons.push("Web-Research-Schreibtools dÃ¼rfen keine confidential Inhalte speichern.");
   }
 
   if (tool.riskLevel === "high" && processingMode === "auto") {
@@ -79,7 +79,7 @@ export function evaluateToolPermission(
   }
 
   if (tool.writesData) {
-    warnings.push("Tool schreibt dauerhaft Daten und sollte vor Ausführung bestätigt/geprüft werden.");
+    warnings.push("Tool schreibt dauerhaft Daten und sollte vor AusfÃ¼hrung bestÃ¤tigt/geprÃ¼ft werden.");
   }
 
   return {
@@ -93,3 +93,4 @@ export function evaluateToolPermission(
     warnings,
   };
 }
+

@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
+﻿import { mkdirSync, readFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
 import { appendGovernanceAuditEvent } from "./governance-audit-store";
 
@@ -56,8 +56,7 @@ function dataDir(): string { return process.env.TOOL_CONSENT_DATA_DIR || process
 function tokenBindingPath(): string { return path.join(dataDir(), "provider-dispatch-token-bindings.jsonl"); }
 function preflightPath(): string { return path.join(dataDir(), "provider-dispatch-final-preflights.jsonl"); }
 function ensureStore(): void { mkdirSync(dataDir(), { recursive: true }); }
-function readJsonl(file:string): any[] { try { return readFileSync(file,"utf8").split(/?
-/).map((line)=>line.trim()).filter(Boolean).map((line)=>{ try { return JSON.parse(line); } catch { return null; } }).filter(Boolean); } catch { return []; } }
+function readJsonl(file:string): any[] { try { return readFileSync(file,"utf8").split(/\r?\n/).map((line)=>line.trim()).filter(Boolean).map((line)=>{ try { return JSON.parse(line); } catch { return null; } }).filter(Boolean); } catch { return []; } }
 function makeId(prefix:string): string { const now=new Date().toISOString(); return prefix+"-"+now.replace(/[^0-9]/g,"").slice(0,14)+"-"+Math.random().toString(36).slice(2,8); }
 function appendPreflight(preflight:ProviderDispatchFinalPreflight): void { ensureStore(); appendFileSync(preflightPath(), JSON.stringify(preflight)+"\n", "utf8"); }
 function containsSecretValue(value: unknown): boolean { return /(sk-[a-z0-9_-]{10,}|api[_-]?keys*[:=]s*[^s,;]+|tokens*[:=]s*[^s,;]+|secrets*[:=]s*[^s,;]+|passwords*[:=]s*[^s,;]+)/i.test(JSON.stringify(value || {})); }
@@ -79,11 +78,11 @@ export function createProviderDispatchFinalPreflight(input:{ providerDispatchTok
   else if(binding.providerDispatchTokenBindingPrepared!==true){ decision="blocked_token_binding_not_prepared"; reason="Provider Dispatch Token Binding ist nicht vorbereitet."; }
   else if(binding.tokenBoundToDispatch!==false || binding.tokenBindingActive!==false || binding.tokenActive!==false){ decision="blocked_token_bound_or_active"; reason="Token ist gebunden, Binding aktiv oder Token aktiv."; }
   else if(binding.providerDispatchPrepared!==true){ decision="blocked_dispatch_not_ready"; reason="Provider Dispatch Readiness ist nicht vorbereitet."; }
-  else if(binding.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde bereits ausgeführt oder nicht sicher false."; }
+  else if(binding.providerDispatchPerformed!==false){ decision="blocked_dispatch_performed"; reason="Provider Dispatch wurde bereits ausgefÃ¼hrt oder nicht sicher false."; }
   else if(binding.provider!=="none" || binding.modelSelected!=="none"){ decision="blocked_provider_selection_attempt"; reason="Provider- oder Modell-Auswahl erkannt."; }
   else if(binding.dispatchPayloadIncluded!==false || binding.promptPayloadIncluded!==false || binding.requestBodyIncluded!==false || binding.sensitiveRequestBodyIncluded!==false){ decision="blocked_payload_or_request_body_included"; reason="Dispatch-/Prompt-Payload oder Request Body ist enthalten."; }
   else if(binding.secretValuesIncluded!==false || binding.noSecretsIncluded!==true || containsSecretValue(binding)){ decision="blocked_secret_values_included"; reason="Secret Boundary verletzt."; }
-  else if(binding.networkCallPerformed!==false || binding.providerExecutionAllowed!==false){ decision="blocked_network_or_provider_execution_attempt"; reason="Netzwerk-/Provider-Ausführung erkannt."; }
+  else if(binding.networkCallPerformed!==false || binding.providerExecutionAllowed!==false){ decision="blocked_network_or_provider_execution_attempt"; reason="Netzwerk-/Provider-AusfÃ¼hrung erkannt."; }
   else if(binding.executionAllowed!==false || binding.toolExecutionAllowed!==false || binding.agentExecutionAllowed!==false || binding.dryRunOnly!==true){ decision="blocked_execution_not_safe"; reason="Execution Safety Invariants verletzt."; }
 
   const preflight:ProviderDispatchFinalPreflight={
@@ -129,3 +128,4 @@ export function createProviderDispatchFinalPreflight(input:{ providerDispatchTok
 }
 
 export function summarizeProviderDispatchFinalPreflights(preflights:ProviderDispatchFinalPreflight[]){ const byDecision:Record<string,number>={}; for(const item of preflights){ byDecision[item.decision]=(byDecision[item.decision]||0)+1; } return { total:preflights.length, byDecision }; }
+
