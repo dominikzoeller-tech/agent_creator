@@ -488,7 +488,10 @@
     "phase37:2:patch": "node scripts/phase37-2-patch-provider-dispatch-dry-run-command-envelope-dashboard-smoke.cjs",
     "phase37:2:verify": "node scripts/phase37-2-verify-provider-dispatch-dry-run-command-envelope-dashboard-smoke.cjs",
     "phase37:2:smoke": "node scripts/phase37-2-provider-dispatch-dry-run-command-envelope-dashboard-smoke.cjs",
-    "llm:provider-dispatch-dry-run-command-envelope:release:check": "npm run phase37:0:verify && npm run phase37:1:verify && npm run phase37:2:verify && npm run phase37:2:smoke"
+    "llm:provider-dispatch-dry-run-command-envelope:release:check": "npm run phase37:0:verify && npm run phase37:1:verify && npm run phase37:2:verify && npm run phase37:2:smoke",
+    "phase37:3:patch": "node scripts/phase37-3-patch-final-provider-dispatch-dry-run-command-envelope-handoff.cjs",
+    "phase37:3:verify": "node scripts/phase37-3-verify-final-provider-dispatch-dry-run-command-envelope-handoff.cjs",
+    "llm:provider-dispatch-dry-run-command-envelope:final:check": "npm run phase37:0:verify && npm run phase37:1:verify && npm run phase37:2:verify && npm run build"
   },
   "repository": {
     "type": "git",
