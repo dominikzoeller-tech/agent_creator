@@ -13,6 +13,7 @@ type NavGroup = {
   { href: "/provider-dispatch-token-binding-policy", label: "Dispatch Token Policy", key: "provider-dispatch-token-binding-policy" },
   { href: "/provider-dispatch-token-binding-dashboard", label: "Dispatch Token Dashboard", key: "provider-dispatch-token-binding-dashboard" },
   { href: "/provider-dispatch-final-preflight", label: "Dispatch Final Preflight", key: "provider-dispatch-final-preflight" },
+  { href: "/provider-dispatch-final-preflight-policy", label: "Dispatch Final Policy", key: "provider-dispatch-final-preflight-policy" },
 ];
 };
 
