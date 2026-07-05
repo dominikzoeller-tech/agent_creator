@@ -1,0 +1,13 @@
+const fs=require("fs"); const path=require("path");
+function full(file){return path.join(process.cwd(),file);} function exists(file){return fs.existsSync(full(file));} function read(file){return exists(file)?fs.readFileSync(full(file),"utf8"):"";}
+function check(file,patterns){ if(!exists(file)){console.log("MISS "+file); return false;} const content=read(file); let ok=true; for(const p of patterns){ const found=content.includes(p); console.log((found?"OK  ":"MISS")+" "+file+": "+p); if(!found) ok=false;} return ok; }
+console.log("======================================"); console.log(" Phase 33.1 Provider Dispatch Readiness Policy Verify"); console.log("======================================");
+let ok=true;
+ok=check("frontend/lib/provider-dispatch-readiness-policy-store.ts",["simulateProviderDispatchReadinessPolicy","appendGovernanceAuditEvent","provider_dispatch_readiness_policy_allowed_metadata_only_no_provider_call","providerDispatchPrepared:true","providerDispatchPerformed:false","metadataOnly:true","dispatchPayloadIncluded:false","envelopePayloadIncluded:false","promptPayloadIncluded:false","secretValuesIncluded:false","requestBodyIncluded:false","networkCallPerformed:false","providerExecutionAllowed:false","llmCallPerformed:false"])&&ok;
+ok=check("frontend/app/api/provider-dispatch-readiness-policy/route.ts",["simulateProviderDispatchReadinessPolicy","GET","POST"])&&ok;
+ok=check("frontend/app/provider-dispatch-readiness-policy/page.tsx",["Provider Dispatch Readiness Policy","Provider Dispatch Readiness Policy simulieren","providerDispatchPrepared","providerDispatchPerformed","metadataOnly","dispatchPayloadIncluded","networkCallPerformed"])&&ok;
+ok=check("frontend/components/UnifiedNavigation.tsx",["/provider-dispatch-readiness-policy","Provider Dispatch Policy","provider-dispatch-readiness-policy"])&&ok;
+ok=check("phase33-1-provider-dispatch-readiness-policy-audit.md",["Phase 33.1","Phase 33.2","providerDispatchPrepared=true","providerDispatchPerformed=false","metadataOnly=true","dispatchPayloadIncluded=false","envelopePayloadIncluded=false","promptPayloadIncluded=false","secretValuesIncluded=false","requestBodyIncluded=false","networkCallPerformed=false","providerExecutionAllowed=false"])&&ok;
+ok=check("docs/phase33-provider-dispatch-readiness-policy-audit-runbook.md",["phase33:1:patch","phase33:1:verify"])&&ok;
+ok=check("package.json",["phase33:1:patch","phase33:1:verify","llm:provider-dispatch-readiness:policy:verify"])&&ok;
+if(!ok){console.error("Verify fehlgeschlagen."); process.exit(1);} console.log("Verify OK. Phase 33.1 Provider Dispatch Readiness Policy & Audit ist vorbereitet.");
