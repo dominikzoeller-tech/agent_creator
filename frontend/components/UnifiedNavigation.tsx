@@ -17,6 +17,7 @@ type NavGroup = {
   { href: "/provider-dispatch-final-preflight-dashboard", label: "Dispatch Final Dashboard", key: "provider-dispatch-final-preflight-dashboard" },
   { href: "/provider-dispatch-execution-gate", label: "Dispatch Execution Gate", key: "provider-dispatch-execution-gate" },
   { href: "/provider-dispatch-execution-gate-policy", label: "Dispatch Execution Policy", key: "provider-dispatch-execution-gate-policy" },
+  { href: "/provider-dispatch-execution-gate-dashboard", label: "Dispatch Execution Dashboard", key: "provider-dispatch-execution-gate-dashboard" },
 ];
 };
 
