@@ -404,7 +404,10 @@
     "llm:token-backed-provider:release:check": "npm run phase30:0:verify && npm run phase30:1:verify && npm run phase30:2:verify && npm run phase30:2:smoke",
     "phase30:3:patch": "node scripts/phase30-3-patch-final-token-backed-provider-preflight-handoff.cjs",
     "phase30:3:verify": "node scripts/phase30-3-verify-final-token-backed-provider-preflight-handoff.cjs",
-    "llm:token-backed-provider:final:check": "npm run phase30:0:verify && npm run phase30:1:verify && npm run phase30:2:verify && npm run phase30:3:verify"
+    "llm:token-backed-provider:final:check": "npm run phase30:0:verify && npm run phase30:1:verify && npm run phase30:2:verify && npm run phase30:3:verify",
+    "phase31:0:patch": "node scripts/phase31-0-patch-provider-request-contract-preparation.cjs",
+    "phase31:0:verify": "node scripts/phase31-0-verify-provider-request-contract-preparation.cjs",
+    "llm:provider-request-contract:verify": "node scripts/phase31-0-verify-provider-request-contract-preparation.cjs"
   },
   "repository": {
     "type": "git",
