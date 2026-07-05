@@ -553,7 +553,10 @@
     "phase42:2:patch": "node scripts/phase42-2-patch-provider-dispatch-approval-policy-confirmation-dashboard-smoke.cjs",
     "phase42:2:verify": "node scripts/phase42-2-verify-provider-dispatch-approval-policy-confirmation-dashboard-smoke.cjs",
     "phase42:2:smoke": "node scripts/phase42-2-provider-dispatch-approval-policy-confirmation-dashboard-smoke.cjs",
-    "llm:provider-dispatch-approval-policy-confirmation-envelope:release:check": "npm run phase42:0:verify && npm run phase42:1:verify && npm run phase42:2:verify && npm run phase42:2:smoke"
+    "llm:provider-dispatch-approval-policy-confirmation-envelope:release:check": "npm run phase42:0:verify && npm run phase42:1:verify && npm run phase42:2:verify && npm run phase42:2:smoke",
+    "phase42:3:patch": "node scripts/phase42-3-patch-final-provider-dispatch-approval-policy-confirmation-handoff.cjs",
+    "phase42:3:verify": "node scripts/phase42-3-verify-final-provider-dispatch-approval-policy-confirmation-handoff.cjs",
+    "llm:provider-dispatch-approval-policy-confirmation-envelope:final:check": "npm run phase42:0:verify && npm run phase42:1:verify && npm run phase42:2:verify && npm run build"
   },
   "repository": {
     "type": "git",
