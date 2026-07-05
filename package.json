@@ -391,7 +391,10 @@
     "llm:approval-token-activation:release:check": "npm run phase29:0:verify && npm run phase29:1:verify && npm run phase29:2:verify && npm run phase29:2:smoke",
     "phase29:3:patch": "node scripts/phase29-3-patch-final-approval-token-activation-handoff.cjs",
     "phase29:3:verify": "node scripts/phase29-3-verify-final-approval-token-activation-handoff.cjs",
-    "llm:approval-token-activation:final:check": "npm run phase29:0:verify && npm run phase29:1:verify && npm run phase29:2:verify && npm run phase29:3:verify"
+    "llm:approval-token-activation:final:check": "npm run phase29:0:verify && npm run phase29:1:verify && npm run phase29:2:verify && npm run phase29:3:verify",
+    "phase30:0:patch": "node scripts/phase30-0-patch-token-backed-provider-invocation-preflight.cjs",
+    "phase30:0:verify": "node scripts/phase30-0-verify-token-backed-provider-invocation-preflight.cjs",
+    "llm:token-backed-provider:verify": "node scripts/phase30-0-verify-token-backed-provider-invocation-preflight.cjs"
   },
   "repository": {
     "type": "git",
