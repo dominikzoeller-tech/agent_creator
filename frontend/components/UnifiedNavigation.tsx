@@ -55,6 +55,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/approval-token-activation-policy", label: "Token Activation Policy", key: "approval-token-activation-policy" },
   { href: "/approval-token-activation-dashboard", label: "Token Activation Dashboard", key: "approval-token-activation-dashboard" },
   { href: "/token-backed-provider-invocation-preflight", label: "Token Provider Preflight", key: "token-backed-provider-invocation-preflight" },
+  { href: "/token-backed-provider-preflight-policy", label: "Token Provider Policy", key: "token-backed-provider-preflight-policy" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [
