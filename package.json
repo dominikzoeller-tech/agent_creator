@@ -432,7 +432,14 @@
     "llm:provider-dispatch-readiness:verify": "node scripts/phase33-0-verify-provider-dispatch-readiness.cjs",
     "phase33:1:patch": "node scripts/phase33-1-patch-provider-dispatch-readiness-policy-audit.cjs",
     "phase33:1:verify": "node scripts/phase33-1-verify-provider-dispatch-readiness-policy-audit.cjs",
-    "llm:provider-dispatch-readiness:policy:verify": "node scripts/phase33-1-verify-provider-dispatch-readiness-policy-audit.cjs"
+    "llm:provider-dispatch-readiness:policy:verify": "node scripts/phase33-1-verify-provider-dispatch-readiness-policy-audit.cjs",
+    "phase33:2:patch": "node scripts/phase33-2-patch-provider-dispatch-readiness-dashboard-smoke.cjs",
+    "phase33:2:verify": "node scripts/phase33-2-verify-provider-dispatch-readiness-dashboard-smoke.cjs",
+    "phase33:2:smoke": "node scripts/phase33-2-provider-dispatch-readiness-dashboard-smoke.cjs",
+    "llm:provider-dispatch-readiness:release:check": "npm run phase33:0:verify && npm run phase33:1:verify && npm run phase33:2:verify && npm run phase33:2:smoke",
+    "phase33:3:patch": "node scripts/phase33-3-patch-final-provider-dispatch-readiness-handoff.cjs",
+    "phase33:3:verify": "node scripts/phase33-3-verify-final-provider-dispatch-readiness-handoff.cjs",
+    "llm:provider-dispatch-readiness:final:check": "npm run phase33:0:verify && npm run phase33:1:verify && npm run phase33:2:verify && npm run build"
   },
   "repository": {
     "type": "git",

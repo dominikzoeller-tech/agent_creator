@@ -8,7 +8,8 @@ type NavItem = {
 
 type NavGroup = {
   title: string;
-  items: NavItem[];
+  items: NavItem[  { href: "/provider-dispatch-readiness-dashboard", label: "Provider Dispatch Dashboard", key: "provider-dispatch-readiness-dashboard" },
+];
 };
 
 // Phase 14.1 â€“ Navigation Cleanup / Admin Mode Grouping
