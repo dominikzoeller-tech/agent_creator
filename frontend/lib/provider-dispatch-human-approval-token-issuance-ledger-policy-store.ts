@@ -73,11 +73,25 @@ export function simulateProviderDispatchHumanApprovalTokenIssuanceLedgerPolicy(s
   };
   appendSimulation(sim);
   appendGovernanceAuditEvent({
-    id: sim.id,
-    createdAt: now,
-    type: "provider_dispatch_human_approval_token_issuance_ledger_policy_simulated",
+    type: "agent_registry_status_changed",
+    actor: "api",
+    entityType: "agent-registry",
+    entityId: sim.sourceLedgerEntryId,
+    status: sim.decision,
+    riskLevel: "critical",
     summary: "Provider dispatch human approval token issuance ledger policy simulated without token issuance or provider call.",
-    metadata: sim,
+    metadata: {
+      source: "phase46.1-provider-dispatch-human-approval-token-issuance-ledger-policy",
+      simulationId: sim.id,
+      sourceLedgerEntryId: sim.sourceLedgerEntryId,
+      humanApprovalTokenIssued: false,
+      humanApprovalTokenActivated: false,
+      humanApprovalTokenConsumed: false,
+      networkCallPerformed: false,
+      providerExecutionAllowed: false,
+      llmCallPerformed: false,
+      dryRunOnly: true
+    }
   });
   return sim;
 }

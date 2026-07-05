@@ -614,7 +614,13 @@
     "llm:provider-dispatch-human-approval-token-issuance-receipt:verify": "node scripts/phase47-0-verify-provider-dispatch-human-approval-token-issuance-receipt.cjs",
     "phase47:1:patch": "node scripts/phase47-1-patch-provider-dispatch-human-approval-token-issuance-receipt-policy-audit.cjs",
     "phase47:1:verify": "node scripts/phase47-1-verify-provider-dispatch-human-approval-token-issuance-receipt-policy-audit.cjs",
-    "llm:provider-dispatch-human-approval-token-issuance-receipt:policy:verify": "node scripts/phase47-1-verify-provider-dispatch-human-approval-token-issuance-receipt-policy-audit.cjs"
+    "llm:provider-dispatch-human-approval-token-issuance-receipt:policy:verify": "node scripts/phase47-1-verify-provider-dispatch-human-approval-token-issuance-receipt-policy-audit.cjs",
+    "phase47:2:patch": "node scripts/phase47-2-patch-provider-dispatch-human-approval-token-issuance-receipt-dashboard-smoke.cjs",
+    "phase47:2:verify": "node scripts/phase47-2-verify-provider-dispatch-human-approval-token-issuance-receipt-dashboard-smoke.cjs",
+    "phase47:2:smoke": "node scripts/phase47-2-provider-dispatch-human-approval-token-issuance-receipt-dashboard-smoke.cjs",
+    "llm:provider-dispatch-human-approval-token-issuance-receipt:release:check": "npm run phase47:0:verify && npm run phase47:1:verify && npm run phase47:2:verify && npm run phase47:2:smoke",
+    "phase46:1a:hotfix": "node scripts/phase46-1a-hotfix-ledger-policy-audit-event-type.cjs",
+    "phase46:1a:verify": "node scripts/phase46-1a-verify-ledger-policy-audit-event-type.cjs"
   },
   "repository": {
     "type": "git",
