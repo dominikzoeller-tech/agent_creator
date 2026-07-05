@@ -58,6 +58,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/token-backed-provider-preflight-policy", label: "Token Provider Policy", key: "token-backed-provider-preflight-policy" },
   { href: "/token-backed-provider-preflight-dashboard", label: "Token Provider Dashboard", key: "token-backed-provider-preflight-dashboard" },
   { href: "/provider-request-contract", label: "Provider Request Contract", key: "provider-request-contract" },
+  { href: "/provider-request-contract-policy", label: "Provider Request Policy", key: "provider-request-contract-policy" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [

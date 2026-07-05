@@ -407,7 +407,10 @@
     "llm:token-backed-provider:final:check": "npm run phase30:0:verify && npm run phase30:1:verify && npm run phase30:2:verify && npm run phase30:3:verify",
     "phase31:0:patch": "node scripts/phase31-0-patch-provider-request-contract-preparation.cjs",
     "phase31:0:verify": "node scripts/phase31-0-verify-provider-request-contract-preparation.cjs",
-    "llm:provider-request-contract:verify": "node scripts/phase31-0-verify-provider-request-contract-preparation.cjs"
+    "llm:provider-request-contract:verify": "node scripts/phase31-0-verify-provider-request-contract-preparation.cjs",
+    "phase31:1:patch": "node scripts/phase31-1-patch-provider-request-contract-policy-audit.cjs",
+    "phase31:1:verify": "node scripts/phase31-1-verify-provider-request-contract-policy-audit.cjs",
+    "llm:provider-request-contract:policy:verify": "node scripts/phase31-1-verify-provider-request-contract-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
