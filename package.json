@@ -579,7 +579,10 @@
     "phase44:2:patch": "node scripts/phase44-2-patch-provider-dispatch-human-approval-token-issuance-candidate-dashboard-smoke.cjs",
     "phase44:2:verify": "node scripts/phase44-2-verify-provider-dispatch-human-approval-token-issuance-candidate-dashboard-smoke.cjs",
     "phase44:2:smoke": "node scripts/phase44-2-provider-dispatch-human-approval-token-issuance-candidate-dashboard-smoke.cjs",
-    "llm:provider-dispatch-human-approval-token-issuance-candidate:release:check": "npm run phase44:0:verify && npm run phase44:1:verify && npm run phase44:2:verify && npm run phase44:2:smoke"
+    "llm:provider-dispatch-human-approval-token-issuance-candidate:release:check": "npm run phase44:0:verify && npm run phase44:1:verify && npm run phase44:2:verify && npm run phase44:2:smoke",
+    "phase44:3:patch": "node scripts/phase44-3-patch-final-provider-dispatch-human-approval-token-issuance-candidate-handoff.cjs",
+    "phase44:3:verify": "node scripts/phase44-3-verify-final-provider-dispatch-human-approval-token-issuance-candidate-handoff.cjs",
+    "llm:provider-dispatch-human-approval-token-issuance-candidate:final:check": "npm run phase44:0:verify && npm run phase44:1:verify && npm run phase44:2:verify && npm run build"
   },
   "repository": {
     "type": "git",
