@@ -27,16 +27,54 @@ export type ProviderDispatchHumanApprovalTokenIssuanceConfirmationPolicySimulati
 
 type SourceConfirmation = { id?: string };
 
-function dataDir(): string { return path.join(process.cwd(), "data"); }
-function inputPath(): string { return path.join(dataDir(), "provider-dispatch-human-approval-token-issuance-confirmations.jsonl"); }
-function simulationPath(): string { return path.join(dataDir(), "provider-dispatch-human-approval-token-issuance-confirmation-policy-simulations.jsonl"); }
-function auditPath(): string { return path.join(dataDir(), "governance-audit.jsonl"); }
-function ensureStore(): void { mkdirSync(dataDir(), { recursive: true }); }
-function readJsonl(file: string): any[] { try { return readFileSync(file, "utf8").split(/?
-/).map((line) => line.trim()).filter(Boolean).map((line) => { try { return JSON.parse(line); } catch { return null; } }).filter(Boolean); } catch { return []; } }
-function makeId(prefix: string): string { const now = new Date().toISOString(); return prefix + "-" + now.replace(/[^0-9]/g, "").slice(0, 14) + "-" + Math.random().toString(36).slice(2, 8); }
-function appendJsonl(file: string, value: unknown): void { ensureStore(); appendFileSync(file, JSON.stringify(value) + "
-", "utf8"); }
+function dataDir(): string {
+  return process.env.TOOL_CONSENT_DATA_DIR || process.env.DATA_DIR || path.join(process.cwd(), "..", "data");
+}
+
+function inputPath(): string {
+  return path.join(dataDir(), "provider-dispatch-human-approval-token-issuance-confirmation-envelopes.jsonl");
+}
+
+function simulationPath(): string {
+  return path.join(dataDir(), "provider-dispatch-human-approval-token-issuance-confirmation-policy-simulations.jsonl");
+}
+
+function auditPath(): string {
+  return path.join(dataDir(), "governance-audit.jsonl");
+}
+
+function ensureStore(): void {
+  mkdirSync(dataDir(), { recursive: true });
+}
+
+function readJsonl(file: string): any[] {
+  try {
+    return readFileSync(file, "utf8")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => {
+        try {
+          return JSON.parse(line);
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+function makeId(prefix: string): string {
+  const now = new Date().toISOString();
+  return prefix + "-" + now.replace(/[^0-9]/g, "").slice(0, 14) + "-" + Math.random().toString(36).slice(2, 8);
+}
+
+function appendJsonl(file: string, value: unknown): void {
+  ensureStore();
+  appendFileSync(file, JSON.stringify(value) + "\n", "utf8");
+}
 
 export function listProviderDispatchHumanApprovalTokenIssuanceConfirmationPolicySimulations(limit = 50): ProviderDispatchHumanApprovalTokenIssuanceConfirmationPolicySimulation[] {
   return readJsonl(simulationPath()).slice(-limit).reverse() as ProviderDispatchHumanApprovalTokenIssuanceConfirmationPolicySimulation[];
@@ -79,6 +117,14 @@ export function simulateProviderDispatchHumanApprovalTokenIssuanceConfirmationPo
     ]
   };
   appendJsonl(simulationPath(), sim);
-  appendJsonl(auditPath(), { id: makeId("audit"), createdAt: now, eventType: "provider_dispatch_human_approval_token_issuance_confirmation_policy_simulated", subjectId: sim.id, severity: "info", summary: "Provider dispatch human approval token issuance confirmation policy simulated without provider call.", metadata: sim });
+  appendJsonl(auditPath(), {
+    id: makeId("audit"),
+    createdAt: now,
+    eventType: "provider_dispatch_human_approval_token_issuance_confirmation_policy_simulated",
+    subjectId: sim.id,
+    severity: "info",
+    summary: "Provider dispatch human approval token issuance confirmation policy simulated without provider call.",
+    metadata: sim
+  });
   return sim;
 }
