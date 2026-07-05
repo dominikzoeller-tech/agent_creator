@@ -449,7 +449,10 @@
     "phase34:2:patch": "node scripts/phase34-2-patch-provider-dispatch-token-binding-dashboard-smoke.cjs",
     "phase34:2:verify": "node scripts/phase34-2-verify-provider-dispatch-token-binding-dashboard-smoke.cjs",
     "phase34:2:smoke": "node scripts/phase34-2-provider-dispatch-token-binding-dashboard-smoke.cjs",
-    "llm:provider-dispatch-token-binding:release:check": "npm run phase34:0:verify && npm run phase34:1:verify && npm run phase34:2:verify && npm run phase34:2:smoke"
+    "llm:provider-dispatch-token-binding:release:check": "npm run phase34:0:verify && npm run phase34:1:verify && npm run phase34:2:verify && npm run phase34:2:smoke",
+    "phase34:3:patch": "node scripts/phase34-3-patch-final-provider-dispatch-token-binding-handoff.cjs",
+    "phase34:3:verify": "node scripts/phase34-3-verify-final-provider-dispatch-token-binding-handoff.cjs",
+    "llm:provider-dispatch-token-binding:final:check": "npm run phase34:0:verify && npm run phase34:1:verify && npm run phase34:2:verify && npm run build"
   },
   "repository": {
     "type": "git",
