@@ -21,6 +21,7 @@ type NavGroup = {
   { href: "/provider-dispatch-dry-run-command-envelope", label: "Dispatch Dry-Run Command", key: "provider-dispatch-dry-run-command-envelope" },
   { href: "/provider-dispatch-dry-run-command-envelope-policy", label: "Dispatch Dry-Run Policy", key: "provider-dispatch-dry-run-command-envelope-policy" },
   { href: "/provider-dispatch-dry-run-command-envelope-dashboard", label: "Dispatch Dry-Run Dashboard", key: "provider-dispatch-dry-run-command-envelope-dashboard" },
+  { href: "/provider-dispatch-dry-run-result-envelope", label: "Dispatch Dry-Run Result", key: "provider-dispatch-dry-run-result-envelope" },
 ];
 };
 
