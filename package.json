@@ -462,7 +462,10 @@
     "phase35:2:patch": "node scripts/phase35-2-patch-provider-dispatch-final-preflight-dashboard-smoke.cjs",
     "phase35:2:verify": "node scripts/phase35-2-verify-provider-dispatch-final-preflight-dashboard-smoke.cjs",
     "phase35:2:smoke": "node scripts/phase35-2-provider-dispatch-final-preflight-dashboard-smoke.cjs",
-    "llm:provider-dispatch-final-preflight:release:check": "npm run phase35:0:verify && npm run phase35:1:verify && npm run phase35:2:verify && npm run phase35:2:smoke"
+    "llm:provider-dispatch-final-preflight:release:check": "npm run phase35:0:verify && npm run phase35:1:verify && npm run phase35:2:verify && npm run phase35:2:smoke",
+    "phase35:3:patch": "node scripts/phase35-3-patch-final-provider-dispatch-final-preflight-handoff.cjs",
+    "phase35:3:verify": "node scripts/phase35-3-verify-final-provider-dispatch-final-preflight-handoff.cjs",
+    "llm:provider-dispatch-final-preflight:final:check": "npm run phase35:0:verify && npm run phase35:1:verify && npm run phase35:2:verify && npm run build"
   },
   "repository": {
     "type": "git",
