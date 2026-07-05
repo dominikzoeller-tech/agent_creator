@@ -171,3 +171,4 @@ export function UnifiedNavigation({ active }: { active?: string }) {
 
 
 // Phase 40.2 navigation marker: /provider-dispatch-release-candidate-envelope-dashboard RC Dashboard provider-dispatch-release-candidate-envelope-dashboard
+  { href: "/provider-dispatch-approval-candidate-envelope", label: "Dispatch Approval Candidate", key: "provider-dispatch-approval-candidate-envelope" },
