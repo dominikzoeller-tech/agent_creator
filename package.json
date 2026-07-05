@@ -572,7 +572,10 @@
     "llm:provider-dispatch-human-approval-token-envelope:final:check": "npm run phase43:0:verify && npm run phase43:1:verify && npm run phase43:2:verify && npm run build",
     "phase44:0:patch": "node scripts/phase44-0-patch-provider-dispatch-human-approval-token-issuance-candidate.cjs",
     "phase44:0:verify": "node scripts/phase44-0-verify-provider-dispatch-human-approval-token-issuance-candidate.cjs",
-    "llm:provider-dispatch-human-approval-token-issuance-candidate:verify": "node scripts/phase44-0-verify-provider-dispatch-human-approval-token-issuance-candidate.cjs"
+    "llm:provider-dispatch-human-approval-token-issuance-candidate:verify": "node scripts/phase44-0-verify-provider-dispatch-human-approval-token-issuance-candidate.cjs",
+    "phase44:1:patch": "node scripts/phase44-1-patch-provider-dispatch-human-approval-token-issuance-candidate-policy-audit.cjs",
+    "phase44:1:verify": "node scripts/phase44-1-verify-provider-dispatch-human-approval-token-issuance-candidate-policy-audit.cjs",
+    "llm:provider-dispatch-human-approval-token-issuance-candidate:policy:verify": "node scripts/phase44-1-verify-provider-dispatch-human-approval-token-issuance-candidate-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
