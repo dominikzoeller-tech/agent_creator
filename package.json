@@ -536,7 +536,11 @@
     "llm:provider-dispatch-approval-candidate-envelope:verify": "node scripts/phase41-0-verify-provider-dispatch-approval-candidate-envelope.cjs",
     "phase41:1:patch": "node scripts/phase41-1-patch-provider-dispatch-approval-candidate-envelope-policy-audit.cjs",
     "phase41:1:verify": "node scripts/phase41-1-verify-provider-dispatch-approval-candidate-envelope-policy-audit.cjs",
-    "llm:provider-dispatch-approval-candidate-envelope:policy:verify": "node scripts/phase41-1-verify-provider-dispatch-approval-candidate-envelope-policy-audit.cjs"
+    "llm:provider-dispatch-approval-candidate-envelope:policy:verify": "node scripts/phase41-1-verify-provider-dispatch-approval-candidate-envelope-policy-audit.cjs",
+    "phase41:2:verify": "node scripts/phase41-2-verify-provider-dispatch-approval-candidate-envelope-dashboard-smoke.cjs",
+    "phase41:2:smoke": "node scripts/phase41-2-provider-dispatch-approval-candidate-envelope-dashboard-smoke.cjs",
+    "phase41:2:patch": "node scripts/phase41-2-patch-provider-dispatch-approval-candidate-envelope-dashboard-smoke.cjs",
+    "llm:provider-dispatch-approval-candidate-envelope:release:check": "npm run phase41:0:verify && npm run phase41:1:verify && npm run phase41:2:verify && npm run phase41:2:smoke"
   },
   "repository": {
     "type": "git",

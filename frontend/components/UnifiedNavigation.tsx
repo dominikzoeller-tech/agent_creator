@@ -59,6 +59,9 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/token-backed-provider-preflight-dashboard", label: "Token Provider Dashboard", key: "token-backed-provider-preflight-dashboard" },
   { href: "/provider-request-contract", label: "Provider Request Contract", key: "provider-request-contract" },
   { href: "/provider-request-contract-policy", label: "Provider Request Policy", key: "provider-request-contract-policy" },
+  { href: "/provider-dispatch-approval-candidate-envelope", label: "Dispatch Approval Candidate", key: "provider-dispatch-approval-candidate-envelope" },
+  { href: "/provider-dispatch-approval-candidate-envelope-policy", label: "Dispatch Approval Policy", key: "provider-dispatch-approval-candidate-envelope-policy" },
+  { href: "/provider-dispatch-approval-candidate-envelope-dashboard", label: "Approval Dashboard", key: "provider-dispatch-approval-candidate-envelope-dashboard" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [
@@ -168,8 +171,3 @@ export function UnifiedNavigation({ active }: { active?: string }) {
     </nav>
   );
 }
-
-
-// Phase 40.2 navigation marker: /provider-dispatch-release-candidate-envelope-dashboard RC Dashboard provider-dispatch-release-candidate-envelope-dashboard
-  { href: "/provider-dispatch-approval-candidate-envelope", label: "Dispatch Approval Candidate", key: "provider-dispatch-approval-candidate-envelope" },
-  { href: "/provider-dispatch-approval-candidate-envelope-policy", label: "Dispatch Approval Policy", key: "provider-dispatch-approval-candidate-envelope-policy" },

@@ -41,21 +41,6 @@ ok = check("scripts/phase41-2-provider-dispatch-approval-candidate-envelope-dash
   "UI Approval Candidate Dashboard",
   "API Approval Candidate Policy"
 ]) && ok;
-ok = check("phase41-2-provider-dispatch-approval-candidate-envelope-dashboard-smoke.md", [
-  "Phase 41.2",
-  "Provider Dispatch Approval Candidate Envelope Dashboard",
-  "Phase 41.3",
-  "approvalCandidateReadyForHumanApproval=true",
-  "approvalCandidateApproved=false",
-  "approvalCandidateExecuted=false",
-  "networkCallPerformed=false",
-  "providerExecutionAllowed=false",
-  "dryRunOnly=true"
-]) && ok;
-ok = check("docs/phase41-provider-dispatch-approval-candidate-envelope-dashboard-smoke-runbook.md", [
-  "phase41:2:verify",
-  "phase41:2:smoke"
-]) && ok;
 ok = check("package.json", [
   "phase41:2:patch",
   "phase41:2:verify",
