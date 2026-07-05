@@ -442,7 +442,10 @@
     "llm:provider-dispatch-readiness:final:check": "npm run phase33:0:verify && npm run phase33:1:verify && npm run phase33:2:verify && npm run build",
     "phase34:0:patch": "node scripts/phase34-0-patch-provider-dispatch-token-binding.cjs",
     "phase34:0:verify": "node scripts/phase34-0-verify-provider-dispatch-token-binding.cjs",
-    "llm:provider-dispatch-token-binding:verify": "node scripts/phase34-0-verify-provider-dispatch-token-binding.cjs"
+    "llm:provider-dispatch-token-binding:verify": "node scripts/phase34-0-verify-provider-dispatch-token-binding.cjs",
+    "phase34:1:patch": "node scripts/phase34-1-patch-provider-dispatch-token-binding-policy-audit.cjs",
+    "phase34:1:verify": "node scripts/phase34-1-verify-provider-dispatch-token-binding-policy-audit.cjs",
+    "llm:provider-dispatch-token-binding:policy:verify": "node scripts/phase34-1-verify-provider-dispatch-token-binding-policy-audit.cjs"
   },
   "repository": {
     "type": "git",

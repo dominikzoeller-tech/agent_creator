@@ -10,6 +10,7 @@ type NavGroup = {
   title: string;
   items: NavItem[  { href: "/provider-dispatch-readiness-dashboard", label: "Provider Dispatch Dashboard", key: "provider-dispatch-readiness-dashboard" },
   { href: "/provider-dispatch-token-binding", label: "Dispatch Token Binding", key: "provider-dispatch-token-binding" },
+  { href: "/provider-dispatch-token-binding-policy", label: "Dispatch Token Policy", key: "provider-dispatch-token-binding-policy" },
 ];
 };
 
