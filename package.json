@@ -475,7 +475,10 @@
     "phase36:2:patch": "node scripts/phase36-2-patch-provider-dispatch-execution-gate-dashboard-smoke.cjs",
     "phase36:2:verify": "node scripts/phase36-2-verify-provider-dispatch-execution-gate-dashboard-smoke.cjs",
     "phase36:2:smoke": "node scripts/phase36-2-provider-dispatch-execution-gate-dashboard-smoke.cjs",
-    "llm:provider-dispatch-execution-gate:release:check": "npm run phase36:0:verify && npm run phase36:1:verify && npm run phase36:2:verify && npm run phase36:2:smoke"
+    "llm:provider-dispatch-execution-gate:release:check": "npm run phase36:0:verify && npm run phase36:1:verify && npm run phase36:2:verify && npm run phase36:2:smoke",
+    "phase36:3:patch": "node scripts/phase36-3-patch-final-provider-dispatch-execution-gate-handoff.cjs",
+    "phase36:3:verify": "node scripts/phase36-3-verify-final-provider-dispatch-execution-gate-handoff.cjs",
+    "llm:provider-dispatch-execution-gate:final:check": "npm run phase36:0:verify && npm run phase36:1:verify && npm run phase36:2:verify && npm run build"
   },
   "repository": {
     "type": "git",
