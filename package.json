@@ -468,7 +468,10 @@
     "llm:provider-dispatch-final-preflight:final:check": "npm run phase35:0:verify && npm run phase35:1:verify && npm run phase35:2:verify && npm run build",
     "phase36:0:patch": "node scripts/phase36-0-patch-provider-dispatch-execution-gate.cjs",
     "phase36:0:verify": "node scripts/phase36-0-verify-provider-dispatch-execution-gate.cjs",
-    "llm:provider-dispatch-execution-gate:verify": "node scripts/phase36-0-verify-provider-dispatch-execution-gate.cjs"
+    "llm:provider-dispatch-execution-gate:verify": "node scripts/phase36-0-verify-provider-dispatch-execution-gate.cjs",
+    "phase36:1:patch": "node scripts/phase36-1-patch-provider-dispatch-execution-gate-policy-audit.cjs",
+    "phase36:1:verify": "node scripts/phase36-1-verify-provider-dispatch-execution-gate-policy-audit.cjs",
+    "llm:provider-dispatch-execution-gate:policy:verify": "node scripts/phase36-1-verify-provider-dispatch-execution-gate-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
