@@ -559,7 +559,10 @@
     "llm:provider-dispatch-approval-policy-confirmation-envelope:final:check": "npm run phase42:0:verify && npm run phase42:1:verify && npm run phase42:2:verify && npm run build",
     "phase43:0:patch": "node scripts/phase43-0-patch-provider-dispatch-human-approval-token-envelope.cjs",
     "phase43:0:verify": "node scripts/phase43-0-verify-provider-dispatch-human-approval-token-envelope.cjs",
-    "llm:provider-dispatch-human-approval-token-envelope:verify": "node scripts/phase43-0-verify-provider-dispatch-human-approval-token-envelope.cjs"
+    "llm:provider-dispatch-human-approval-token-envelope:verify": "node scripts/phase43-0-verify-provider-dispatch-human-approval-token-envelope.cjs",
+    "phase43:1:patch": "node scripts/phase43-1-patch-provider-dispatch-human-approval-token-policy-audit.cjs",
+    "phase43:1:verify": "node scripts/phase43-1-verify-provider-dispatch-human-approval-token-policy-audit.cjs",
+    "llm:provider-dispatch-human-approval-token-envelope:policy:verify": "node scripts/phase43-1-verify-provider-dispatch-human-approval-token-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
