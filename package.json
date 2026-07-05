@@ -381,7 +381,10 @@
     "llm:approval-token-issuance:release:check": "npm run phase28:0:verify && npm run phase28:1:verify && npm run phase28:2:verify && npm run phase28:2:smoke",
     "phase29:0:patch": "node scripts/phase29-0-patch-approval-token-activation-gate.cjs",
     "phase29:0:verify": "node scripts/phase29-0-verify-approval-token-activation-gate.cjs",
-    "llm:approval-token-activation:verify": "node scripts/phase29-0-verify-approval-token-activation-gate.cjs"
+    "llm:approval-token-activation:verify": "node scripts/phase29-0-verify-approval-token-activation-gate.cjs",
+    "phase29:1:patch": "node scripts/phase29-1-patch-approval-token-activation-policy-audit.cjs",
+    "phase29:1:verify": "node scripts/phase29-1-verify-approval-token-activation-policy-audit.cjs",
+    "llm:approval-token-activation:policy:verify": "node scripts/phase29-1-verify-approval-token-activation-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
