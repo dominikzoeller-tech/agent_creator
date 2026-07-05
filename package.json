@@ -566,7 +566,10 @@
     "phase43:2:patch": "node scripts/phase43-2-patch-provider-dispatch-human-approval-token-dashboard-smoke.cjs",
     "phase43:2:verify": "node scripts/phase43-2-verify-provider-dispatch-human-approval-token-dashboard-smoke.cjs",
     "phase43:2:smoke": "node scripts/phase43-2-provider-dispatch-human-approval-token-dashboard-smoke.cjs",
-    "llm:provider-dispatch-human-approval-token-envelope:release:check": "npm run phase43:0:verify && npm run phase43:1:verify && npm run phase43:2:verify && npm run phase43:2:smoke"
+    "llm:provider-dispatch-human-approval-token-envelope:release:check": "npm run phase43:0:verify && npm run phase43:1:verify && npm run phase43:2:verify && npm run phase43:2:smoke",
+    "phase43:3:patch": "node scripts/phase43-3-patch-final-provider-dispatch-human-approval-token-handoff.cjs",
+    "phase43:3:verify": "node scripts/phase43-3-verify-final-provider-dispatch-human-approval-token-handoff.cjs",
+    "llm:provider-dispatch-human-approval-token-envelope:final:check": "npm run phase43:0:verify && npm run phase43:1:verify && npm run phase43:2:verify && npm run build"
   },
   "repository": {
     "type": "git",
