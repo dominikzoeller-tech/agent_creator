@@ -1,0 +1,10 @@
+import { createProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgement, listProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgements, summarizeProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgements } from "../../../lib/provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-store";
+export const dynamic = "force-dynamic";
+export async function GET(request: Request) {
+  try { const url = new URL(request.url); const limit = Number(url.searchParams.get("limit") || "100"); const providerDispatchHumanApprovalTokenIssuanceReceiptAcknowledgements = listProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgements(Number.isFinite(limit) ? limit : 100); return Response.json({ ok: true, summary: summarizeProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgements(providerDispatchHumanApprovalTokenIssuanceReceiptAcknowledgements), providerDispatchHumanApprovalTokenIssuanceReceiptAcknowledgements }); }
+  catch (error) { const message = error instanceof Error ? error.message : "Provider Dispatch Human Approval Token Issuance Receipt Acknowledgements konnten nicht gelesen werden."; return Response.json({ ok: false, error: message }, { status: 500 }); }
+}
+export async function POST(request: Request) {
+  try { const body = await request.json(); const acknowledgement = createProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgement({ providerDispatchHumanApprovalTokenIssuanceReceiptId: typeof body.providerDispatchHumanApprovalTokenIssuanceReceiptId === "string" ? body.providerDispatchHumanApprovalTokenIssuanceReceiptId : undefined, metadata: body.metadata && typeof body.metadata === "object" ? body.metadata : undefined }); return Response.json({ ok: true, acknowledgement }); }
+  catch (error) { const message = error instanceof Error ? error.message : "Provider Dispatch Human Approval Token Issuance Receipt Acknowledgement konnte nicht erstellt werden."; return Response.json({ ok: false, error: message }, { status: 400 }); }
+}

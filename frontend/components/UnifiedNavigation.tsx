@@ -80,6 +80,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/provider-dispatch-human-approval-token-issuance-receipt", label: "Token Issuance Receipt", key: "provider-dispatch-human-approval-token-issuance-receipt" },
   { href: "/provider-dispatch-human-approval-token-issuance-receipt-policy", label: "Token Issuance Receipt Policy", key: "provider-dispatch-human-approval-token-issuance-receipt-policy" },
   { href: "/provider-dispatch-human-approval-token-issuance-receipt-dashboard", label: "Token Issuance Receipt Dashboard", key: "provider-dispatch-human-approval-token-issuance-receipt-dashboard" },
+  { href: "/provider-dispatch-human-approval-token-issuance-receipt-acknowledgement", label: "Token Issuance Receipt Acknowledgement", key: "provider-dispatch-human-approval-token-issuance-receipt-acknowledgement" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [
