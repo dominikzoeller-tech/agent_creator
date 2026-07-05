@@ -510,7 +510,11 @@
     "llm:provider-dispatch-transcript-envelope:verify": "node scripts/phase39-0-verify-provider-dispatch-transcript-envelope.cjs",
     "phase39:1:patch": "node scripts/phase39-1-patch-provider-dispatch-transcript-envelope-policy-audit.cjs",
     "phase39:1:verify": "node scripts/phase39-1-verify-provider-dispatch-transcript-envelope-policy-audit.cjs",
-    "llm:provider-dispatch-transcript-envelope:policy:verify": "node scripts/phase39-1-verify-provider-dispatch-transcript-envelope-policy-audit.cjs"
+    "llm:provider-dispatch-transcript-envelope:policy:verify": "node scripts/phase39-1-verify-provider-dispatch-transcript-envelope-policy-audit.cjs",
+    "phase39:2:patch": "node scripts/phase39-2-patch-provider-dispatch-transcript-envelope-dashboard-smoke.cjs",
+    "phase39:2:verify": "node scripts/phase39-2-verify-provider-dispatch-transcript-envelope-dashboard-smoke.cjs",
+    "phase39:2:smoke": "node scripts/phase39-2-provider-dispatch-transcript-envelope-dashboard-smoke.cjs",
+    "llm:provider-dispatch-transcript-envelope:release:check": "npm run phase39:0:verify && npm run phase39:1:verify && npm run phase39:2:verify && npm run phase39:2:smoke"
   },
   "repository": {
     "type": "git",
