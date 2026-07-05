@@ -523,7 +523,10 @@
     "llm:provider-dispatch-release-candidate-envelope:verify": "node scripts/phase40-0-verify-provider-dispatch-release-candidate-envelope.cjs",
     "phase40:1:patch": "node scripts/phase40-1-patch-provider-dispatch-release-candidate-envelope-policy-audit.cjs",
     "phase40:1:verify": "node scripts/phase40-1-verify-provider-dispatch-release-candidate-envelope-policy-audit.cjs",
-    "llm:provider-dispatch-release-candidate-envelope:policy:verify": "node scripts/phase40-1-verify-provider-dispatch-release-candidate-envelope-policy-audit.cjs"
+    "llm:provider-dispatch-release-candidate-envelope:policy:verify": "node scripts/phase40-1-verify-provider-dispatch-release-candidate-envelope-policy-audit.cjs",
+    "phase40:3:patch": "node scripts/phase40-3-patch-final-provider-dispatch-release-candidate-envelope-handoff.cjs",
+    "phase40:3:verify": "node scripts/phase40-3-verify-final-provider-dispatch-release-candidate-envelope-handoff.cjs",
+    "llm:provider-dispatch-release-candidate-envelope:final:check": "npm run phase40:0:verify && npm run phase40:1:verify && npm run phase40:2:verify && npm run build"
   },
   "repository": {
     "type": "git",
