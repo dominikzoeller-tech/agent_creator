@@ -426,7 +426,10 @@
     "llm:provider-request-envelope:release:check": "npm run phase32:0:verify && npm run phase32:1:verify && npm run phase32:2:verify && npm run phase32:2:smoke",
     "phase32:3:patch": "node scripts/phase32-3-patch-final-provider-request-envelope-handoff.cjs",
     "phase32:3:verify": "node scripts/phase32-3-verify-final-provider-request-envelope-handoff.cjs",
-    "llm:provider-request-envelope:final:check": "npm run phase32:0:verify && npm run phase32:1:verify && npm run phase32:2:verify && npm run phase32:3:verify"
+    "llm:provider-request-envelope:final:check": "npm run phase32:0:verify && npm run phase32:1:verify && npm run phase32:2:verify && npm run phase32:3:verify",
+    "phase33:0:patch": "node scripts/phase33-0-patch-provider-dispatch-readiness.cjs",
+    "phase33:0:verify": "node scripts/phase33-0-verify-provider-dispatch-readiness.cjs",
+    "llm:provider-dispatch-readiness:verify": "node scripts/phase33-0-verify-provider-dispatch-readiness.cjs"
   },
   "repository": {
     "type": "git",
