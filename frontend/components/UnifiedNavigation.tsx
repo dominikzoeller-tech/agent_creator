@@ -8,27 +8,7 @@ type NavItem = {
 
 type NavGroup = {
   title: string;
-  items: NavItem[  { href: "/provider-dispatch-readiness-dashboard", label: "Provider Dispatch Dashboard", key: "provider-dispatch-readiness-dashboard" },
-  { href: "/provider-dispatch-token-binding", label: "Dispatch Token Binding", key: "provider-dispatch-token-binding" },
-  { href: "/provider-dispatch-token-binding-policy", label: "Dispatch Token Policy", key: "provider-dispatch-token-binding-policy" },
-  { href: "/provider-dispatch-token-binding-dashboard", label: "Dispatch Token Dashboard", key: "provider-dispatch-token-binding-dashboard" },
-  { href: "/provider-dispatch-final-preflight", label: "Dispatch Final Preflight", key: "provider-dispatch-final-preflight" },
-  { href: "/provider-dispatch-final-preflight-policy", label: "Dispatch Final Policy", key: "provider-dispatch-final-preflight-policy" },
-  { href: "/provider-dispatch-final-preflight-dashboard", label: "Dispatch Final Dashboard", key: "provider-dispatch-final-preflight-dashboard" },
-  { href: "/provider-dispatch-execution-gate", label: "Dispatch Execution Gate", key: "provider-dispatch-execution-gate" },
-  { href: "/provider-dispatch-execution-gate-policy", label: "Dispatch Execution Policy", key: "provider-dispatch-execution-gate-policy" },
-  { href: "/provider-dispatch-execution-gate-dashboard", label: "Dispatch Execution Dashboard", key: "provider-dispatch-execution-gate-dashboard" },
-  { href: "/provider-dispatch-dry-run-command-envelope", label: "Dispatch Dry-Run Command", key: "provider-dispatch-dry-run-command-envelope" },
-  { href: "/provider-dispatch-dry-run-command-envelope-policy", label: "Dispatch Dry-Run Policy", key: "provider-dispatch-dry-run-command-envelope-policy" },
-  { href: "/provider-dispatch-dry-run-command-envelope-dashboard", label: "Dispatch Dry-Run Dashboard", key: "provider-dispatch-dry-run-command-envelope-dashboard" },
-  { href: "/provider-dispatch-dry-run-result-envelope", label: "Dispatch Dry-Run Result", key: "provider-dispatch-dry-run-result-envelope" },
-  { href: "/provider-dispatch-dry-run-result-envelope-policy", label: "Dispatch Dry-Run Result Policy", key: "provider-dispatch-dry-run-result-envelope-policy" },
-  { href: "/provider-dispatch-dry-run-result-envelope-dashboard", label: "Dispatch Dry-Run Result Dashboard", key: "provider-dispatch-dry-run-result-envelope-dashboard" },
-  { href: "/provider-dispatch-transcript-envelope", label: "Dispatch Transcript", key: "provider-dispatch-transcript-envelope" },
-  { href: "/provider-dispatch-transcript-envelope-policy", label: "Dispatch Transcript Policy", key: "provider-dispatch-transcript-envelope-policy" },
-  { href: "/provider-dispatch-transcript-envelope-dashboard", label: "Transcript Dashboard", key: "provider-dispatch-transcript-envelope-dashboard" },
-  { href: "/provider-dispatch-release-candidate-envelope", label: "Dispatch Release Candidate", key: "provider-dispatch-release-candidate-envelope" },
-  { href: "/provider-dispatch-release-candidate-envelope-policy", label: "Dispatch Release Policy", key: "provider-dispatch-release-candidate-envelope-policy" },
+  items: NavItem[  { href: "/provider-dispatch-release-candidate-envelope-dashboard", label: "RC Dashboard", key: "provider-dispatch-release-candidate-envelope-dashboard" },
 ];
 };
 

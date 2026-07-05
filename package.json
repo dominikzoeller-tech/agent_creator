@@ -526,7 +526,11 @@
     "llm:provider-dispatch-release-candidate-envelope:policy:verify": "node scripts/phase40-1-verify-provider-dispatch-release-candidate-envelope-policy-audit.cjs",
     "phase40:3:patch": "node scripts/phase40-3-patch-final-provider-dispatch-release-candidate-envelope-handoff.cjs",
     "phase40:3:verify": "node scripts/phase40-3-verify-final-provider-dispatch-release-candidate-envelope-handoff.cjs",
-    "llm:provider-dispatch-release-candidate-envelope:final:check": "npm run phase40:0:verify && npm run phase40:1:verify && npm run phase40:2:verify && npm run build"
+    "llm:provider-dispatch-release-candidate-envelope:final:check": "npm run phase40:0:verify && npm run phase40:1:verify && npm run phase40:2:verify && npm run build",
+    "phase40:2:patch": "node scripts/phase40-2-patch-provider-dispatch-release-candidate-envelope-dashboard-smoke.cjs",
+    "phase40:2:verify": "node scripts/phase40-2-verify-provider-dispatch-release-candidate-envelope-dashboard-smoke.cjs",
+    "phase40:2:smoke": "node scripts/phase40-2-provider-dispatch-release-candidate-envelope-dashboard-smoke.cjs",
+    "llm:provider-dispatch-release-candidate-envelope:release:check": "npm run phase40:0:verify && npm run phase40:1:verify && npm run phase40:2:verify && npm run phase40:2:smoke"
   },
   "repository": {
     "type": "git",

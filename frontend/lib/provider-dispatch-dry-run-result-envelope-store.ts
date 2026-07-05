@@ -67,8 +67,7 @@ function ensureStore(): void { mkdirSync(dataDir(), { recursive: true }); }
 function readJsonl(file:string): any[] { try { return readFileSync(file,"utf8").split(/?
 /).map((line)=>line.trim()).filter(Boolean).map((line)=>{ try { return JSON.parse(line); } catch { return null; } }).filter(Boolean); } catch { return []; } }
 function makeId(prefix:string): string { const now=new Date().toISOString(); return prefix+"-"+now.replace(/[^0-9]/g,"").slice(0,14)+"-"+Math.random().toString(36).slice(2,8); }
-function appendEnvelope(envelope:ProviderDispatchDryRunResultEnvelope): void { ensureStore(); appendFileSync(resultEnvelopePath(), JSON.stringify(envelope)+"
-", "utf8"); }
+function appendEnvelope(envelope:ProviderDispatchDryRunResultEnvelope): void { ensureStore(); appendFileSync(resultEnvelopePath(), JSON.stringify(envelope)+"\n", "utf8"); }
 function containsSecretValue(value: unknown): boolean { return /(sk-[a-z0-9_-]{10,}|api[_-]?keys*[:=]s*[^s,;]+|tokens*[:=]s*[^s,;]+|secrets*[:=]s*[^s,;]+|passwords*[:=]s*[^s,;]+)/i.test(JSON.stringify(value || {})); }
 export function listProviderDispatchDryRunResultEnvelopes(limit=100): ProviderDispatchDryRunResultEnvelope[] {
   ensureStore();
