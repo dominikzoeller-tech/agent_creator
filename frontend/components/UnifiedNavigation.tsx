@@ -71,6 +71,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/provider-dispatch-human-approval-token-issuance-candidate", label: "Token Issuance Candidate", key: "provider-dispatch-human-approval-token-issuance-candidate" },
   { href: "/provider-dispatch-human-approval-token-issuance-candidate-policy", label: "Token Issuance Policy", key: "provider-dispatch-human-approval-token-issuance-candidate-policy" },
   { href: "/provider-dispatch-human-approval-token-issuance-candidate-dashboard", label: "Token Issuance Dashboard", key: "provider-dispatch-human-approval-token-issuance-candidate-dashboard" },
+  { href: "/provider-dispatch-human-approval-token-issuance-confirmation", label: "Token Issuance Confirmation", key: "provider-dispatch-human-approval-token-issuance-confirmation" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [
