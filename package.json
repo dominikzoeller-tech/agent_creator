@@ -397,7 +397,11 @@
     "llm:token-backed-provider:verify": "node scripts/phase30-0-verify-token-backed-provider-invocation-preflight.cjs",
     "phase30:1:patch": "node scripts/phase30-1-patch-token-backed-provider-preflight-policy-audit.cjs",
     "phase30:1:verify": "node scripts/phase30-1-verify-token-backed-provider-preflight-policy-audit.cjs",
-    "llm:token-backed-provider:policy:verify": "node scripts/phase30-1-verify-token-backed-provider-preflight-policy-audit.cjs"
+    "llm:token-backed-provider:policy:verify": "node scripts/phase30-1-verify-token-backed-provider-preflight-policy-audit.cjs",
+    "phase30:2:patch": "node scripts/phase30-2-patch-token-backed-provider-preflight-dashboard-smoke.cjs",
+    "phase30:2:verify": "node scripts/phase30-2-verify-token-backed-provider-preflight-dashboard-smoke.cjs",
+    "phase30:2:smoke": "node scripts/phase30-2-token-backed-provider-preflight-dashboard-smoke.cjs",
+    "llm:token-backed-provider:release:check": "npm run phase30:0:verify && npm run phase30:1:verify && npm run phase30:2:verify && npm run phase30:2:smoke"
   },
   "repository": {
     "type": "git",
