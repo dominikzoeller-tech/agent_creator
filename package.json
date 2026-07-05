@@ -410,7 +410,10 @@
     "llm:provider-request-contract:verify": "node scripts/phase31-0-verify-provider-request-contract-preparation.cjs",
     "phase31:1:patch": "node scripts/phase31-1-patch-provider-request-contract-policy-audit.cjs",
     "phase31:1:verify": "node scripts/phase31-1-verify-provider-request-contract-policy-audit.cjs",
-    "llm:provider-request-contract:policy:verify": "node scripts/phase31-1-verify-provider-request-contract-policy-audit.cjs"
+    "llm:provider-request-contract:policy:verify": "node scripts/phase31-1-verify-provider-request-contract-policy-audit.cjs",
+    "phase31:3:patch": "node scripts/phase31-3-patch-final-provider-request-contract-handoff.cjs",
+    "phase31:3:verify": "node scripts/phase31-3-verify-final-provider-request-contract-handoff.cjs",
+    "llm:provider-request-contract:final:check": "npm run phase31:0:verify && npm run phase31:1:verify && npm run phase31:2:verify && npm run phase31:3:verify"
   },
   "repository": {
     "type": "git",
