@@ -1,0 +1,13 @@
+const fs=require("fs"); const path=require("path");
+function full(f){return path.join(process.cwd(),f)} function exists(f){return fs.existsSync(full(f))} function read(f){return exists(f)?fs.readFileSync(full(f),"utf8"):""}
+function check(f, patterns){ if(!exists(f)){ console.log("MISS "+f); return false; } const c=read(f); let ok=true; for(const p of patterns){ const found=c.includes(p); console.log((found?"OK  ":"MISS")+" "+f+": "+p); if(!found) ok=false; } return ok; }
+console.log("======================================"); console.log(" Phase 38.2 Provider Dispatch Dry-Run Result Envelope Dashboard Verify"); console.log("======================================");
+let ok=true;
+ok=check("frontend/app/provider-dispatch-dry-run-result-envelope-dashboard/page.tsx",["Provider Dispatch Dry-Run Result Envelope Dashboard","Provider Dispatch Dry-Run Result Envelope Übersicht","providerDispatchDryRunResultEnvelopePrepared=true","resultEnvelopePrepared=true","resultEnvelopePersisted=true","resultEnvelopeContainsProviderResponse=false","commandEnvelopeExecuted=false","executionGateOpen=false","finalDispatchAllowed=false","providerResponseIncluded=false","providerResultIncluded=false","networkCallAllowed=false","networkCallPerformed=false","providerExecutionAllowed=false","dryRunOnly=true"])&&ok;
+ok=check("frontend/components/UnifiedNavigation.tsx",["/provider-dispatch-dry-run-result-envelope-dashboard","Dispatch Dry-Run Result Dashboard","provider-dispatch-dry-run-result-envelope-dashboard"])&&ok;
+ok=check("scripts/phase38-2-provider-dispatch-dry-run-result-envelope-dashboard-smoke.cjs",["Phase 38.2 Provider Dispatch Dry-Run Result Envelope Dashboard Smoke","UI Provider Dispatch Dry-Run Result Envelope Dashboard","API Provider Dispatch Dry-Run Result Policy"])&&ok;
+ok=check("phase38-2-provider-dispatch-dry-run-result-envelope-dashboard-smoke.md",["Phase 38.2","Phase 38.3","Provider Dispatch Dry-Run Result Envelope Dashboard","providerDispatchDryRunResultEnvelopePrepared=true","resultEnvelopePrepared=true","resultEnvelopePersisted=true","resultEnvelopeContainsProviderResponse=false","commandEnvelopeExecuted=false","executionGateOpen=false","providerExecutionAllowed=false","dryRunOnly=true"])&&ok;
+ok=check("docs/phase38-provider-dispatch-dry-run-result-envelope-dashboard-smoke-runbook.md",["phase38:2:patch","phase38:2:verify","phase38:2:smoke"])&&ok;
+ok=check("package.json",["phase38:2:patch","phase38:2:verify","phase38:2:smoke","llm:provider-dispatch-dry-run-result-envelope:release:check"])&&ok;
+if(!ok){ console.error("Verify fehlgeschlagen."); process.exit(1); }
+console.log("Verify OK. Phase 38.2 Provider Dispatch Dry-Run Result Envelope Dashboard & Smoke ist vorbereitet.");
