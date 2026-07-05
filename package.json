@@ -458,7 +458,11 @@
     "llm:provider-dispatch-final-preflight:verify": "node scripts/phase35-0-verify-provider-dispatch-final-preflight.cjs",
     "phase35:1:patch": "node scripts/phase35-1-patch-provider-dispatch-final-preflight-policy-audit.cjs",
     "phase35:1:verify": "node scripts/phase35-1-verify-provider-dispatch-final-preflight-policy-audit.cjs",
-    "llm:provider-dispatch-final-preflight:policy:verify": "node scripts/phase35-1-verify-provider-dispatch-final-preflight-policy-audit.cjs"
+    "llm:provider-dispatch-final-preflight:policy:verify": "node scripts/phase35-1-verify-provider-dispatch-final-preflight-policy-audit.cjs",
+    "phase35:2:patch": "node scripts/phase35-2-patch-provider-dispatch-final-preflight-dashboard-smoke.cjs",
+    "phase35:2:verify": "node scripts/phase35-2-verify-provider-dispatch-final-preflight-dashboard-smoke.cjs",
+    "phase35:2:smoke": "node scripts/phase35-2-provider-dispatch-final-preflight-dashboard-smoke.cjs",
+    "llm:provider-dispatch-final-preflight:release:check": "npm run phase35:0:verify && npm run phase35:1:verify && npm run phase35:2:verify && npm run phase35:2:smoke"
   },
   "repository": {
     "type": "git",
