@@ -445,7 +445,11 @@
     "llm:provider-dispatch-token-binding:verify": "node scripts/phase34-0-verify-provider-dispatch-token-binding.cjs",
     "phase34:1:patch": "node scripts/phase34-1-patch-provider-dispatch-token-binding-policy-audit.cjs",
     "phase34:1:verify": "node scripts/phase34-1-verify-provider-dispatch-token-binding-policy-audit.cjs",
-    "llm:provider-dispatch-token-binding:policy:verify": "node scripts/phase34-1-verify-provider-dispatch-token-binding-policy-audit.cjs"
+    "llm:provider-dispatch-token-binding:policy:verify": "node scripts/phase34-1-verify-provider-dispatch-token-binding-policy-audit.cjs",
+    "phase34:2:patch": "node scripts/phase34-2-patch-provider-dispatch-token-binding-dashboard-smoke.cjs",
+    "phase34:2:verify": "node scripts/phase34-2-verify-provider-dispatch-token-binding-dashboard-smoke.cjs",
+    "phase34:2:smoke": "node scripts/phase34-2-provider-dispatch-token-binding-dashboard-smoke.cjs",
+    "llm:provider-dispatch-token-binding:release:check": "npm run phase34:0:verify && npm run phase34:1:verify && npm run phase34:2:verify && npm run phase34:2:smoke"
   },
   "repository": {
     "type": "git",
