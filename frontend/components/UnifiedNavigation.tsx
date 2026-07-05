@@ -67,6 +67,7 @@ const PRIMARY_NAV_ITEMS: NavItem[] = [
   { href: "/provider-dispatch-approval-policy-confirmation-dashboard", label: "Approval Confirmation Dashboard", key: "provider-dispatch-approval-policy-confirmation-dashboard" },
   { href: "/provider-dispatch-human-approval-token-envelope", label: "Human Approval Token", key: "provider-dispatch-human-approval-token-envelope" },
   { href: "/provider-dispatch-human-approval-token-policy", label: "Human Approval Token Policy", key: "provider-dispatch-human-approval-token-policy" },
+  { href: "/provider-dispatch-human-approval-token-dashboard", label: "Human Approval Token Dashboard", key: "provider-dispatch-human-approval-token-dashboard" },
 ];
 
 const ADMIN_GROUPS: NavGroup[] = [
