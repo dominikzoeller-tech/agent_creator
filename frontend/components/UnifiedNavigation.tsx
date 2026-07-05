@@ -25,6 +25,7 @@ type NavGroup = {
   { href: "/provider-dispatch-dry-run-result-envelope-policy", label: "Dispatch Dry-Run Result Policy", key: "provider-dispatch-dry-run-result-envelope-policy" },
   { href: "/provider-dispatch-dry-run-result-envelope-dashboard", label: "Dispatch Dry-Run Result Dashboard", key: "provider-dispatch-dry-run-result-envelope-dashboard" },
   { href: "/provider-dispatch-transcript-envelope", label: "Dispatch Transcript", key: "provider-dispatch-transcript-envelope" },
+  { href: "/provider-dispatch-transcript-envelope-policy", label: "Dispatch Transcript Policy", key: "provider-dispatch-transcript-envelope-policy" },
 ];
 };
 
