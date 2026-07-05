@@ -605,7 +605,10 @@
     "phase46:2:patch": "node scripts/phase46-2-patch-provider-dispatch-human-approval-token-issuance-ledger-dashboard-smoke.cjs",
     "phase46:2:verify": "node scripts/phase46-2-verify-provider-dispatch-human-approval-token-issuance-ledger-dashboard-smoke.cjs",
     "phase46:2:smoke": "node scripts/phase46-2-provider-dispatch-human-approval-token-issuance-ledger-dashboard-smoke.cjs",
-    "llm:provider-dispatch-human-approval-token-issuance-ledger:release:check": "npm run phase46:0:verify && npm run phase46:1:verify && npm run phase46:2:verify && npm run phase46:2:smoke"
+    "llm:provider-dispatch-human-approval-token-issuance-ledger:release:check": "npm run phase46:0:verify && npm run phase46:1:verify && npm run phase46:2:verify && npm run phase46:2:smoke",
+    "phase46:3:patch": "node scripts/phase46-3-patch-final-provider-dispatch-human-approval-token-issuance-ledger-handoff.cjs",
+    "phase46:3:verify": "node scripts/phase46-3-verify-final-provider-dispatch-human-approval-token-issuance-ledger-handoff.cjs",
+    "llm:provider-dispatch-human-approval-token-issuance-ledger:final:check": "npm run phase46:0:verify && npm run phase46:1:verify && npm run phase46:2:verify && npm run build"
   },
   "repository": {
     "type": "git",
