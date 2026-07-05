@@ -423,7 +423,10 @@
     "phase32:2:patch": "node scripts/phase32-2-patch-provider-request-envelope-dashboard-smoke.cjs",
     "phase32:2:verify": "node scripts/phase32-2-verify-provider-request-envelope-dashboard-smoke.cjs",
     "phase32:2:smoke": "node scripts/phase32-2-provider-request-envelope-dashboard-smoke.cjs",
-    "llm:provider-request-envelope:release:check": "npm run phase32:0:verify && npm run phase32:1:verify && npm run phase32:2:verify && npm run phase32:2:smoke"
+    "llm:provider-request-envelope:release:check": "npm run phase32:0:verify && npm run phase32:1:verify && npm run phase32:2:verify && npm run phase32:2:smoke",
+    "phase32:3:patch": "node scripts/phase32-3-patch-final-provider-request-envelope-handoff.cjs",
+    "phase32:3:verify": "node scripts/phase32-3-verify-final-provider-request-envelope-handoff.cjs",
+    "llm:provider-request-envelope:final:check": "npm run phase32:0:verify && npm run phase32:1:verify && npm run phase32:2:verify && npm run phase32:3:verify"
   },
   "repository": {
     "type": "git",
