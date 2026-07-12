@@ -750,7 +750,8 @@
     "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-receipt-policy-audit:final:check": "node scripts/phase67-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-receipt-policy-audit-handoff.cjs",
     "phase68:0:verify": "node scripts/phase68-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-seal-boundary.cjs",
     "phase68:2:verify": "node scripts/phase68-2-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-seal-boundary-policy-audit-dashboard-smoke.cjs",
-    "phase68:2:smoke": "node scripts/phase68-2-smoke-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-seal-boundary-policy-audit-dashboard.cjs"
+    "phase68:2:smoke": "node scripts/phase68-2-smoke-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-seal-boundary-policy-audit-dashboard.cjs",
+    "phase68:1:verify": "node scripts/phase68-1-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-seal-boundary-policy-audit.cjs"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const path = require('path');
 const root = process.cwd();
@@ -6,14 +5,11 @@ const root = process.cwd();
 function writeFile(relPath, content) {
   const abs = path.join(root, relPath);
   fs.mkdirSync(path.dirname(abs), { recursive: true });
-  fs.writeFileSync(abs, content.replace(/?
-/g, '
-'), 'utf8');
+  fs.writeFileSync(abs, content.replace(/\r?\n/g, '\n'), 'utf8');
   console.log(`wrote ${relPath}`);
 }
 function readJson(relPath) { return JSON.parse(fs.readFileSync(path.join(root, relPath), 'utf8')); }
-function writeJson(relPath, value) { fs.writeFileSync(path.join(root, relPath), JSON.stringify(value, null, 2) + '
-', 'utf8'); console.log(`updated ${relPath}`); }
+function writeJson(relPath, value) { fs.writeFileSync(path.join(root, relPath), JSON.stringify(value, null, 2) + '\n', 'utf8'); console.log(`updated ${relPath}`); }
 function addScript() {
   const pkg = readJson('package.json');
   pkg.scripts = pkg.scripts || {};
