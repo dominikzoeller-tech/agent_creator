@@ -626,7 +626,9 @@
     "llm:provider-dispatch-human-approval-token-issuance-receipt:final:check": "npm run phase47:0:verify && npm run phase47:1:verify && npm run phase47:2:verify && npm run build",
     "phase48:0:patch": "node scripts/phase48-0-patch-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement.cjs",
     "phase48:0:verify": "node scripts/phase48-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement.cjs",
-    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement:verify": "node scripts/phase48-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement.cjs"
+    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement:verify": "node scripts/phase48-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement.cjs",
+    "phase48:2:verify": "node scripts/phase48-2-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-policy-audit-dashboard-smoke.cjs",
+    "phase48:2:smoke": "node scripts/phase48-2-smoke-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-policy-audit-dashboard.cjs"
   },
   "repository": {
     "type": "git",
