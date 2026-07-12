@@ -675,7 +675,8 @@
     "phase55:2:verify": "node scripts/phase55-2-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-lock-boundary-policy-audit-dashboard-smoke.cjs",
     "phase55:2:smoke": "node scripts/phase55-2-smoke-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-lock-boundary-policy-audit-dashboard.cjs",
     "phase55:3:verify": "node scripts/phase55-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-lock-boundary-policy-audit-handoff.cjs",
-    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-lock-boundary-policy-audit:final:check": "node scripts/phase55-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-lock-boundary-policy-audit-handoff.cjs"
+    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-lock-boundary-policy-audit:final:check": "node scripts/phase55-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-lock-boundary-policy-audit-handoff.cjs",
+    "phase56:0:verify": "node scripts/phase56-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-lock-receipt.cjs"
   },
   "repository": {
     "type": "git",
