@@ -1,4 +1,4 @@
-import { getProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementCompletionBoundary } from '@/lib/provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary-store';
+import { getProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementCompletionBoundary } from '../../lib/provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary-store';
 
 export default function ProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementCompletionBoundaryPage() {
   const boundary = getProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementCompletionBoundary();

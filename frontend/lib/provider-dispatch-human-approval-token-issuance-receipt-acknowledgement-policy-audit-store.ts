@@ -1,7 +1,4 @@
-export type ProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementPolicyAuditStatus =
-  | 'blocked'
-  | 'policy_audit_only'
-  | 'dry_run_only';
+export type ProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementPolicyAuditStatus = 'blocked' | 'policy_audit_only' | 'dry_run_only';
 
 export type ProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementPolicyAudit = {
   id: string;
@@ -59,7 +56,7 @@ export function getProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgem
       { id: 'compatible-audit-type', label: 'Compatible audit type', passed: true, detail: 'Uses agent_registry_status_changed.' },
     ],
     auditTrail: [
-      { id: 'phase48-policy-audit-hotfix-store-present', eventType: 'agent_registry_status_changed', message: 'Policy audit store present; dispatch remains blocked.', dryRunOnly: true },
+      { id: 'phase49-0a-relative-import-hotfix', eventType: 'agent_registry_status_changed', message: 'Relative import hotfix applied; dispatch remains blocked.', dryRunOnly: true },
     ],
   };
 }

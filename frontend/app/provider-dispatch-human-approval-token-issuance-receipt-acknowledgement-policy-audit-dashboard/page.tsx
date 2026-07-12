@@ -1,4 +1,4 @@
-import { getProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementPolicyAudit } from '@/lib/provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-policy-audit-store';
+import { getProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementPolicyAudit } from '../../lib/provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-policy-audit-store';
 
 export default function ProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementPolicyAuditDashboardPage() {
   const audit = getProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgementPolicyAudit();

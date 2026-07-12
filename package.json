@@ -632,7 +632,8 @@
     "phase48:3:verify": "node scripts/phase48-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-policy-audit-handoff.cjs",
     "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-policy-audit:final:check": "node scripts/phase48-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-policy-audit-handoff.cjs",
     "phase48:2a:verify": "node scripts/phase48-2a-verify-missing-acknowledgement-policy-audit-store.cjs",
-    "phase49:0:verify": "node scripts/phase49-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary.cjs"
+    "phase49:0:verify": "node scripts/phase49-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary.cjs",
+    "phase49:0a:verify": "node scripts/phase49-0a-verify-relative-imports-for-acknowledgement-boundary-stores.cjs"
   },
   "repository": {
     "type": "git",

@@ -47,7 +47,7 @@ export function getProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowledgem
     networkCallAllowed: false,
     providerDispatchAllowed: false,
     completionChecks: [
-      { id: 'phase48-closed', label: 'Phase 48 block closed', passed: true, detail: 'Acknowledgement policy audit handoff is treated as closed before starting the next boundary.' },
+      { id: 'phase48-closed', label: 'Phase 48 block closed', passed: true, detail: 'Acknowledgement policy audit handoff is treated as closed.' },
       { id: 'dispatch-still-blocked', label: 'Dispatch still blocked', passed: true, detail: 'Final dispatch and execution gate remain closed.' },
       { id: 'provider-none', label: 'Provider remains none', passed: true, detail: 'No provider or model is selected.' },
       { id: 'no-sensitive-data', label: 'No sensitive data', passed: true, detail: 'No prompt payload, secrets, provider response, or network call exists.' },
