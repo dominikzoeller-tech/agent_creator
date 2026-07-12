@@ -636,7 +636,9 @@
     "phase49:0a:verify": "node scripts/phase49-0a-verify-relative-imports-for-acknowledgement-boundary-stores.cjs",
     "phase49:1:verify": "node scripts/phase49-1-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary-policy-audit.cjs",
     "phase49:2:verify": "node scripts/phase49-2-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary-policy-audit-dashboard-smoke.cjs",
-    "phase49:2:smoke": "node scripts/phase49-2-smoke-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary-policy-audit-dashboard.cjs"
+    "phase49:2:smoke": "node scripts/phase49-2-smoke-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary-policy-audit-dashboard.cjs",
+    "phase49:3:verify": "node scripts/phase49-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary-policy-audit-handoff.cjs",
+    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary-policy-audit:final:check": "node scripts/phase49-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-boundary-policy-audit-handoff.cjs"
   },
   "repository": {
     "type": "git",
