@@ -807,7 +807,8 @@
     "phase77:2:verify": "node scripts/v77-2.cjs",
     "phase77:2:smoke": "node scripts/s77-2.cjs",
     "phase77:3:verify": "node scripts/v77-3.cjs",
-    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-final-closure-finalization-receipt-policy-audit:final:check": "node scripts/f77-3.cjs"
+    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-final-closure-finalization-receipt-policy-audit:final:check": "node scripts/f77-3.cjs",
+    "phase77:2b:verify": "node scripts/v77-2b.cjs"
   },
   "repository": {
     "type": "git",

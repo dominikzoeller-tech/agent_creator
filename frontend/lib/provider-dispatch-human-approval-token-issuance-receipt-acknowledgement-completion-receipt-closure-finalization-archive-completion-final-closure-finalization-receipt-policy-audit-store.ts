@@ -1,6 +1,6 @@
 import { getArchiveCompletionFinalClosureFinalizationReceipt } from './provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-final-closure-finalization-receipt-store';
 
-export type ArchiveCompletionFinalClosureFinalizationReceiptPolicyAudit = ReturnType<typeof getArchiveCompletionFinalClosureFinalizationReceipt> & {
+export type ArchiveCompletionFinalClosureFinalizationReceiptPolicyAudit = Omit<ReturnType<typeof getArchiveCompletionFinalClosureFinalizationReceipt>, 'phase'> & {
   phase: '77.1';
   auditName: string;
   receiptPhase: '77.0';
