@@ -729,7 +729,8 @@
     "phase64:2:verify": "node scripts/phase64-2-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-closure-receipt-policy-audit-dashboard-smoke.cjs",
     "phase64:2:smoke": "node scripts/phase64-2-smoke-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-closure-receipt-policy-audit-dashboard.cjs",
     "phase64:3:verify": "node scripts/phase64-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-closure-receipt-policy-audit-handoff.cjs",
-    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-closure-receipt-policy-audit:final:check": "node scripts/phase64-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-closure-receipt-policy-audit-handoff.cjs"
+    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-closure-receipt-policy-audit:final:check": "node scripts/phase64-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-closure-receipt-policy-audit-handoff.cjs",
+    "phase65:0:verify": "node scripts/phase65-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-final-receipt.cjs"
   },
   "repository": {
     "type": "git",
