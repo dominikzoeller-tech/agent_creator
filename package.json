@@ -809,7 +809,8 @@
     "phase77:3:verify": "node scripts/v77-3.cjs",
     "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-final-closure-finalization-receipt-policy-audit:final:check": "node scripts/f77-3.cjs",
     "phase77:2b:verify": "node scripts/v77-2b.cjs",
-    "phase78:0:verify": "node scripts/v78-0.cjs"
+    "phase78:0:verify": "node scripts/v78-0.cjs",
+    "phase78:1:verify": "node scripts/v78-1.cjs"
   },
   "repository": {
     "type": "git",
