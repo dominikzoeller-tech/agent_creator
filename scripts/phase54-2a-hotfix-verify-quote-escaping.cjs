@@ -1,4 +1,24 @@
+
 const fs = require('fs');
+const path = require('path');
+const root = process.cwd();
+
+function writeFile(relPath, content) {
+  const abs = path.join(root, relPath);
+  fs.mkdirSync(path.dirname(abs), { recursive: true });
+  fs.writeFileSync(abs, content.replace(/\r?\n/g, '\n'), 'utf8');
+  console.log(`wrote ${relPath}`);
+}
+function readJson(relPath) { return JSON.parse(fs.readFileSync(path.join(root, relPath), 'utf8')); }
+function writeJson(relPath, value) { fs.writeFileSync(path.join(root, relPath), JSON.stringify(value, null, 2) + '\n', 'utf8'); console.log(`updated ${relPath}`); }
+function addScript() {
+  const pkg = readJson('package.json');
+  pkg.scripts = pkg.scripts || {};
+  pkg.scripts['phase54:2a:verify'] = 'node scripts/phase54-2a-verify-quote-escaping.cjs';
+  writeJson('package.json', pkg);
+}
+
+const verify = `const fs = require('fs');
 const path = require('path');
 const root = process.cwd();
 const files = [
@@ -31,3 +51,9 @@ for (const [file, fragment] of fragments) {
 }
 if (failed) process.exit(1);
 console.log('Phase 54.2 verification OK.');
+`;
+
+writeFile('scripts/phase54-2-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-receipt-policy-audit-dashboard-smoke.cjs', verify);
+writeFile('scripts/phase54-2a-verify-quote-escaping.cjs', verify);
+addScript();
+console.log('Phase 54.2a hotfix applied. Next: npm run phase54:2a:verify && npm run phase54:2:verify && npm run build');
