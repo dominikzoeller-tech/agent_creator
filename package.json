@@ -667,7 +667,9 @@
     "phase54:1:verify": "node scripts/phase54-1-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-receipt-policy-audit.cjs",
     "phase54:2:verify": "node scripts/phase54-2-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-receipt-policy-audit-dashboard-smoke.cjs",
     "phase54:2:smoke": "node scripts/phase54-2-smoke-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-receipt-policy-audit-dashboard.cjs",
-    "phase54:2a:verify": "node scripts/phase54-2a-verify-quote-escaping.cjs"
+    "phase54:2a:verify": "node scripts/phase54-2a-verify-quote-escaping.cjs",
+    "phase54:3:verify": "node scripts/phase54-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-receipt-policy-audit-handoff.cjs",
+    "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-receipt-policy-audit:final:check": "node scripts/phase54-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-receipt-policy-audit-handoff.cjs"
   },
   "repository": {
     "type": "git",
