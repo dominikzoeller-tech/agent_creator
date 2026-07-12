@@ -827,7 +827,8 @@
     "phase80:2:smoke": "node scripts/s80-2.cjs",
     "phase80:3:verify": "node scripts/v80-3.cjs",
     "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-archive-completion-final-closure-finalization-seal-receipt-policy-audit:final:check": "node scripts/f80-3.cjs",
-    "phase81:0:verify": "node scripts/v81-0.cjs"
+    "phase81:0:verify": "node scripts/v81-0.cjs",
+    "phase81:1:verify": "node scripts/v81-1.cjs"
   },
   "repository": {
     "type": "git",
