@@ -657,7 +657,8 @@
     "phase52:2:smoke": "node scripts/phase52-2-smoke-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-receipt-policy-audit-dashboard.cjs",
     "phase52:3:verify": "node scripts/phase52-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-receipt-policy-audit-handoff.cjs",
     "llm:provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-receipt-policy-audit:final:check": "node scripts/phase52-3-verify-final-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-receipt-policy-audit-handoff.cjs",
-    "phase53:0:verify": "node scripts/phase53-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-boundary.cjs"
+    "phase53:0:verify": "node scripts/phase53-0-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-boundary.cjs",
+    "phase53:1:verify": "node scripts/phase53-1-verify-provider-dispatch-human-approval-token-issuance-receipt-acknowledgement-completion-receipt-closure-finalization-boundary-policy-audit.cjs"
   },
   "repository": {
     "type": "git",
