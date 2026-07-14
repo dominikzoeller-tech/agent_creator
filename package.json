@@ -864,7 +864,9 @@
     "phase87:0:verify": "node scripts/v87-0.cjs",
     "phase87:1:verify": "node scripts/v87-1.cjs",
     "phase87:2:verify": "node scripts/v87-2.cjs",
-    "phase87:2:smoke": "node scripts/s87-2.cjs"
+    "phase87:2:smoke": "node scripts/s87-2.cjs",
+    "phase87:3:verify": "node scripts/v87-3.cjs",
+    "llm:p87:final:check": "node scripts/f87-3.cjs"
   },
   "repository": {
     "type": "git",
