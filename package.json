@@ -891,7 +891,8 @@
     "phase91:2:smoke": "node scripts/s91-2.cjs",
     "phase91:3:verify": "node scripts/v91-3.cjs",
     "llm:p91:final:check": "node scripts/f91-3.cjs",
-    "phase92:0:verify": "node scripts/v92-0.cjs"
+    "phase92:0:verify": "node scripts/v92-0.cjs",
+    "phase92:1:verify": "node scripts/v92-1.cjs"
   },
   "repository": {
     "type": "git",
