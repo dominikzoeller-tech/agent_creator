@@ -987,7 +987,8 @@
     "phase107:2:smoke": "node scripts/s107-2.cjs",
     "phase107:3:verify": "node scripts/v107-3.cjs",
     "llm:p107:final:check": "node scripts/f107-3.cjs",
-    "phase108:0:verify": "node scripts/v108-0.cjs"
+    "phase108:0:verify": "node scripts/v108-0.cjs",
+    "phase108:1:verify": "node scripts/v108-1.cjs"
   },
   "repository": {
     "type": "git",
