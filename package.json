@@ -900,7 +900,9 @@
     "phase93:0:verify": "node scripts/v93-0.cjs",
     "phase93:1:verify": "node scripts/v93-1.cjs",
     "phase93:2:verify": "node scripts/v93-2.cjs",
-    "phase93:2:smoke": "node scripts/s93-2.cjs"
+    "phase93:2:smoke": "node scripts/s93-2.cjs",
+    "phase93:3:verify": "node scripts/v93-3.cjs",
+    "llm:p93:final:check": "node scripts/f93-3.cjs"
   },
   "repository": {
     "type": "git",
