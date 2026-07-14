@@ -874,7 +874,9 @@
     "phase88:3:verify": "node scripts/v88-3.cjs",
     "llm:p88:final:check": "node scripts/f88-3.cjs",
     "phase89:0:verify": "node scripts/v89-0.cjs",
-    "phase89:1:verify": "node scripts/v89-1.cjs"
+    "phase89:1:verify": "node scripts/v89-1.cjs",
+    "phase89:2:verify": "node scripts/v89-2.cjs",
+    "phase89:2:smoke": "node scripts/s89-2.cjs"
   },
   "repository": {
     "type": "git",
