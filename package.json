@@ -855,7 +855,8 @@
     "phase85:2:smoke": "node scripts/s85-2.cjs",
     "phase85:3:verify": "node scripts/v85-3.cjs",
     "llm:p85:final:check": "node scripts/f85-3.cjs",
-    "phase86:0:verify": "node scripts/v86-0.cjs"
+    "phase86:0:verify": "node scripts/v86-0.cjs",
+    "phase86:1:verify": "node scripts/v86-1.cjs"
   },
   "repository": {
     "type": "git",
