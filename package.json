@@ -1014,7 +1014,8 @@
     "phase113:2:verify": "node scripts/v113-2.cjs",
     "phase113:fix:verify": "node scripts/v113-fix.cjs",
     "phase114:0:verify": "node scripts/v114-0.cjs",
-    "phase114:1:verify": "node scripts/v114-1.cjs"
+    "phase114:1:verify": "node scripts/v114-1.cjs",
+    "phase114:2:verify": "node scripts/v114-2.cjs"
   },
   "repository": {
     "type": "git",
