@@ -1119,7 +1119,8 @@
     "phase135:2:verify": "node scripts/v135-2.cjs",
     "phase135:3:verify": "node scripts/v135-3.cjs",
     "phase135:3:smoke": "node scripts/s135-3.cjs",
-    "phase136:1:verify": "node scripts/v136-1.cjs"
+    "phase136:1:verify": "node scripts/v136-1.cjs",
+    "phase136:2:verify": "node scripts/v136-2.cjs"
   },
   "repository": {
     "type": "git",
