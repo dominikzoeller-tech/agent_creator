@@ -1,0 +1,239 @@
+const fs = require('fs');
+const path = require('path');
+
+const root = process.cwd();
+const write = (rel, content) => {
+  const abs = path.join(root, rel);
+  fs.mkdirSync(path.dirname(abs), { recursive: true });
+  fs.writeFileSync(abs, content.replace(/\n/g, '\r\n'), 'utf8');
+  console.log('WROTE', rel);
+};
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'));
+const writeJson = (rel, obj) => fs.writeFileSync(path.join(root, rel), JSON.stringify(obj, null, 2) + '\n', 'utf8');
+
+write('frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', `import { getSecureMasterAnswerLogMainBrowserStoreDemo, type SecureMasterAnswerLogMainBrowserStoreResult } from './cmt-master-answer-log-list-main-browser-store';
+import { SECURE_MASTER_ANSWER_LOG_BROWSER_STORAGE_KEY } from './cmt-master-answer-log-list-browser-store';
+
+export type SecureMasterAnswerLogMainBrowserStoreStatus = {
+  phase: '136.1';
+  label: 'Secure Master Main Log List Browser Store Status';
+  mainBrowserStore: SecureMasterAnswerLogMainBrowserStoreResult;
+  pages: {
+    mainLogListPage: '/cmt/master/secure/main/log/list';
+    browserStoreControlPage: '/cmt/master/secure/main/log/list/browser-store';
+    browserStoreStatusPage: '/cmt/master/secure/main/log/list/browser-store/status';
+    browserStoreEntryPage: '/cmt/master/secure/main/log/list/browser-store/entry';
+    secureMasterPage: '/cmt/master/secure';
+  };
+  integration: {
+    storageKey: typeof SECURE_MASTER_ANSWER_LOG_BROWSER_STORAGE_KEY;
+    localTestable: true;
+    mainLogListBrowserStoreIntegrated: true;
+    saveButtonVisible: true;
+    loadOnRefreshPrepared: true;
+    resetButtonVisible: true;
+    localStorageKeyVisible: true;
+    controlPagesPreserved: true;
+    persistedInBrowser: 'browser_optional_local';
+    persistedOnServer: false;
+    serverStoragePrepared: false;
+  };
+  safety: {
+    localOnly: true;
+    providerEnabled: false;
+    internetEnabled: false;
+    liveModelEnabled: false;
+    networkCallAllowed: false;
+    externalSharingAllowed: false;
+    finalDispatchBlocked: true;
+  };
+  checks: string[];
+  nextMilestone: string;
+};
+
+export function getSecureMasterAnswerLogMainBrowserStoreStatus(): SecureMasterAnswerLogMainBrowserStoreStatus {
+  return {
+    phase: '136.1',
+    label: 'Secure Master Main Log List Browser Store Status',
+    mainBrowserStore: getSecureMasterAnswerLogMainBrowserStoreDemo(),
+    pages: {
+      mainLogListPage: '/cmt/master/secure/main/log/list',
+      browserStoreControlPage: '/cmt/master/secure/main/log/list/browser-store',
+      browserStoreStatusPage: '/cmt/master/secure/main/log/list/browser-store/status',
+      browserStoreEntryPage: '/cmt/master/secure/main/log/list/browser-store/entry',
+      secureMasterPage: '/cmt/master/secure',
+    },
+    integration: {
+      storageKey: SECURE_MASTER_ANSWER_LOG_BROWSER_STORAGE_KEY,
+      localTestable: true,
+      mainLogListBrowserStoreIntegrated: true,
+      saveButtonVisible: true,
+      loadOnRefreshPrepared: true,
+      resetButtonVisible: true,
+      localStorageKeyVisible: true,
+      controlPagesPreserved: true,
+      persistedInBrowser: 'browser_optional_local',
+      persistedOnServer: false,
+      serverStoragePrepared: false,
+    },
+    safety: {
+      localOnly: true,
+      providerEnabled: false,
+      internetEnabled: false,
+      liveModelEnabled: false,
+      networkCallAllowed: false,
+      externalSharingAllowed: false,
+      finalDispatchBlocked: true,
+    },
+    checks: [
+      'Haupt-Logliste ist erreichbar.',
+      'Speichern in Browser ist direkt in der Haupt-Logliste sichtbar.',
+      'Laden nach Refresh ist vorbereitet.',
+      'Reset ist direkt in der Haupt-Logliste sichtbar.',
+      'localStorage-Key ist sichtbar.',
+      'Kontrollseiten bleiben erhalten.',
+      'persistedInBrowser = browser_optional_local.',
+      'persistedOnServer = false.',
+      'serverStoragePrepared = false.',
+      'externalSharingAllowed = false.',
+    ],
+    nextMilestone: 'Phase 136.2: Secure Master Main Log List Browser Store Entry',
+  };
+}
+`);
+
+write('frontend/app/api/cmt/master/secure/main/log/list/main-browser-store/status/route.ts', `import { NextResponse } from 'next/server';
+import { getSecureMasterAnswerLogMainBrowserStoreStatus } from '../../../../../../../../../lib/cmt-master-answer-log-list-main-browser-store-status';
+
+export async function GET() {
+  return NextResponse.json(getSecureMasterAnswerLogMainBrowserStoreStatus());
+}
+`);
+
+write('frontend/app/cmt/master/secure/main/log/list/main-browser-store/status/page.tsx', `import Link from 'next/link';
+import { getSecureMasterAnswerLogMainBrowserStoreStatus } from '../../../../../../../../lib/cmt-master-answer-log-list-main-browser-store-status';
+
+export default function SecureMasterAnswerLogMainBrowserStoreStatusPage() {
+  const data = getSecureMasterAnswerLogMainBrowserStoreStatus();
+  const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16, background: '#fff' };
+
+  return (
+    <main style={{ padding: 24, fontFamily: 'system-ui, sans-serif', background: '#f8fafc', minHeight: '100vh' }}>
+      <section style={{ ...card, marginBottom: 16 }}>
+        <h1>Phase 136.1</h1>
+        <h2>{data.label}</h2>
+        <p><strong>Status:</strong> Browser-Speicher ist direkt in die Haupt-Logliste integriert. Server-Persistenz bleibt aus.</p>
+        <p><strong>Storage Key:</strong> {data.integration.storageKey}</p>
+      </section>
+
+      <section style={card}>
+        <h3>Links</h3>
+        <ul>
+          <li><Link href={data.pages.mainLogListPage}>Haupt-Logliste</Link></li>
+          <li><Link href={data.pages.browserStoreControlPage}>Browser-Store-Kontrollseite</Link></li>
+          <li><Link href={data.pages.browserStoreStatusPage}>Browser-Store-Status</Link></li>
+          <li><Link href={data.pages.browserStoreEntryPage}>Browser-Store-Entry</Link></li>
+          <li><Link href={data.pages.secureMasterPage}>Secure Master</Link></li>
+        </ul>
+      </section>
+
+      <section style={{ ...card, marginTop: 16 }}>
+        <h3>Integration State</h3>
+        <ul>{Object.entries(data.integration).map(([key, value]) => <li key={key}>{key}: {String(value)}</li>)}</ul>
+      </section>
+
+      <section style={{ ...card, marginTop: 16 }}>
+        <h3>Safety State</h3>
+        <ul>{Object.entries(data.safety).map(([key, value]) => <li key={key}>{key}: {String(value)}</li>)}</ul>
+      </section>
+
+      <section style={{ ...card, marginTop: 16 }}>
+        <h3>Demo Counts</h3>
+        <ul>
+          <li>sourceCount: {data.mainBrowserStore.browserStore.mainSelect.select.filter.sourceCount}</li>
+          <li>filteredCount: {data.mainBrowserStore.browserStore.mainSelect.select.filter.filteredCount}</li>
+          <li>routeOptions: {data.mainBrowserStore.browserStore.mainSelect.select.options.routes.length}</li>
+          <li>intentOptions: {data.mainBrowserStore.browserStore.mainSelect.select.options.intents.length}</li>
+          <li>privacyOptions: {data.mainBrowserStore.browserStore.mainSelect.select.options.privacyDecisions.length}</li>
+        </ul>
+      </section>
+
+      <section style={{ ...card, marginTop: 16 }}>
+        <h3>Checks</h3>
+        <ol>{data.checks.map((item) => <li key={item}>{item}</li>)}</ol>
+      </section>
+
+      <section style={{ marginTop: 16 }}>
+        <p><strong>Naechster Meilenstein:</strong> {data.nextMilestone}</p>
+      </section>
+    </main>
+  );
+}
+`);
+
+write('README_PHASE136_1.md', `# Phase 136.1 - Secure Master Main Log List Browser Store Status
+
+Baut eine Statusseite fuer die direkt in die Haupt-Logliste integrierte browserseitige Speicherung.
+
+Kurz-Namen:
+
+- Store: frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts
+- API: /api/cmt/master/secure/main/log/list/main-browser-store/status
+- UI: /cmt/master/secure/main/log/list/main-browser-store/status
+- Patch: scripts/p136-1.cjs
+- Verify: scripts/v136-1.cjs
+
+Status:
+
+- Main-Loglist-Browser-Store-Status sichtbar
+- mainLogListBrowserStoreIntegrated = true
+- saveButtonVisible = true
+- loadOnRefreshPrepared = true
+- resetButtonVisible = true
+- localStorageKeyVisible = true
+- controlPagesPreserved = true
+- persistedInBrowser = browser_optional_local
+- persistedOnServer = false
+- serverStoragePrepared = false
+- providerEnabled = false
+- internetEnabled = false
+- liveModelEnabled = false
+- externalSharingAllowed = false
+`);
+
+write('scripts/v136-1.cjs', `const fs = require('fs');
+const checks = [
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', 'getSecureMasterAnswerLogMainBrowserStoreStatus'],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', "phase: '136.1'"],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', 'mainLogListBrowserStoreIntegrated: true'],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', 'saveButtonVisible: true'],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', 'loadOnRefreshPrepared: true'],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', 'resetButtonVisible: true'],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', 'controlPagesPreserved: true'],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', "persistedInBrowser: 'browser_optional_local'"],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', 'persistedOnServer: false'],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', 'serverStoragePrepared: false'],
+  ['frontend/lib/cmt-master-answer-log-list-main-browser-store-status.ts', 'externalSharingAllowed: false'],
+  ['frontend/app/api/cmt/master/secure/main/log/list/main-browser-store/status/route.ts', 'getSecureMasterAnswerLogMainBrowserStoreStatus'],
+  ['frontend/app/cmt/master/secure/main/log/list/main-browser-store/status/page.tsx', 'Integration State'],
+  ['frontend/app/cmt/master/secure/main/log/list/main-browser-store/status/page.tsx', 'Demo Counts'],
+  ['README_PHASE136_1.md', 'Secure Master Main Log List Browser Store Status'],
+  ['package.json', 'phase136:1:verify'],
+];
+let ok = true;
+for (const [file, fragment] of checks) {
+  if (!fs.existsSync(file)) { console.error('MISS', file); ok = false; continue; }
+  const text = fs.readFileSync(file, 'utf8');
+  if (!text.includes(fragment)) { console.error('MISS fragment', fragment, 'in', file); ok = false; }
+  else console.log('OK', file, fragment);
+}
+if (!ok) process.exit(1);
+console.log('Phase 136.1 Secure Master Main Log List Browser Store Status verification OK.');
+`);
+
+const pkg = readJson('package.json');
+pkg.scripts = pkg.scripts || {};
+pkg.scripts['phase136:1:verify'] = 'node scripts/v136-1.cjs';
+writeJson('package.json', pkg);
+console.log('UPDATED package.json');
+console.log('Phase 136.1 Secure Master Main Log List Browser Store Status patch applied.');
