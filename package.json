@@ -1072,7 +1072,9 @@
     "phase125:3:smoke": "node scripts/s125-3.cjs",
     "phase126:0:verify": "node scripts/v126-0.cjs",
     "phase126:1:verify": "node scripts/v126-1.cjs",
-    "phase126:2:verify": "node scripts/v126-2.cjs"
+    "phase126:2:verify": "node scripts/v126-2.cjs",
+    "phase126:3:verify": "node scripts/v126-3.cjs",
+    "phase126:3:smoke": "node scripts/s126-3.cjs"
   },
   "repository": {
     "type": "git",
