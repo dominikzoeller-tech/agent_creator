@@ -1020,7 +1020,9 @@
     "phase114:3:smoke": "node scripts/s114-3.cjs",
     "phase115:0:verify": "node scripts/v115-0.cjs",
     "phase115:1:verify": "node scripts/v115-1.cjs",
-    "phase115:2:verify": "node scripts/v115-2.cjs"
+    "phase115:2:verify": "node scripts/v115-2.cjs",
+    "phase115:3:verify": "node scripts/v115-3.cjs",
+    "phase115:3:smoke": "node scripts/s115-3.cjs"
   },
   "repository": {
     "type": "git",
