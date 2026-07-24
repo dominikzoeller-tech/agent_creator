@@ -1,4 +1,17 @@
-export type CommitteeIntent =
+const fs = require('fs');
+const path = require('path');
+
+const root = process.cwd();
+const write = (rel, content) => {
+  const abs = path.join(root, rel);
+  fs.mkdirSync(path.dirname(abs), { recursive: true });
+  fs.writeFileSync(abs, content.replace(/\n/g, '\r\n'), 'utf8');
+  console.log('WROTE', rel);
+};
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'));
+const writeJson = (rel, obj) => fs.writeFileSync(path.join(root, rel), JSON.stringify(obj, null, 2) + '\n', 'utf8');
+
+write('frontend/lib/cmt-ask.ts', `export type CommitteeIntent =
   | 'weather'
   | 'live_switch'
   | 'internal_data'
@@ -186,3 +199,177 @@ export function askCommitteeLocal(question: string): CommitteeAskResult {
 export function getCommitteeAskDemo() {
   return askCommitteeLocal('Soll ich den Gremium-Agenten jetzt live schalten oder erst verbessern?');
 }
+`);
+
+write('frontend/app/cmt/ask/page.tsx', `'use client';
+
+import { useState } from 'react';
+import type { CommitteeAskResult } from '../../../lib/cmt-ask';
+
+export default function CommitteeAskPage() {
+  const [question, setQuestion] = useState('Soll ich den Gremium-Agenten jetzt live schalten oder erst verbessern?');
+  const [result, setResult] = useState<CommitteeAskResult | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function ask() {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/cmt/ask', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ question }),
+      });
+      const data = await response.json();
+      setResult(data);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
+
+  return (
+    <main style={{ padding: 24, fontFamily: 'system-ui, sans-serif' }}>
+      <section style={{ ...card, marginBottom: 16 }}>
+        <h1>Phase 119.1</h1>
+        <h2>Gremium Ask MVP Plus</h2>
+        <p><strong>Status:</strong> Lokal testbar plus. Noch nicht live mit KI-Modell.</p>
+        <p>Der Agent erkennt jetzt einfache Fragetypen und nutzt ein 5er-Gremium.</p>
+      </section>
+
+      <section style={card}>
+        <h3>Frage an den Master-/Gremium-Agenten</h3>
+        <textarea
+          value={question}
+          onChange={(event) => setQuestion(event.target.value)}
+          rows={5}
+          style={{ width: '100%', maxWidth: 900, padding: 12, borderRadius: 12, border: '1px solid #ccc' }}
+        />
+        <br />
+        <button onClick={ask} disabled={loading} style={{ marginTop: 12, padding: '10px 16px', borderRadius: 10 }}>
+          {loading ? 'Gremium denkt lokal...' : 'Gremium fragen'}
+        </button>
+      </section>
+
+      {result && (
+        <section style={{ display: 'grid', gap: 12, marginTop: 16 }}>
+          <article style={card}>
+            <h3>{result.finalAnswer.headline}</h3>
+            <p><strong>Frage:</strong> {result.question}</p>
+            <p><strong>Erkannter Typ:</strong> {result.intent}</p>
+            <p><strong>Direktantwort:</strong> {result.finalAnswer.directAnswer}</p>
+            <p><strong>Empfehlung:</strong> {result.finalAnswer.recommendation}</p>
+            <p><strong>Usable Status:</strong> {result.usableStatus}</p>
+          </article>
+
+          <article style={card}>
+            <h3>5er-Gremium</h3>
+            {result.roles.map((role) => (
+              <section key={role.role} style={{ borderTop: '1px solid #eee', paddingTop: 10, marginTop: 10 }}>
+                <h4>{role.role} - {role.stance}</h4>
+                <p>{role.answer}</p>
+                <p><strong>Risiko:</strong> {role.risk}</p>
+                <p><strong>Aktion:</strong> {role.action}</p>
+              </section>
+            ))}
+          </article>
+
+          <article style={card}>
+            <h3>Begruendung</h3>
+            <ul>{result.finalAnswer.reasoning.map((item) => <li key={item}>{item}</li>)}</ul>
+          </article>
+
+          <article style={card}>
+            <h3>Naechste Aktionen</h3>
+            <ol>{result.finalAnswer.nextActions.map((item) => <li key={item}>{item}</li>)}</ol>
+          </article>
+        </section>
+      )}
+
+      <section style={{ marginTop: 16 }}>
+        <h3>Safety State</h3>
+        <ul>
+          <li>provider: none</li>
+          <li>modelSelected: none</li>
+          <li>liveModelEnabled: false</li>
+          <li>localReasoningOnly: true</li>
+          <li>internetAccessEnabled: false</li>
+          <li>dryRunOnly: true</li>
+          <li>networkCallAllowed: false</li>
+          <li>providerDispatchAllowed: false</li>
+          <li>finalDispatchBlocked: true</li>
+        </ul>
+      </section>
+    </main>
+  );
+}
+`);
+
+write('README_PHASE119_1.md', `# Phase 119.1 - Gremium Ask MVP Plus
+
+Verbessert den lokal testbaren Ask-Flow.
+
+Kurz-Namen:
+
+- Store: frontend/lib/cmt-ask.ts
+- API: /api/cmt/ask
+- UI: /cmt/ask
+- Patch: scripts/p119-1.cjs
+- Verify: scripts/v119-1.cjs
+
+Funktion:
+
+- Frage-Typ lokal erkennen
+- Wetter, Live-Schaltung, interne Daten, Agentenbau, Roadmap und Entscheidungen unterscheiden
+- 5er-Gremium nutzen: Visionaer, Skeptiker, Umsetzer, Datenschutz & Risiko, Wirtschaftlichkeit & Praxisnutzen
+- Direktantwort, Empfehlung und Grenzen sichtbar machen
+
+Status:
+
+- lokal testbar plus
+- noch nicht live mit KI-Modell
+- kein Internetzugriff
+- keine Provider-Calls
+
+Testseite:
+
+- /cmt/ask
+`);
+
+write('scripts/v119-1.cjs', `const fs = require('fs');
+
+const checks = [
+  ['frontend/lib/cmt-ask.ts', 'CommitteeIntent'],
+  ['frontend/lib/cmt-ask.ts', 'detectIntent'],
+  ['frontend/lib/cmt-ask.ts', "phase: '119.1'"],
+  ['frontend/lib/cmt-ask.ts', "label: 'Gremium Ask MVP Plus'"],
+  ['frontend/lib/cmt-ask.ts', "usableStatus: 'local-testable-plus'"],
+  ['frontend/lib/cmt-ask.ts', 'Visionär'],
+  ['frontend/lib/cmt-ask.ts', 'Skeptiker'],
+  ['frontend/lib/cmt-ask.ts', 'Datenschutz & Risiko'],
+  ['frontend/lib/cmt-ask.ts', 'internetAccessEnabled: false'],
+  ['frontend/lib/cmt-ask.ts', 'liveModelEnabled: false'],
+  ['frontend/app/api/cmt/ask/route.ts', 'askCommitteeLocal'],
+  ['frontend/app/cmt/ask/page.tsx', '5er-Gremium'],
+  ['frontend/app/cmt/ask/page.tsx', 'Erkannter Typ'],
+  ['README_PHASE119_1.md', 'Gremium Ask MVP Plus'],
+  ['package.json', 'phase119:1:verify'],
+];
+
+let ok = true;
+for (const [file, fragment] of checks) {
+  if (!fs.existsSync(file)) { console.error('MISS', file); ok = false; continue; }
+  const text = fs.readFileSync(file, 'utf8');
+  if (!text.includes(fragment)) { console.error('MISS fragment', fragment, 'in', file); ok = false; }
+  else console.log('OK', file, fragment);
+}
+if (!ok) process.exit(1);
+console.log('Phase 119.1 Gremium Ask MVP Plus verification OK.');
+`);
+
+const pkg = readJson('package.json');
+pkg.scripts = pkg.scripts || {};
+pkg.scripts['phase119:1:verify'] = 'node scripts/v119-1.cjs';
+writeJson('package.json', pkg);
+console.log('UPDATED package.json');
+console.log('Phase 119.1 Gremium Ask MVP Plus patch applied.');

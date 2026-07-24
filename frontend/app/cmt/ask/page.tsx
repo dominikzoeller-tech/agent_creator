@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { CommitteeAskResult } from '../../../lib/cmt-ask';
 
 export default function CommitteeAskPage() {
-  const [question, setQuestion] = useState('Wann kann ich den Gremium-Agenten testen und was fehlt noch bis zum Live-Betrieb?');
+  const [question, setQuestion] = useState('Soll ich den Gremium-Agenten jetzt live schalten oder erst verbessern?');
   const [result, setResult] = useState<CommitteeAskResult | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -28,14 +28,14 @@ export default function CommitteeAskPage() {
   return (
     <main style={{ padding: 24, fontFamily: 'system-ui, sans-serif' }}>
       <section style={{ ...card, marginBottom: 16 }}>
-        <h1>Phase 119.0</h1>
-        <h2>Gremium Ask MVP</h2>
-        <p><strong>Status:</strong> Lokal testbar. Noch nicht live mit KI-Modell.</p>
-        <p>Hier kannst du den Agenten erstmals mit echten Fragen lokal testen.</p>
+        <h1>Phase 119.1</h1>
+        <h2>Gremium Ask MVP Plus</h2>
+        <p><strong>Status:</strong> Lokal testbar plus. Noch nicht live mit KI-Modell.</p>
+        <p>Der Agent erkennt jetzt einfache Fragetypen und nutzt ein 5er-Gremium.</p>
       </section>
 
       <section style={card}>
-        <h3>Frage an das Gremium</h3>
+        <h3>Frage an den Master-/Gremium-Agenten</h3>
         <textarea
           value={question}
           onChange={(event) => setQuestion(event.target.value)}
@@ -52,12 +52,15 @@ export default function CommitteeAskPage() {
         <section style={{ display: 'grid', gap: 12, marginTop: 16 }}>
           <article style={card}>
             <h3>{result.finalAnswer.headline}</h3>
+            <p><strong>Frage:</strong> {result.question}</p>
+            <p><strong>Erkannter Typ:</strong> {result.intent}</p>
+            <p><strong>Direktantwort:</strong> {result.finalAnswer.directAnswer}</p>
             <p><strong>Empfehlung:</strong> {result.finalAnswer.recommendation}</p>
             <p><strong>Usable Status:</strong> {result.usableStatus}</p>
           </article>
 
           <article style={card}>
-            <h3>Gremiumsrollen</h3>
+            <h3>5er-Gremium</h3>
             {result.roles.map((role) => (
               <section key={role.role} style={{ borderTop: '1px solid #eee', paddingTop: 10, marginTop: 10 }}>
                 <h4>{role.role} - {role.stance}</h4>
@@ -86,6 +89,8 @@ export default function CommitteeAskPage() {
           <li>provider: none</li>
           <li>modelSelected: none</li>
           <li>liveModelEnabled: false</li>
+          <li>localReasoningOnly: true</li>
+          <li>internetAccessEnabled: false</li>
           <li>dryRunOnly: true</li>
           <li>networkCallAllowed: false</li>
           <li>providerDispatchAllowed: false</li>
