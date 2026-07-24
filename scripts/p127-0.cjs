@@ -1,4 +1,17 @@
-'use client';
+const fs = require('fs');
+const path = require('path');
+
+const root = process.cwd();
+const write = (rel, content) => {
+  const abs = path.join(root, rel);
+  fs.mkdirSync(path.dirname(abs), { recursive: true });
+  fs.writeFileSync(abs, content.replace(/\n/g, '\r\n'), 'utf8');
+  console.log('WROTE', rel);
+};
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'));
+const writeJson = (rel, obj) => fs.writeFileSync(path.join(root, rel), JSON.stringify(obj, null, 2) + '\n', 'utf8');
+
+write('frontend/app/cmt/master/secure/page.tsx', `'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -101,3 +114,67 @@ export default function SecureMasterMainPage() {
     </main>
   );
 }
+`);
+
+write('README_PHASE127_0.md', `# Phase 127.0 - Secure Master Main Unified View
+
+Baut den Unified Flow als echte Hauptansicht in /cmt/master/secure ein.
+
+Kurz-Namen:
+
+- UI: /cmt/master/secure
+- nutzt API: /api/cmt/master/secure/unified
+- nutzt Store: frontend/lib/cmt-master-unified.ts
+- Patch: scripts/p127-0.cjs
+- Verify: scripts/v127-0.cjs
+
+Wirkung:
+
+- /cmt/master/secure zeigt jetzt direkt den Unified Flow.
+- Nutzer muss /cmt/master/secure/unified nicht mehr separat öffnen.
+- Kontrollseiten bleiben erhalten.
+- Kein Provider.
+- Kein Internet.
+- Kein Live-Modell.
+
+Status:
+
+- lokal testbar
+- Hauptseite nutzt Unified Flow
+- Quality-Antwort sichtbar
+- Gremium bei Bedarf sichtbar
+- Privacy Gate bei Bedarf sichtbar
+- externalSharingAllowed = false
+`);
+
+write('scripts/v127-0.cjs', `const fs = require('fs');
+const checks = [
+  ['frontend/app/cmt/master/secure/page.tsx', 'Unified Main View'],
+  ['frontend/app/cmt/master/secure/page.tsx', '/api/cmt/master/secure/unified'],
+  ['frontend/app/cmt/master/secure/page.tsx', 'Secure Master fragen'],
+  ['frontend/app/cmt/master/secure/page.tsx', 'unifiedAnswerBlocks'],
+  ['frontend/app/cmt/master/secure/page.tsx', '5 Rollen'],
+  ['frontend/app/cmt/master/secure/page.tsx', 'Kontrollseiten'],
+  ['frontend/app/cmt/master/secure/page.tsx', 'externalSharingAllowed'],
+  ['README_PHASE127_0.md', 'Secure Master Main Unified View'],
+  ['README_PHASE127_0.md', '/cmt/master/secure'],
+  ['README_PHASE127_0.md', 'Hauptseite nutzt Unified Flow'],
+  ['package.json', 'phase127:0:verify'],
+];
+let ok = true;
+for (const [file, fragment] of checks) {
+  if (!fs.existsSync(file)) { console.error('MISS', file); ok = false; continue; }
+  const text = fs.readFileSync(file, 'utf8');
+  if (!text.includes(fragment)) { console.error('MISS fragment', fragment, 'in', file); ok = false; }
+  else console.log('OK', file, fragment);
+}
+if (!ok) process.exit(1);
+console.log('Phase 127.0 Secure Master Main Unified View verification OK.');
+`);
+
+const pkg = readJson('package.json');
+pkg.scripts = pkg.scripts || {};
+pkg.scripts['phase127:0:verify'] = 'node scripts/v127-0.cjs';
+writeJson('package.json', pkg);
+console.log('UPDATED package.json');
+console.log('Phase 127.0 Secure Master Main Unified View patch applied.');
