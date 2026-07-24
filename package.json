@@ -1099,7 +1099,8 @@
     "phase131:2:verify": "node scripts/v131-2.cjs",
     "phase131:3:verify": "node scripts/v131-3.cjs",
     "phase131:3:smoke": "node scripts/s131-3.cjs",
-    "phase132:0:verify": "node scripts/v132-0.cjs"
+    "phase132:0:verify": "node scripts/v132-0.cjs",
+    "phase132:1:verify": "node scripts/v132-1.cjs"
   },
   "repository": {
     "type": "git",
