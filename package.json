@@ -1138,7 +1138,8 @@
     "phase139:2:verify": "node scripts/v139-2.cjs",
     "phase139:3:verify": "node scripts/v139-3.cjs",
     "phase139:3:smoke": "node scripts/s139-3.cjs",
-    "phase140:0:verify": "node scripts/v140-0.cjs"
+    "phase140:0:verify": "node scripts/v140-0.cjs",
+    "phase140:1:verify": "node scripts/v140-1.cjs"
   },
   "repository": {
     "type": "git",
