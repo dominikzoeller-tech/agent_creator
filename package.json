@@ -1080,7 +1080,8 @@
     "phase127:2:verify": "node scripts/v127-2.cjs",
     "phase127:3:verify": "node scripts/v127-3.cjs",
     "phase127:3:smoke": "node scripts/s127-3.cjs",
-    "phase128:0:verify": "node scripts/v128-0.cjs"
+    "phase128:0:verify": "node scripts/v128-0.cjs",
+    "phase128:1:verify": "node scripts/v128-1.cjs"
   },
   "repository": {
     "type": "git",
