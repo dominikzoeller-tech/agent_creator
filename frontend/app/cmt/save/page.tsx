@@ -11,8 +11,7 @@ export default function CommitteeSavePage() {
   async function save() {
     setLoading(true);
     try {
-      const questions = text.split('
-').map((line) => line.trim()).filter(Boolean);
+      const questions = text.split(String.fromCharCode(10)).map((line) => line.trim()).filter(Boolean);
       const response = await fetch('/api/cmt/save', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
