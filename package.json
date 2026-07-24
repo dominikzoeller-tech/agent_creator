@@ -997,7 +997,9 @@
     "phase109:1:verify": "node scripts/v109-1.cjs",
     "phase110:0:verify": "node scripts/v110-0.cjs",
     "phase110:1:verify": "node scripts/v110-1.cjs",
-    "phase110:2:verify": "node scripts/v110-2.cjs"
+    "phase110:2:verify": "node scripts/v110-2.cjs",
+    "phase110:3:verify": "node scripts/v110-3.cjs",
+    "phase110:3:smoke": "node scripts/s110-3.cjs"
   },
   "repository": {
     "type": "git",
