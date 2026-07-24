@@ -1111,7 +1111,9 @@
     "phase133:3:smoke": "node scripts/s133-3.cjs",
     "phase134:0:verify": "node scripts/v134-0.cjs",
     "phase134:1:verify": "node scripts/v134-1.cjs",
-    "phase134:2:verify": "node scripts/v134-2.cjs"
+    "phase134:2:verify": "node scripts/v134-2.cjs",
+    "phase134:3:verify": "node scripts/v134-3.cjs",
+    "phase134:3:smoke": "node scripts/s134-3.cjs"
   },
   "repository": {
     "type": "git",
