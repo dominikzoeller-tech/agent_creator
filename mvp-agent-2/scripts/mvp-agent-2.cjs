@@ -1,4 +1,14 @@
-export type AgentRoute = 'direct' | 'committee' | 'privacy_gate' | 'tool_required' | 'agent_builder';
+const fs = require('fs');
+const path = require('path');
+const root = process.cwd();
+const write = (rel, content) => {
+  const full = path.join(root, rel);
+  fs.mkdirSync(path.dirname(full), { recursive: true });
+  fs.writeFileSync(full, content, 'utf8');
+  console.log('[write]', rel);
+};
+
+const lib = `export type AgentRoute = 'direct' | 'committee' | 'privacy_gate' | 'tool_required' | 'agent_builder';
 export type AgentIntent = 'general' | 'live_switch' | 'internal_data' | 'committee_decision' | 'tool_required' | 'agent_builder' | 'project_next_step' | 'improvement';
 export type PrivacyDecision = 'allow_local_only' | 'require_anonymization' | 'block_external';
 
@@ -119,3 +129,18 @@ export function runSecureMasterLocalAgent(input: string): AgentLog {
     committee: buildCommittee(route),
   };
 }
+`;
+
+const verify = `const fs=require('fs');const path=require('path');const root=process.cwd();let ok=true;for(const rel of ['frontend/lib/cmt-secure-master-agent-mvp.ts','frontend/app/cmt/master/secure/agent/page.tsx']){if(!fs.existsSync(path.join(root,rel))){console.error('[missing]',rel);ok=false}else console.log('[ok]',rel)}const lib=fs.readFileSync(path.join(root,'frontend/lib/cmt-secure-master-agent-mvp.ts'),'utf8');for(const token of ['confidence','modeLabel','reason','improvement']){if(!lib.includes(token)){console.error('[missing token]',token);ok=false}else console.log('[ok token]',token)}if(ok)console.log('[OK] mvp-agent-2 verify passed');process.exit(ok?0:1);`;
+
+write('frontend/lib/cmt-secure-master-agent-mvp.ts', lib);
+write('scripts/v-mvp-agent-2.cjs', verify);
+
+const pkgPath = path.join(root, 'package.json');
+const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+pkg.scripts = pkg.scripts || {};
+pkg.scripts['mvp2:verify'] = 'node scripts/v-mvp-agent-2.cjs';
+pkg.scripts['agent:mvp2:verify'] = 'node scripts/v-mvp-agent-2.cjs';
+fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
+console.log('[write] package.json scripts mvp2:verify agent:mvp2:verify');
+console.log('[OK] mvp-agent-2 applied');
