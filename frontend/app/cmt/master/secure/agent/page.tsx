@@ -15,6 +15,9 @@ import { createSecureMasterDecisionSummary } from '../../../../../lib/cmt-secure
 import { createSecureMasterActionPlan } from '../../../../../lib/cmt-secure-master-action-plan';
 import { createSecureMasterProviderAdapterDryRun } from '../../../../../lib/cmt-secure-master-provider-adapter-dry-run';
 import { SECURE_MASTER_ADAPTER_DRY_RUN_HISTORY_KEY, createAdapterDryRunHistoryItem, type SecureMasterAdapterDryRunHistoryItem } from '../../../../../lib/cmt-secure-master-adapter-dry-run-history';
+import { createSecureMasterOperatorPanel } from '../../../../../lib/cmt-secure-master-operator-panel';
+import { createSecureMasterProviderAdapterPipeline } from '../../../../../lib/cmt-secure-master-provider-adapter-pipeline';
+import { createSecureMasterLiveReadinessMatrix } from '../../../../../lib/cmt-secure-master-live-readiness-matrix';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
