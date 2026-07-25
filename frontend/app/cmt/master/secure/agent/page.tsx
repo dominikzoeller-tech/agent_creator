@@ -48,6 +48,7 @@ export default function Page() {
   const [adapterDryRunHistory, setAdapterDryRunHistory] = useState<SecureMasterAdapterDryRunHistoryItem[]>([]);
   const [providerAdapterContract, setProviderAdapterContract] = useState<ReturnType<typeof createSecureMasterProviderAdapterContract> | null>(null);
   const [serverDryRunResult, setServerDryRunResult] = useState<any | null>(null);
+  const [providerAuditEnvelope, setProviderAuditEnvelope] = useState<ReturnType<typeof createSecureMasterProviderAuditEnvelope> | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -73,6 +74,10 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  function createProviderAuditEnvelope() {
+    setProviderAuditEnvelope(createSecureMasterProviderAuditEnvelope({ input, approvalDecision: approval, privacyDecision: current?.privacyDecision }));
   }
 
   async function runServerProviderDryRun() {
@@ -386,6 +391,27 @@ export default function Page() {
             </div>
           )}
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterServerProviderDryRunContract.nextSafeStep}</p>
+        </section>
+
+        <section style={{ border: '1px solid #a78bfa', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Provider-Audit-Envelope</h2>
+          <p style={{ color: '#cbd5e1' }}>Audit-Struktur fuer spaetere Provider-Aufrufe. Kein Provider-Call, keine Secrets.</p>
+          <button onClick={createProviderAuditEnvelope} style={{ border: '1px solid #a78bfa', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Audit-Envelope erstellen</button>
+          {providerAuditEnvelope && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>Audit vorbereitet: <b>{String(providerAuditEnvelope.auditPrepared)}</b></p>
+              <p>Request-ID: <b>{providerAuditEnvelope.requestId}</b></p>
+              <p>Dispatch Status: <b>{providerAuditEnvelope.dispatchStatus}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(providerAuditEnvelope.providerCallAllowed)}</b></p>
+              <p>Secrets enthalten: <b>{String(providerAuditEnvelope.secretsIncluded)}</b></p>
+              <p>Input Preview: {providerAuditEnvelope.inputPreview}</p>
+              <h3>Pflichtfelder spaeter</h3>
+              <ul>{providerAuditEnvelope.requiredAuditFieldsLater.map((item) => <li key={item}>{item}</li>)}</ul>
+              <h3>Redaction Rules</h3>
+              <ul>{providerAuditEnvelope.redactionRules.map((item) => <li key={item}>{item}</li>)}</ul>
+              <p style={{ color: '#94a3b8', fontSize: 13 }}>{providerAuditEnvelope.nextSafeStep}</p>
+            </div>
+          )}
         </section>
 
         <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>
