@@ -18,6 +18,7 @@ import { SECURE_MASTER_ADAPTER_DRY_RUN_HISTORY_KEY, createAdapterDryRunHistoryIt
 import { createSecureMasterOperatorPanel } from '../../../../../lib/cmt-secure-master-operator-panel';
 import { createSecureMasterProviderAdapterPipeline } from '../../../../../lib/cmt-secure-master-provider-adapter-pipeline';
 import { createSecureMasterLiveReadinessMatrix } from '../../../../../lib/cmt-secure-master-live-readiness-matrix';
+import { secureMasterWorkState } from '../../../../../lib/cmt-secure-master-work-state';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
