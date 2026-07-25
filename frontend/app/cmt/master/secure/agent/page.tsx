@@ -155,6 +155,22 @@ export default function Page() {
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{operatorPanel.nextThreshold}</p>
         </section>
 
+        <section style={{ border: '1px solid #22c55e', borderRadius: 18, background: '#052e16', padding: 20 }}>
+          <h2>Arbeitsstatus</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
+            <p>Lokal nutzbar: <b>{String(secureMasterWorkState.localWorkReady)}</b></p>
+            <p>Live bereit: <b>{String(secureMasterWorkState.liveReady)}</b></p>
+            <p>Hauptseite: <b>{secureMasterWorkState.currentMainPage}</b></p>
+            <p>Naechste Schwelle: <b>{secureMasterWorkState.providerAdapterNext ? 'Provider-Adapter vorbereiten' : 'offen'}</b></p>
+          </div>
+          <p>{secureMasterWorkState.userInstruction}</p>
+          <p style={{ color: '#bbf7d0' }}>{secureMasterWorkState.nextThreshold}</p>
+          <h3>Jetzt sicher moeglich</h3>
+          <ul>{secureMasterWorkState.safeNow.map((item) => <li key={item}>{item}</li>)}</ul>
+          <h3>Live bleibt blockiert wegen</h3>
+          <ul>{secureMasterWorkState.blockedLiveReasons.map((item) => <li key={item}>{item}</li>)}</ul>
+        </section>
+
         <section style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(280px, 0.8fr)', gap: 20 }}>
           <div style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
             <h2>Frage an den Master-Agenten</h2>
