@@ -1222,7 +1222,9 @@
     "agent:selfbuild:plan": "npm run selfbuilder1:plan",
     "worker1:verify": "node scripts/v-agent-worker-1.cjs",
     "worker:run": "node scripts/agent-worker.cjs",
-    "worker:build-task": "node scripts/agent-worker-create-build-task.cjs"
+    "worker:build-task": "node scripts/agent-worker-create-build-task.cjs",
+    "worker2:verify": "node scripts/v-agent-worker-2.cjs",
+    "agent:worker2:verify": "node scripts/v-agent-worker-2.cjs"
   },
   "repository": {
     "type": "git",

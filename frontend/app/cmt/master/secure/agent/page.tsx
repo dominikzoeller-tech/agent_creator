@@ -48,6 +48,9 @@ function writeLogs(logs: AgentLog[]) {
 
 export default function Page() {
   const [input, setInput] = useState('');
+  const [workerTaskGoal, setWorkerTaskGoal] = useState('Build pruefen und Ergebnis fuer den Agenten speichern.');
+  const [workerTaskResult, setWorkerTaskResult] = useState<any | null>(null);
+  const [workerLastResult, setWorkerLastResult] = useState<any | null>(null);
   const [autoPatchGoal, setAutoPatchGoal] = useState('Mach den Agenten als Arbeitsagent nutzbar und reduziere Dashboard-Ballast.');
   const [autoPatchResult, setAutoPatchResult] = useState<any | null>(null);
   const [selfBuildGoalTop, setSelfBuildGoalTop] = useState('Baue dich selbst fertig zu einem wirklich nutzbaren Arbeitsagenten.');
@@ -286,6 +289,27 @@ function copyAutoPatchScript() {
   const text = autoPatchResult?.script || '';
   if (text) navigator.clipboard?.writeText(text);
 }
+async function writeWorkerTask() {
+  try {
+    const response = await fetch('/api/cmt/master/secure/worker/task', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ title: 'Agent Worker Aufgabe', goal: workerTaskGoal, commands: ['status', 'build'] }),
+    });
+    setWorkerTaskResult(await response.json());
+  } catch (error) {
+    setWorkerTaskResult({ ok: false, error: 'worker_task_write_failed' });
+  }
+}
+
+async function loadWorkerResult() {
+  try {
+    const response = await fetch('/api/cmt/master/secure/worker/result');
+    setWorkerLastResult(await response.json());
+  } catch (error) {
+    setWorkerLastResult({ ok: false, error: 'worker_result_load_failed' });
+  }
+}
 function exportLogs() {
     const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), logs }, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -358,6 +382,35 @@ function exportLogs() {
               <p>Commit: <code>{autoPatchResult.commitMessage}</code></p>
               <h4>Script</h4>
               <pre style={{ whiteSpace: 'pre-wrap', background: '#0f172a', borderRadius: 10, padding: 12, color: '#cbd5e1' }}>{autoPatchResult.script}</pre>
+            </div>
+          )}
+        </section>
+        <section style={{ border: '3px solid #38bdf8', borderRadius: 18, background: '#082f49', padding: 20 }}>
+          <h2>Agent-Worker-Steuerung</h2>
+          <p style={{ color: '#bae6fd' }}>Hier verbindet sich die Agent-Seite mit dem lokalen Worker. Aufgabe schreiben, dann im Terminal worker:run ausführen.</p>
+          <textarea
+            value={workerTaskGoal}
+            onChange={(event) => setWorkerTaskGoal(event.target.value)}
+            style={{ width: '100%', minHeight: 76, borderRadius: 12, border: '1px solid #38bdf8', background: '#020617', color: '#e5e7eb', padding: 12 }}
+          />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
+            <button onClick={writeWorkerTask} style={{ border: 0, borderRadius: 10, background: '#38bdf8', color: '#082f49', padding: '10px 14px', fontWeight: 800 }}>Worker-Aufgabe schreiben</button>
+            <button onClick={loadWorkerResult} style={{ border: '1px solid #38bdf8', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 14px' }}>Worker-Ergebnis laden</button>
+          </div>
+          <p style={{ color: '#bae6fd', fontSize: 13 }}>Terminal danach: <code>npm run worker:run</code></p>
+          {workerTaskResult && (
+            <div style={{ marginTop: 12, border: '1px solid #0369a1', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>Task geschrieben: <b>{String(workerTaskResult.ok)}</b></p>
+              <p>Pfad: <code>{workerTaskResult.taskPath}</code></p>
+              <p>{workerTaskResult.task?.goal}</p>
+            </div>
+          )}
+          {workerLastResult && (
+            <div style={{ marginTop: 12, border: '1px solid #0369a1', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>Worker Ergebnis geladen: <b>{String(workerLastResult.ok)}</b></p>
+              <p>Build OK: <b>{String(workerLastResult.result?.ok)}</b></p>
+              <p>{workerLastResult.result?.message}</p>
+              <pre style={{ whiteSpace: 'pre-wrap', maxHeight: 260, overflow: 'auto', background: '#0f172a', borderRadius: 10, padding: 12, color: '#cbd5e1' }}>{workerLastResult.logPreview}</pre>
             </div>
           )}
         </section>
