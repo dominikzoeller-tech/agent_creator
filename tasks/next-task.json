@@ -1,0 +1,16 @@
+{
+  "id": "task_1784983305104",
+  "title": "Build pruefen und Projektstatus melden",
+  "goal": "Der lokale Agent-Worker soll kontrolliert npm run build ausfuehren und das Ergebnis speichern.",
+  "allowedCommands": [
+    "git status --short",
+    "npm run build"
+  ],
+  "notes": [
+    "Keine Secrets ausgeben.",
+    "Keine externen Provider-Calls.",
+    "Nur whitelisted Commands ausfuehren.",
+    "Vor Ausfuehrung im Terminal bestaetigen."
+  ],
+  "createdAt": "2026-07-25T12:41:45.104Z"
+}

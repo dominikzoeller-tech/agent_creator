@@ -3,6 +3,7 @@ import { createServer, IncomingMessage, ServerResponse } from "node:http";
 import { parse as parseUrl } from "node:url";
 import { runMasterAgent } from "./master-agent";
 import { appendDecisionLog } from "./decision-log";
+import { generateSelfBuildPlan } from "./agent-self-build-plan";
 import { buildKnowledgeRoutingContext, mergeKnowledgeContext } from "./knowledge-routing-context";
 import { buildProjectMemoryContext, mergeProjectMemoryContext } from "./project-memory-context";
 import { mergeWebResearchContext, runWebResearch, sanitizeWebResearchQuery, shouldUseWebResearch } from "./web-research";
@@ -707,6 +708,12 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  if (method === "GET" && pathname === "/api/cmt/master/secure/self-build/plan") {
+    const plan = generateSelfBuildPlan();
+    sendJson(res, 200, plan);
+    return;
+  }
+
   sendError(res, 404, `Keine Route gefunden für ${method} ${pathname}`);
 });
 
@@ -717,5 +724,6 @@ server.listen(getPort(), () => {
   console.log(" - GET  /health");
   console.log(" - POST /v1/ask");
   console.log(" - POST /v1/redact");
+  console.log(" - GET  /api/cmt/master/secure/self-build/plan");
   console.log("======================================");
 });

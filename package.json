@@ -1216,7 +1216,13 @@
     "hotfixapi:verify": "node scripts/v-hotfix-api-import-depth.cjs",
     "selftop2:verify": "node scripts/v-hotfix-self-builder-top-v2.cjs",
     "autopatch1:verify": "node scripts/v-self-builder-autopatch-1.cjs",
-    "agent:autopatch1:verify": "node scripts/v-self-builder-autopatch-1.cjs"
+    "agent:autopatch1:verify": "node scripts/v-self-builder-autopatch-1.cjs",
+    "selfbuilder1:plan": "node agent-self-builder-1/scripts/agent-self-builder-1.cjs",
+    "selfbuilder1:verify": "node agent-self-builder-1/scripts/verify.cjs",
+    "agent:selfbuild:plan": "npm run selfbuilder1:plan",
+    "worker1:verify": "node scripts/v-agent-worker-1.cjs",
+    "worker:run": "node scripts/agent-worker.cjs",
+    "worker:build-task": "node scripts/agent-worker-create-build-task.cjs"
   },
   "repository": {
     "type": "git",
