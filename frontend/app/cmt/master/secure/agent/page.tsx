@@ -51,6 +51,7 @@ export default function Page() {
   const [providerAuditEnvelope, setProviderAuditEnvelope] = useState<ReturnType<typeof createSecureMasterProviderAuditEnvelope> | null>(null);
   const [providerAuditHistory, setProviderAuditHistory] = useState<SecureMasterProviderAuditHistoryItem[]>([]);
   const [serverAdapterDisabledResult, setServerAdapterDisabledResult] = useState<any | null>(null);
+  const [secretPreflightResult, setSecretPreflightResult] = useState<any | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -80,6 +81,15 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  async function runSecretPreflight() {
+    try {
+      const response = await fetch('/api/cmt/master/secure/secret/preflight');
+      setSecretPreflightResult(await response.json());
+    } catch (error) {
+      setSecretPreflightResult({ ok: false, error: 'secret_preflight_failed' });
+    }
   }
 
   async function runServerAdapterDisabled() {
@@ -480,6 +490,24 @@ export default function Page() {
             </div>
           )}
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterServerProviderAdapterDisabled.nextSafeStep}</p>
+        </section>
+
+        <section style={{ border: '1px solid #f97316', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Secret/Git-Preflight technisch</h2>
+          <p style={{ color: '#cbd5e1' }}>Prueft serverseitig `.env.example` und `.gitignore`, liest aber keine echten Secrets.</p>
+          <button onClick={runSecretPreflight} style={{ border: '1px solid #f97316', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Secret-Preflight pruefen</button>
+          {secretPreflightResult && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>OK: <b>{String(secretPreflightResult.ok)}</b></p>
+              <p>Echte Secrets gelesen: <b>{String(secretPreflightResult.realSecretsRead)}</b></p>
+              <p>.env.example vorhanden: <b>{String(secretPreflightResult.envExampleExists)}</b></p>
+              <p>.gitignore vorhanden: <b>{String(secretPreflightResult.gitIgnoreExists)}</b></p>
+              <p>.env abgedeckt: <b>{String(secretPreflightResult.gitIgnoreCoversEnv)}</b></p>
+              <p>Key/Secret-Dateien abgedeckt: <b>{String(secretPreflightResult.gitIgnoreCoversKeys)}</b></p>
+              {secretPreflightResult.warnings?.length > 0 && <ul>{secretPreflightResult.warnings.map((item: string) => <li key={item}>{item}</li>)}</ul>}
+              <p style={{ color: '#94a3b8', fontSize: 13 }}>{secretPreflightResult.nextSafeStep}</p>
+            </div>
+          )}
         </section>
 
         <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>
