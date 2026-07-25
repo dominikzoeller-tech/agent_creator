@@ -49,6 +49,7 @@ export default function Page() {
   const [providerAdapterContract, setProviderAdapterContract] = useState<ReturnType<typeof createSecureMasterProviderAdapterContract> | null>(null);
   const [serverDryRunResult, setServerDryRunResult] = useState<any | null>(null);
   const [providerAuditEnvelope, setProviderAuditEnvelope] = useState<ReturnType<typeof createSecureMasterProviderAuditEnvelope> | null>(null);
+  const [providerAuditHistory, setProviderAuditHistory] = useState<SecureMasterProviderAuditHistoryItem[]>([]);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -64,6 +65,10 @@ export default function Page() {
       const rawAdapterDryRuns = localStorage.getItem(SECURE_MASTER_ADAPTER_DRY_RUN_HISTORY_KEY);
       if (rawAdapterDryRuns) setAdapterDryRunHistory(JSON.parse(rawAdapterDryRuns));
     } catch {}
+    try {
+      const rawAuditHistory = localStorage.getItem(SECURE_MASTER_PROVIDER_AUDIT_HISTORY_KEY);
+      if (rawAuditHistory) setProviderAuditHistory(JSON.parse(rawAuditHistory));
+    } catch {}
   }, []);
 
   function run() {
@@ -77,7 +82,18 @@ export default function Page() {
   }
 
   function createProviderAuditEnvelope() {
-    setProviderAuditEnvelope(createSecureMasterProviderAuditEnvelope({ input, approvalDecision: approval, privacyDecision: current?.privacyDecision }));
+    const envelope = createSecureMasterProviderAuditEnvelope({ input, approvalDecision: approval, privacyDecision: current?.privacyDecision });
+    setProviderAuditEnvelope(envelope);
+    const auditHistoryItem = createProviderAuditHistoryItem(envelope);
+    const nextAuditHistory = [auditHistoryItem, ...providerAuditHistory].slice(0, 50);
+    setProviderAuditHistory(nextAuditHistory);
+    localStorage.setItem(SECURE_MASTER_PROVIDER_AUDIT_HISTORY_KEY, JSON.stringify(nextAuditHistory, null, 2));
+  }
+
+  function clearProviderAuditHistory() {
+    localStorage.removeItem(SECURE_MASTER_PROVIDER_AUDIT_HISTORY_KEY);
+    setProviderAuditHistory([]);
+    setProviderAuditEnvelope(null);
   }
 
   async function runServerProviderDryRun() {
@@ -412,6 +428,23 @@ export default function Page() {
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{providerAuditEnvelope.nextSafeStep}</p>
             </div>
           )}
+        </section>
+
+        <section style={{ border: '1px solid #a78bfa', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Provider-Audit-Verlauf</h2>
+          <p style={{ color: '#cbd5e1' }}>Lokaler Verlauf vorbereiteter Audit-Envelopes. Kein Provider-Call, keine Secrets.</p>
+          <button onClick={clearProviderAuditHistory} style={{ border: '1px solid #7f1d1d', borderRadius: 10, background: '#020617', color: '#fecaca', padding: '8px 10px' }}>Audit-Verlauf löschen</button>
+          <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
+            {providerAuditHistory.length === 0 && <p style={{ color: '#94a3b8' }}>Noch keine Audit-Eintraege.</p>}
+            {providerAuditHistory.map((item) => (
+              <article key={item.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+                <p style={{ color: '#94a3b8', fontSize: 12 }}>{new Date(item.createdAt).toLocaleString()} | Request: {item.requestId}</p>
+                <p>Approval: {item.approvalDecision} | Privacy: {item.privacyDecision} | Dispatch: {item.dispatchStatus}</p>
+                <p>{item.inputPreview}</p>
+                <p>Provider-Call: {String(item.providerCallAllowed)} | Secrets: {String(item.secretsIncluded)}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>
