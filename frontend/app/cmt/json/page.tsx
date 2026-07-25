@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeLocalJsonPlan } from '../../../lib/cmt-json';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeLocalJsonPage() {
   const plan = getCommitteeLocalJsonPlan();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -33,7 +37,7 @@ export default function CommitteeLocalJsonPage() {
           <li>sessionKey: {plan.localJson.plannedPayload.sessionKey}</li>
           <li>savedCount: {plan.localJson.plannedPayload.savedCount}</li>
         </ul>
-        <ol>{plan.localJson.plannedPayload.questions.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{plan.localJson.plannedPayload.questions.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section>

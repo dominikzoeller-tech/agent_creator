@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getMasterAgentEntry } from '../../../../lib/cmt-master-entry';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function MasterAgentEntryPage() {
   const entry = getMasterAgentEntry();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };

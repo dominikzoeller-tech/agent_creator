@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getPrivacyGateStatus } from '../../../../lib/cmt-privacy-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function PrivacyGateStatusPage() {
   const status = getPrivacyGateStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -35,17 +39,17 @@ export default function PrivacyGateStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Freigabeoptionen vorbereitet</h3>
-        <ul>{status.allowedOptions.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{status.allowedOptions.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Testeingaben</h3>
-        <ol>{status.testInputs.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.testInputs.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Naechste Meilensteine</h3>
-        <ol>{status.nextMilestones.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.nextMilestones.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>

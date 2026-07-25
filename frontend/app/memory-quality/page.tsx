@@ -129,7 +129,7 @@ export default function MemoryQualityPage() {
 
         {!report ? <div className="helper-text">Noch kein Report geladen.</div> : visibleReports.length === 0 ? <div className="helper-text">Keine Einträge für diesen Filter.</div> : (
           <div style={{ display: "grid", gap: 12 }}>
-            {visibleReports.map((entry) => (
+            {visibleReports.map((entry: any) => (
               <article key={entry.id || entry.title} style={{ border: "1px solid #e5e7eb", borderRadius: 14, padding: 14 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
                   <div>
@@ -142,7 +142,7 @@ export default function MemoryQualityPage() {
 
                 {entry.issues.length ? (
                   <ul style={{ display: "grid", gap: 8, margin: "12px 0 0", padding: 0, listStyle: "none" }}>
-                    {entry.issues.map((issue) => (
+                    {entry.issues.map((issue: any) => (
                       <li key={`${entry.id}-${issue.code}`} style={{ border: "1px solid #e5e7eb", borderRadius: 12, padding: 10, background: severityBg(issue.severity), color: severityColor(issue.severity) }}>
                         <strong>{issue.severity.toUpperCase()} · {issue.code}</strong><br />{issue.message}
                       </li>

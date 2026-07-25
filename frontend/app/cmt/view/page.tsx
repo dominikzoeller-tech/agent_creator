@@ -55,17 +55,17 @@ export default function CommitteeViewPage() {
 
           <article style={card}>
             <h3>Rollen</h3>
-            <ul>{view.panels.roles.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{view.panels.roles.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
 
           <article style={card}>
             <h3>Risiken</h3>
-            <ul>{view.panels.risks.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{view.panels.risks.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
 
           <article style={card}>
             <h3>Aktionen</h3>
-            <ul>{view.panels.actions.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{view.panels.actions.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
         </section>
       )}

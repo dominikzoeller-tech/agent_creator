@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeMainNav } from '../../../lib/cmt-nav';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeMainNavPage() {
   const mainNav = getCommitteeMainNav();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -15,7 +19,7 @@ export default function CommitteeMainNavPage() {
 
       <section style={{ display: 'grid', gap: 12 }}>
         <h3>{mainNav.nav.title}</h3>
-        {mainNav.nav.items.map((item) => (
+        {mainNav.nav.items.map((item: any) => (
           <article key={item.href} style={card}>
             <h4><Link href={item.href}>{item.label}</Link></h4>
             <p>kind: {item.kind}</p>

@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterStatus } from '../../../../../lib/cmt-master-secure-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterStatusPage() {
   const status = getSecureMasterStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -20,11 +24,11 @@ export default function SecureMasterStatusPage() {
       </section>
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Testeingaben</h3>
-        <ol>{status.testInputs.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.testInputs.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Naechste Meilensteine</h3>
-        <ol>{status.nextMilestones.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.nextMilestones.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Demo Snapshot</h3>

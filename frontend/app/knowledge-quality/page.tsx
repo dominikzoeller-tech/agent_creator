@@ -165,7 +165,7 @@ export default function KnowledgeQualityPage() {
 
                 {file.issues.length ? (
                   <ul style={{ display: "grid", gap: 8, margin: "12px 0 0", padding: 0, listStyle: "none" }}>
-                    {file.issues.map((issue) => (
+                    {file.issues.map((issue: any) => (
                       <li key={`${file.fileName}-${issue.code}`} style={{ border: "1px solid #e5e7eb", borderRadius: 12, padding: 10, background: severityBg(issue.severity), color: severityColor(issue.severity) }}>
                         <strong>{issue.severity.toUpperCase()} · {issue.code}</strong><br />
                         {issue.message}

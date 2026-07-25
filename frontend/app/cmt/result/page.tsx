@@ -1,5 +1,9 @@
 import { getCommitteeDecisionResultDemo } from '../../../lib/cmt-result';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeResultPage() {
   const result = getCommitteeDecisionResultDemo();
 
@@ -21,7 +25,7 @@ export default function CommitteeResultPage() {
       <section>
         <h3>Begruendung</h3>
         <ul>
-          {result.decision.rationale.map((item) => <li key={item}>{item}</li>)}
+          {result.decision.rationale.map((item: any) => <li key={item}>{item}</li>)}
         </ul>
       </section>
 
@@ -35,7 +39,7 @@ export default function CommitteeResultPage() {
       <section>
         <h3>Naechste Aktionen</h3>
         <ul>
-          {result.decision.nextActions.map((action) => <li key={action}>{action}</li>)}
+          {result.decision.nextActions.map((action: any) => <li key={action}>{action}</li>)}
         </ul>
       </section>
 

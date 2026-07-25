@@ -1,5 +1,9 @@
 import { getCommitteeSessionSummaryDemo } from '../../../lib/cmt-sum';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeSummaryPage() {
   const sum = getCommitteeSessionSummaryDemo();
 
@@ -25,12 +29,12 @@ export default function CommitteeSummaryPage() {
 
       <section>
         <h3>Top Risiken</h3>
-        <ul>{sum.summary.topRisks.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{sum.summary.topRisks.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
 
       <section>
         <h3>Naechste Aktionen</h3>
-        <ul>{sum.summary.nextActions.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{sum.summary.nextActions.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
 
       <section>

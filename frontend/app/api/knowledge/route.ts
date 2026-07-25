@@ -63,7 +63,7 @@ function parseTags(content: string): string[] {
   return tagsLine
     .replace(/^tags:/i, "")
     .split(",")
-    .map((tag) => tag.trim())
+    .map((tag: string) => tag.trim())
     .filter(Boolean);
 }
 
@@ -138,7 +138,7 @@ export async function POST(request: Request) {
     const fileName = sanitizeFileName(String(body.fileName ?? ""));
     const title = typeof body.title === "string" ? body.title.trim() : "";
     const tags = Array.isArray(body.tags)
-      ? body.tags.filter((tag): tag is string => typeof tag === "string").map((tag) => tag.trim()).filter(Boolean)
+      ? body.tags.filter((tag): tag is string => typeof tag === "string").map((tag: string) => tag.trim()).filter(Boolean)
       : [];
     const rawContent = typeof body.content === "string" ? body.content : "";
 

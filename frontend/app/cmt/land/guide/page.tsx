@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeLandingGuide } from '../../../../lib/cmt-land-guide';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeLandingGuidePage() {
   const guide = getCommitteeLandingGuide();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -16,7 +20,7 @@ export default function CommitteeLandingGuidePage() {
 
       <section style={card}>
         <h3>Demo Ablauf</h3>
-        <ol>{guide.guide.steps.map((step) => <li key={step}>{step}</li>)}</ol>
+        <ol>{guide.guide.steps.map((step: any) => <li key={step}>{step}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>

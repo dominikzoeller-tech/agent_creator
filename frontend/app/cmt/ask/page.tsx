@@ -61,7 +61,7 @@ export default function CommitteeAskPage() {
 
           <article style={card}>
             <h3>5er-Gremium</h3>
-            {result.roles.map((role) => (
+            {result.roles.map((role: any) => (
               <section key={role.role} style={{ borderTop: '1px solid #eee', paddingTop: 10, marginTop: 10 }}>
                 <h4>{role.role} - {role.stance}</h4>
                 <p>{role.answer}</p>
@@ -73,12 +73,12 @@ export default function CommitteeAskPage() {
 
           <article style={card}>
             <h3>Begruendung</h3>
-            <ul>{result.finalAnswer.reasoning.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{result.finalAnswer.reasoning.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
 
           <article style={card}>
             <h3>Naechste Aktionen</h3>
-            <ol>{result.finalAnswer.nextActions.map((item) => <li key={item}>{item}</li>)}</ol>
+            <ol>{result.finalAnswer.nextActions.map((item: any) => <li key={item}>{item}</li>)}</ol>
           </article>
         </section>
       )}

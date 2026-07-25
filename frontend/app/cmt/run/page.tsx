@@ -53,7 +53,7 @@ export default function CommitteeRunPage() {
             <li>decision: {run.ask.result.brief.decision}</li>
           </ul>
           <h4>Aktionen</h4>
-          <ul>{run.ask.result.brief.actions.map((action) => <li key={action}>{action}</li>)}</ul>
+          <ul>{run.ask.result.brief.actions.map((action: any) => <li key={action}>{action}</li>)}</ul>
         </section>
       )}
 

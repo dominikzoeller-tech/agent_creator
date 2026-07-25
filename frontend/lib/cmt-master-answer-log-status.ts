@@ -49,3 +49,5 @@ export const getSecureMasterAnswerLogEntry: any = makeCompatStub('getSecureMaste
 export const getSecureMasterAnswerLogList: any = makeCompatStub('getSecureMasterAnswerLogList');
 export const getSecureMasterAnswerLogListBrowserStore: any = makeCompatStub('getSecureMasterAnswerLogListBrowserStore');
 export const getSecureMasterAnswerLogListBrowserStoreEntry: any = makeCompatStub('getSecureMasterAnswerLogListBrowserStoreEntry');
+
+export const getSecureMasterCommitteeDemo: any = makeCompatStub('getSecureMasterCommitteeDemo');

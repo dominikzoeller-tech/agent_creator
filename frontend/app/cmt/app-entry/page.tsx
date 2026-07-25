@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeAppEntry } from '../../../lib/cmt-app-entry';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeAppEntryPage() {
   const entry = getCommitteeAppEntry();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -17,7 +21,7 @@ export default function CommitteeAppEntryPage() {
 
       <section style={card}>
         <h3>App Routes</h3>
-        <ul>{entry.appEntry.routes.map((route) => <li key={route}><Link href={route}>{route}</Link></li>)}</ul>
+        <ul>{entry.appEntry.routes.map((route: any) => <li key={route}><Link href={route}>{route}</Link></li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>

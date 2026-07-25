@@ -61,7 +61,7 @@ export function simulateControlledRealLlmGatePolicy(input:{ gateId?: string; met
   else if(gate.realLlmCallAllowed !== false || gate.llmCallPerformed !== false){ decision="blocked_real_llm_allowed"; reason="Real LLM Call ist nicht eindeutig blockiert."; }
   else if(gate.executionAllowed !== false || gate.toolExecutionAllowed !== false || gate.agentExecutionAllowed !== false || gate.dryRunOnly !== true){ decision="blocked_execution_not_safe"; reason="Gate verletzt Execution Safety Invariants."; }
   else if(gate.noSecretsIncluded !== true || containsSecretPattern(gate.sanitizedPromptPreview)){ decision="blocked_secret_risk"; reason="Secret-Risiko vor Real LLM Gate erkannt."; }
-  else if(checks.some((check)=>check.passed !== true)){ decision="blocked_missing_required_gate"; reason="Mindestens ein verpflichtendes Gate fehlt."; }
+  else if(checks.some((check: any) =>check.passed !== true)){ decision="blocked_missing_required_gate"; reason="Mindestens ein verpflichtendes Gate fehlt."; }
   const sim: ControlledRealLlmGatePolicySimulation={
     id:makeId("real-llm-gate-policy-sim"),
     timestamp:new Date().toISOString(),

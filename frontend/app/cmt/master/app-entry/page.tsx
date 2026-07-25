@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterAppEntry } from '../../../lib/cmt-master-app-entry';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterAppEntryPage() {
   const entry = getSecureMasterAppEntry();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -31,7 +35,7 @@ export default function SecureMasterAppEntryPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Sichtbare Links</h3>
-        <ul>{entry.visibleLinks.map((href) => <li key={href}><Link href={href}>{href}</Link></li>)}</ul>
+        <ul>{entry.visibleLinks.map((href: string) => <li key={href}><Link href={href}>{href}</Link></li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>

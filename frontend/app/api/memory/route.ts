@@ -53,11 +53,11 @@ function normalizeText(value: unknown): string {
 
 function normalizeTags(value: unknown): string[] {
   if (Array.isArray(value)) {
-    return Array.from(new Set(value.filter((tag): tag is string => typeof tag === "string").map((tag) => tag.trim().toLowerCase()).filter(Boolean)));
+    return Array.from(new Set(value.filter((tag): tag is string => typeof tag === "string").map((tag: string) => tag.trim().toLowerCase()).filter(Boolean)));
   }
 
   if (typeof value === "string") {
-    return Array.from(new Set(value.split(",").map((tag) => tag.trim().toLowerCase()).filter(Boolean)));
+    return Array.from(new Set(value.split(",").map((tag: string) => tag.trim().toLowerCase()).filter(Boolean)));
   }
 
   return [];

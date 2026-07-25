@@ -37,3 +37,19 @@ export const getCmtMasterNavStatus: any = makeCompatStub('getCmtMasterNavStatus'
 export const createCmtMasterCommittee: any = makeCompatStub('createCmtMasterCommittee');
 export const getCmtMasterAnswerLogStatus: any = makeCompatStub('getCmtMasterAnswerLogStatus');
 export default makeCompatStub('default');
+
+export const getSecureMasterAnswerLogEntry: any = makeCompatStub('getSecureMasterAnswerLogEntry');
+export const getSecureMasterAnswerLogStatus: any = makeCompatStub('getSecureMasterAnswerLogStatus');
+export const getSecureMasterAnswerLogList: any = makeCompatStub('getSecureMasterAnswerLogList');
+export const getSecureMasterAnswerLogListBrowserStore: any = makeCompatStub('getSecureMasterAnswerLogListBrowserStore');
+export const getSecureMasterAnswerLogListBrowserStoreEntry: any = makeCompatStub('getSecureMasterAnswerLogListBrowserStoreEntry');
+export const getSecureMasterCommitteeDemo: any = makeCompatStub('getSecureMasterCommitteeDemo');
+export const getSecureMasterCommittee: any = makeCompatStub('getSecureMasterCommittee');
+export const createSecureMasterCommittee: any = makeCompatStub('createSecureMasterCommittee');
+export const getSecureMasterAppEntry: any = makeCompatStub('getSecureMasterAppEntry');
+export const getSecureMasterNavStatus: any = makeCompatStub('getSecureMasterNavStatus');
+export const getSecureMasterGuide: any = makeCompatStub('getSecureMasterGuide');
+export const getSecureMasterStatus: any = makeCompatStub('getSecureMasterStatus');
+
+export const getSecureMasterAnswerLogBrowserStoreEntry: any = makeCompatStub('getSecureMasterAnswerLogBrowserStoreEntry');
+export const getSecureMasterAnswerLogBrowserStore: any = makeCompatStub('getSecureMasterAnswerLogBrowserStore');

@@ -71,7 +71,7 @@ function normalizeText(text: string): string {
 function inferPattern(entry: DecisionLogEntry): string {
   if (entry.extractedOptions && entry.extractedOptions.length >= 2) {
     return [...entry.extractedOptions]
-      .map((option) => option.trim())
+      .map((option: string) => option.trim())
       .filter(Boolean)
       .sort((a, b) => normalizeText(a).localeCompare(normalizeText(b)))
       .join(" ⇄ ");
@@ -165,24 +165,24 @@ export async function GET(request: Request) {
     const directSharePercent = totalEntries > 0 ? round((directCount / totalEntries) * 100) : 0;
     const councilSharePercent = totalEntries > 0 ? round((councilCount / totalEntries) * 100) : 0;
 
-    const confidences = councilEntries.map((entry) => entry.confidence).filter((value): value is number => typeof value === "number");
+    const confidences = councilEntries.map((entry: any) => entry.confidence).filter((value): value is number => typeof value === "number");
     const avgCouncilConfidencePercent = confidences.length > 0
       ? round((confidences.reduce((acc, value) => acc + value, 0) / confidences.length) * 100)
       : null;
 
-    const topRecommendations = toTopItems(councilEntries.map((entry) => entry.recommendation ?? ""), 5);
-    const topFirstSteps = toTopItems(councilEntries.map((entry) => entry.firstStep ?? ""), 5);
+    const topRecommendations = toTopItems(councilEntries.map((entry: any) => entry.recommendation ?? ""), 5);
+    const topFirstSteps = toTopItems(councilEntries.map((entry: any) => entry.firstStep ?? ""), 5);
     const topSuggestedAgents = toTopItems(councilEntries.flatMap((entry) => entry.suggestedAgents ?? []), 10);
-    const topRoutingComplexities = toTopItems(councilEntries.map((entry) => entry.routingDetails?.complexity ?? ""), 5);
-    const topPrivacyRisks = toTopItems(councilEntries.map((entry) => entry.routingDetails?.privacyRisk ?? ""), 5);
+    const topRoutingComplexities = toTopItems(councilEntries.map((entry: any) => entry.routingDetails?.complexity ?? ""), 5);
+    const topPrivacyRisks = toTopItems(councilEntries.map((entry: any) => entry.routingDetails?.privacyRisk ?? ""), 5);
     const topKnowledgeFiles = toTopItems(knowledgeUsedEntries.flatMap((entry) => (entry.knowledgeHits ?? []).map((hit) => hit.title ?? hit.sourcePath ?? hit.id ?? "")), 10);
     const topKnowledgeTags = toTopItems(knowledgeUsedEntries.flatMap((entry) => (entry.knowledgeHits ?? []).flatMap((hit) => hit.tags ?? [])), 10);
     const topMemoryTypes = toTopItems(memoryUsedEntries.flatMap((entry) => (entry.memoryHits ?? []).map((hit) => hit.type ?? "")), 10);
     const topMemoryTags = toTopItems(memoryUsedEntries.flatMap((entry) => (entry.memoryHits ?? []).flatMap((hit) => hit.tags ?? [])), 10);
     const topMemoryTitles = toTopItems(memoryUsedEntries.flatMap((entry) => (entry.memoryHits ?? []).map((hit) => hit.title ?? hit.id ?? "")), 10);
-    const topWebResearchQueries = toTopItems(webResearchIntentEntries.map((entry) => entry.webResearchQuery ?? ""), 10);
+    const topWebResearchQueries = toTopItems(webResearchIntentEntries.map((entry: any) => entry.webResearchQuery ?? ""), 10);
     const topWebResearchSources = toTopItems(webResearchUsedEntries.flatMap((entry) => (entry.webResearchSources ?? []).map((source) => source.source ?? source.url ?? "")), 10);
-    const topWebResearchTitles = toTopItems(webResearchUsedEntries.flatMap((entry) => (entry.webResearchResults ?? []).map((result) => result.title ?? result.url ?? "")), 10);
+    const topWebResearchTitles = toTopItems(webResearchUsedEntries.flatMap((entry) => (entry.webResearchResults ?? []).map((result: any) => result.title ?? result.url ?? "")), 10);
     const topToolPreflightCandidates = toTopItems(toolPreflightEntries.flatMap((entry) => entry.toolPreflight?.candidateToolIds ?? []), 10);
     const topToolPreflightBlockedTools = toTopItems(toolPreflightEntries.flatMap((entry) => entry.toolPreflight?.blockedToolIds ?? []), 10);
     const topToolPreflightAllowedTools = toTopItems(toolPreflightEntries.flatMap((entry) => entry.toolPreflight?.allowedToolIds ?? []), 10);
@@ -193,7 +193,7 @@ export async function GET(request: Request) {
     const topToolEnforcementConfirmationTools = toTopItems(toolEnforcementEntries.flatMap((entry) => entry.toolEnforcement?.confirmationRequiredToolIds ?? []), 10);
     const topToolEnforcementReasons = toTopItems(toolEnforcementEntries.flatMap((entry) => entry.toolEnforcement?.reasons ?? []), 10);
     const topToolEnforcementWarnings = toTopItems(toolEnforcementEntries.flatMap((entry) => entry.toolEnforcement?.warnings ?? []), 10);
-    const topToolEnforcementModes = toTopItems(toolEnforcementEntries.map((entry) => entry.toolEnforcement?.mode ?? ""), 5);
+    const topToolEnforcementModes = toTopItems(toolEnforcementEntries.map((entry: any) => entry.toolEnforcement?.mode ?? ""), 5);
 
     const patternMap = new Map<string, { count: number; confidences: number[]; exampleQuestion: string }>();
     for (const entry of councilEntries) {

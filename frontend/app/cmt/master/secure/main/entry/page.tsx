@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterMainEntry } from '../../../../../../lib/cmt-master-main-entry';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterMainEntryPage() {
   const entry = getSecureMasterMainEntry();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -24,17 +28,17 @@ export default function SecureMasterMainEntryPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Kontrollseiten</h3>
-        <ul>{entry.visibleControlPages.map((href) => <li key={href}><Link href={href}>{href}</Link></li>)}</ul>
+        <ul>{entry.visibleControlPages.map((href: string) => <li key={href}><Link href={href}>{href}</Link></li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Empfohlene Nutzung</h3>
-        <ol>{entry.recommendedUse.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{entry.recommendedUse.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Sample Questions</h3>
-        <ol>{entry.sampleQuestions.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{entry.sampleQuestions.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>

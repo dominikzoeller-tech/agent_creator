@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeAskStatus } from '../../../../lib/cmt-ask-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeAskStatusPage() {
   const status = getCommitteeAskStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };

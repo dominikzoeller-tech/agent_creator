@@ -54,17 +54,17 @@ export default function CommitteeMvpDemoPage() {
 
           <article style={card}>
             <h3>Flow</h3>
-            <ol>{demo.flow.map((item) => <li key={item.step}><strong>{item.step}:</strong> {item.result}</li>)}</ol>
+            <ol>{demo.flow.map((item: any) => <li key={item.step}><strong>{item.step}:</strong> {item.result}</li>)}</ol>
           </article>
 
           <article style={card}>
             <h3>Risiken</h3>
-            <ul>{demo.finalAnswer.risks.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{demo.finalAnswer.risks.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
 
           <article style={card}>
             <h3>Aktionen</h3>
-            <ul>{demo.finalAnswer.actions.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{demo.finalAnswer.actions.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
         </section>
       )}

@@ -167,7 +167,7 @@ export default function MemoryAdminPage() {
 
   function updateDraft(field: keyof ProjectMemoryEntry, value: string) {
     if (field === "tags") {
-      setDraft((current) => ({ ...current, tags: value.split(",").map((tag) => tag.trim()).filter(Boolean) }));
+      setDraft((current) => ({ ...current, tags: value.split(",").map((tag: string) => tag.trim()).filter(Boolean) }));
     } else {
       setDraft((current) => ({ ...current, [field]: value }));
     }
@@ -229,7 +229,7 @@ export default function MemoryAdminPage() {
             <div className="subtle-text">Tag</div>
             <select style={inputStyle} value={filterTag} onChange={(event) => setFilterTag(event.target.value)}>
               <option value="">Alle Tags</option>
-              {allTags.map((tag) => <option key={tag} value={tag}>{tag}</option>)}
+              {allTags.map((tag: string) => <option key={tag} value={tag}>{tag}</option>)}
             </select>
           </label>
           <button style={buttonStyle} onClick={loadEntries} disabled={loading}>{loading ? "Lädt..." : "Suchen"}</button>
@@ -247,7 +247,7 @@ export default function MemoryAdminPage() {
             <div className="helper-text">Keine Memory-Einträge gefunden.</div>
           ) : (
             <div style={{ display: "grid", gap: 8 }}>
-              {entries.map((entry) => (
+              {entries.map((entry: any) => (
                 <button
                   key={entry.id}
                   type="button"

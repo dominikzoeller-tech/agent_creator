@@ -40,7 +40,7 @@ export function evaluateWebResearchGovernance(input: WebResearchGovernanceInput)
   const query = normalizeText(input.query);
   const summary = normalizeText(input.summary);
   const results = input.results ?? [];
-  const sources = input.sources ?? results.map((result) => ({ title: result.title, url: result.url, source: result.source }));
+  const sources = input.sources ?? results.map((result: any) => ({ title: result.title, url: result.url, source: result.source }));
   const deduplicatedSources = deduplicateSources(sources);
 
   if (!query) {
@@ -65,7 +65,7 @@ export function evaluateWebResearchGovernance(input: WebResearchGovernanceInput)
     issues.push({ code: "duplicate-sources", severity: "info", message: "Doppelte Quellen wurden erkannt und dedupliziert." });
   }
 
-  for (const value of [query, summary, ...results.flatMap((result) => [result.title ?? "", result.snippet ?? "", result.url ?? ""])]) {
+  for (const value of [query, summary, ...results.flatMap((result: any) => [result.title ?? "", result.snippet ?? "", result.url ?? ""])]) {
     if (SENSITIVE_PATTERNS.some((pattern) => pattern.test(value))) {
       issues.push({ code: "sensitive-data", severity: "error", message: "Potentiell sensible Daten erkannt. Speicherung blockieren oder manuell bereinigen." });
       break;
@@ -91,9 +91,9 @@ export function evaluateWebResearchGovernance(input: WebResearchGovernanceInput)
     issues.push({ code: "nothing-selected", severity: "error", message: "Weder Knowledge noch Memory ist als Speicherziel ausgewÃ¤hlt." });
   }
 
-  const errorCount = issues.filter((issue) => issue.severity === "error").length;
-  const warningCount = issues.filter((issue) => issue.severity === "warning").length;
-  const infoCount = issues.filter((issue) => issue.severity === "info").length;
+  const errorCount = issues.filter((issue: any) => issue.severity === "error").length;
+  const warningCount = issues.filter((issue: any) => issue.severity === "warning").length;
+  const infoCount = issues.filter((issue: any) => issue.severity === "info").length;
   const score = Math.max(0, 100 - errorCount * 35 - warningCount * 12 - infoCount * 3);
 
   return {

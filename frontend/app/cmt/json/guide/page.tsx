@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeLocalJsonGuide } from '../../../../lib/cmt-json-guide';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeLocalJsonGuidePage() {
   const guide = getCommitteeLocalJsonGuide();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -16,7 +20,7 @@ export default function CommitteeLocalJsonGuidePage() {
 
       <section style={card}>
         <h3>Schritte</h3>
-        <ol>{guide.guide.steps.map((step) => <li key={step}>{step}</li>)}</ol>
+        <ol>{guide.guide.steps.map((step: any) => <li key={step}>{step}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
@@ -26,7 +30,7 @@ export default function CommitteeLocalJsonGuidePage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Jetzt blockiert</h3>
-        <ul>{guide.guide.blockedNow.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{guide.guide.blockedNow.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
 
       <section>

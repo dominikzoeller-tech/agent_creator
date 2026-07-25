@@ -24,6 +24,8 @@ import { secureMasterEnvPreflight } from '../../../../../lib/cmt-secure-master-e
 import { secureMasterServerProviderConfigPreview } from '../../../../../lib/cmt-secure-master-server-provider-config';
 import { secureMasterServerProviderDryRunContract } from '../../../../../lib/cmt-secure-master-server-provider-dry-run';
 import { secureMasterServerProviderAdapterDisabled } from '../../../../../lib/cmt-secure-master-server-provider-adapter-disabled';
+import { createSecureMasterProviderAdapterContract } from '../../../../../lib/cmt-secure-master-provider-adapter-contract';
+import { createProviderAuditHistoryItem, SECURE_MASTER_PROVIDER_AUDIT_HISTORY_KEY, createSecureMasterProviderAuditEnvelope, type SecureMasterProviderAuditHistoryItem } from '../../../../../lib/cmt-secure-master-provider-audit-envelope';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -348,9 +350,9 @@ function exportLogs() {
               <p>{selfBuildPlanTop.summary}</p>
               <p>Naechster Patch: <b>{selfBuildPlanTop.nextPatchName}</b> | Prioritaet: <b>{selfBuildPlanTop.priority}</b></p>
               <h4>Dateien</h4>
-              <ul>{selfBuildPlanTop.filesToCreateOrEdit?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <ul>{selfBuildPlanTop.filesToCreateOrEdit?.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <h4>Konkrete Schritte</h4>
-              <ul>{selfBuildPlanTop.concreteSteps?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <ul>{selfBuildPlanTop.concreteSteps?.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <h4>Copilot-Prompt</h4>
               <pre style={{ whiteSpace: 'pre-wrap', background: '#0f172a', borderRadius: 10, padding: 12, color: '#cbd5e1' }}>{selfBuildPlanTop.copilotPrompt}</pre>
             </div>
@@ -376,9 +378,9 @@ function exportLogs() {
               <p>{autoPatchResult.summary}</p>
               <p>Patch: <b>{autoPatchResult.patchName}</b></p>
               <h4>Dateien</h4>
-              <ul>{autoPatchResult.filesToEdit?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <ul>{autoPatchResult.filesToEdit?.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <h4>Testbefehle</h4>
-              <ul>{autoPatchResult.testCommands?.map((item: string) => <li key={item}><code>{item}</code></li>)}</ul>
+              <ul>{autoPatchResult.testCommands?.map((item: any) => <li key={item}><code>{item}</code></li>)}</ul>
               <p>Commit: <code>{autoPatchResult.commitMessage}</code></p>
               <h4>Script</h4>
               <pre style={{ whiteSpace: 'pre-wrap', background: '#0f172a', borderRadius: 10, padding: 12, color: '#cbd5e1' }}>{autoPatchResult.script}</pre>
@@ -440,9 +442,9 @@ function exportLogs() {
           <p>{secureMasterWorkState.userInstruction}</p>
           <p style={{ color: '#bbf7d0' }}>{secureMasterWorkState.nextThreshold}</p>
           <h3>Jetzt sicher moeglich</h3>
-          <ul>{secureMasterWorkState.safeNow.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterWorkState.safeNow.map((item: any) => <li key={item}>{item}</li>)}</ul>
           <h3>Live bleibt blockiert wegen</h3>
-          <ul>{secureMasterWorkState.blockedLiveReasons.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterWorkState.blockedLiveReasons.map((item: any) => <li key={item}>{item}</li>)}</ul>
         </section>
 
         <section style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(280px, 0.8fr)', gap: 20 }}>
@@ -491,9 +493,9 @@ function exportLogs() {
           <p>Blockadegrund: {secureMasterProviderConfig.activationBlockedReason}</p>
           <p>Nächster Schritt: {secureMasterProviderConfig.nextStep}</p>
           <h3>Spätere ENV-Keys</h3>
-          <ul>{secureMasterProviderConfig.envKeysRequiredLater.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterProviderConfig.envKeysRequiredLater.map((item: any) => <li key={item}>{item}</li>)}</ul>
           <h3>Spätere Provider-Optionen</h3>
-          <ul>{secureMasterProviderConfig.supportedProvidersLater.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterProviderConfig.supportedProvidersLater.map((item: any) => <li key={item}>{item}</li>)}</ul>
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
@@ -520,7 +522,7 @@ function exportLogs() {
           <p>Provider-Call erlaubt: <b>{String(secureMasterProviderValidationPreview.canCallProvider)}</b></p>
           <p>Live-Aktivierung erlaubt: <b>{String(secureMasterProviderValidationPreview.liveActivationAllowed)}</b></p>
           <h3>Validierungsregeln</h3>
-          <ul>{secureMasterProviderValidationPreview.rules.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterProviderValidationPreview.rules.map((item: any) => <li key={item}>{item}</li>)}</ul>
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterProviderValidationPreview.nextStep}</p>
         </section>
 
@@ -530,9 +532,9 @@ function exportLogs() {
           <p>Standard: <b>{secureMasterApprovalDecisionPreview.defaultDecision}</b></p>
           <p>Provider-Call blockiert: <b>{String(secureMasterApprovalDecisionPreview.noProviderCall)}</b></p>
           <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
-            {secureMasterApprovalDecisionPreview.allowedDecisions.map((decision) => (
+            {secureMasterApprovalDecisionPreview.allowedDecisions.map((decision: any) => (
               <button key={decision} disabled style={{ textAlign: 'left', border: '1px solid #334155', borderRadius: 12, background: '#020617', color: '#e5e7eb', padding: 12 }}>
-                <b>{decision}</b> — {secureMasterApprovalDecisionPreview.explanations[decision]}
+                <b>{decision}</b> — {secureMasterApprovalDecisionPreview.explanations[decision as keyof typeof secureMasterApprovalDecisionPreview.explanations]}
               </button>
             ))}
           </div>
@@ -543,7 +545,7 @@ function exportLogs() {
           <h2>Lokale Freigabeauswahl</h2>
           <p style={{ color: '#cbd5e1' }}>Aktuelle Auswahl: <b>{approval}</b>. Die Auswahl wird nur im Browser gespeichert und loest keinen Provider-Call aus.</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {(['local_only','anonymize_then_send','cancel'] as SecureMasterLocalApproval[]).map((item) => (
+            {(['local_only','anonymize_then_send','cancel'] as SecureMasterLocalApproval[]).map((item: any) => (
               <button key={item} onClick={() => chooseApproval(item)} style={{ border: approval === item ? '2px solid #22d3ee' : '1px solid #334155', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>{item}</button>
             ))}
           </div>
@@ -566,7 +568,7 @@ function exportLogs() {
             {secureMasterSprintState.quickTests.map((test) => <button key={test} onClick={() => setInput(test)} style={{ border: '1px solid #334155', borderRadius: 999, background: '#020617', color: '#e5e7eb', padding: '6px 10px' }}>{test}</button>)}
           </div>
           <h3>Naechste Aktionen</h3>
-          <ul>{secureMasterSprintState.nextActions.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterSprintState.nextActions.map((item: any) => <li key={item}>{item}</li>)}</ul>
         </section>
 
         <section style={{ border: '1px solid #f97316', borderRadius: 18, background: '#1c1917', padding: 20 }}>
@@ -580,9 +582,9 @@ function exportLogs() {
             <p>Provider-Call erlaubt: <b>{String(secureMasterSecretReadiness.providerCallAllowed)}</b></p>
           </div>
           <h3>Jetzt verboten</h3>
-          <ul>{secureMasterSecretReadiness.forbiddenNow.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterSecretReadiness.forbiddenNow.map((item: any) => <li key={item}>{item}</li>)}</ul>
           <h3>Spaeter erforderlich</h3>
-          <ul>{secureMasterSecretReadiness.requiredLater.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterSecretReadiness.requiredLater.map((item: any) => <li key={item}>{item}</li>)}</ul>
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterSecretReadiness.nextSafeStep}</p>
         </section>
 
@@ -593,12 +595,12 @@ function exportLogs() {
           <p>Echte Secrets erlaubt: <b>{String(secureMasterEnvPreflight.realSecretsAllowedNow)}</b></p>
           <p>Provider-Call erlaubt: <b>{String(secureMasterEnvPreflight.providerCallAllowed)}</b></p>
           <h3>Spaeter benoetigte Dateien</h3>
-          <ul>{secureMasterEnvPreflight.requiredFilesLater.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterEnvPreflight.requiredFilesLater.map((item: any) => <li key={item}>{item}</li>)}</ul>
           <h3>Git-Ignore-Patterns</h3>
-          <ul>{secureMasterEnvPreflight.gitIgnorePatternsRequired.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterEnvPreflight.gitIgnorePatternsRequired.map((item: any) => <li key={item}>{item}</li>)}</ul>
           <h3>Preflight-Checks</h3>
           <div style={{ display: 'grid', gap: 8 }}>
-            {secureMasterEnvPreflight.checks.map((check) => (
+            {secureMasterEnvPreflight.checks.map((check: any) => (
               <article key={check.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 10 }}>
                 <p><b>{check.label}</b> — {check.status}</p>
                 <p style={{ color: '#94a3b8' }}>{check.detail}</p>
@@ -617,9 +619,9 @@ function exportLogs() {
           <p>Live-Modell aktiv: <b>{String(secureMasterServerProviderConfigPreview.liveModelEnabled)}</b></p>
           <p>Client kann Secrets lesen: <b>{String(secureMasterServerProviderConfigPreview.clientCanReadSecrets)}</b></p>
           <h3>Erforderliche ENV-Keys spaeter</h3>
-          <ul>{secureMasterServerProviderConfigPreview.requiredEnvKeys.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterServerProviderConfigPreview.requiredEnvKeys.map((item: any) => <li key={item}>{item}</li>)}</ul>
           <h3>Im Client verboten</h3>
-          <ul>{secureMasterServerProviderConfigPreview.forbiddenClientKeys.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{secureMasterServerProviderConfigPreview.forbiddenClientKeys.map((item: any) => <li key={item}>{item}</li>)}</ul>
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterServerProviderConfigPreview.nextSafeStep}</p>
         </section>
 
@@ -654,9 +656,9 @@ function exportLogs() {
               <p>Secrets enthalten: <b>{String(providerAuditEnvelope.secretsIncluded)}</b></p>
               <p>Input Preview: {providerAuditEnvelope.inputPreview}</p>
               <h3>Pflichtfelder spaeter</h3>
-              <ul>{providerAuditEnvelope.requiredAuditFieldsLater.map((item) => <li key={item}>{item}</li>)}</ul>
+              <ul>{providerAuditEnvelope.requiredAuditFieldsLater.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <h3>Redaction Rules</h3>
-              <ul>{providerAuditEnvelope.redactionRules.map((item) => <li key={item}>{item}</li>)}</ul>
+              <ul>{providerAuditEnvelope.redactionRules.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{providerAuditEnvelope.nextSafeStep}</p>
             </div>
           )}
@@ -668,7 +670,7 @@ function exportLogs() {
           <button onClick={clearProviderAuditHistory} style={{ border: '1px solid #7f1d1d', borderRadius: 10, background: '#020617', color: '#fecaca', padding: '8px 10px' }}>Audit-Verlauf löschen</button>
           <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
             {providerAuditHistory.length === 0 && <p style={{ color: '#94a3b8' }}>Noch keine Audit-Eintraege.</p>}
-            {providerAuditHistory.map((item) => (
+            {providerAuditHistory.map((item: any) => (
               <article key={item.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
                 <p style={{ color: '#94a3b8', fontSize: 12 }}>{new Date(item.createdAt).toLocaleString()} | Request: {item.requestId}</p>
                 <p>Approval: {item.approvalDecision} | Privacy: {item.privacyDecision} | Dispatch: {item.dispatchStatus}</p>
@@ -712,7 +714,7 @@ function exportLogs() {
               <p>.gitignore vorhanden: <b>{String(secretPreflightResult.gitIgnoreExists)}</b></p>
               <p>.env abgedeckt: <b>{String(secretPreflightResult.gitIgnoreCoversEnv)}</b></p>
               <p>Key/Secret-Dateien abgedeckt: <b>{String(secretPreflightResult.gitIgnoreCoversKeys)}</b></p>
-              {secretPreflightResult.warnings?.length > 0 && <ul>{secretPreflightResult.warnings.map((item: string) => <li key={item}>{item}</li>)}</ul>}
+              {secretPreflightResult.warnings?.length > 0 && <ul>{secretPreflightResult.warnings.map((item: any) => <li key={item}>{item}</li>)}</ul>}
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{secretPreflightResult.nextSafeStep}</p>
             </div>
           )}
@@ -733,7 +735,7 @@ function exportLogs() {
               <p>Timeout ms: <b>{budgetPreflightResult.timeoutMs}</b></p>
               <p>Hard-Stop aktiv: <b>{String(budgetPreflightResult.hardStopEnabled)}</b></p>
               <h3>Vor Live erforderlich</h3>
-              <ul>{budgetPreflightResult.requiredBeforeLive?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <ul>{budgetPreflightResult.requiredBeforeLive?.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{budgetPreflightResult.nextSafeStep}</p>
             </div>
           )}
@@ -751,9 +753,9 @@ function exportLogs() {
               <p>Live-Modell aktiv: <b>{String(liveTestGateResult.liveModelEnabled)}</b></p>
               <p>Client-Secrets erlaubt: <b>{String(liveTestGateResult.clientSecretsAllowed)}</b></p>
               <h3>Vor Live-Test erforderlich</h3>
-              <ul>{liveTestGateResult.requiredBeforeLiveTest?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <ul>{liveTestGateResult.requiredBeforeLiveTest?.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <h3>Aktuelle Blocker</h3>
-              <ul>{liveTestGateResult.blockedReasons?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <ul>{liveTestGateResult.blockedReasons?.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{liveTestGateResult.nextSafeStep}</p>
             </div>
           )}
@@ -771,7 +773,7 @@ function exportLogs() {
               <p>Provider-Call durch diesen Patch erlaubt: <b>{String(liveRunbookResult.providerCallAllowedByThisPatch)}</b></p>
               <p>Client-Secrets erlaubt: <b>{String(liveRunbookResult.clientSecretsAllowed)}</b></p>
               <h3>Manuelle Schritte</h3>
-              <ul>{liveRunbookResult.requiredManualSteps?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <ul>{liveRunbookResult.requiredManualSteps?.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <p style={{ color: '#bbf7d0' }}>Sichere erste Frage: {liveRunbookResult.safeFirstQuestion}</p>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{liveRunbookResult.rollbackInstruction}</p>
             </div>
@@ -790,7 +792,7 @@ function exportLogs() {
               <p>Client-Secrets erlaubt: <b>{String(livePreflightResult.clientSecretsAllowed)}</b></p>
               <p>API-Key serverseitig vorhanden: <b>{String(livePreflightResult.env?.PROVIDER_API_KEY_PRESENT)}</b></p>
               <p>Modell vorhanden: <b>{String(livePreflightResult.env?.PROVIDER_MODEL_PRESENT)}</b></p>
-              {livePreflightResult.blockedReasons?.length > 0 && <ul>{livePreflightResult.blockedReasons.map((item: string) => <li key={item}>{item}</li>)}</ul>}
+              {livePreflightResult.blockedReasons?.length > 0 && <ul>{livePreflightResult.blockedReasons.map((item: any) => <li key={item}>{item}</li>)}</ul>}
               <p style={{ color: '#bbf7d0' }}>Sichere Testfrage: {livePreflightResult.safeTestQuestion}</p>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{livePreflightResult.nextStep}</p>
             </div>
@@ -808,7 +810,7 @@ function exportLogs() {
               <p>Provider-Call versucht: <b>{String(liveProviderTestResult.providerCallAttempted)}</b></p>
               <p>Provider-Call erlaubt: <b>{String(liveProviderTestResult.providerCallAllowed)}</b></p>
               <p>Provider: <b>{liveProviderTestResult.gate?.providerName ?? 'none'}</b> | Modell: <b>{liveProviderTestResult.gate?.modelName ?? 'none'}</b></p>
-              {liveProviderTestResult.blockedReasons?.length > 0 && <ul>{liveProviderTestResult.blockedReasons.map((item: string) => <li key={item}>{item}</li>)}</ul>}
+              {liveProviderTestResult.blockedReasons?.length > 0 && <ul>{liveProviderTestResult.blockedReasons.map((item: any) => <li key={item}>{item}</li>)}</ul>}
               {liveProviderTestResult.answer && <p style={{ color: '#bbf7d0' }}>{liveProviderTestResult.answer}</p>}
               {liveProviderTestResult.error && <p style={{ color: '#fecaca' }}>{liveProviderTestResult.error}</p>}
             </div>
@@ -823,7 +825,7 @@ function exportLogs() {
             <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>missingCritical: {liveReadinessMatrix.missingCriticalCount}</span>
           </div>
           <div style={{ display: 'grid', gap: 8, marginTop: 12 }}>
-            {liveReadinessMatrix.items.map((item) => (
+            {liveReadinessMatrix.items.map((item: any) => (
               <article key={item.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 10 }}>
                 <p><b>{item.ready ? 'OK' : 'FEHLT'}</b> — {item.label}</p>
                 <p style={{ color: '#94a3b8' }}>{item.detail}</p>
@@ -837,7 +839,7 @@ function exportLogs() {
           <h2>Provider-Adapter-Pipeline</h2>
           <p style={{ color: '#cbd5e1' }}>Deaktivierte Pipeline fuer spaetere Provider-Aufrufe. Dispatch bleibt blockiert.</p>
           <div style={{ display: 'grid', gap: 10 }}>
-            {providerAdapterPipeline.stages.map((stage) => (
+            {providerAdapterPipeline.stages.map((stage: any) => (
               <article key={stage.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
                 <p><b>{stage.label}</b> — {stage.status}</p>
                 <p style={{ color: '#94a3b8' }}>{stage.detail}</p>
@@ -864,7 +866,7 @@ function exportLogs() {
               <h3>Response Envelope Preview</h3>
               <p>{providerAdapterContract.responseEnvelopePreview.message}</p>
               <h3>Aktivierungsanforderungen</h3>
-              <ul>{providerAdapterContract.activationRequirements.map((item) => <li key={item}>{item}</li>)}</ul>
+              <ul>{providerAdapterContract.activationRequirements.map((item: any) => <li key={item}>{item}</li>)}</ul>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{providerAdapterContract.nextStep}</p>
             </div>
           )}
@@ -915,7 +917,7 @@ function exportLogs() {
           <button onClick={clearAdapterDryRunHistory} style={{ border: '1px solid #7f1d1d', borderRadius: 10, background: '#020617', color: '#fecaca', padding: '8px 10px' }}>Adapter-Dry-Run-Verlauf löschen</button>
           <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
             {adapterDryRunHistory.length === 0 && <p style={{ color: '#94a3b8' }}>Noch keine Adapter-Dry-Runs.</p>}
-            {adapterDryRunHistory.map((item) => (
+            {adapterDryRunHistory.map((item: any) => (
               <article key={item.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
                 <p style={{ color: '#94a3b8', fontSize: 12 }}>{new Date(item.createdAt).toLocaleString()} | Approval: {item.approvalDecision} | Privacy: {item.privacyMode} | Provider-Call: {String(item.providerCallAllowed)}</p>
                 <p>{item.inputPreview}</p>
@@ -932,7 +934,7 @@ function exportLogs() {
           <button onClick={clearDryRunHistory} style={{ border: '1px solid #7f1d1d', borderRadius: 10, background: '#020617', color: '#fecaca', padding: '8px 10px' }}>Dry-Run-Verlauf löschen</button>
           <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
             {dryRunHistory.length === 0 && <p style={{ color: '#94a3b8' }}>Noch keine Dry-Runs.</p>}
-            {dryRunHistory.map((item) => (
+            {dryRunHistory.map((item: any) => (
               <article key={item.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
                 <p style={{ color: '#94a3b8', fontSize: 12 }}>{new Date(item.createdAt).toLocaleString()} | Approval: {item.approvalDecision} | Provider-Call: {String(item.providerCallAllowed)}</p>
                 <p>{item.inputPreview}</p>
@@ -957,7 +959,7 @@ function exportLogs() {
           <h2>Voraussetzungen vor Live-KI</h2>
           <p style={{ color: '#cbd5e1' }}>Der Agent darf erst live mit einem Modell arbeiten, wenn diese Punkte erfüllt sind:</p>
           <ul>
-            {secureMasterProviderGateStatus.requirements.map((item) => <li key={item}>{item}</li>)}
+            {secureMasterProviderGateStatus.requirements.map((item: any) => <li key={item}>{item}</li>)}
           </ul>
         </section>
 
@@ -986,7 +988,7 @@ function exportLogs() {
             </div>
             <p>{actionPlan.summary}</p>
             <h3>Konkrete Schritte</h3>
-            <ul>{actionPlan.steps.map((step) => <li key={step}>{step}</li>)}</ul>
+            <ul>{actionPlan.steps.map((step: any) => <li key={step}>{step}</li>)}</ul>
             <p style={{ color: '#94a3b8' }}>Live-Grenze: {actionPlan.liveBoundary}</p>
           </section>
         )}
@@ -1009,8 +1011,8 @@ function exportLogs() {
             <h3>Nächste Haupt-Entscheidung</h3>
             <p style={{ color: '#cbd5e1' }}>Aktuell: lokal testen, Antwortqualität verbessern, Build stabil halten. Live-KI kommt erst nach explizitem Provider-Gate.</p>
             <h3>Nächste Schritte</h3>
-            <ul>{current.nextSteps.map((step) => <li key={step}>{step}</li>)}</ul>
-            {current.committee.length > 0 && <div><h3>5er-Gremium</h3><div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12 }}>{current.committee.map((member) => <article key={member.role} style={{ border: '1px solid #334155', background: '#020617', borderRadius: 12, padding: 12 }}><h4 style={{ color: '#67e8f9' }}>{member.role}</h4><p style={{ color: '#94a3b8', fontSize: 13 }}>{member.focus}</p><p>{member.opinion}</p></article>)}</div></div>}
+            <ul>{current.nextSteps.map((step: any) => <li key={step}>{step}</li>)}</ul>
+            {current.committee.length > 0 && <div><h3>5er-Gremium</h3><div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12 }}>{current.committee.map((member: any) => <article key={member.role} style={{ border: '1px solid #334155', background: '#020617', borderRadius: 12, padding: 12 }}><h4 style={{ color: '#67e8f9' }}>{member.role}</h4><p style={{ color: '#94a3b8', fontSize: 13 }}>{member.focus}</p><p>{member.opinion}</p></article>)}</div></div>}
           </section>
         )}
 
@@ -1019,7 +1021,7 @@ function exportLogs() {
           <p style={{ color: '#cbd5e1' }}>Speicherort: Browser localStorage. Keine Server-Speicherung.</p>
           {logs.length === 0 && <p>Noch keine lokalen Logs.</p>}
           <div style={{ display: 'grid', gap: 10 }}>
-            {logs.map((log) => <button key={log.id} onClick={() => setCurrent(log)} style={{ textAlign: 'left', border: '1px solid #334155', background: '#020617', color: '#e5e7eb', borderRadius: 12, padding: 12 }}><div style={{ color: '#94a3b8', fontSize: 12 }}>{new Date(log.createdAt).toLocaleString()} | Intent: {log.intent} | Route: {log.route} | Privacy: {log.privacyDecision}</div><div>{log.inputPreview}</div></button>)}
+            {logs.map((log: any) => <button key={log.id} onClick={() => setCurrent(log)} style={{ textAlign: 'left', border: '1px solid #334155', background: '#020617', color: '#e5e7eb', borderRadius: 12, padding: 12 }}><div style={{ color: '#94a3b8', fontSize: 12 }}>{new Date(log.createdAt).toLocaleString()} | Intent: {log.intent} | Route: {log.route} | Privacy: {log.privacyDecision}</div><div>{log.inputPreview}</div></button>)}
           </div>
         </section>
       </div>

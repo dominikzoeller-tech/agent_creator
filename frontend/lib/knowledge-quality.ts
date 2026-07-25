@@ -202,6 +202,6 @@ function findDuplicateGroups(files: LoadedKnowledgeFile[], keyFn: (file: LoadedK
 }
 
 function countSeverity(files: KnowledgeQualityFileReport[], severity: KnowledgeIssueSeverity): number {
-  return files.reduce((sum, file) => sum + file.issues.filter((issue) => issue.severity === severity).length, 0);
+  return files.reduce((sum, file) => sum + file.issues.filter((issue: any) => issue.severity === severity).length, 0);
 }
 

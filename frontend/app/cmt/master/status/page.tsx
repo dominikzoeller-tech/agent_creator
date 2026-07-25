@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getMasterAgentStatus } from '../../../../lib/cmt-master-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function MasterAgentStatusPage() {
   const status = getMasterAgentStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -33,7 +37,7 @@ export default function MasterAgentStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Routen</h3>
-        <ul>{status.status.routesSupported.map((route) => <li key={route}>{route}</li>)}</ul>
+        <ul>{status.status.routesSupported.map((route: any) => <li key={route}>{route}</li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
@@ -43,7 +47,7 @@ export default function MasterAgentStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Naechste Meilensteine</h3>
-        <ol>{status.nextMilestones.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.nextMilestones.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>

@@ -54,7 +54,7 @@ export default function CommitteeDemoSharePage() {
 
           <article style={card}>
             <h3>Bullets</h3>
-            <ul>{share.share.bullets.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{share.share.bullets.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
         </section>
       )}

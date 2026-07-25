@@ -1,5 +1,9 @@
 import { getCommitteePersistAdapterDemo } from '../../../lib/cmt-persist';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteePersistPage() {
   const persist = getCommitteePersistAdapterDemo();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -35,7 +39,7 @@ export default function CommitteePersistPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Session Items</h3>
-        <ul>{persist.session.history.items.map((item) => <li key={item.id}>{item.question}</li>)}</ul>
+        <ul>{persist.session.history.items.map((item: any) => <li key={item.id}>{item.question}</li>)}</ul>
       </section>
 
       <section>

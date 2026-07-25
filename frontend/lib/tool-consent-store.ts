@@ -81,10 +81,10 @@ export function listToolConsentRequests(): ToolConsentStoreResponse {
   return {
     ok: true,
     total: requests.length,
-    pending: requests.filter((request) => request.status === "pending").length,
-    approved: requests.filter((request) => request.status === "approved").length,
-    denied: requests.filter((request) => request.status === "denied").length,
-    expired: requests.filter((request) => request.status === "expired").length,
+    pending: requests.filter((request: any) => request.status === "pending").length,
+    approved: requests.filter((request: any) => request.status === "approved").length,
+    denied: requests.filter((request: any) => request.status === "denied").length,
+    expired: requests.filter((request: any) => request.status === "expired").length,
     requests,
   };
 }
@@ -139,7 +139,7 @@ export function decideToolConsentRequest(input: { id: string; status: "approved"
 export function expireOldRequests(requests: ToolConsentRequest[]): ToolConsentRequest[] {
   const now = Date.now();
   let changed = false;
-  const updated = requests.map((request) => {
+  const updated = requests.map((request: any) => {
     if (request.status !== "pending" || !request.expiresAt) return request;
     if (Date.parse(request.expiresAt) <= now) {
       changed = true;

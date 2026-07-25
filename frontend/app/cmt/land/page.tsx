@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeLanding } from '../../../lib/cmt-land';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeLandingPage() {
   const landing = getCommitteeLanding();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -20,7 +24,7 @@ export default function CommitteeLandingPage() {
 
       <section style={{ display: 'grid', gap: 12, marginBottom: 16 }}>
         <h3>Navigation</h3>
-        {landing.links.map((link) => (
+        {landing.links.map((link: any) => (
           <article key={link.href} style={card}>
             <h4><Link href={link.href}>{link.title}</Link></h4>
             <p>{link.description}</p>

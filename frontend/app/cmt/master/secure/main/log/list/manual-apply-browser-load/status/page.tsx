@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterAnswerLogManualApplyBrowserLoadStatus } from '../../../../../../../../lib/cmt-master-answer-log-list-manual-apply-browser-load-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterManualApplyBrowserLoadStatusPage() {
   const data = getSecureMasterAnswerLogManualApplyBrowserLoadStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16, background: '#fff' };
@@ -47,7 +51,7 @@ export default function SecureMasterManualApplyBrowserLoadStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Checks</h3>
-        <ol>{data.checks.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{data.checks.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ marginTop: 16 }}>

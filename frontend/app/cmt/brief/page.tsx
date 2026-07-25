@@ -1,5 +1,9 @@
 import { getCommitteeBriefDemo } from '../../../lib/cmt-brief';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeBriefPage() {
   const brief = getCommitteeBriefDemo();
 
@@ -21,7 +25,7 @@ export default function CommitteeBriefPage() {
       <section>
         <h3>Warum</h3>
         <ul>
-          {brief.brief.why.map((item) => <li key={item}>{item}</li>)}
+          {brief.brief.why.map((item: any) => <li key={item}>{item}</li>)}
         </ul>
       </section>
 
@@ -35,7 +39,7 @@ export default function CommitteeBriefPage() {
       <section>
         <h3>Aktionen</h3>
         <ul>
-          {brief.brief.actions.map((action) => <li key={action}>{action}</li>)}
+          {brief.brief.actions.map((action: any) => <li key={action}>{action}</li>)}
         </ul>
       </section>
 

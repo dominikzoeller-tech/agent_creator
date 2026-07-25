@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterMainStatus } from '../../../../../../lib/cmt-master-main-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterMainStatusPage() {
   const status = getSecureMasterMainStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -34,17 +38,17 @@ export default function SecureMasterMainStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Kontrollseiten</h3>
-        <ul>{status.controlPages.map((href) => <li key={href}><Link href={href}>{href}</Link></li>)}</ul>
+        <ul>{status.controlPages.map((href: string) => <li key={href}><Link href={href}>{href}</Link></li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Testprompts</h3>
-        <ol>{status.testPrompts.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.testPrompts.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Naechste Meilensteine</h3>
-        <ol>{status.nextMilestones.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.nextMilestones.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
     </main>
   );

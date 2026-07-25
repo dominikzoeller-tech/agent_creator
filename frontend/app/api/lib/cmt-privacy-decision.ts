@@ -1,3 +1,5 @@
+type PrivacyDecisionOption = 'local_only' | 'anonymize_then_send' | 'approve_external_send' | 'cancel';
+
 /* Auto-generated exact compatibility stub for cmt-privacy-decision. */
 export type CompatStub = Record<string, any>;
 export function makeCompatStub(name: string): any {

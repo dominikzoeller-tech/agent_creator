@@ -18,7 +18,7 @@ export default function ProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowl
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-xl font-semibold text-slate-950">Receipt evidence</h2>
         <div className="mt-4 grid gap-3">
-          {receipt.receiptEvidence.map((item) => (
+          {receipt.receiptEvidence.map((item: any) => (
             <article key={item.id} className="rounded-xl border border-slate-200 p-4">
               <h3 className="font-semibold text-slate-950">{item.label}</h3>
               <p className="mt-2 text-sm leading-6 text-slate-700">{item.value}</p>

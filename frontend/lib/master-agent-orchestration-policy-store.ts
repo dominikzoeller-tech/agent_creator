@@ -49,7 +49,7 @@ export function simulateMasterAgentOrchestrationPolicy(input:{ orchestrationPlan
   if(!plan){ decision="blocked_missing_orchestration_plan"; reason="Orchestration Plan nicht gefunden."; }
   else if(plan.executionAllowed !== false || plan.toolExecutionAllowed !== false || plan.agentExecutionAllowed !== false || plan.dryRunOnly !== true){ decision="blocked_execution_not_safe"; reason="Execution Safety Invariants verletzt."; }
   else if(!Array.isArray(plan.orchestrationSteps) || plan.orchestrationSteps.length === 0){ decision="blocked_missing_safety_steps"; reason="Orchestration Safety Steps fehlen."; }
-  else if(checks.some((check)=>!check.passed)){ decision="blocked_policy_violation"; reason="Mindestens ein Policy Check ist fehlgeschlagen."; }
+  else if(checks.some((check: any) =>!check.passed)){ decision="blocked_policy_violation"; reason="Mindestens ein Policy Check ist fehlgeschlagen."; }
   const simulation: MasterAgentOrchestrationPolicySimulation = {
     id: makeId("orch-policy-sim"),
     timestamp: new Date().toISOString(),

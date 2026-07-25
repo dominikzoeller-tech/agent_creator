@@ -80,7 +80,7 @@ export default function MasterAgentPage() {
 
           <article style={card}>
             <h3>Naechste Aktionen</h3>
-            <ol>{result.nextActions.map((item) => <li key={item}>{item}</li>)}</ol>
+            <ol>{result.nextActions.map((item: any) => <li key={item}>{item}</li>)}</ol>
           </article>
         </section>
       )}

@@ -75,7 +75,7 @@ export default function WebResearchPage() {
           {okResponse.message ? <p>{okResponse.message}</p> : null}
           {okResponse.results.length === 0 ? <div className="helper-text">Keine Ergebnisse.</div> : (
             <div style={{ display: "grid", gap: 12 }}>
-              {okResponse.results.map((item) => (
+              {okResponse.results.map((item: any) => (
                 <article key={item.url} style={{ border: "1px solid #e5e7eb", borderRadius: 12, padding: 12 }}>
                   <a href={item.url} target="_blank" rel="noreferrer" style={{ fontWeight: 800 }}>{item.title}</a>
                   <div className="subtle-text">{item.source ?? item.url}</div>

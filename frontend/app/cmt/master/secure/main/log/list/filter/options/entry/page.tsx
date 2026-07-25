@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterAnswerLogListFilterOptionsEntry } from '../../../../../../../../../../lib/cmt-master-answer-log-list-filter-options-entry';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterAnswerLogListFilterOptionsEntryPage() {
   const entry = getSecureMasterAnswerLogListFilterOptionsEntry();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16, background: '#fff' };
@@ -26,17 +30,17 @@ export default function SecureMasterAnswerLogListFilterOptionsEntryPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Sichtbare Options-Felder</h3>
-        <ul>{entry.visibleOptionFields.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{entry.visibleOptionFields.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Empfohlene Nutzung</h3>
-        <ol>{entry.recommendedUse.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{entry.recommendedUse.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Sample Checks</h3>
-        <ol>{entry.sampleChecks.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{entry.sampleChecks.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>

@@ -125,7 +125,7 @@ export default function ToolConsentPage() {
           </div>
         </div>
         <div style={{ display: "grid", gap: 12, marginTop: 14 }}>
-          {requests.length === 0 ? <div className="helper-text">Keine Requests gefunden.</div> : requests.map((request) => (
+          {requests.length === 0 ? <div className="helper-text">Keine Requests gefunden.</div> : requests.map((request: any) => (
             <article key={request.id} style={{ border: "1px solid #e5e7eb", borderRadius: 14, padding: 14, background: statusBackground(request.status) }}>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
                 <div><strong>{request.toolId}</strong><div className="subtle-text">{request.id}</div></div>

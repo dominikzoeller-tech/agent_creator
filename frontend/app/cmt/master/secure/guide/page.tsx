@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterGuide } from '../../../../../lib/cmt-master-secure-guide';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterGuidePage() {
   const guide = getSecureMasterGuide();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -14,19 +18,19 @@ export default function SecureMasterGuidePage() {
       </section>
       <section style={card}>
         <h3>Schnelltest</h3>
-        <ol>{guide.quickTestSteps.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{guide.quickTestSteps.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Erwartetes Verhalten</h3>
-        <ul>{guide.expectedBehaviors.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{guide.expectedBehaviors.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Noch nicht live</h3>
-        <ul>{guide.notYetLive.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{guide.notYetLive.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Naechste Bauschritte</h3>
-        <ol>{guide.nextBuildSteps.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{guide.nextBuildSteps.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Safety</h3>

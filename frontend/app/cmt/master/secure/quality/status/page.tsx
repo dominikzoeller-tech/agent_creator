@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterQualityStatus } from '../../../../../../lib/cmt-master-quality-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterQualityStatusPage() {
   const status = getSecureMasterQualityStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -32,12 +36,12 @@ export default function SecureMasterQualityStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Unterstützte Intents</h3>
-        <ul>{status.supportedIntents.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{status.supportedIntents.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Testprompts</h3>
-        <ol>{status.testPrompts.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.testPrompts.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
@@ -52,7 +56,7 @@ export default function SecureMasterQualityStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Naechste Meilensteine</h3>
-        <ol>{status.nextMilestones.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.nextMilestones.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
     </main>
   );

@@ -43,15 +43,15 @@ export async function buildSessionSummaryToMemory(
   const limit = options.limit ?? 25;
   const entries = await loadRecentLogEntries(logsDir, limit);
 
-  const usedMemoryEntries = entries.filter((entry) => Boolean(entry.usedMemory) || Array.isArray(entry.memoryHits));
-  const usedKnowledgeEntries = entries.filter((entry) => Boolean(entry.usedKnowledge) || Array.isArray(entry.knowledgeHits));
-  const routes = countBy(entries.map((entry) => String(entry.route ?? entry.mode ?? "unknown")));
+  const usedMemoryEntries = entries.filter((entry: any) => Boolean(entry.usedMemory) || Array.isArray(entry.memoryHits));
+  const usedKnowledgeEntries = entries.filter((entry: any) => Boolean(entry.usedKnowledge) || Array.isArray(entry.knowledgeHits));
+  const routes = countBy(entries.map((entry: any) => String(entry.route ?? entry.mode ?? "unknown")));
   const topMemoryTitles = topItems(
-    usedMemoryEntries.flatMap((entry) => readHits(entry.memoryHits).map((hit) => String(hit.title ?? hit.id ?? "").trim()).filter(Boolean)),
+    usedMemoryEntries.flatMap((entry: any) => readHits(entry.memoryHits).map((hit) => String(hit.title ?? hit.id ?? "").trim()).filter(Boolean)),
     5
   );
   const topKnowledgeTitles = topItems(
-    usedKnowledgeEntries.flatMap((entry) => readHits(entry.knowledgeHits).map((hit) => String(hit.title ?? hit.sourcePath ?? "").trim()).filter(Boolean)),
+    usedKnowledgeEntries.flatMap((entry: any) => readHits(entry.knowledgeHits).map((hit) => String(hit.title ?? hit.sourcePath ?? "").trim()).filter(Boolean)),
     5
   );
 
@@ -88,7 +88,7 @@ async function loadRecentLogEntries(logsDir: string, limit: number): Promise<Log
   let files: string[] = [];
   try {
     const entries = await readdir(logsDir, { withFileTypes: true });
-    files = entries.filter((entry) => entry.isFile()).map((entry) => entry.name).filter((name) => name.endsWith(".jsonl") || name.endsWith(".log"));
+    files = entries.filter((entry: any) => entry.isFile()).map((entry: any) => entry.name).filter((name) => name.endsWith(".jsonl") || name.endsWith(".log"));
   } catch {
     return [];
   }

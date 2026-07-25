@@ -103,9 +103,9 @@ export default function SecureMasterAnswerLogBrowserStorePage() {
         <h3>Filter</h3>
         <div style={{ display: 'grid', gap: 8, gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', maxWidth: 980 }}>
           <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Suche inputPreview" style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }} />
-          <select value={route} onChange={(event) => setRoute(event.target.value)} style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }}>{routeOptions.map((item) => <option key={item} value={item}>{item}</option>)}</select>
-          <select value={intent} onChange={(event) => setIntent(event.target.value)} style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }}>{intentOptions.map((item) => <option key={item} value={item}>{item}</option>)}</select>
-          <select value={privacyDecision} onChange={(event) => setPrivacyDecision(event.target.value)} style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }}>{privacyOptions.map((item) => <option key={item} value={item}>{item}</option>)}</select>
+          <select value={route} onChange={(event) => setRoute(event.target.value)} style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }}>{routeOptions.map((item: any) => <option key={item} value={item}>{item}</option>)}</select>
+          <select value={intent} onChange={(event) => setIntent(event.target.value)} style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }}>{intentOptions.map((item: any) => <option key={item} value={item}>{item}</option>)}</select>
+          <select value={privacyDecision} onChange={(event) => setPrivacyDecision(event.target.value)} style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }}>{privacyOptions.map((item: any) => <option key={item} value={item}>{item}</option>)}</select>
         </div>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>

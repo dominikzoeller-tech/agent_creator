@@ -62,7 +62,7 @@ export function listControlledAgentRuntimeEnvelopes(limit = 100): ControlledAgen
 }
 export function createControlledAgentRuntimeEnvelope(input: { agentId?: string; agentName?: string; requestedAction: string; requiredPermissions?: string[]; mode?: RuntimeMode; metadata?: Record<string, unknown>; }): ControlledAgentRuntimeEnvelope {
   const registry = readRegistry();
-  const agent = registry.find((entry) => (input.agentId && entry.id === input.agentId) || (input.agentName && entry.agentName === input.agentName));
+  const agent = registry.find((entry: any) => (input.agentId && entry.id === input.agentId) || (input.agentName && entry.agentName === input.agentName));
   const requiredPermissions = input.requiredPermissions || [];
   const grantedPermissions = Array.isArray(agent?.permissions) ? agent.permissions.filter((p: unknown): p is string => typeof p === "string") : [];
   const missingPermissions = requiredPermissions.filter((permission) => !grantedPermissions.includes(permission));

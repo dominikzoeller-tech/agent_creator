@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterAnswerLogListFilterStatus } from '../../../../../../../../../lib/cmt-master-answer-log-list-filter-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterAnswerLogListFilterStatusPage() {
   const status = getSecureMasterAnswerLogListFilterStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16, background: '#fff' };
@@ -38,7 +42,7 @@ export default function SecureMasterAnswerLogListFilterStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Sichtbare Felder</h3>
-        <ul>{status.visibleFields.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{status.visibleFields.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
@@ -54,12 +58,12 @@ export default function SecureMasterAnswerLogListFilterStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Testfilter</h3>
-        <ol>{status.testFilters.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.testFilters.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Naechste Meilensteine</h3>
-        <ol>{status.nextMilestones.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{status.nextMilestones.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
     </main>
   );

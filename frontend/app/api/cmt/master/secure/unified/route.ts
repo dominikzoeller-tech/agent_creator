@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { askSecureMasterUnified, getSecureMasterUnifiedDemo } from '../../../../../../../lib/cmt-master-unified';
-import type { PrivacyDecisionOption } from '../../../../../../../lib/cmt-privacy-decision';
+
+type PrivacyDecisionOption = 'local_only' | 'anonymize_then_send' | 'approve_external_send' | 'cancel';
 
 const options: PrivacyDecisionOption[] = ['local_only', 'anonymize_then_send', 'approve_external_send', 'cancel'];
 

@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterAnswerLogMainBrowserStoreStatus } from '../../../../../../../../lib/cmt-master-answer-log-list-main-browser-store-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterAnswerLogMainBrowserStoreStatusPage() {
   const data = getSecureMasterAnswerLogMainBrowserStoreStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16, background: '#fff' };
@@ -48,7 +52,7 @@ export default function SecureMasterAnswerLogMainBrowserStoreStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Checks</h3>
-        <ol>{data.checks.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{data.checks.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ marginTop: 16 }}>

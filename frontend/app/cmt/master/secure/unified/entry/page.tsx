@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterUnifiedEntry } from '../../../../../../lib/cmt-master-unified-entry';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterUnifiedEntryPage() {
   const entry = getSecureMasterUnifiedEntry();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -26,12 +30,12 @@ export default function SecureMasterUnifiedEntryPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Empfohlene Nutzung</h3>
-        <ol>{entry.recommendedUse.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{entry.recommendedUse.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Sample Questions</h3>
-        <ol>{entry.sampleQuestions.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{entry.sampleQuestions.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>

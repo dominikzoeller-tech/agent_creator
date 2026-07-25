@@ -98,7 +98,7 @@ export default function WebResearchGovernancePage() {
           <h3>Issues</h3>
           {report.issues.length === 0 ? <div className="helper-text">Keine Issues gefunden.</div> : (
             <ul style={{ display: "grid", gap: 8, margin: 0, padding: 0, listStyle: "none" }}>
-              {report.issues.map((issue) => (
+              {report.issues.map((issue: any) => (
                 <li key={issue.code} style={{ border: "1px solid #e5e7eb", borderRadius: 12, padding: 10, background: issueBackground(issue.severity) }}>
                   <strong>{issue.severity.toUpperCase()} · {issue.code}</strong><br />{issue.message}
                 </li>

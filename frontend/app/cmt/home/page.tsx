@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeHomeEntry } from '../../../lib/cmt-home';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeHomeEntryPage() {
   const home = getCommitteeHomeEntry();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -16,12 +20,12 @@ export default function CommitteeHomeEntryPage() {
 
       <section style={card}>
         <h3>Highlights</h3>
-        <ul>{home.entry.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{home.entry.highlights.map((item: any) => <li key={item}>{item}</li>)}</ul>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Navigation Snapshot</h3>
-        <ul>{home.nav.nav.items.map((item) => <li key={item.href}><Link href={item.href}>{item.label}</Link></li>)}</ul>
+        <ul>{home.nav.nav.items.map((item: any) => <li key={item.href}><Link href={item.href}>{item.label}</Link></li>)}</ul>
       </section>
 
       <section>

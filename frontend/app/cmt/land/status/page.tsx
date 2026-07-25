@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeLandingStatus } from '../../../../lib/cmt-land-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeLandingStatusPage() {
   const status = getCommitteeLandingStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -18,17 +22,17 @@ export default function CommitteeLandingStatusPage() {
       <section style={{ display: 'grid', gap: 12, marginBottom: 16 }}>
         <article style={card}>
           <h3>Pages</h3>
-          <ul>{status.status.pages.map((item) => <li key={item}><Link href={item}>{item}</Link></li>)}</ul>
+          <ul>{status.status.pages.map((item: any) => <li key={item}><Link href={item}>{item}</Link></li>)}</ul>
         </article>
 
         <article style={card}>
           <h3>API Routes</h3>
-          <ul>{status.status.apiRoutes.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{status.status.apiRoutes.map((item: any) => <li key={item}>{item}</li>)}</ul>
         </article>
 
         <article style={card}>
           <h3>Checks</h3>
-          <ul>{status.status.checks.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{status.status.checks.map((item: any) => <li key={item}>{item}</li>)}</ul>
         </article>
       </section>
 

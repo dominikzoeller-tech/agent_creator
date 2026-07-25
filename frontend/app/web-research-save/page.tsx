@@ -44,7 +44,7 @@ export default function WebResearchSavePage() {
       const data = (await response.json()) as ResearchResponse | { ok: false; error: string };
       if (!data.ok) throw new Error(data.error);
       setResults(data.results ?? []);
-      setSources((data.results ?? []).map((result) => ({ title: result.title, url: result.url, source: result.source })));
+      setSources((data.results ?? []).map((result: any) => ({ title: result.title, url: result.url, source: result.source })));
       setSummary(data.results?.length ? `Web Research zu: ${query}\n\nBitte Summary aus Chat/Debug übernehmen oder hier manuell kuratieren.` : (data.message ?? "Keine Ergebnisse."));
       setMessage(data.message ?? "Web Research wurde geladen. Bitte Summary prüfen und speichern.");
     } catch (err) {
@@ -72,7 +72,7 @@ export default function WebResearchSavePage() {
           saveKnowledge,
           saveMemory,
           memoryType,
-          tags: tags.split(",").map((tag) => tag.trim()).filter(Boolean),
+          tags: tags.split(",").map((tag: string) => tag.trim()).filter(Boolean),
         }),
       });
       const data = (await response.json()) as SaveResponse;
@@ -152,7 +152,7 @@ export default function WebResearchSavePage() {
         <h2 style={{ marginTop: 0 }}>Research Treffer</h2>
         {results.length === 0 ? <div className="helper-text">Noch keine Treffer geladen.</div> : (
           <div style={{ display: "grid", gap: 12 }}>
-            {results.map((result) => (
+            {results.map((result: any) => (
               <article key={result.url} style={{ border: "1px solid #e5e7eb", borderRadius: 12, padding: 12 }}>
                 <a href={result.url} target="_blank" rel="noreferrer" style={{ fontWeight: 800 }}>{result.title}</a>
                 <div className="subtle-text">{result.source ?? result.url}</div>

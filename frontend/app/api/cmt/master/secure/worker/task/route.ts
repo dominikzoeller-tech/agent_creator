@@ -11,7 +11,7 @@ const allowedCommandMap: Record<string, string> = {
 
 function normalizeCommands(raw: unknown): string[] {
   const requested = Array.isArray(raw) ? raw : ['status', 'build'];
-  const commands = requested.map((item) => allowedCommandMap[String(item)]).filter(Boolean);
+  const commands = requested.map((item: any) => allowedCommandMap[String(item)]).filter(Boolean);
   return commands.length > 0 ? commands : ['git status --short', 'npm run build'];
 }
 

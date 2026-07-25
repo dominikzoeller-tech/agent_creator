@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterCommitteeEntry } from '../../../../../../lib/cmt-master-committee-entry';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterCommitteeEntryPage() {
   const entry = getSecureMasterCommitteeEntry();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -25,12 +29,12 @@ export default function SecureMasterCommitteeEntryPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Empfohlene Nutzung</h3>
-        <ol>{entry.recommendedUse.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{entry.recommendedUse.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Sample Questions</h3>
-        <ol>{entry.sampleQuestions.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{entry.sampleQuestions.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ ...card, marginTop: 16 }}>

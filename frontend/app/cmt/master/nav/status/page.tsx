@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterNavStatus } from '../../../../lib/cmt-master-nav-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterNavStatusPage() {
   const status = getSecureMasterNavStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -28,7 +32,7 @@ export default function SecureMasterNavStatusPage() {
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Route Map</h3>
         <ul>
-          {Object.entries(status.routeMap).map(([key, value]) => <li key={key}><Link href={value}>{key}: {value}</Link></li>)}
+          {Object.entries(status.routeMap).map(([key, value]) => <li key={key}><Link href={String(value)}>{key}: {String(value)}</Link></li>)}
         </ul>
       </section>
 

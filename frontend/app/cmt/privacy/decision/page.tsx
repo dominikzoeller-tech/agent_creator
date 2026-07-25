@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import type { PrivacyDecisionOption, PrivacyDecisionResult } from '../../../../lib/cmt-privacy-decision';
+import type { PrivacyDecisionResult } from '../../../../lib/cmt-privacy-decision';
+
+type PrivacyDecisionOption = 'local_only' | 'anonymize_then_send' | 'approve_external_send' | 'cancel';
 
 const options: PrivacyDecisionOption[] = ['local_only', 'anonymize_then_send', 'approve_external_send', 'cancel'];
 
@@ -45,7 +47,7 @@ export default function PrivacyDecisionPage() {
         />
         <h3>Option auswählen</h3>
         <select value={option} onChange={(event) => setOption(event.target.value as PrivacyDecisionOption)} style={{ padding: 10, borderRadius: 10 }}>
-          {options.map((item) => <option key={item} value={item}>{item}</option>)}
+          {options.map((item: any) => <option key={item} value={item}>{item}</option>)}
         </select>
         <br />
         <button onClick={submit} disabled={loading} style={{ marginTop: 12, padding: '10px 16px', borderRadius: 10 }}>

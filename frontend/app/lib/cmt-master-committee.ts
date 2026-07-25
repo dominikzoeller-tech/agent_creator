@@ -49,3 +49,56 @@ export const getSecureMasterAnswerLogEntry: any = makeCompatStub('getSecureMaste
 export const getSecureMasterAnswerLogList: any = makeCompatStub('getSecureMasterAnswerLogList');
 export const getSecureMasterAnswerLogListBrowserStore: any = makeCompatStub('getSecureMasterAnswerLogListBrowserStore');
 export const getSecureMasterAnswerLogListBrowserStoreEntry: any = makeCompatStub('getSecureMasterAnswerLogListBrowserStoreEntry');
+
+export const getSecureMasterCommitteeDemo: any = makeCompatStub('getSecureMasterCommitteeDemo');
+
+export type SecureMasterCommitteeRole = {
+  id: string;
+  name: string;
+  focus: string;
+  recommendation?: string;
+};
+
+export type SecureMasterCommitteeResult = {
+  ok: boolean;
+  stub?: boolean;
+  phase?: string;
+  status?: string;
+  committeeRoles: SecureMasterCommitteeRole[];
+  finalRecommendation: string;
+  privacyDecision?: string;
+  localOnly?: boolean;
+  createdAt: string;
+  summary?: string;
+};
+
+
+// Legacy runtime compatibility export.
+export async function askSecureMasterCommittee(input: any = {}, options: any = {}): Promise<any> {
+  const prompt = typeof input === 'string' ? input : String(input?.prompt ?? input?.question ?? input?.input ?? '');
+  const committeeRoles = [
+    { id: 'chair', name: 'Vorsitz / Synthese', focus: 'Zusammenfassung und Entscheidung' },
+    { id: 'privacy', name: 'Datenschutz / Privacy', focus: 'Lokale Verarbeitung und Anonymisierung' },
+    { id: 'tech', name: 'Technik / Architektur', focus: 'Machbarkeit und Systemgrenzen' },
+    { id: 'risk', name: 'Risiko / Sicherheit', focus: 'Risiken und Schutzmassnahmen' },
+    { id: 'quality', name: 'Qualitaet / Entscheidung', focus: 'Klarheit und naechster Schritt' },
+  ];
+  return {
+    ok: true,
+    stub: true,
+    phase: 'legacy-runtime-compat',
+    prompt,
+    input,
+    options,
+    committeeRoles,
+    answer: 'Legacy-Kompatibilitaetsantwort: lokal bleiben, sensible Inhalte schuetzen und externe Verarbeitung nur nach Freigabe zulassen.',
+    finalRecommendation: 'Lokal verarbeiten und externe Weitergabe blockieren, bis eine explizite Freigabe vorliegt.',
+    privacyDecision: 'local_only',
+    localOnly: true,
+    externalSharingAllowed: false,
+    providerDispatchAllowed: false,
+    networkCallAllowed: false,
+    finalDispatchBlocked: true,
+    createdAt: new Date().toISOString(),
+  };
+}

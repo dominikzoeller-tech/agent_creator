@@ -1,5 +1,9 @@
 import { getCommitteeDeliberationDemo } from '../../../lib/cmt-delib';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeDeliberationPage() {
   const result = getCommitteeDeliberationDemo();
 
@@ -37,7 +41,7 @@ export default function CommitteeDeliberationPage() {
         <h3>Aggregate</h3>
         <p>{result.aggregate.summary}</p>
         <ul>
-          {result.aggregate.nextSteps.map((step) => <li key={step}>{step}</li>)}
+          {result.aggregate.nextSteps.map((step: any) => <li key={step}>{step}</li>)}
         </ul>
       </section>
 

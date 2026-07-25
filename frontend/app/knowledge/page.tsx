@@ -123,7 +123,7 @@ export default function KnowledgeAdminPage() {
         body: JSON.stringify({
           fileName,
           title,
-          tags: tags.split(",").map((tag) => tag.trim()).filter(Boolean),
+          tags: tags.split(",").map((tag: string) => tag.trim()).filter(Boolean),
           content,
         }),
       });

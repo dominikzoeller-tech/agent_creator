@@ -49,3 +49,65 @@ export const getSecureMasterAnswerLogEntry: any = makeCompatStub('getSecureMaste
 export const getSecureMasterAnswerLogList: any = makeCompatStub('getSecureMasterAnswerLogList');
 export const getSecureMasterAnswerLogListBrowserStore: any = makeCompatStub('getSecureMasterAnswerLogListBrowserStore');
 export const getSecureMasterAnswerLogListBrowserStoreEntry: any = makeCompatStub('getSecureMasterAnswerLogListBrowserStoreEntry');
+
+export const getSecureMasterCommitteeDemo: any = makeCompatStub('getSecureMasterCommitteeDemo');
+
+export type SecureMasterCommitteeResult = any;
+export type SecureMasterCommitteeDemo = any;
+export type SecureMasterAppEntry = any;
+export type SecureMasterNavStatus = any;
+export type SecureMasterAnswerLogEntry = any;
+export type SecureMasterAnswerLogStatus = any;
+export type SecureMasterAnswerLogList = any;
+export type SecureMasterAnswerLogBrowserStore = any;
+export type SecureMasterAnswerLogListBrowserStore = any;
+export type PrivacyDecisionOption = any;
+export type CmtPrivacyDecision = any;
+export type SecureMasterProviderAdapterContract = any;
+export type SecureMasterProviderAuditEnvelope = any;
+export type SecureMasterProviderAuditHistoryItem = any;
+export const getSecureMasterAnswerLogBrowserStore: any = makeCompatStub('getSecureMasterAnswerLogBrowserStore');
+export const getSecureMasterAnswerLogBrowserStoreEntry: any = makeCompatStub('getSecureMasterAnswerLogBrowserStoreEntry');
+export const getPrivacyGateDemo: any = makeCompatStub('getPrivacyGateDemo');
+export const evaluatePrivacyGate: any = makeCompatStub('evaluatePrivacyGate');
+export const evaluateCmtPrivacyGate: any = makeCompatStub('evaluateCmtPrivacyGate');
+export const sanitizeForLocalPreview: any = makeCompatStub('sanitizeForLocalPreview');
+export const decidePrivacyAction: any = makeCompatStub('decidePrivacyAction');
+export const getPrivacyDecisionDemo: any = makeCompatStub('getPrivacyDecisionDemo');
+export const isPrivacyDecisionOption: any = makeCompatStub('isPrivacyDecisionOption');
+export const getPrivacyDecisionLabel: any = makeCompatStub('getPrivacyDecisionLabel');
+export const createSecureMasterProviderAdapterContract: any = makeCompatStub('createSecureMasterProviderAdapterContract');
+export const createSecureMasterProviderAuditEnvelope: any = makeCompatStub('createSecureMasterProviderAuditEnvelope');
+export const createProviderAuditEnvelope: any = makeCompatStub('createProviderAuditEnvelope');
+export const createProviderAuditHistoryItem: any = makeCompatStub('createProviderAuditHistoryItem');
+
+
+// Legacy runtime compatibility export.
+export async function askSecureMasterCommittee(input: any = {}, options: any = {}): Promise<any> {
+  const prompt = typeof input === 'string' ? input : String(input?.prompt ?? input?.question ?? input?.input ?? '');
+  const committeeRoles = [
+    { id: 'chair', name: 'Vorsitz / Synthese', focus: 'Zusammenfassung und Entscheidung' },
+    { id: 'privacy', name: 'Datenschutz / Privacy', focus: 'Lokale Verarbeitung und Anonymisierung' },
+    { id: 'tech', name: 'Technik / Architektur', focus: 'Machbarkeit und Systemgrenzen' },
+    { id: 'risk', name: 'Risiko / Sicherheit', focus: 'Risiken und Schutzmassnahmen' },
+    { id: 'quality', name: 'Qualitaet / Entscheidung', focus: 'Klarheit und naechster Schritt' },
+  ];
+  return {
+    ok: true,
+    stub: true,
+    phase: 'legacy-runtime-compat',
+    prompt,
+    input,
+    options,
+    committeeRoles,
+    answer: 'Legacy-Kompatibilitaetsantwort: lokal bleiben, sensible Inhalte schuetzen und externe Verarbeitung nur nach Freigabe zulassen.',
+    finalRecommendation: 'Lokal verarbeiten und externe Weitergabe blockieren, bis eine explizite Freigabe vorliegt.',
+    privacyDecision: 'local_only',
+    localOnly: true,
+    externalSharingAllowed: false,
+    providerDispatchAllowed: false,
+    networkCallAllowed: false,
+    finalDispatchBlocked: true,
+    createdAt: new Date().toISOString(),
+  };
+}

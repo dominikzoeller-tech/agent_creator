@@ -1,5 +1,9 @@
 import { getCommitteeSessionDemo } from '../../../lib/cmt-session';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeSessionPage() {
   const session = getCommitteeSessionDemo();
 
@@ -36,7 +40,7 @@ export default function CommitteeSessionPage() {
       <section>
         <h3>Naechste Schritte</h3>
         <ul>
-          {session.deliberation.aggregate.nextSteps.map((step) => <li key={step}>{step}</li>)}
+          {session.deliberation.aggregate.nextSteps.map((step: any) => <li key={step}>{step}</li>)}
         </ul>
       </section>
 

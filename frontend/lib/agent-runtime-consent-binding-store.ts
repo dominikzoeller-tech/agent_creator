@@ -32,7 +32,7 @@ export function createRuntimeConsentBinding(input: { runtimeEnvelopeId: string; 
   ensureStore();
   const runtimeEnvelopeId = input.runtimeEnvelopeId.trim();
   if (!runtimeEnvelopeId) throw new Error("runtimeEnvelopeId ist erforderlich.");
-  const envelope = readRuntimeEnvelopes().find((entry) => entry && entry.id === runtimeEnvelopeId);
+  const envelope = readRuntimeEnvelopes().find((entry: any) => entry && entry.id === runtimeEnvelopeId);
   if (!envelope) throw new Error("Runtime Envelope nicht gefunden.");
   const now = new Date().toISOString();
   const consentRequestId = makeId("runtime-consent");

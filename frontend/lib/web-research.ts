@@ -86,13 +86,13 @@ export async function runWebResearch(options: WebResearchOptions): Promise<WebRe
   };
 
   const results = (data.webPages?.value ?? [])
-    .map((item) => ({
+    .map((item: any) => ({
       title: item.name ?? "Ohne Titel",
       url: item.url ?? "",
       snippet: item.snippet ?? "",
       source: item.displayUrl,
     }))
-    .filter((item) => item.url);
+    .filter((item: any) => item.url);
 
   return {
     ok: true,

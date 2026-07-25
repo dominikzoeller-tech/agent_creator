@@ -51,7 +51,7 @@ export function simulateMasterAgentPlannerPolicy(input:{ recommendationId?: stri
   if(!rec){ decision="blocked_missing_recommendation"; reason="Planner Recommendation nicht gefunden."; }
   else if(rec.executionAllowed!==false || rec.toolExecutionAllowed!==false || rec.agentExecutionAllowed!==false || rec.dryRunOnly!==true || rec.llmRoutingPrepOnly!==true){ decision="blocked_execution_not_safe"; reason="Planner Recommendation verletzt Safety Invariants."; }
   else if(!Array.isArray(rec.requiredPolicySteps) || rec.requiredPolicySteps.length===0){ decision="blocked_missing_policy_steps"; reason="Policy Steps fehlen."; }
-  else if(checks.some((check)=>!check.passed)){ decision="blocked_policy_violation"; reason="Mindestens ein Policy Check ist fehlgeschlagen."; }
+  else if(checks.some((check: any) =>!check.passed)){ decision="blocked_policy_violation"; reason="Mindestens ein Policy Check ist fehlgeschlagen."; }
   const sim: MasterAgentPlannerPolicySimulation={
     id: makeId("planner-policy-sim"),
     timestamp:new Date().toISOString(),

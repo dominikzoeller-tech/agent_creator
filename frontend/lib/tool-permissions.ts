@@ -36,8 +36,8 @@ export function buildToolPermissionsMatrix(
     sensitivity,
     processingMode,
     totalTools: decisions.length,
-    allowedTools: decisions.filter((decision) => decision.allowed).length,
-    blockedTools: decisions.filter((decision) => !decision.allowed).length,
+    allowedTools: decisions.filter((decision: any) => decision.allowed).length,
+    blockedTools: decisions.filter((decision: any) => !decision.allowed).length,
     decisions,
   };
 }

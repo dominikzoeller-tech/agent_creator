@@ -120,7 +120,7 @@ export default function ToolPermissionsPage() {
       <section style={cardStyle}>
         <h2 style={{ marginTop: 0 }}>Entscheidungen</h2>
         <div style={{ display: "grid", gap: 12 }}>
-          {decisions.map((decision) => (
+          {decisions.map((decision: any) => (
             <article key={decision.toolId} style={{ border: "1px solid #e5e7eb", borderRadius: 14, padding: 14, background: decision.allowed ? "#f0fdf4" : "#fef2f2" }}>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
                 <div>
@@ -132,13 +132,13 @@ export default function ToolPermissionsPage() {
               {decision.reasons.length ? (
                 <>
                   <h4>Blockiergründe</h4>
-                  <ul>{decision.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul>
+                  <ul>{decision.reasons.map((reason: string) => <li key={reason}>{reason}</li>)}</ul>
                 </>
               ) : null}
               {decision.warnings.length ? (
                 <>
                   <h4>Warnungen</h4>
-                  <ul>{decision.warnings.map((warning) => <li key={warning}>{warning}</li>)}</ul>
+                  <ul>{decision.warnings.map((warning: any) => <li key={warning}>{warning}</li>)}</ul>
                 </>
               ) : null}
             </article>

@@ -59,13 +59,13 @@ export default function SecureMasterAnswerLogListFilterSelectPage() {
         <div style={{ display: 'grid', gap: 8, gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', maxWidth: 980 }}>
           <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Suche inputPreview" style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }} />
           <select value={route} onChange={(event) => setRoute(event.target.value)} style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }}>
-            {routeOptions.map((item) => <option key={item} value={item}>{item}</option>)}
+            {routeOptions.map((item: any) => <option key={item} value={item}>{item}</option>)}
           </select>
           <select value={intent} onChange={(event) => setIntent(event.target.value)} style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }}>
-            {intentOptions.map((item) => <option key={item} value={item}>{item}</option>)}
+            {intentOptions.map((item: any) => <option key={item} value={item}>{item}</option>)}
           </select>
           <select value={privacyDecision} onChange={(event) => setPrivacyDecision(event.target.value)} style={{ padding: 10, borderRadius: 10, border: '1px solid #ccc' }}>
-            {privacyOptions.map((item) => <option key={item} value={item}>{item}</option>)}
+            {privacyOptions.map((item: any) => <option key={item} value={item}>{item}</option>)}
           </select>
         </div>
 
@@ -93,7 +93,7 @@ export default function SecureMasterAnswerLogListFilterSelectPage() {
             </ul>
           </article>
 
-          {result.filter.items.map((item) => (
+          {result.filter.items.map((item: any) => (
             <article key={item.id} style={card}>
               <h3>{item.id}</h3>
               <ul>

@@ -1,5 +1,9 @@
 import { getCommitteeIntakeDemo } from '../../../lib/cmt-intake';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeIntakePage() {
   const demo = getCommitteeIntakeDemo();
 

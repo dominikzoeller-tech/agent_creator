@@ -1,5 +1,9 @@
 import { getCommitteeCore } from '../../lib/cmt-store';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeCorePage() {
   const core = getCommitteeCore();
 
@@ -25,7 +29,7 @@ export default function CommitteeCorePage() {
       <section>
         <h3>Gremiumsrollen</h3>
         <div style={{ display: 'grid', gap: 12 }}>
-          {core.roles.map((role) => (
+          {core.roles.map((role: any) => (
             <article key={role.id} style={{ border: '1px solid #ddd', borderRadius: 12, padding: 16 }}>
               <h4>{role.title}</h4>
               <p><strong>ID:</strong> {role.id}</p>

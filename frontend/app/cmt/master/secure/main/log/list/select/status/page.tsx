@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getSecureMasterAnswerLogListMainSelectStatus } from '../../../../../../../../lib/cmt-master-answer-log-list-main-select-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SecureMasterAnswerLogListMainSelectStatusPage() {
   const data = getSecureMasterAnswerLogListMainSelectStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16, background: '#fff' };
@@ -41,7 +45,7 @@ export default function SecureMasterAnswerLogListMainSelectStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Checks</h3>
-        <ol>{data.checks.map((item) => <li key={item}>{item}</li>)}</ol>
+        <ol>{data.checks.map((item: any) => <li key={item}>{item}</li>)}</ol>
       </section>
 
       <section style={{ marginTop: 16 }}>

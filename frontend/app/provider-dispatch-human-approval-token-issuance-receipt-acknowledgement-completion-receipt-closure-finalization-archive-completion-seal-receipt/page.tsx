@@ -18,7 +18,7 @@ export default function ProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowl
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-xl font-semibold text-slate-950">Archive completion seal receipt checks</h2>
         <div className="mt-4 grid gap-3">
-          {receipt.archiveCompletionSealReceiptChecks.map((check) => (
+          {receipt.archiveCompletionSealReceiptChecks.map((check: any) => (
             <article key={check.id} className="rounded-xl border border-slate-200 p-4">
               <div className="flex items-center justify-between gap-4"><h3 className="font-semibold text-slate-950">{check.label}</h3><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">PASS</span></div>
               <p className="mt-2 text-sm leading-6 text-slate-700">{check.detail}</p>

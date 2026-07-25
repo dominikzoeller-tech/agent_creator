@@ -51,7 +51,7 @@ function appendPlan(plan: ToolExecutionSandboxPlan): void { ensureStore(); appen
 function slug(value: string): string { return value.toLowerCase().replace(/[^a-z0-9Ã¤Ã¶Ã¼ÃŸ_-]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "tool-adapter"; }
 function makeId(prefix: string, value?: string): string { const now = new Date().toISOString(); return prefix + "-" + slug(value || prefix) + "-" + now.replace(/[^0-9]/g, "").slice(0,14) + "-" + Math.random().toString(36).slice(2,8); }
 function redact(value: unknown): unknown { if(typeof value !== "string") return value; return value.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[redacted-email]").replace(/(api[_-]?key|token|secret|password)\s*[:=]\s*[^\s,;]+/gi, "$1=[redacted]").slice(0, 500); }
-function normalizeList(value: unknown): string[] { if(Array.isArray(value)) return value.filter((item): item is string => typeof item === "string").map((item)=>item.trim()).filter(Boolean); if(typeof value === "string") return value.split(",").map((item)=>item.trim()).filter(Boolean); return []; }
+function normalizeList(value: unknown): string[] { if(Array.isArray(value)) return value.filter((item): item is string => typeof item === "string").map((item: any) =>item.trim()).filter(Boolean); if(typeof value === "string") return value.split(",").map((item: any) =>item.trim()).filter(Boolean); return []; }
 
 export function listToolAdapters(): ToolAdapterRegistryEntry[] { return readRegistry().sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt)); }
 export function registerToolAdapter(input: { adapterName: string; displayName?: string; purpose: string; allowedInputKeys?: unknown; allowedOutputKeys?: unknown; requiredPermissions?: unknown; riskLevel?: "low"|"medium"|"high"; requiresConsent?: boolean; metadata?: Record<string, unknown>; }): ToolAdapterRegistryEntry {
@@ -87,7 +87,7 @@ export function updateToolAdapterStatus(input: { id: string; status: ToolAdapter
 }
 export function createToolExecutionSandboxPlan(input: { adapterId?: string; adapterName?: string; requestedAction: string; input?: Record<string, unknown>; grantedPermissions?: string[]; metadata?: Record<string, unknown>; }): ToolExecutionSandboxPlan {
   const registry = readRegistry();
-  const adapter = registry.find((entry) => (input.adapterId && entry.id === input.adapterId) || (input.adapterName && entry.adapterName === input.adapterName));
+  const adapter = registry.find((entry: any) => (input.adapterId && entry.id === input.adapterId) || (input.adapterName && entry.adapterName === input.adapterName));
   const rawInput = input.input || {};
   const sanitizedInput: Record<string, unknown> = {};
   const rejectedInputKeys: string[] = [];

@@ -1,5 +1,9 @@
 import { getCommitteeDemoReport } from '../../../../lib/cmt-demo-report';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeDemoReportPage() {
   const report = getCommitteeDemoReport();
 

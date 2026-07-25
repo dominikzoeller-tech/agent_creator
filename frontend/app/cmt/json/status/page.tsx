@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCommitteeLocalJsonStatus } from '../../../../lib/cmt-json-status';
 
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function CommitteeLocalJsonStatusPage() {
   const status = getCommitteeLocalJsonStatus();
   const card = { border: '1px solid #ddd', borderRadius: 12, padding: 16 };
@@ -28,7 +32,7 @@ export default function CommitteeLocalJsonStatusPage() {
 
       <section style={{ ...card, marginTop: 16 }}>
         <h3>Checks</h3>
-        <ul>{status.status.checks.map((check) => <li key={check}>{check}</li>)}</ul>
+        <ul>{status.status.checks.map((check: any) => <li key={check}>{check}</li>)}</ul>
       </section>
 
       <section>

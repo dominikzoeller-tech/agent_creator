@@ -55,7 +55,7 @@ export async function buildMemoryQualityReport(memoryFile = DEFAULT_MEMORY_FILE)
   const duplicateTitleGroups = findDuplicateTitleGroups(entries);
   const duplicateTitleIds = new Set(duplicateTitleGroups.flat());
 
-  const reports = entries.map((entry) => {
+  const reports = entries.map((entry: any) => {
     const issues = evaluateEntry(entry, duplicateTitleIds);
     const summary = entry.summary ?? "";
     return {
@@ -126,7 +126,7 @@ function countWords(value: string): number {
 }
 
 function countSeverity(reports: MemoryQualityEntryReport[], severity: MemoryQualitySeverity): number {
-  return reports.reduce((sum, report) => sum + report.issues.filter((issue) => issue.severity === severity).length, 0);
+  return reports.reduce((sum, report) => sum + report.issues.filter((issue: any) => issue.severity === severity).length, 0);
 }
 
 function isOlderThanDays(value: string, days: number): boolean {

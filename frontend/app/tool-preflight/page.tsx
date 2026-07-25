@@ -128,14 +128,14 @@ export default function ToolPreflightPage() {
           {result.reasons.length ? (
             <>
               <h3>Blockiergründe</h3>
-              <ul>{result.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul>
+              <ul>{result.reasons.map((reason: string) => <li key={reason}>{reason}</li>)}</ul>
             </>
           ) : null}
 
           {result.warnings.length ? (
             <>
               <h3>Warnungen</h3>
-              <ul>{result.warnings.map((warning) => <li key={warning}>{warning}</li>)}</ul>
+              <ul>{result.warnings.map((warning: any) => <li key={warning}>{warning}</li>)}</ul>
             </>
           ) : null}
 

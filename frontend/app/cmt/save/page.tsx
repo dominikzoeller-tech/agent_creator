@@ -49,7 +49,7 @@ export default function CommitteeSavePage() {
           <h3>Gespeicherte Session</h3>
           <p>sessionKey: {saved.sessionKey}</p>
           <p>savedCount: {saved.savedCount}</p>
-          {saved.history.items.map((item) => (
+          {saved.history.items.map((item: any) => (
             <article key={item.id} style={{ border: '1px solid #ddd', borderRadius: 12, padding: 16 }}>
               <h4>{item.title}</h4>
               <p>{item.question}</p>

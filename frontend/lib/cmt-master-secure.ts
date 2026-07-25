@@ -86,3 +86,6 @@ export function askSecureMasterAgent(input: string, option: PrivacyDecisionOptio
 export function getSecureMasterDemo() {
   return askSecureMasterAgent('Soll ich diese interne Kalkulation fuer Kunde Muster mit dem Gremium pruefen?', 'local_only');
 }
+
+
+export { getSecureMasterStatus, getSecureMasterStatusDemo, createSecureMasterStatus } from './cmt-master-secure-status';

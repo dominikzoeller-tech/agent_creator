@@ -59,7 +59,7 @@ export function createControlledLlmStubResponse(input:{ envelopeId?: string; met
   else if(envelope.allowedOutputContract?.outputType!=="recommendation_explanation_only" || envelope.allowedOutputContract?.mayExecuteTools!==false || envelope.allowedOutputContract?.mayExecuteAgents!==false || envelope.allowedOutputContract?.mayRevealSecrets!==false || envelope.allowedOutputContract?.mayChangeState!==false){ decision="blocked_output_contract_violation"; reason="Output Contract verletzt Explanation-only-Regeln."; }
   const sections=envelope ? buildSections(envelope) : [{ title:"Blockiert", body:reason }];
   const ctx=envelope?.sanitizedContext || {};
-  const responseText=sections.map((section)=>"### "+section.title+"\n"+section.body).join("\n\n");
+  const responseText=sections.map((section: any) =>"### "+section.title+"\n"+section.body).join("\n\n");
   const response:ControlledLlmStubResponse={
     id:makeId("llm-stub-response"), timestamp:new Date().toISOString(), envelopeId:envelope?.id || input.envelopeId, recommendationId:envelope?.recommendationId, actionType:envelope?.actionType, decision, responseText, responseSections:sections,
     sourceEnvelopeSummary:{ recommendedNextAction: typeof ctx.recommendedNextAction === "string" ? ctx.recommendedNextAction : undefined, missingSafetyGates: Array.isArray(ctx.missingSafetyGates) ? ctx.missingSafetyGates : [], requiredConsentSteps: Array.isArray(ctx.requiredConsentSteps) ? ctx.requiredConsentSteps : [], requiredPolicySteps: Array.isArray(ctx.requiredPolicySteps) ? ctx.requiredPolicySteps : [] },

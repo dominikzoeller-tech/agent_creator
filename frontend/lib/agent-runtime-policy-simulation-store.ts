@@ -49,7 +49,7 @@ export function simulateRuntimePolicy(input: { resumeEnvelopeId?: string; metada
   else if (resume.resumeAllowed !== true) { decision = "blocked_resume_not_allowed"; reason = "Resume Envelope erlaubt keinen Resume."; }
   else if (resume.toolExecutionAllowed !== false || resume.dryRunOnly !== true) { decision = "blocked_tool_execution"; reason = "Dry-run Sicherheitsregeln verletzt."; }
   else if (resume.consentStatus !== "approved") { decision = "blocked_missing_consent"; reason = "Consent ist nicht approved."; }
-  else if (checks.some((check) => !check.passed)) { decision = "blocked_policy_violation"; reason = "Mindestens ein Policy Check ist fehlgeschlagen."; }
+  else if (checks.some((check: any) => !check.passed)) { decision = "blocked_policy_violation"; reason = "Mindestens ein Policy Check ist fehlgeschlagen."; }
   const result: RuntimePolicySimulationResult = {
     id: makeId("policy-sim"),
     timestamp: new Date().toISOString(),

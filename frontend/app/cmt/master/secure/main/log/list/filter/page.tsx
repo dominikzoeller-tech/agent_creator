@@ -81,7 +81,7 @@ export default function SecureMasterAnswerLogListFilterPage() {
             </ul>
           </article>
 
-          {result.items.map((item) => (
+          {result.items.map((item: any) => (
             <article key={item.id} style={card}>
               <h3>{item.id}</h3>
               <ul>

@@ -86,7 +86,7 @@ export function listProviderDispatchHumanApprovalTokenIssuanceConfirmations(limi
 
 export function simulateProviderDispatchHumanApprovalTokenIssuanceConfirmationPolicy(sourceConfirmationId?: string): ProviderDispatchHumanApprovalTokenIssuanceConfirmationPolicySimulation {
   const confirmations = listProviderDispatchHumanApprovalTokenIssuanceConfirmations(200);
-  const source = confirmations.find((item) => item.id === sourceConfirmationId) || confirmations[0] || { id: "manual-confirmation-reference" };
+  const source = confirmations.find((item: any) => item.id === sourceConfirmationId) || confirmations[0] || { id: "manual-confirmation-reference" };
   const now = new Date().toISOString();
   const sim: ProviderDispatchHumanApprovalTokenIssuanceConfirmationPolicySimulation = {
     id: makeId("pdhat-issuance-confirmation-policy"),

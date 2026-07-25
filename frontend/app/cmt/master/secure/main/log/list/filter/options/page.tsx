@@ -70,17 +70,17 @@ export default function SecureMasterAnswerLogListFilterOptionsPage() {
 
           <article style={card}>
             <h3>Route Dropdown Options</h3>
-            <ul>{result.routes.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{result.routes.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
 
           <article style={card}>
             <h3>Intent Dropdown Options</h3>
-            <ul>{result.intents.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{result.intents.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
 
           <article style={card}>
             <h3>Privacy Dropdown Options</h3>
-            <ul>{result.privacyDecisions.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{result.privacyDecisions.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
         </section>
       )}

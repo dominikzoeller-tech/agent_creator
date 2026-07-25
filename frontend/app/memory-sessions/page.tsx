@@ -84,7 +84,7 @@ export default function MemorySessionsPage() {
   function updateDraft(field: keyof Proposal, value: string) {
     setDraft((current) => {
       if (!current) return current;
-      if (field === "tags") return { ...current, tags: value.split(",").map((tag) => tag.trim()).filter(Boolean) };
+      if (field === "tags") return { ...current, tags: value.split(",").map((tag: string) => tag.trim()).filter(Boolean) };
       return { ...current, [field]: value };
     });
   }

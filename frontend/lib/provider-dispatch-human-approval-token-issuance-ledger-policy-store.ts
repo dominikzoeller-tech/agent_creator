@@ -41,7 +41,7 @@ export function listProviderDispatchHumanApprovalTokenIssuanceLedgerPolicySimula
 export function simulateProviderDispatchHumanApprovalTokenIssuanceLedgerPolicy(sourceLedgerEntryId?: string): ProviderDispatchHumanApprovalTokenIssuanceLedgerPolicySimulation {
   ensureStore();
   const entries = readJsonl(ledgerPath());
-  const source = sourceLedgerEntryId ? entries.find((entry) => entry.id === sourceLedgerEntryId) : entries[entries.length - 1];
+  const source = sourceLedgerEntryId ? entries.find((entry: any) => entry.id === sourceLedgerEntryId) : entries[entries.length - 1];
   const now = new Date().toISOString();
   const sim: ProviderDispatchHumanApprovalTokenIssuanceLedgerPolicySimulation = {
     id: makeId("issuance-ledger-policy"),

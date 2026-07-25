@@ -47,7 +47,7 @@ export default function ProviderDispatchHumanApprovalTokenIssuanceReceiptAcknowl
       <section className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
         <h2 className="text-xl font-semibold text-slate-950">Policy checks</h2>
         <div className="mt-4 grid gap-3">
-          {audit.policyChecks.map((check) => (
+          {audit.policyChecks.map((check: any) => (
             <article key={check.id} className="rounded-xl bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between gap-4"><h3 className="font-semibold text-slate-950">{check.label}</h3><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">PASS</span></div>
               <p className="mt-2 text-sm text-slate-700">{check.detail}</p>

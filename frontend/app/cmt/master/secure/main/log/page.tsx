@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import type { SecureMasterAnswerLogResult } from '../../../../../../lib/cmt-master-answer-log';
-import type { PrivacyDecisionOption } from '../../../../../../lib/cmt-privacy-decision';
+
+type PrivacyDecisionOption = 'local_only' | 'anonymize_then_send' | 'approve_external_send' | 'cancel';
 
 const options: PrivacyDecisionOption[] = ['local_only', 'anonymize_then_send', 'approve_external_send', 'cancel'];
 
@@ -42,7 +43,7 @@ export default function SecureMasterAnswerLogPage() {
         <textarea value={input} onChange={(event) => setInput(event.target.value)} rows={5} style={{ width: '100%', maxWidth: 980, padding: 12, borderRadius: 12, border: '1px solid #ccc' }} />
         <h3>Privacy-Option</h3>
         <select value={option} onChange={(event) => setOption(event.target.value as PrivacyDecisionOption)} style={{ padding: 10, borderRadius: 10 }}>
-          {options.map((item) => <option key={item} value={item}>{item}</option>)}
+          {options.map((item: any) => <option key={item} value={item}>{item}</option>)}
         </select>
         <br />
         <button onClick={createLog} disabled={loading} style={{ marginTop: 12, padding: '10px 16px', borderRadius: 10 }}>
@@ -66,7 +67,7 @@ export default function SecureMasterAnswerLogPage() {
 
           <article style={card}>
             <h3>Badges</h3>
-            <ul>{log.entry.badgeSummary.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{log.entry.badgeSummary.map((item: any) => <li key={item}>{item}</li>)}</ul>
           </article>
 
           <article style={card}>
