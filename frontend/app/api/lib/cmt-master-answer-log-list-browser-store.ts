@@ -14,6 +14,8 @@ export function makeCompatStub(name: string): any {
     apply() { return { ok: true, stub: true, name, status: 'stubbed', items: [], logs: [], data: [], message: 'Compatibility stub for cmt-master-answer-log-list-browser-store' }; }
   });
 }
+export const createSecureMasterAnswerLogBrowserStore: any = makeCompatStub('createSecureMasterAnswerLogBrowserStore');
+export const getSecureMasterAnswerLogBrowserStoreDemo: any = makeCompatStub('getSecureMasterAnswerLogBrowserStoreDemo');
 export const cmtMasterAnswerLogListBrowserStore: any = makeCompatStub('cmtMasterAnswerLogListBrowserStore');
 export const answerLogListBrowserStore: any = makeCompatStub('answerLogListBrowserStore');
 export const cmtMasterAppEntry: any = makeCompatStub('cmtMasterAppEntry');

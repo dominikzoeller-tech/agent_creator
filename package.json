@@ -1226,7 +1226,8 @@
     "worker2:verify": "node scripts/v-agent-worker-2.cjs",
     "agent:worker2:verify": "node scripts/v-agent-worker-2.cjs",
     "fixlibs:verify": "node scripts/v-fix-missing-lib-stubs.cjs",
-    "fixapplib:verify": "node scripts/v-fix-app-lib-compat-stubs.cjs"
+    "fixapplib:verify": "node scripts/v-fix-app-lib-compat-stubs.cjs",
+    "fixexact:verify": "node scripts/v-fix-exact-missing-imports.cjs"
   },
   "repository": {
     "type": "git",

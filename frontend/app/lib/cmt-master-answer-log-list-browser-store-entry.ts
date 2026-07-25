@@ -1,8 +1,8 @@
-/* Auto-generated exact compatibility stub for cmt-master-answer-log-list-browser-store. */
+/* Auto-generated exact compatibility stub for cmt-master-answer-log-list-browser-store-entry. */
 export type CompatStub = Record<string, any>;
 export function makeCompatStub(name: string): any {
   return new Proxy(function compatStub(..._args: any[]) {
-    return { ok: true, stub: true, name, status: 'stubbed', items: [], logs: [], data: [], message: 'Compatibility stub for cmt-master-answer-log-list-browser-store' };
+    return { ok: true, stub: true, name, status: 'stubbed', items: [], logs: [], data: [], message: 'Compatibility stub for cmt-master-answer-log-list-browser-store-entry' };
   }, {
     get(_target, prop) {
       if (prop === 'then') return undefined;
@@ -11,17 +11,18 @@ export function makeCompatStub(name: string): any {
       if (prop === 'length') return 0;
       return makeCompatStub(name + '.' + String(prop));
     },
-    apply() { return { ok: true, stub: true, name, status: 'stubbed', items: [], logs: [], data: [], message: 'Compatibility stub for cmt-master-answer-log-list-browser-store' }; }
+    apply() { return { ok: true, stub: true, name, status: 'stubbed', items: [], logs: [], data: [], message: 'Compatibility stub for cmt-master-answer-log-list-browser-store-entry' }; }
   });
 }
-export const cmtMasterAnswerLogListBrowserStore: any = makeCompatStub('cmtMasterAnswerLogListBrowserStore');
+export const getSecureMasterAnswerLogBrowserStoreEntry: any = makeCompatStub('getSecureMasterAnswerLogBrowserStoreEntry');
+export const cmtMasterAnswerLogListBrowserStoreEntry: any = makeCompatStub('cmtMasterAnswerLogListBrowserStoreEntry');
 export const answerLogListBrowserStore: any = makeCompatStub('answerLogListBrowserStore');
+export const cmtMasterAnswerLogListBrowserStore: any = makeCompatStub('cmtMasterAnswerLogListBrowserStore');
 export const cmtMasterAppEntry: any = makeCompatStub('cmtMasterAppEntry');
 export const cmtMasterNavStatus: any = makeCompatStub('cmtMasterNavStatus');
 export const cmtMasterCommittee: any = makeCompatStub('cmtMasterCommittee');
 export const cmtMasterSecureGuide: any = makeCompatStub('cmtMasterSecureGuide');
 export const cmtMasterAnswerLogEntry: any = makeCompatStub('cmtMasterAnswerLogEntry');
-export const cmtMasterAnswerLogListBrowserStoreEntry: any = makeCompatStub('cmtMasterAnswerLogListBrowserStoreEntry');
 export const getAnswerLogList: any = makeCompatStub('getAnswerLogList');
 export const loadAnswerLogList: any = makeCompatStub('loadAnswerLogList');
 export const saveAnswerLogList: any = makeCompatStub('saveAnswerLogList');
@@ -31,4 +32,4 @@ export const exportAnswerLogs: any = makeCompatStub('exportAnswerLogs');
 export const getCmtMasterAppEntry: any = makeCompatStub('getCmtMasterAppEntry');
 export const getCmtMasterNavStatus: any = makeCompatStub('getCmtMasterNavStatus');
 export const createCmtMasterCommittee: any = makeCompatStub('createCmtMasterCommittee');
-export default makeCompatStub('default:cmt-master-answer-log-list-browser-store');
+export default makeCompatStub('default:cmt-master-answer-log-list-browser-store-entry');
