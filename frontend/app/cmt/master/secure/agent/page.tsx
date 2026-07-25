@@ -302,6 +302,23 @@ export default function Page() {
           <ul>{secureMasterSprintState.nextActions.map((item) => <li key={item}>{item}</li>)}</ul>
         </section>
 
+        <section style={{ border: '1px solid #f97316', borderRadius: 18, background: '#1c1917', padding: 20 }}>
+          <h2>Secret-/API-Key-Sicherheit</h2>
+          <p style={{ color: '#fbbf24' }}>Noch keine echten API-Keys eingeben, speichern oder verwenden.</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
+            <p>Secret-Eingabe erlaubt: <b>{String(secureMasterSecretReadiness.secretInputAllowed)}</b></p>
+            <p>Browser-Speicherung erlaubt: <b>{String(secureMasterSecretReadiness.browserSecretStorageAllowed)}</b></p>
+            <p>Repo-Speicherung erlaubt: <b>{String(secureMasterSecretReadiness.repoSecretStorageAllowed)}</b></p>
+            <p>Secure Vault spaeter noetig: <b>{String(secureMasterSecretReadiness.secureVaultRequiredLater)}</b></p>
+            <p>Provider-Call erlaubt: <b>{String(secureMasterSecretReadiness.providerCallAllowed)}</b></p>
+          </div>
+          <h3>Jetzt verboten</h3>
+          <ul>{secureMasterSecretReadiness.forbiddenNow.map((item) => <li key={item}>{item}</li>)}</ul>
+          <h3>Spaeter erforderlich</h3>
+          <ul>{secureMasterSecretReadiness.requiredLater.map((item) => <li key={item}>{item}</li>)}</ul>
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterSecretReadiness.nextSafeStep}</p>
+        </section>
+
         <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>
           <h2>Live-Readiness-Matrix</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
