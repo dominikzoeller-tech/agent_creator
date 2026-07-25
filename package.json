@@ -1210,7 +1210,9 @@
     "live1:verify": "node scripts/v-live-test-1.cjs",
     "agent:live1:verify": "node scripts/v-live-test-1.cjs",
     "live2:verify": "node scripts/v-live-test-2.cjs",
-    "agent:live2:verify": "node scripts/v-live-test-2.cjs"
+    "agent:live2:verify": "node scripts/v-live-test-2.cjs",
+    "live3:verify": "node scripts/v-live-test-3.cjs",
+    "agent:live3:verify": "node scripts/v-live-test-3.cjs"
   },
   "repository": {
     "type": "git",

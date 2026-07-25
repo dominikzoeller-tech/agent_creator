@@ -65,6 +65,7 @@ export default function Page() {
   const [liveTestGateResult, setLiveTestGateResult] = useState<any | null>(null);
   const [liveProviderTestResult, setLiveProviderTestResult] = useState<any | null>(null);
   const [livePreflightResult, setLivePreflightResult] = useState<any | null>(null);
+  const [liveRunbookResult, setLiveRunbookResult] = useState<any | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -94,6 +95,15 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  async function loadLiveRunbook() {
+    try {
+      const response = await fetch('/api/cmt/master/secure/live-test/runbook');
+      setLiveRunbookResult(await response.json());
+    } catch (error) {
+      setLiveRunbookResult({ ok: false, error: 'live_runbook_failed' });
+    }
   }
 
   async function runLivePreflight() {
@@ -600,6 +610,25 @@ export default function Page() {
               <h3>Aktuelle Blocker</h3>
               <ul>{liveTestGateResult.blockedReasons?.map((item: string) => <li key={item}>{item}</li>)}</ul>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{liveTestGateResult.nextSafeStep}</p>
+            </div>
+          )}
+        </section>
+
+        <section style={{ border: '1px solid #ef4444', borderRadius: 18, background: '#1f1111', padding: 20 }}>
+          <h2>Live-Test-Runbook</h2>
+          <p style={{ color: '#fecaca' }}>Runbook und ENV-Beispiel fuer den ersten echten Live-Test. Dieser Block aktiviert keinen Provider-Call.</p>
+          <button onClick={loadLiveRunbook} style={{ border: '1px solid #ef4444', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Live-Test-Runbook laden</button>
+          {liveRunbookResult && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>Runbook vorbereitet: <b>{String(liveRunbookResult.runbookPrepared)}</b></p>
+              <p>ENV Beispiel: <b>{liveRunbookResult.envExampleFile}</b></p>
+              <p>Docs: <b>{liveRunbookResult.docsFile}</b></p>
+              <p>Provider-Call durch diesen Patch erlaubt: <b>{String(liveRunbookResult.providerCallAllowedByThisPatch)}</b></p>
+              <p>Client-Secrets erlaubt: <b>{String(liveRunbookResult.clientSecretsAllowed)}</b></p>
+              <h3>Manuelle Schritte</h3>
+              <ul>{liveRunbookResult.requiredManualSteps?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <p style={{ color: '#bbf7d0' }}>Sichere erste Frage: {liveRunbookResult.safeFirstQuestion}</p>
+              <p style={{ color: '#94a3b8', fontSize: 13 }}>{liveRunbookResult.rollbackInstruction}</p>
             </div>
           )}
         </section>
