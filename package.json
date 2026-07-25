@@ -1213,7 +1213,10 @@
     "agent:live2:verify": "node scripts/v-live-test-2.cjs",
     "live3:verify": "node scripts/v-live-test-3.cjs",
     "agent:live3:verify": "node scripts/v-live-test-3.cjs",
-    "hotfixapi:verify": "node scripts/v-hotfix-api-import-depth.cjs"
+    "hotfixapi:verify": "node scripts/v-hotfix-api-import-depth.cjs",
+    "selftop2:verify": "node scripts/v-hotfix-self-builder-top-v2.cjs",
+    "autopatch1:verify": "node scripts/v-self-builder-autopatch-1.cjs",
+    "agent:autopatch1:verify": "node scripts/v-self-builder-autopatch-1.cjs"
   },
   "repository": {
     "type": "git",

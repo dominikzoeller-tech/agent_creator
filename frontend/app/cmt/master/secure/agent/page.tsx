@@ -48,6 +48,10 @@ function writeLogs(logs: AgentLog[]) {
 
 export default function Page() {
   const [input, setInput] = useState('');
+  const [autoPatchGoal, setAutoPatchGoal] = useState('Mach den Agenten als Arbeitsagent nutzbar und reduziere Dashboard-Ballast.');
+  const [autoPatchResult, setAutoPatchResult] = useState<any | null>(null);
+  const [selfBuildGoalTop, setSelfBuildGoalTop] = useState('Baue dich selbst fertig zu einem wirklich nutzbaren Arbeitsagenten.');
+  const [selfBuildPlanTop, setSelfBuildPlanTop] = useState<any | null>(null);
   const [logs, setLogs] = useState<AgentLog[]>([]);
   const [current, setCurrent] = useState<AgentLog | null>(null);
   const [approval, setApproval] = useState<SecureMasterLocalApproval>('local_only');
@@ -248,7 +252,41 @@ export default function Page() {
   const providerAdapterPipeline = createSecureMasterProviderAdapterPipeline({ approvalDecision: approval, privacyDecision: current?.privacyDecision, hasAdapterContract: Boolean(providerAdapterContract) });
   const liveReadinessMatrix = createSecureMasterLiveReadinessMatrix({ hasAdapterContract: Boolean(providerAdapterContract), hasAdapterPipeline: true, approvalDecision: approval, providerCallAllowed: false });
 
-  function exportLogs() {
+  async function runSelfBuildPlanTop() {
+  try {
+    const response = await fetch('/api/cmt/master/secure/self-build/plan', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ goal: selfBuildGoalTop }),
+    });
+    setSelfBuildPlanTop(await response.json());
+  } catch (error) {
+    setSelfBuildPlanTop({ ok: false, error: 'self_build_failed' });
+  }
+}
+
+function copySelfBuildPromptTop() {
+  const text = selfBuildPlanTop?.copilotPrompt || '';
+  if (text) navigator.clipboard?.writeText(text);
+}
+async function runAutoPatchBuilder() {
+  try {
+    const response = await fetch('/api/cmt/master/secure/self-build/autopatch', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ goal: autoPatchGoal }),
+    });
+    setAutoPatchResult(await response.json());
+  } catch (error) {
+    setAutoPatchResult({ ok: false, error: 'autopatch_failed' });
+  }
+}
+
+function copyAutoPatchScript() {
+  const text = autoPatchResult?.script || '';
+  if (text) navigator.clipboard?.writeText(text);
+}
+function exportLogs() {
     const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), logs }, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
@@ -268,8 +306,62 @@ export default function Page() {
             Frage eingeben, lokal prüfen, Routing/Privacy/Gremium sehen und Verlauf im Browser speichern. Kein Provider, kein Internet, keine externe Weitergabe. Dieser Bildschirm ist ab jetzt der Haupttestpunkt für den Master-Agenten.
           </p>
         </section>
+        <section style={{ border: '3px solid #22c55e', borderRadius: 18, background: '#052e16', padding: 20 }}>
+          <h2>Agent-Selbstbau TOP</h2>
+          <p style={{ color: '#bbf7d0' }}>Hier ist der Selbstbau-Modus. Nicht ins normale Fragefeld schreiben: Ziel hier eintragen und Selbstbauplan erzeugen.</p>
+          <textarea
+            value={selfBuildGoalTop}
+            onChange={(event) => setSelfBuildGoalTop(event.target.value)}
+            style={{ width: '100%', minHeight: 82, borderRadius: 12, border: '1px solid #22c55e', background: '#020617', color: '#e5e7eb', padding: 12 }}
+          />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
+            <button onClick={runSelfBuildPlanTop} style={{ border: 0, borderRadius: 10, background: '#22c55e', color: '#052e16', padding: '10px 14px', fontWeight: 800 }}>Selbstbauplan erzeugen</button>
+            <button onClick={copySelfBuildPromptTop} style={{ border: '1px solid #22c55e', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 14px' }}>Copilot-Prompt kopieren</button>
+          </div>
+          {selfBuildPlanTop && (
+            <div style={{ marginTop: 12, border: '1px solid #166534', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <h3>{selfBuildPlanTop.title ?? 'Selbstbauplan'}</h3>
+              <p>{selfBuildPlanTop.summary}</p>
+              <p>Naechster Patch: <b>{selfBuildPlanTop.nextPatchName}</b> | Prioritaet: <b>{selfBuildPlanTop.priority}</b></p>
+              <h4>Dateien</h4>
+              <ul>{selfBuildPlanTop.filesToCreateOrEdit?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <h4>Konkrete Schritte</h4>
+              <ul>{selfBuildPlanTop.concreteSteps?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <h4>Copilot-Prompt</h4>
+              <pre style={{ whiteSpace: 'pre-wrap', background: '#0f172a', borderRadius: 10, padding: 12, color: '#cbd5e1' }}>{selfBuildPlanTop.copilotPrompt}</pre>
+            </div>
+          )}
+        </section>
 
-        <section style={{ border: '1px solid #22d3ee', borderRadius: 18, background: '#0f172a', padding: 20 }}>
+
+                <section style={{ border: '3px solid #22c55e', borderRadius: 18, background: '#052e16', padding: 20 }}>
+          <h2>Agent-Autopatch</h2>
+          <p style={{ color: '#bbf7d0' }}>Jetzt praktisch: Der Agent erzeugt einen konkreten Patch-Vorschlag mit Script, Tests und Commit-Message.</p>
+          <textarea
+            value={autoPatchGoal}
+            onChange={(event) => setAutoPatchGoal(event.target.value)}
+            style={{ width: '100%', minHeight: 76, borderRadius: 12, border: '1px solid #22c55e', background: '#020617', color: '#e5e7eb', padding: 12 }}
+          />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
+            <button onClick={runAutoPatchBuilder} style={{ border: 0, borderRadius: 10, background: '#22c55e', color: '#052e16', padding: '10px 14px', fontWeight: 800 }}>Autopatch erzeugen</button>
+            <button onClick={copyAutoPatchScript} style={{ border: '1px solid #22c55e', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 14px' }}>Patch-Script kopieren</button>
+          </div>
+          {autoPatchResult && (
+            <div style={{ marginTop: 12, border: '1px solid #166534', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <h3>{autoPatchResult.title}</h3>
+              <p>{autoPatchResult.summary}</p>
+              <p>Patch: <b>{autoPatchResult.patchName}</b></p>
+              <h4>Dateien</h4>
+              <ul>{autoPatchResult.filesToEdit?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <h4>Testbefehle</h4>
+              <ul>{autoPatchResult.testCommands?.map((item: string) => <li key={item}><code>{item}</code></li>)}</ul>
+              <p>Commit: <code>{autoPatchResult.commitMessage}</code></p>
+              <h4>Script</h4>
+              <pre style={{ whiteSpace: 'pre-wrap', background: '#0f172a', borderRadius: 10, padding: 12, color: '#cbd5e1' }}>{autoPatchResult.script}</pre>
+            </div>
+          )}
+        </section>
+<section style={{ border: '1px solid #22d3ee', borderRadius: 18, background: '#0f172a', padding: 20 }}>
           <h2>Operator-Panel</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
             <p>Lokale Logs: <b>{operatorPanel.localLogCount}</b></p>
