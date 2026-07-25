@@ -117,6 +117,7 @@ export default function Page() {
   const decisionSummary = current ? createSecureMasterDecisionSummary({ intent: current.intent, route: current.route, privacyDecision: current.privacyDecision, approvalDecision: approval }) : null;
 
   const actionPlan = current ? createSecureMasterActionPlan({ intent: current.intent, route: current.route, privacyDecision: current.privacyDecision, approvalDecision: approval, hasProviderDryRun: Boolean(dryRunResult) }) : null;
+  const operatorPanel = createSecureMasterOperatorPanel({ localLogCount: logs.length, providerDryRunCount: dryRunHistory.length, adapterDryRunCount: adapterDryRunHistory.length, approvalDecision: approval, currentRecommendation: decisionSummary?.recommendation, currentRiskLevel: decisionSummary?.riskLevel });
 
   function exportLogs() {
     const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), logs }, null, 2)], { type: 'application/json' });
@@ -137,6 +138,21 @@ export default function Page() {
           <p style={{ color: '#cbd5e1', maxWidth: 900 }}>
             Frage eingeben, lokal prüfen, Routing/Privacy/Gremium sehen und Verlauf im Browser speichern. Kein Provider, kein Internet, keine externe Weitergabe. Dieser Bildschirm ist ab jetzt der Haupttestpunkt für den Master-Agenten.
           </p>
+        </section>
+
+        <section style={{ border: '1px solid #22d3ee', borderRadius: 18, background: '#0f172a', padding: 20 }}>
+          <h2>Operator-Panel</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
+            <p>Lokale Logs: <b>{operatorPanel.localLogCount}</b></p>
+            <p>Provider-Dry-Runs: <b>{operatorPanel.providerDryRunCount}</b></p>
+            <p>Adapter-Dry-Runs: <b>{operatorPanel.adapterDryRunCount}</b></p>
+            <p>Approval: <b>{operatorPanel.approvalDecision}</b></p>
+            <p>Empfehlung: <b>{operatorPanel.currentRecommendation}</b></p>
+            <p>Risiko: <b>{operatorPanel.currentRiskLevel}</b></p>
+            <p>Live-Status: <b>{operatorPanel.liveStatus}</b></p>
+            <p>Provider-Call: <b>{String(operatorPanel.providerCallAllowed)}</b></p>
+          </div>
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{operatorPanel.nextThreshold}</p>
         </section>
 
         <section style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(280px, 0.8fr)', gap: 20 }}>
