@@ -1,0 +1,1 @@
+const fs=require('fs');const path=require('path');const root=process.cwd();let ok=true;for(const rel of ['frontend/app/cmt/master/secure/agent/page.tsx','frontend/lib/cmt-secure-master-agent-mvp.ts']){if(!fs.existsSync(path.join(root,rel))){console.error('[missing]',rel);ok=false}else console.log('[ok]',rel)}process.exit(ok?0:1);
