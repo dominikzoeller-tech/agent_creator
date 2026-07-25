@@ -6,6 +6,7 @@ import { secureMasterProviderGateStatus } from '../../../../../lib/cmt-secure-ma
 import { secureMasterProviderConfig } from '../../../../../lib/cmt-secure-master-provider-config';
 import { secureMasterProviderSetupPreview } from '../../../../../lib/cmt-secure-master-provider-setup-preview';
 import { secureMasterProviderValidationPreview } from '../../../../../lib/cmt-secure-master-provider-validation-preview';
+import { secureMasterApprovalDecisionPreview } from '../../../../../lib/cmt-secure-master-approval-decision-preview';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -152,6 +153,21 @@ export default function Page() {
           <h3>Validierungsregeln</h3>
           <ul>{secureMasterProviderValidationPreview.rules.map((item) => <li key={item}>{item}</li>)}</ul>
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterProviderValidationPreview.nextStep}</p>
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Lokaler Freigabeentscheid</h2>
+          <p style={{ color: '#fbbf24' }}>Externe Sendung bleibt blockiert. Diese Auswahl ist nur eine lokale Vorschau.</p>
+          <p>Standard: <b>{secureMasterApprovalDecisionPreview.defaultDecision}</b></p>
+          <p>Provider-Call blockiert: <b>{String(secureMasterApprovalDecisionPreview.noProviderCall)}</b></p>
+          <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
+            {secureMasterApprovalDecisionPreview.allowedDecisions.map((decision) => (
+              <button key={decision} disabled style={{ textAlign: 'left', border: '1px solid #334155', borderRadius: 12, background: '#020617', color: '#e5e7eb', padding: 12 }}>
+                <b>{decision}</b> — {secureMasterApprovalDecisionPreview.explanations[decision]}
+              </button>
+            ))}
+          </div>
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterApprovalDecisionPreview.nextStep}</p>
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
