@@ -1227,7 +1227,13 @@
     "agent:worker2:verify": "node scripts/v-agent-worker-2.cjs",
     "fixlibs:verify": "node scripts/v-fix-missing-lib-stubs.cjs",
     "fixapplib:verify": "node scripts/v-fix-app-lib-compat-stubs.cjs",
-    "fixexact:verify": "node scripts/v-fix-exact-missing-imports.cjs"
+    "fixexact:verify": "node scripts/v-fix-exact-missing-imports.cjs",
+    "fixjoin:verify": "node scripts/v-fix-broken-join-newlines.cjs",
+    "fixsplitjoin:verify": "node scripts/v-fix-broken-split-join-newlines.cjs",
+    "fixfinal:verify": "node scripts/v-fix-build-final-syntax.cjs",
+    "fixprivacy:verify": "node scripts/v-fix-privacy-gate-regex.cjs",
+    "fixcurrent:verify": "node scripts/v-fix-current-build-errors.cjs",
+    "fixsecureexports:verify": "node scripts/v-fix-missing-secure-exports.cjs"
   },
   "repository": {
     "type": "git",

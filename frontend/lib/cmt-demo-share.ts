@@ -34,8 +34,7 @@ export function createCommitteeDemoShare(question: string): CommitteeDemoShare {
     report,
     share: {
       title: 'Gremium-Agent MVP Demo Share',
-      plainText: bullets.join('
-'),
+      plainText: bullets.join('\\n'),
       bullets,
       copyReady: true,
     },

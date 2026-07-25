@@ -11,8 +11,7 @@ const defaults = [
   'Soll ich fuer diese Entscheidung das Gremium fragen?',
   'Wie ist morgen das Wetter?',
   'Baue mir spaeter einen Trading-Agenten.',
-].join('
-');
+].join('\\n');
 
 export default function SecureMasterAnswerLogListPage() {
   const [text, setText] = useState(defaults);
@@ -27,8 +26,7 @@ export default function SecureMasterAnswerLogListPage() {
   async function applyMainSelect() {
     setLoading(true);
     try {
-      const items = text.split('
-').map((line) => line.trim()).filter(Boolean).map((input) => ({ input, option: 'local_only' }));
+      const items = text.split('\\n').map((line) => line.trim()).filter(Boolean).map((input) => ({ input, option: 'local_only' }));
       const response = await fetch('/api/cmt/master/secure/main/log/list/select', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
