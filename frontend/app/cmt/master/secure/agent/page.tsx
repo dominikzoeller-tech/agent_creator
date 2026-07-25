@@ -10,6 +10,7 @@ import { secureMasterApprovalDecisionPreview } from '../../../../../lib/cmt-secu
 import { secureMasterSprintState, type SecureMasterLocalApproval } from '../../../../../lib/cmt-secure-master-sprint-state';
 import { secureMasterLiveGateCheck } from '../../../../../lib/cmt-secure-master-live-gate-check';
 import { createSecureMasterProviderDryRun } from '../../../../../lib/cmt-secure-master-provider-dry-run';
+import { SECURE_MASTER_DRY_RUN_HISTORY_KEY, createDryRunHistoryItem, type SecureMasterDryRunHistoryItem } from '../../../../../lib/cmt-secure-master-dry-run-history';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -38,6 +39,7 @@ export default function Page() {
   const [current, setCurrent] = useState<AgentLog | null>(null);
   const [approval, setApproval] = useState<SecureMasterLocalApproval>('local_only');
   const [dryRunResult, setDryRunResult] = useState<ReturnType<typeof createSecureMasterProviderDryRun> | null>(null);
+  const [dryRunHistory, setDryRunHistory] = useState<SecureMasterDryRunHistoryItem[]>([]);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -45,6 +47,10 @@ export default function Page() {
     setCurrent(loaded[0] ?? null);
     const savedApproval = localStorage.getItem(secureMasterSprintState.localApprovalKey) as SecureMasterLocalApproval | null;
     if (savedApproval === 'local_only' || savedApproval === 'anonymize_then_send' || savedApproval === 'cancel') setApproval(savedApproval);
+    try {
+      const rawDryRuns = localStorage.getItem(SECURE_MASTER_DRY_RUN_HISTORY_KEY);
+      if (rawDryRuns) setDryRunHistory(JSON.parse(rawDryRuns));
+    } catch {}
   }, []);
 
   function run() {
@@ -58,7 +64,18 @@ export default function Page() {
   }
 
   function runProviderDryRun() {
-    setDryRunResult(createSecureMasterProviderDryRun(input, approval));
+    const result = createSecureMasterProviderDryRun(input, approval);
+    setDryRunResult(result);
+    const historyItem = createDryRunHistoryItem(result, input, approval);
+    const nextHistory = [historyItem, ...dryRunHistory].slice(0, 25);
+    setDryRunHistory(nextHistory);
+    localStorage.setItem(SECURE_MASTER_DRY_RUN_HISTORY_KEY, JSON.stringify(nextHistory, null, 2));
+  }
+
+  function clearDryRunHistory() {
+    localStorage.removeItem(SECURE_MASTER_DRY_RUN_HISTORY_KEY);
+    setDryRunHistory([]);
+    setDryRunResult(null);
   }
 
   function chooseApproval(next: SecureMasterLocalApproval) {
@@ -232,6 +249,22 @@ export default function Page() {
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{dryRunResult.nextStep}</p>
             </div>
           )}
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Dry-Run-Verlauf</h2>
+          <p style={{ color: '#cbd5e1' }}>Lokaler Verlauf simulierter Provider-Dry-Runs. Keine externe Sendung.</p>
+          <button onClick={clearDryRunHistory} style={{ border: '1px solid #7f1d1d', borderRadius: 10, background: '#020617', color: '#fecaca', padding: '8px 10px' }}>Dry-Run-Verlauf löschen</button>
+          <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
+            {dryRunHistory.length === 0 && <p style={{ color: '#94a3b8' }}>Noch keine Dry-Runs.</p>}
+            {dryRunHistory.map((item) => (
+              <article key={item.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+                <p style={{ color: '#94a3b8', fontSize: 12 }}>{new Date(item.createdAt).toLocaleString()} | Approval: {item.approvalDecision} | Provider-Call: {String(item.providerCallAllowed)}</p>
+                <p>{item.inputPreview}</p>
+                <p style={{ color: '#cbd5e1' }}>{item.simulatedAnswer}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
