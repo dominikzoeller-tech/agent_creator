@@ -63,6 +63,7 @@ export default function Page() {
   const [secretPreflightResult, setSecretPreflightResult] = useState<any | null>(null);
   const [budgetPreflightResult, setBudgetPreflightResult] = useState<any | null>(null);
   const [liveTestGateResult, setLiveTestGateResult] = useState<any | null>(null);
+  const [liveProviderTestResult, setLiveProviderTestResult] = useState<any | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -92,6 +93,19 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  async function runLiveProviderTest() {
+    try {
+      const response = await fetch('/api/cmt/master/secure/live-test/provider', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ input }),
+      });
+      setLiveProviderTestResult(await response.json());
+    } catch (error) {
+      setLiveProviderTestResult({ ok: false, error: 'live_provider_test_failed' });
+    }
   }
 
   async function runLiveTestGate() {
@@ -576,6 +590,24 @@ export default function Page() {
               <h3>Aktuelle Blocker</h3>
               <ul>{liveTestGateResult.blockedReasons?.map((item: string) => <li key={item}>{item}</li>)}</ul>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{liveTestGateResult.nextSafeStep}</p>
+            </div>
+          )}
+        </section>
+
+        <section style={{ border: '1px solid #ef4444', borderRadius: 18, background: '#1f1111', padding: 20 }}>
+          <h2>Live-Provider-Test vorbereitet</h2>
+          <p style={{ color: '#fecaca' }}>Dies ist der erste echte serverseitige Provider-Testpfad. Er bleibt blockiert, solange die ENV-Gates nicht explizit gesetzt sind.</p>
+          <p>Nur harmlose Testfragen verwenden. Keine internen, personenbezogenen oder geheimen Daten senden.</p>
+          <button onClick={runLiveProviderTest} style={{ border: '1px solid #ef4444', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Live-Provider-Test ausfuehren</button>
+          {liveProviderTestResult && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>OK: <b>{String(liveProviderTestResult.ok)}</b></p>
+              <p>Provider-Call versucht: <b>{String(liveProviderTestResult.providerCallAttempted)}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(liveProviderTestResult.providerCallAllowed)}</b></p>
+              <p>Provider: <b>{liveProviderTestResult.gate?.providerName ?? 'none'}</b> | Modell: <b>{liveProviderTestResult.gate?.modelName ?? 'none'}</b></p>
+              {liveProviderTestResult.blockedReasons?.length > 0 && <ul>{liveProviderTestResult.blockedReasons.map((item: string) => <li key={item}>{item}</li>)}</ul>}
+              {liveProviderTestResult.answer && <p style={{ color: '#bbf7d0' }}>{liveProviderTestResult.answer}</p>}
+              {liveProviderTestResult.error && <p style={{ color: '#fecaca' }}>{liveProviderTestResult.error}</p>}
             </div>
           )}
         </section>

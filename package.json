@@ -1206,7 +1206,9 @@
     "agent:mvp32:verify": "node scripts/v-mvp-agent-32.cjs",
     "hotfix32a:verify": "node scripts/v-hotfix-32a.cjs",
     "hotfix32b:verify": "node scripts/v-hotfix-32b.cjs",
-    "hotfix32c:verify": "node scripts/v-hotfix-32c.cjs"
+    "hotfix32c:verify": "node scripts/v-hotfix-32c.cjs",
+    "live1:verify": "node scripts/v-live-test-1.cjs",
+    "agent:live1:verify": "node scripts/v-live-test-1.cjs"
   },
   "repository": {
     "type": "git",
