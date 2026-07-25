@@ -53,6 +53,7 @@ export default function Page() {
   const [serverAdapterDisabledResult, setServerAdapterDisabledResult] = useState<any | null>(null);
   const [secretPreflightResult, setSecretPreflightResult] = useState<any | null>(null);
   const [budgetPreflightResult, setBudgetPreflightResult] = useState<any | null>(null);
+  const [liveTestGateResult, setLiveTestGateResult] = useState<any | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -82,6 +83,15 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  async function runLiveTestGate() {
+    try {
+      const response = await fetch('/api/cmt/master/secure/live-test/gate');
+      setLiveTestGateResult(await response.json());
+    } catch (error) {
+      setLiveTestGateResult({ ok: false, error: 'live_test_gate_failed' });
+    }
   }
 
   async function runBudgetPreflight() {
@@ -537,6 +547,26 @@ export default function Page() {
               <h3>Vor Live erforderlich</h3>
               <ul>{budgetPreflightResult.requiredBeforeLive?.map((item: string) => <li key={item}>{item}</li>)}</ul>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{budgetPreflightResult.nextSafeStep}</p>
+            </div>
+          )}
+        </section>
+
+        <section style={{ border: '1px solid #ef4444', borderRadius: 18, background: '#1f1111', padding: 20 }}>
+          <h2>Manueller Live-Test-Schalter</h2>
+          <p style={{ color: '#fecaca' }}>Live-Test-Gate ist vorbereitet. Echter Live-Test bleibt noch blockiert, bis du explizit freigibst und serverseitige ENV-Werte sauber gesetzt sind.</p>
+          <button onClick={runLiveTestGate} style={{ border: '1px solid #ef4444', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Live-Test-Gate pruefen</button>
+          {liveTestGateResult && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>Gate vorbereitet: <b>{String(liveTestGateResult.liveTestGatePrepared)}</b></p>
+              <p>Live-Test startbar: <b>{String(liveTestGateResult.canStartLiveTest)}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(liveTestGateResult.providerCallAllowed)}</b></p>
+              <p>Live-Modell aktiv: <b>{String(liveTestGateResult.liveModelEnabled)}</b></p>
+              <p>Client-Secrets erlaubt: <b>{String(liveTestGateResult.clientSecretsAllowed)}</b></p>
+              <h3>Vor Live-Test erforderlich</h3>
+              <ul>{liveTestGateResult.requiredBeforeLiveTest?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <h3>Aktuelle Blocker</h3>
+              <ul>{liveTestGateResult.blockedReasons?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <p style={{ color: '#94a3b8', fontSize: 13 }}>{liveTestGateResult.nextSafeStep}</p>
             </div>
           )}
         </section>
