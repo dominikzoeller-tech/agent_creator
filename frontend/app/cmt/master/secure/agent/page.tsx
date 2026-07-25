@@ -5,6 +5,7 @@ import { SECURE_MASTER_AGENT_LOG_KEY, runSecureMasterLocalAgent, type AgentLog }
 import { secureMasterProviderGateStatus } from '../../../../../lib/cmt-secure-master-provider-gate';
 import { secureMasterProviderConfig } from '../../../../../lib/cmt-secure-master-provider-config';
 import { secureMasterProviderSetupPreview } from '../../../../../lib/cmt-secure-master-provider-setup-preview';
+import { secureMasterProviderValidationPreview } from '../../../../../lib/cmt-secure-master-provider-validation-preview';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -139,6 +140,18 @@ export default function Page() {
           <p>Secrets persistieren: <b>{String(!secureMasterProviderSetupPreview.noSecretPersistence)}</b></p>
           <p>Provider-Call: <b>{String(!secureMasterProviderSetupPreview.noProviderCall)}</b></p>
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterProviderSetupPreview.nextStep}</p>
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Provider-Validierung Vorschau</h2>
+          <p style={{ color: '#fbbf24' }}>{secureMasterProviderValidationPreview.blockerSummary}</p>
+          <p>Validierung vorbereitet: <b>{String(secureMasterProviderValidationPreview.validationPrepared)}</b></p>
+          <p>Secrets speichern erlaubt: <b>{String(secureMasterProviderValidationPreview.canPersistSecrets)}</b></p>
+          <p>Provider-Call erlaubt: <b>{String(secureMasterProviderValidationPreview.canCallProvider)}</b></p>
+          <p>Live-Aktivierung erlaubt: <b>{String(secureMasterProviderValidationPreview.liveActivationAllowed)}</b></p>
+          <h3>Validierungsregeln</h3>
+          <ul>{secureMasterProviderValidationPreview.rules.map((item) => <li key={item}>{item}</li>)}</ul>
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterProviderValidationPreview.nextStep}</p>
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
