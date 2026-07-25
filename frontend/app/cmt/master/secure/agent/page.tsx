@@ -123,6 +123,7 @@ export default function Page() {
 
   const actionPlan = current ? createSecureMasterActionPlan({ intent: current.intent, route: current.route, privacyDecision: current.privacyDecision, approvalDecision: approval, hasProviderDryRun: Boolean(dryRunResult) }) : null;
   const operatorPanel = createSecureMasterOperatorPanel({ localLogCount: logs.length, providerDryRunCount: dryRunHistory.length, adapterDryRunCount: adapterDryRunHistory.length, approvalDecision: approval, currentRecommendation: decisionSummary?.recommendation, currentRiskLevel: decisionSummary?.riskLevel });
+  const providerAdapterPipeline = createSecureMasterProviderAdapterPipeline({ approvalDecision: approval, privacyDecision: current?.privacyDecision, hasAdapterContract: Boolean(providerAdapterContract) });
 
   function exportLogs() {
     const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), logs }, null, 2)], { type: 'application/json' });
@@ -298,6 +299,21 @@ export default function Page() {
           </div>
           <h3>Naechste Aktionen</h3>
           <ul>{secureMasterSprintState.nextActions.map((item) => <li key={item}>{item}</li>)}</ul>
+        </section>
+
+        <section style={{ border: '1px solid #22d3ee', borderRadius: 18, background: '#0f172a', padding: 20 }}>
+          <h2>Provider-Adapter-Pipeline</h2>
+          <p style={{ color: '#cbd5e1' }}>Deaktivierte Pipeline fuer spaetere Provider-Aufrufe. Dispatch bleibt blockiert.</p>
+          <div style={{ display: 'grid', gap: 10 }}>
+            {providerAdapterPipeline.stages.map((stage) => (
+              <article key={stage.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+                <p><b>{stage.label}</b> — {stage.status}</p>
+                <p style={{ color: '#94a3b8' }}>{stage.detail}</p>
+              </article>
+            ))}
+          </div>
+          <p style={{ color: '#fbbf24' }}>Current Stage: {providerAdapterPipeline.currentStage}</p>
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{providerAdapterPipeline.nextSafeStep}</p>
         </section>
 
         <section style={{ border: '1px solid #22d3ee', borderRadius: 18, background: '#0f172a', padding: 20 }}>
