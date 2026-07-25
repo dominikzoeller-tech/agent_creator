@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { SECURE_MASTER_AGENT_LOG_KEY, runSecureMasterLocalAgent, type AgentLog } from '../../../../../lib/cmt-secure-master-agent-mvp';
+import { secureMasterProviderGateStatus } from '../../../../../lib/cmt-secure-master-provider-gate';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -100,7 +101,20 @@ export default function Page() {
             <p>Externe Weitergabe: <b>false</b></p>
             <p>Server-Speicherung: <b>false</b></p>
             <p>Browser-Speicherung: <b>browser_optional_local</b></p>
+            <h3 style={{ marginTop: 18 }}>Provider-Gate Vorbereitung</h3>
+            <p>Live-Ready: <b>{String(secureMasterProviderGateStatus.readyForLiveModel)}</b></p>
+            <p>Freigabe erforderlich: <b>{String(secureMasterProviderGateStatus.approvalRequired)}</b></p>
+            <p>Anonymisierung bei internen Daten: <b>{String(secureMasterProviderGateStatus.anonymizationRequiredForInternalData)}</b></p>
+            <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterProviderGateStatus.nextReadinessStep}</p>
           </div>
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Voraussetzungen vor Live-KI</h2>
+          <p style={{ color: '#cbd5e1' }}>Der Agent darf erst live mit einem Modell arbeiten, wenn diese Punkte erfüllt sind:</p>
+          <ul>
+            {secureMasterProviderGateStatus.requirements.map((item) => <li key={item}>{item}</li>)}
+          </ul>
         </section>
 
         {current && (
