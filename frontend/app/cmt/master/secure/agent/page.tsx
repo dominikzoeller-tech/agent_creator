@@ -13,6 +13,7 @@ import { createSecureMasterProviderDryRun } from '../../../../../lib/cmt-secure-
 import { SECURE_MASTER_DRY_RUN_HISTORY_KEY, createDryRunHistoryItem, type SecureMasterDryRunHistoryItem } from '../../../../../lib/cmt-secure-master-dry-run-history';
 import { createSecureMasterDecisionSummary } from '../../../../../lib/cmt-secure-master-decision-summary';
 import { createSecureMasterActionPlan } from '../../../../../lib/cmt-secure-master-action-plan';
+import { createSecureMasterProviderAdapterDryRun } from '../../../../../lib/cmt-secure-master-provider-adapter-dry-run';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -42,6 +43,7 @@ export default function Page() {
   const [approval, setApproval] = useState<SecureMasterLocalApproval>('local_only');
   const [dryRunResult, setDryRunResult] = useState<ReturnType<typeof createSecureMasterProviderDryRun> | null>(null);
   const [dryRunHistory, setDryRunHistory] = useState<SecureMasterDryRunHistoryItem[]>([]);
+  const [adapterDryRun, setAdapterDryRun] = useState<ReturnType<typeof createSecureMasterProviderAdapterDryRun> | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -63,6 +65,10 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  function runAdapterDryRun() {
+    setAdapterDryRun(createSecureMasterProviderAdapterDryRun({ input, approvalDecision: approval, privacyDecision: current?.privacyDecision }));
   }
 
   function runProviderDryRun() {
@@ -238,6 +244,28 @@ export default function Page() {
           </div>
           <h3>Naechste Aktionen</h3>
           <ul>{secureMasterSprintState.nextActions.map((item) => <li key={item}>{item}</li>)}</ul>
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Provider-Adapter-Dry-Run</h2>
+          <p style={{ color: '#cbd5e1' }}>Zeigt den spaeteren Adapter-Umschlag, ohne Dispatch und ohne Provider-Call.</p>
+          <button onClick={runAdapterDryRun} style={{ border: '1px solid #22d3ee', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Adapter-Dry-Run erstellen</button>
+          {adapterDryRun && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>Adapter vorbereitet: <b>{String(adapterDryRun.adapterPrepared)}</b></p>
+              <p>Dispatch erlaubt: <b>{String(adapterDryRun.adapterDispatchAllowed)}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(adapterDryRun.providerCallAllowed)}</b></p>
+              <p>Provider: <b>{adapterDryRun.providerName}</b> | Modell: <b>{adapterDryRun.modelName}</b></p>
+              <h3>Request Preview</h3>
+              <p>{adapterDryRun.requestPreview.inputPreview}</p>
+              <p>Approval: {adapterDryRun.requestPreview.approvalDecision} | Privacy: {adapterDryRun.requestPreview.privacyMode}</p>
+              <h3>Safety Envelope</h3>
+              <p>External Sharing: {String(adapterDryRun.safetyEnvelope.externalSharingAllowed)} | Secrets included: {String(adapterDryRun.safetyEnvelope.secretsIncluded)} | Anonymisierung noetig: {String(adapterDryRun.safetyEnvelope.anonymizationRequired)}</p>
+              <h3>Response Preview</h3>
+              <p>{adapterDryRun.responsePreview.simulatedMessage}</p>
+              <p style={{ color: '#94a3b8', fontSize: 13 }}>{adapterDryRun.nextStep}</p>
+            </div>
+          )}
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
