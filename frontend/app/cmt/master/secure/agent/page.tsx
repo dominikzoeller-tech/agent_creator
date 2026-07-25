@@ -12,6 +12,7 @@ import { secureMasterLiveGateCheck } from '../../../../../lib/cmt-secure-master-
 import { createSecureMasterProviderDryRun } from '../../../../../lib/cmt-secure-master-provider-dry-run';
 import { SECURE_MASTER_DRY_RUN_HISTORY_KEY, createDryRunHistoryItem, type SecureMasterDryRunHistoryItem } from '../../../../../lib/cmt-secure-master-dry-run-history';
 import { createSecureMasterDecisionSummary } from '../../../../../lib/cmt-secure-master-decision-summary';
+import { createSecureMasterActionPlan } from '../../../../../lib/cmt-secure-master-action-plan';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -91,6 +92,8 @@ export default function Page() {
   }
 
   const decisionSummary = current ? createSecureMasterDecisionSummary({ intent: current.intent, route: current.route, privacyDecision: current.privacyDecision, approvalDecision: approval }) : null;
+
+  const actionPlan = current ? createSecureMasterActionPlan({ intent: current.intent, route: current.route, privacyDecision: current.privacyDecision, approvalDecision: approval, hasProviderDryRun: Boolean(dryRunResult) }) : null;
 
   function exportLogs() {
     const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), logs }, null, 2)], { type: 'application/json' });
@@ -301,6 +304,21 @@ export default function Page() {
             <h3>{decisionSummary.title}</h3>
             <p>{decisionSummary.reason}</p>
             <p style={{ color: '#94a3b8' }}>Nächste beste Aktion: {decisionSummary.nextBestAction}</p>
+          </section>
+        )}
+
+        {current && actionPlan && (
+          <section style={{ border: '1px solid #22c55e', borderRadius: 18, background: '#0f172a', padding: 20 }}>
+            <h2>Lokaler Aktionsplan</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              <span style={{ background: '#14532d', borderRadius: 999, padding: '6px 10px' }}>{actionPlan.headline}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Provider-Call: {String(actionPlan.providerCallAllowed)}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Dry-Run only: {String(actionPlan.dryRunOnly)}</span>
+            </div>
+            <p>{actionPlan.summary}</p>
+            <h3>Konkrete Schritte</h3>
+            <ul>{actionPlan.steps.map((step) => <li key={step}>{step}</li>)}</ul>
+            <p style={{ color: '#94a3b8' }}>Live-Grenze: {actionPlan.liveBoundary}</p>
           </section>
         )}
 
