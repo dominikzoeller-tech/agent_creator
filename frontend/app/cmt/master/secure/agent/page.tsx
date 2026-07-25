@@ -124,6 +124,7 @@ export default function Page() {
   const actionPlan = current ? createSecureMasterActionPlan({ intent: current.intent, route: current.route, privacyDecision: current.privacyDecision, approvalDecision: approval, hasProviderDryRun: Boolean(dryRunResult) }) : null;
   const operatorPanel = createSecureMasterOperatorPanel({ localLogCount: logs.length, providerDryRunCount: dryRunHistory.length, adapterDryRunCount: adapterDryRunHistory.length, approvalDecision: approval, currentRecommendation: decisionSummary?.recommendation, currentRiskLevel: decisionSummary?.riskLevel });
   const providerAdapterPipeline = createSecureMasterProviderAdapterPipeline({ approvalDecision: approval, privacyDecision: current?.privacyDecision, hasAdapterContract: Boolean(providerAdapterContract) });
+  const liveReadinessMatrix = createSecureMasterLiveReadinessMatrix({ hasAdapterContract: Boolean(providerAdapterContract), hasAdapterPipeline: true, approvalDecision: approval, providerCallAllowed: false });
 
   function exportLogs() {
     const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), logs }, null, 2)], { type: 'application/json' });
@@ -299,6 +300,24 @@ export default function Page() {
           </div>
           <h3>Naechste Aktionen</h3>
           <ul>{secureMasterSprintState.nextActions.map((item) => <li key={item}>{item}</li>)}</ul>
+        </section>
+
+        <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>
+          <h2>Live-Readiness-Matrix</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>canGoLive: {String(liveReadinessMatrix.canGoLive)}</span>
+            <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>localMvpReady: {String(liveReadinessMatrix.localMvpReady)}</span>
+            <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>missingCritical: {liveReadinessMatrix.missingCriticalCount}</span>
+          </div>
+          <div style={{ display: 'grid', gap: 8, marginTop: 12 }}>
+            {liveReadinessMatrix.items.map((item) => (
+              <article key={item.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 10 }}>
+                <p><b>{item.ready ? 'OK' : 'FEHLT'}</b> — {item.label}</p>
+                <p style={{ color: '#94a3b8' }}>{item.detail}</p>
+              </article>
+            ))}
+          </div>
+          <p style={{ color: '#fbbf24' }}>{liveReadinessMatrix.nextSafeStep}</p>
         </section>
 
         <section style={{ border: '1px solid #22d3ee', borderRadius: 18, background: '#0f172a', padding: 20 }}>
