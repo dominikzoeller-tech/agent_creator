@@ -319,6 +319,28 @@ export default function Page() {
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterSecretReadiness.nextSafeStep}</p>
         </section>
 
+        <section style={{ border: '1px solid #f97316', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Env-/Git-Ignore-Preflight</h2>
+          <p style={{ color: '#fbbf24' }}>Keine echten Secrets eintragen. Dieser Block ist nur Vorbereitung.</p>
+          <p>Env-Preflight vorbereitet: <b>{String(secureMasterEnvPreflight.envPreflightPrepared)}</b></p>
+          <p>Echte Secrets erlaubt: <b>{String(secureMasterEnvPreflight.realSecretsAllowedNow)}</b></p>
+          <p>Provider-Call erlaubt: <b>{String(secureMasterEnvPreflight.providerCallAllowed)}</b></p>
+          <h3>Spaeter benoetigte Dateien</h3>
+          <ul>{secureMasterEnvPreflight.requiredFilesLater.map((item) => <li key={item}>{item}</li>)}</ul>
+          <h3>Git-Ignore-Patterns</h3>
+          <ul>{secureMasterEnvPreflight.gitIgnorePatternsRequired.map((item) => <li key={item}>{item}</li>)}</ul>
+          <h3>Preflight-Checks</h3>
+          <div style={{ display: 'grid', gap: 8 }}>
+            {secureMasterEnvPreflight.checks.map((check) => (
+              <article key={check.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 10 }}>
+                <p><b>{check.label}</b> — {check.status}</p>
+                <p style={{ color: '#94a3b8' }}>{check.detail}</p>
+              </article>
+            ))}
+          </div>
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterEnvPreflight.nextSafeStep}</p>
+        </section>
+
         <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>
           <h2>Live-Readiness-Matrix</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
