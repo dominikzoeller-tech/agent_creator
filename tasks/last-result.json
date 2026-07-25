@@ -2,20 +2,19 @@
   "ok": false,
   "message": "Mindestens ein Command fehlgeschlagen oder blockiert.",
   "task": {
-    "id": "task_1784983305104",
-    "title": "Build pruefen und Projektstatus melden",
-    "goal": "Der lokale Agent-Worker soll kontrolliert npm run build ausfuehren und das Ergebnis speichern.",
+    "id": "task_1784983529465",
+    "title": "Agent Worker Aufgabe",
+    "goal": "Build pruefen und Ergebnis fuer den Agenten speichern.",
     "allowedCommands": [
       "git status --short",
       "npm run build"
     ],
     "notes": [
-      "Keine Secrets ausgeben.",
-      "Keine externen Provider-Calls.",
-      "Nur whitelisted Commands ausfuehren.",
-      "Vor Ausfuehrung im Terminal bestaetigen."
+      "Vom Web-Agent geschrieben.",
+      "Worker fragt im Terminal vor Ausfuehrung.",
+      "Keine Secrets ausgeben."
     ],
-    "createdAt": "2026-07-25T12:41:45.104Z"
+    "createdAt": "2026-07-25T12:45:29.465Z"
   },
   "results": [
     {
@@ -23,7 +22,7 @@
       "ok": true,
       "code": 0,
       "blocked": false,
-      "stdout": " M agent-self-builder-1/scripts/agent-self-builder-1.cjs\n M package.json\n M server.ts\n?? COMMIT_INSTRUCTIONS.md\n?? IMPLEMENTATION_SUMMARY_PHASE49.md\n?? PHASE49_SUMMARY_FOR_DOMINIK.md\n?? SELFBUILD_USER_GUIDE.md\n?? TEST_COMMANDS.ps1\n?? TEST_COMMANDS.sh\n?? agent-self-build-plan.ts\n?? agent-self-builder-1/scripts/verify.cjs\n?? agent-worker-1/\n?? scripts/agent-worker-create-build-task.cjs\n?? scripts/agent-worker.cjs\n?? scripts/v-agent-worker-1.cjs\n?? tasks/\n",
+      "stdout": " M tasks/last-result.json\n",
       "stderr": ""
     },
     {
@@ -36,5 +35,5 @@
     }
   ],
   "logPath": "logs/last-agent-worker.log",
-  "updatedAt": "2026-07-25T12:42:24.202Z"
+  "updatedAt": "2026-07-25T12:50:26.324Z"
 }
