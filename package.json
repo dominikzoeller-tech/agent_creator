@@ -1208,7 +1208,9 @@
     "hotfix32b:verify": "node scripts/v-hotfix-32b.cjs",
     "hotfix32c:verify": "node scripts/v-hotfix-32c.cjs",
     "live1:verify": "node scripts/v-live-test-1.cjs",
-    "agent:live1:verify": "node scripts/v-live-test-1.cjs"
+    "agent:live1:verify": "node scripts/v-live-test-1.cjs",
+    "live2:verify": "node scripts/v-live-test-2.cjs",
+    "agent:live2:verify": "node scripts/v-live-test-2.cjs"
   },
   "repository": {
     "type": "git",

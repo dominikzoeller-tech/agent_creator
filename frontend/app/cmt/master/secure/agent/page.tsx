@@ -64,6 +64,7 @@ export default function Page() {
   const [budgetPreflightResult, setBudgetPreflightResult] = useState<any | null>(null);
   const [liveTestGateResult, setLiveTestGateResult] = useState<any | null>(null);
   const [liveProviderTestResult, setLiveProviderTestResult] = useState<any | null>(null);
+  const [livePreflightResult, setLivePreflightResult] = useState<any | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -93,6 +94,15 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  async function runLivePreflight() {
+    try {
+      const response = await fetch('/api/cmt/master/secure/live-test/preflight');
+      setLivePreflightResult(await response.json());
+    } catch (error) {
+      setLivePreflightResult({ ok: false, error: 'live_preflight_failed' });
+    }
   }
 
   async function runLiveProviderTest() {
@@ -590,6 +600,25 @@ export default function Page() {
               <h3>Aktuelle Blocker</h3>
               <ul>{liveTestGateResult.blockedReasons?.map((item: string) => <li key={item}>{item}</li>)}</ul>
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{liveTestGateResult.nextSafeStep}</p>
+            </div>
+          )}
+        </section>
+
+        <section style={{ border: '1px solid #ef4444', borderRadius: 18, background: '#1f1111', padding: 20 }}>
+          <h2>Live-Test-Preflight</h2>
+          <p style={{ color: '#fecaca' }}>Prueft, ob der echte Live-Test serverseitig freigegeben waere. Es werden keine Secrets angezeigt.</p>
+          <button onClick={runLivePreflight} style={{ border: '1px solid #ef4444', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Live-Preflight pruefen</button>
+          {livePreflightResult && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>Live-Test vorbereitet: <b>{String(livePreflightResult.liveTestPrepared)}</b></p>
+              <p>Live-Call moeglich: <b>{String(livePreflightResult.canAttemptLiveProviderCall)}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(livePreflightResult.providerCallAllowed)}</b></p>
+              <p>Client-Secrets erlaubt: <b>{String(livePreflightResult.clientSecretsAllowed)}</b></p>
+              <p>API-Key serverseitig vorhanden: <b>{String(livePreflightResult.env?.PROVIDER_API_KEY_PRESENT)}</b></p>
+              <p>Modell vorhanden: <b>{String(livePreflightResult.env?.PROVIDER_MODEL_PRESENT)}</b></p>
+              {livePreflightResult.blockedReasons?.length > 0 && <ul>{livePreflightResult.blockedReasons.map((item: string) => <li key={item}>{item}</li>)}</ul>}
+              <p style={{ color: '#bbf7d0' }}>Sichere Testfrage: {livePreflightResult.safeTestQuestion}</p>
+              <p style={{ color: '#94a3b8', fontSize: 13 }}>{livePreflightResult.nextStep}</p>
             </div>
           )}
         </section>
