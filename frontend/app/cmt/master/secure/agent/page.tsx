@@ -52,6 +52,7 @@ export default function Page() {
   const [providerAuditHistory, setProviderAuditHistory] = useState<SecureMasterProviderAuditHistoryItem[]>([]);
   const [serverAdapterDisabledResult, setServerAdapterDisabledResult] = useState<any | null>(null);
   const [secretPreflightResult, setSecretPreflightResult] = useState<any | null>(null);
+  const [budgetPreflightResult, setBudgetPreflightResult] = useState<any | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -81,6 +82,15 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  async function runBudgetPreflight() {
+    try {
+      const response = await fetch('/api/cmt/master/secure/budget/preflight');
+      setBudgetPreflightResult(await response.json());
+    } catch (error) {
+      setBudgetPreflightResult({ ok: false, error: 'budget_preflight_failed' });
+    }
   }
 
   async function runSecretPreflight() {
@@ -506,6 +516,27 @@ export default function Page() {
               <p>Key/Secret-Dateien abgedeckt: <b>{String(secretPreflightResult.gitIgnoreCoversKeys)}</b></p>
               {secretPreflightResult.warnings?.length > 0 && <ul>{secretPreflightResult.warnings.map((item: string) => <li key={item}>{item}</li>)}</ul>}
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{secretPreflightResult.nextSafeStep}</p>
+            </div>
+          )}
+        </section>
+
+        <section style={{ border: '1px solid #22c55e', borderRadius: 18, background: '#052e16', padding: 20 }}>
+          <h2>Budget-/Token-Limit technisch</h2>
+          <p style={{ color: '#cbd5e1' }}>Bereitet sichere Kosten- und Token-Grenzen fuer spaetere Live-KI vor. Kein Provider-Call.</p>
+          <button onClick={runBudgetPreflight} style={{ border: '1px solid #22c55e', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Budget-Preflight pruefen</button>
+          {budgetPreflightResult && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>OK: <b>{String(budgetPreflightResult.ok)}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(budgetPreflightResult.providerCallAllowed)}</b></p>
+              <p>Live-Modell aktiv: <b>{String(budgetPreflightResult.liveModelEnabled)}</b></p>
+              <p>Max Tokens / Request: <b>{budgetPreflightResult.maxTokensPerRequest}</b></p>
+              <p>Max Requests / Session: <b>{budgetPreflightResult.maxRequestsPerSession}</b></p>
+              <p>Max Kosten / Session EUR: <b>{budgetPreflightResult.maxEstimatedCostPerSessionEur}</b></p>
+              <p>Timeout ms: <b>{budgetPreflightResult.timeoutMs}</b></p>
+              <p>Hard-Stop aktiv: <b>{String(budgetPreflightResult.hardStopEnabled)}</b></p>
+              <h3>Vor Live erforderlich</h3>
+              <ul>{budgetPreflightResult.requiredBeforeLive?.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <p style={{ color: '#94a3b8', fontSize: 13 }}>{budgetPreflightResult.nextSafeStep}</p>
             </div>
           )}
         </section>
