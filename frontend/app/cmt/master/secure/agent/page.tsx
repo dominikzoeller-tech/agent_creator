@@ -8,6 +8,7 @@ import { secureMasterProviderSetupPreview } from '../../../../../lib/cmt-secure-
 import { secureMasterProviderValidationPreview } from '../../../../../lib/cmt-secure-master-provider-validation-preview';
 import { secureMasterApprovalDecisionPreview } from '../../../../../lib/cmt-secure-master-approval-decision-preview';
 import { secureMasterSprintState, type SecureMasterLocalApproval } from '../../../../../lib/cmt-secure-master-sprint-state';
+import { secureMasterLiveGateCheck } from '../../../../../lib/cmt-secure-master-live-gate-check';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -98,6 +99,7 @@ export default function Page() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
               <button onClick={run} style={{ border: 0, borderRadius: 10, background: '#22d3ee', padding: '10px 14px', fontWeight: 700 }}>Lokal prüfen</button>
               <button onClick={exportLogs} style={{ border: '1px solid #475569', borderRadius: 10, background: '#0f172a', color: '#e5e7eb', padding: '10px 14px' }}>Logs exportieren</button>
+              <span style={{ color: '#94a3b8', fontSize: 12, alignSelf: 'center' }}>Export enthaelt lokale Freigabe + Live-Gate-Snapshot.</span>
               <button onClick={clear} style={{ border: '1px solid #7f1d1d', borderRadius: 10, background: '#0f172a', color: '#fecaca', padding: '10px 14px' }}>Browser-Logs löschen</button>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
@@ -210,6 +212,17 @@ export default function Page() {
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Live-Gate Check</h2>
+          <p style={{ color: '#fbbf24' }}>{secureMasterLiveGateCheck.blockedReason}</p>
+          <p>Live-Gate vorbereitet: <b>{String(secureMasterLiveGateCheck.liveGatePrepared)}</b></p>
+          <p>Build muss gruen sein: <b>{String(secureMasterLiveGateCheck.buildMustBeGreen)}</b></p>
+          <p>Explizite Freigabe erforderlich: <b>{String(secureMasterLiveGateCheck.approvalMustBeExplicit)}</b></p>
+          <p>Provider-Call erlaubt: <b>{String(secureMasterLiveGateCheck.providerCallAllowed)}</b></p>
+          <p>Live-Modell erlaubt: <b>{String(secureMasterLiveGateCheck.liveModelAllowed)}</b></p>
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterLiveGateCheck.nextMilestone}</p>
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
           <h2>Voraussetzungen vor Live-KI</h2>
           <p style={{ color: '#cbd5e1' }}>Der Agent darf erst live mit einem Modell arbeiten, wenn diese Punkte erfüllt sind:</p>
           <ul>
@@ -229,6 +242,7 @@ export default function Page() {
               <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Privacy: {current.privacyDecision}</span>
             </div>
             <h2>Lokale Antwort</h2>
+            <p style={{ color: '#cbd5e1' }}>Aktive lokale Freigabe: <b>{approval}</b>. Provider-Call erlaubt: <b>{String(secureMasterLiveGateCheck.providerCallAllowed)}</b>.</p>
             <p style={{ color: '#94a3b8', fontSize: 13 }}>Warum diese Einordnung? {current.reason ?? 'Lokale Regelentscheidung ohne Provider und ohne Internet.'}</p>
             <p style={{ border: '1px solid #334155', background: '#020617', borderRadius: 12, padding: 14 }}>{current.answer}</p>
             <h3>Nächste Haupt-Entscheidung</h3>
