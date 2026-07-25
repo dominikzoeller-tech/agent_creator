@@ -1195,7 +1195,9 @@
     "mvp27:verify": "node scripts/v-mvp-agent-27.cjs",
     "agent:mvp27:verify": "node scripts/v-mvp-agent-27.cjs",
     "mvp28:verify": "node scripts/v-mvp-agent-28.cjs",
-    "agent:mvp28:verify": "node scripts/v-mvp-agent-28.cjs"
+    "agent:mvp28:verify": "node scripts/v-mvp-agent-28.cjs",
+    "mvp29:verify": "node scripts/v-mvp-agent-29.cjs",
+    "agent:mvp29:verify": "node scripts/v-mvp-agent-29.cjs"
   },
   "repository": {
     "type": "git",

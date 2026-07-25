@@ -50,6 +50,7 @@ export default function Page() {
   const [serverDryRunResult, setServerDryRunResult] = useState<any | null>(null);
   const [providerAuditEnvelope, setProviderAuditEnvelope] = useState<ReturnType<typeof createSecureMasterProviderAuditEnvelope> | null>(null);
   const [providerAuditHistory, setProviderAuditHistory] = useState<SecureMasterProviderAuditHistoryItem[]>([]);
+  const [serverAdapterDisabledResult, setServerAdapterDisabledResult] = useState<any | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -79,6 +80,19 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  async function runServerAdapterDisabled() {
+    try {
+      const response = await fetch('/api/cmt/master/secure/provider/adapter-disabled', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ inputPreview: input, approvalDecision: approval }),
+      });
+      setServerAdapterDisabledResult(await response.json());
+    } catch (error) {
+      setServerAdapterDisabledResult({ ok: false, error: 'server_adapter_disabled_failed' });
+    }
   }
 
   function createProviderAuditEnvelope() {
@@ -445,6 +459,27 @@ export default function Page() {
               </article>
             ))}
           </div>
+        </section>
+
+        <section style={{ border: '1px solid #38bdf8', borderRadius: 18, background: '#0f172a', padding: 20 }}>
+          <h2>Server-Provider-Adapter deaktiviert</h2>
+          <p style={{ color: '#cbd5e1' }}>Serverseitiger Adapter-Codepfad ist vorbereitet, bleibt aber hart deaktiviert.</p>
+          <p>Endpoint: <b>{secureMasterServerProviderAdapterDisabled.endpointPath}</b></p>
+          <p>Adapter aktiv: <b>{String(secureMasterServerProviderAdapterDisabled.adapterEnabled)}</b></p>
+          <p>Dispatch erlaubt: <b>{String(secureMasterServerProviderAdapterDisabled.dispatchAllowed)}</b></p>
+          <p>Provider-Call erlaubt: <b>{String(secureMasterServerProviderAdapterDisabled.providerCallAllowed)}</b></p>
+          <p>Secrets akzeptiert: <b>{String(secureMasterServerProviderAdapterDisabled.secretsAccepted)}</b></p>
+          <button onClick={runServerAdapterDisabled} style={{ border: '1px solid #22d3ee', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Deaktivierten Adapter testen</button>
+          {serverAdapterDisabledResult && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>OK: <b>{String(serverAdapterDisabledResult.ok)}</b></p>
+              <p>Adapter aktiv: <b>{String(serverAdapterDisabledResult.adapterEnabled)}</b></p>
+              <p>Dispatch erlaubt: <b>{String(serverAdapterDisabledResult.dispatchAllowed)}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(serverAdapterDisabledResult.providerCallAllowed)}</b></p>
+              <p>{serverAdapterDisabledResult?.responseEnvelope?.message ?? serverAdapterDisabledResult?.message ?? 'Keine Antwort.'}</p>
+            </div>
+          )}
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterServerProviderAdapterDisabled.nextSafeStep}</p>
         </section>
 
         <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>
