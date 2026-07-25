@@ -1,8 +1,131 @@
 'use client';
+
 import { useEffect, useState } from 'react';
-import { SECURE_MASTER_AGENT_LOG_KEY, runSecureMasterLocalAgent, type AgentLog } from '@/lib/cmt-secure-master-agent-mvp';
-const examples = ['Soll ich den Master-Agenten jetzt live schalten?','Hier sind interne Kundendaten aus einer Kalkulation. Was soll ich tun?','Wie wird morgen das Wetter?','Baue mir später einen Trading-Agenten.','Was ist der nächste sinnvolle Schritt im Projekt?'];
-function readLogs():AgentLog[]{ try{ const raw=localStorage.getItem(SECURE_MASTER_AGENT_LOG_KEY); return raw?JSON.parse(raw):[];}catch{return [];} }
-function writeLogs(logs:AgentLog[]){ localStorage.setItem(SECURE_MASTER_AGENT_LOG_KEY, JSON.stringify(logs.slice(0,50), null, 2)); }
-export default function Page(){ const [input,setInput]=useState(''); const [logs,setLogs]=useState<AgentLog[]>([]); const [current,setCurrent]=useState<AgentLog|null>(null); useEffect(()=>{const l=readLogs(); setLogs(l); setCurrent(l[0]??null);},[]); function run(){ const clean=input.trim(); if(!clean)return; const r=runSecureMasterLocalAgent(clean); const next=[r,...logs].slice(0,50); setCurrent(r); setLogs(next); writeLogs(next); } function clear(){ localStorage.removeItem(SECURE_MASTER_AGENT_LOG_KEY); setLogs([]); setCurrent(null); } function exportLogs(){ const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),logs},null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='secure-master-agent-logs.json'; a.click(); URL.revokeObjectURL(url); }
-return <main className="min-h-screen bg-slate-950 px-6 py-8 text-slate-100"><div className="mx-auto max-w-6xl space-y-6"><section className="rounded-2xl border border-slate-800 bg-slate-900 p-6"><p className="text-sm uppercase tracking-wide text-cyan-300">Secure Master Agent MVP</p><h1 className="mt-1 text-3xl font-semibold">Zentrale Agent-Arbeitsseite</h1><p className="mt-2 text-sm text-slate-300">Frage eingeben, lokal prüfen, Routing/Privacy/Gremium sehen, Verlauf im Browser speichern. Kein Provider, kein Internet, keine externe Weitergabe.</p></section><section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]"><div className="rounded-2xl border border-slate-800 bg-slate-900 p-5"><h2 className="text-xl font-semibold">Frage an den Master-Agenten</h2><textarea className="mt-4 min-h-36 w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm" value={input} onChange={e=>setInput(e.target.value)} placeholder="Stelle eine Frage..."/><div className="mt-4 flex flex-wrap gap-2"><button onClick={run} className="rounded-xl bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950">Lokal prüfen</button><button onClick={exportLogs} className="rounded-xl border border-slate-700 px-4 py-2 text-sm">Logs exportieren</button><button onClick={clear} className="rounded-xl border border-rose-700 px-4 py-2 text-sm text-rose-200">Browser-Logs löschen</button></div><div className="mt-4 flex flex-wrap gap-2">{examples.map(x=><button key={x} onClick={()=>setInput(x)} className="rounded-full border border-slate-700 px-3 py-1 text-xs">{x}</button>)}</div></div><div className="rounded-2xl border border-slate-800 bg-slate-900 p-5"><h2 className="text-xl font-semibold">Safety State</h2><div className="mt-4 grid gap-2 text-sm"><div>Provider: <b>false</b></div><div>Internet: <b>false</b></div><div>Live-Modell: <b>false</b></div><div>Externe Weitergabe: <b>false</b></div><div>Server-Speicherung: <b>false</b></div><div>Browser-Speicherung: <b>browser_optional_local</b></div></div></div></section>{current&&<section className="rounded-2xl border border-slate-800 bg-slate-900 p-5"><div className="flex flex-wrap gap-2 text-xs"><span className="rounded-full bg-slate-800 px-3 py-1">Intent: {current.intent}</span><span className="rounded-full bg-slate-800 px-3 py-1">Route: {current.route}</span><span className="rounded-full bg-slate-800 px-3 py-1">Privacy: {current.privacyDecision}</span></div><h2 className="mt-4 text-xl font-semibold">Lokale Antwort</h2><p className="mt-3 rounded-xl border border-slate-800 bg-slate-950 p-4 text-sm">{current.answer}</p><h3 className="mt-5 font-semibold">Nächste Schritte</h3><ul className="mt-2 list-disc pl-5 text-sm">{current.nextSteps.map(s=><li key={s}>{s}</li>)}</ul>{current.committee.length>0&&<div className="mt-5"><h3 className="font-semibold">5er-Gremium</h3><div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-5">{current.committee.map(m=><article key={m.role} className="rounded-xl border border-slate-800 bg-slate-950 p-3"><h4 className="font-semibold text-cyan-200">{m.role}</h4><p className="mt-1 text-xs text-slate-400">{m.focus}</p><p className="mt-2 text-sm text-slate-300">{m.opinion}</p></article>)}</div></div>}</section>}<section className="rounded-2xl border border-slate-800 bg-slate-900 p-5"><h2 className="text-xl font-semibold">Lokaler Verlauf</h2><p className="mt-1 text-sm text-slate-400">Speicherort: Browser localStorage. Keine Server-Speicherung.</p><div className="mt-4 grid gap-3">{logs.length===0&&<p className="text-sm text-slate-400">Noch keine lokalen Logs.</p>}{logs.map(l=><button key={l.id} onClick={()=>setCurrent(l)} className="rounded-xl border border-slate-800 bg-slate-950 p-3 text-left"><div className="flex flex-wrap gap-2 text-xs text-slate-400"><span>{new Date(l.createdAt).toLocaleString()}</span><span>Intent: {l.intent}</span><span>Route: {l.route}</span><span>Privacy: {l.privacyDecision}</span></div><p className="mt-2 text-sm">{l.inputPreview}</p></button>)}</div></section></div></main>; }
+import { SECURE_MASTER_AGENT_LOG_KEY, runSecureMasterLocalAgent, type AgentLog } from '../../../../../lib/cmt-secure-master-agent-mvp';
+
+const examples = [
+  'Soll ich den Master-Agenten jetzt live schalten?',
+  'Hier sind interne Kundendaten aus einer Kalkulation. Was soll ich tun?',
+  'Wie wird morgen das Wetter?',
+  'Baue mir später einen Trading-Agenten.',
+  'Was ist der nächste sinnvolle Schritt im Projekt?',
+];
+
+function readLogs(): AgentLog[] {
+  try {
+    const raw = localStorage.getItem(SECURE_MASTER_AGENT_LOG_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLogs(logs: AgentLog[]) {
+  localStorage.setItem(SECURE_MASTER_AGENT_LOG_KEY, JSON.stringify(logs.slice(0, 50), null, 2));
+}
+
+export default function Page() {
+  const [input, setInput] = useState('');
+  const [logs, setLogs] = useState<AgentLog[]>([]);
+  const [current, setCurrent] = useState<AgentLog | null>(null);
+
+  useEffect(() => {
+    const loaded = readLogs();
+    setLogs(loaded);
+    setCurrent(loaded[0] ?? null);
+  }, []);
+
+  function run() {
+    const clean = input.trim();
+    if (!clean) return;
+    const result = runSecureMasterLocalAgent(clean);
+    const next = [result, ...logs].slice(0, 50);
+    setCurrent(result);
+    setLogs(next);
+    writeLogs(next);
+  }
+
+  function clear() {
+    localStorage.removeItem(SECURE_MASTER_AGENT_LOG_KEY);
+    setLogs([]);
+    setCurrent(null);
+  }
+
+  function exportLogs() {
+    const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), logs }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'secure-master-agent-logs.json';
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <main style={{ minHeight: '100vh', background: '#0f172a', color: '#e5e7eb', padding: 24, fontFamily: 'Arial, sans-serif' }}>
+      <div style={{ maxWidth: 1180, margin: '0 auto', display: 'grid', gap: 20 }}>
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 24 }}>
+          <p style={{ color: '#67e8f9', textTransform: 'uppercase', fontSize: 12, letterSpacing: 1 }}>Secure Master Agent MVP</p>
+          <h1 style={{ fontSize: 34, margin: '6px 0 10px' }}>Zentrale Agent-Arbeitsseite</h1>
+          <p style={{ color: '#cbd5e1', maxWidth: 900 }}>
+            Frage eingeben, lokal prüfen, Routing/Privacy/Gremium sehen und Verlauf im Browser speichern. Kein Provider, kein Internet, keine externe Weitergabe.
+          </p>
+        </section>
+
+        <section style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(280px, 0.8fr)', gap: 20 }}>
+          <div style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+            <h2>Frage an den Master-Agenten</h2>
+            <textarea
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              placeholder="Stelle eine Frage..."
+              style={{ width: '100%', minHeight: 120, borderRadius: 12, border: '1px solid #475569', background: '#020617', color: '#e5e7eb', padding: 14, fontSize: 14 }}
+            />
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
+              <button onClick={run} style={{ border: 0, borderRadius: 10, background: '#22d3ee', padding: '10px 14px', fontWeight: 700 }}>Lokal prüfen</button>
+              <button onClick={exportLogs} style={{ border: '1px solid #475569', borderRadius: 10, background: '#0f172a', color: '#e5e7eb', padding: '10px 14px' }}>Logs exportieren</button>
+              <button onClick={clear} style={{ border: '1px solid #7f1d1d', borderRadius: 10, background: '#0f172a', color: '#fecaca', padding: '10px 14px' }}>Browser-Logs löschen</button>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
+              {examples.map((example) => <button key={example} onClick={() => setInput(example)} style={{ border: '1px solid #475569', borderRadius: 999, background: '#020617', color: '#cbd5e1', padding: '6px 10px' }}>{example}</button>)}
+            </div>
+          </div>
+
+          <div style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+            <h2>Safety State</h2>
+            <p>Provider: <b>false</b></p>
+            <p>Internet: <b>false</b></p>
+            <p>Live-Modell: <b>false</b></p>
+            <p>Externe Weitergabe: <b>false</b></p>
+            <p>Server-Speicherung: <b>false</b></p>
+            <p>Browser-Speicherung: <b>browser_optional_local</b></p>
+          </div>
+        </section>
+
+        {current && (
+          <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Intent: {current.intent}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Route: {current.route}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Privacy: {current.privacyDecision}</span>
+            </div>
+            <h2>Lokale Antwort</h2>
+            <p style={{ border: '1px solid #334155', background: '#020617', borderRadius: 12, padding: 14 }}>{current.answer}</p>
+            <h3>Nächste Schritte</h3>
+            <ul>{current.nextSteps.map((step) => <li key={step}>{step}</li>)}</ul>
+            {current.committee.length > 0 && <div><h3>5er-Gremium</h3><div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12 }}>{current.committee.map((member) => <article key={member.role} style={{ border: '1px solid #334155', background: '#020617', borderRadius: 12, padding: 12 }}><h4 style={{ color: '#67e8f9' }}>{member.role}</h4><p style={{ color: '#94a3b8', fontSize: 13 }}>{member.focus}</p><p>{member.opinion}</p></article>)}</div></div>}
+          </section>
+        )}
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Lokaler Verlauf</h2>
+          <p style={{ color: '#cbd5e1' }}>Speicherort: Browser localStorage. Keine Server-Speicherung.</p>
+          {logs.length === 0 && <p>Noch keine lokalen Logs.</p>}
+          <div style={{ display: 'grid', gap: 10 }}>
+            {logs.map((log) => <button key={log.id} onClick={() => setCurrent(log)} style={{ textAlign: 'left', border: '1px solid #334155', background: '#020617', color: '#e5e7eb', borderRadius: 12, padding: 12 }}><div style={{ color: '#94a3b8', fontSize: 12 }}>{new Date(log.createdAt).toLocaleString()} | Intent: {log.intent} | Route: {log.route} | Privacy: {log.privacyDecision}</div><div>{log.inputPreview}</div></button>)}
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
