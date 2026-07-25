@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createSecureMasterServerProviderDryRunEnvelope } from '../../../../../../lib/cmt-secure-master-server-provider-dry-run';
+import { createSecureMasterServerProviderDryRunEnvelope } from '../../../../../../../lib/cmt-secure-master-server-provider-dry-run';
 
 export async function POST(request: Request) {
   let body: any = {};

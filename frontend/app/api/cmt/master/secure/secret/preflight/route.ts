@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { createSecureMasterSecretPreflightResult } from '../../../../../../lib/cmt-secure-master-secret-preflight-check';
+import { createSecureMasterSecretPreflightResult } from '../../../../../../../lib/cmt-secure-master-secret-preflight-check';
 
 export async function GET() {
   const root = process.cwd();

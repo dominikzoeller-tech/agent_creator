@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createDisabledProviderAdapterResponse } from '../../../../../../lib/cmt-secure-master-server-provider-adapter-disabled';
+import { createDisabledProviderAdapterResponse } from '../../../../../../../lib/cmt-secure-master-server-provider-adapter-disabled';
 
 export async function POST(request: Request) {
   let body: any = {};

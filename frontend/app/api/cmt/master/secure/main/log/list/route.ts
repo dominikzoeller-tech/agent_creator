@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { createSecureMasterAnswerLogList, getSecureMasterAnswerLogListDemo } from '../../../../../../../../lib/cmt-master-answer-log-list';
-import type { PrivacyDecisionOption } from '../../../../../../../../lib/cmt-privacy-decision';
+import { createSecureMasterAnswerLogList, getSecureMasterAnswerLogListDemo } from '../../../../../../../lib/cmt-master-answer-log-list';
+import type { PrivacyDecisionOption } from '../../../../../../../lib/cmt-privacy-decision';
 
 const options: PrivacyDecisionOption[] = ['local_only', 'anonymize_then_send', 'approve_external_send', 'cancel'];
 

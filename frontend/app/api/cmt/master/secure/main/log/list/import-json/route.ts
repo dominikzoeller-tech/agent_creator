@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSecureMasterAnswerLogJsonImportDemo, prepareSecureMasterAnswerLogJsonImport } from '../../../../../../../../lib/cmt-master-answer-log-list-json-import';
+import { getSecureMasterAnswerLogJsonImportDemo, prepareSecureMasterAnswerLogJsonImport } from '../../../../../../../lib/cmt-master-answer-log-list-json-import';
 
 export async function GET() {
   return NextResponse.json(getSecureMasterAnswerLogJsonImportDemo());

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSecureMasterAnswerLogManualApplyBrowserLoadDemo, loadSecureMasterAnswerLogManualApplyFromBrowser } from '../../../../../../../../lib/cmt-master-answer-log-list-manual-apply-browser-load';
+import { getSecureMasterAnswerLogManualApplyBrowserLoadDemo, loadSecureMasterAnswerLogManualApplyFromBrowser } from '../../../../../../../lib/cmt-master-answer-log-list-manual-apply-browser-load';
 
 export async function GET() {
   return NextResponse.json(getSecureMasterAnswerLogManualApplyBrowserLoadDemo());

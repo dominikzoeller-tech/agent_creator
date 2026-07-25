@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { askSecureMasterQuality, getSecureMasterQualityDemo } from '../../../../../../lib/cmt-master-quality';
-import type { PrivacyDecisionOption } from '../../../../../../lib/cmt-privacy-decision';
+import { askSecureMasterQuality, getSecureMasterQualityDemo } from '../../../../../../../lib/cmt-master-quality';
+import type { PrivacyDecisionOption } from '../../../../../../../lib/cmt-privacy-decision';
 
 const options: PrivacyDecisionOption[] = ['local_only', 'anonymize_then_send', 'approve_external_send', 'cancel'];
 
