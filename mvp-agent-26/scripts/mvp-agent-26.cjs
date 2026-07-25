@@ -1,0 +1,147 @@
+const fs = require('fs');
+const path = require('path');
+const root = process.cwd();
+const write = (rel, content) => {
+  const full = path.join(root, rel);
+  fs.mkdirSync(path.dirname(full), { recursive: true });
+  fs.writeFileSync(full, content, 'utf8');
+  console.log('[write]', rel);
+};
+
+const contractLib = `export type SecureMasterServerProviderDryRunContract = {
+  endpointPrepared: true;
+  endpointPath: '/api/cmt/master/secure/provider/dry-run';
+  method: 'POST';
+  providerCallAllowed: false;
+  liveModelEnabled: false;
+  externalSharingAllowed: false;
+  secretsAccepted: false;
+  dryRunOnly: true;
+  blockedReason: string;
+  nextSafeStep: string;
+};
+
+export const secureMasterServerProviderDryRunContract: SecureMasterServerProviderDryRunContract = {
+  endpointPrepared: true,
+  endpointPath: '/api/cmt/master/secure/provider/dry-run',
+  method: 'POST',
+  providerCallAllowed: false,
+  liveModelEnabled: false,
+  externalSharingAllowed: false,
+  secretsAccepted: false,
+  dryRunOnly: true,
+  blockedReason: 'Server-Dry-Run ist vorbereitet, echter Provider-Call bleibt blockiert. Keine echten Secrets werden akzeptiert.',
+  nextSafeStep: 'Als naechstes Client-Testbutton fuer den Server-Dry-Run verbinden und danach Audit-Envelope vorbereiten.',
+};
+
+export function createSecureMasterServerProviderDryRunEnvelope(inputPreview: string, approvalDecision: string) {
+  return {
+    ok: true,
+    endpointPrepared: true,
+    providerCallAllowed: false,
+    liveModelEnabled: false,
+    externalSharingAllowed: false,
+    secretsAccepted: false,
+    dryRunOnly: true,
+    requestPreview: {
+      inputPreview: inputPreview.slice(0, 240),
+      approvalDecision,
+    },
+    responsePreview: {
+      status: 'blocked_server_dry_run',
+      message: 'Server-Dry-Run erfolgreich simuliert. Kein Provider wurde aufgerufen.',
+    },
+    blockedReason: secureMasterServerProviderDryRunContract.blockedReason,
+    nextSafeStep: secureMasterServerProviderDryRunContract.nextSafeStep,
+  };
+}
+`;
+write('frontend/lib/cmt-secure-master-server-provider-dry-run.ts', contractLib);
+
+const route = `import { NextResponse } from 'next/server';
+import { createSecureMasterServerProviderDryRunEnvelope } from '../../../../../../lib/cmt-secure-master-server-provider-dry-run';
+
+export async function POST(request: Request) {
+  let body: any = {};
+  try {
+    body = await request.json();
+  } catch {
+    body = {};
+  }
+
+  const inputPreview = typeof body?.inputPreview === 'string' ? body.inputPreview : '';
+  const approvalDecision = typeof body?.approvalDecision === 'string' ? body.approvalDecision : 'local_only';
+
+  return NextResponse.json(createSecureMasterServerProviderDryRunEnvelope(inputPreview, approvalDecision), { status: 200 });
+}
+
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    endpointPrepared: true,
+    method: 'POST',
+    providerCallAllowed: false,
+    liveModelEnabled: false,
+    externalSharingAllowed: false,
+    dryRunOnly: true,
+    message: 'Secure Master server provider dry-run endpoint is prepared and blocked for real provider calls.',
+  });
+}
+`;
+write('frontend/app/api/cmt/master/secure/provider/dry-run/route.ts', route);
+
+const pagePath = path.join(root, 'frontend/app/cmt/master/secure/agent/page.tsx');
+if (!fs.existsSync(pagePath)) {
+  console.error('[missing] frontend/app/cmt/master/secure/agent/page.tsx');
+  process.exit(1);
+}
+let page = fs.readFileSync(pagePath, 'utf8');
+
+if (!page.includes('cmt-secure-master-server-provider-dry-run')) {
+  page = page.replace(
+    "import { secureMasterServerProviderConfigPreview } from '../../../../../lib/cmt-secure-master-server-provider-config';",
+    "import { secureMasterServerProviderConfigPreview } from '../../../../../lib/cmt-secure-master-server-provider-config';\nimport { secureMasterServerProviderDryRunContract } from '../../../../../lib/cmt-secure-master-server-provider-dry-run';"
+  );
+}
+
+if (!page.includes('const [serverDryRunResult, setServerDryRunResult]')) {
+  page = page.replace(
+    "const [providerAdapterContract, setProviderAdapterContract] = useState<ReturnType<typeof createSecureMasterProviderAdapterContract> | null>(null);",
+    "const [providerAdapterContract, setProviderAdapterContract] = useState<ReturnType<typeof createSecureMasterProviderAdapterContract> | null>(null);\n  const [serverDryRunResult, setServerDryRunResult] = useState<any | null>(null);"
+  );
+}
+
+if (!page.includes('async function runServerProviderDryRun')) {
+  page = page.replace(
+    "function createAdapterContract() {",
+    "async function runServerProviderDryRun() {\n    try {\n      const response = await fetch('/api/cmt/master/secure/provider/dry-run', {\n        method: 'POST',\n        headers: { 'content-type': 'application/json' },\n        body: JSON.stringify({ inputPreview: input, approvalDecision: approval }),\n      });\n      setServerDryRunResult(await response.json());\n    } catch (error) {\n      setServerDryRunResult({ ok: false, error: 'server_dry_run_failed' });\n    }\n  }\n\n  function createAdapterContract() {"
+  );
+}
+
+if (!page.includes('serverDryRunPrepared: secureMasterServerProviderDryRunContract')) {
+  page = page.replace(
+    "serverProviderConfigPreview: secureMasterServerProviderConfigPreview,",
+    "serverProviderConfigPreview: secureMasterServerProviderConfigPreview, serverDryRunPrepared: secureMasterServerProviderDryRunContract, serverDryRunResult,"
+  );
+}
+
+if (!page.includes('Server-Provider-Dry-Run')) {
+  page = page.replace(
+    "</section>\n\n        <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>\n          <h2>Live-Readiness-Matrix</h2>",
+    "</section>\n\n        <section style={{ border: '1px solid #38bdf8', borderRadius: 18, background: '#0f172a', padding: 20 }}>\n          <h2>Server-Provider-Dry-Run</h2>\n          <p style={{ color: '#cbd5e1' }}>Serverseitiger Dry-Run-Endpunkt ist vorbereitet, aber echter Provider-Call bleibt blockiert.</p>\n          <p>Endpoint: <b>{secureMasterServerProviderDryRunContract.endpointPath}</b></p>\n          <p>Provider-Call erlaubt: <b>{String(secureMasterServerProviderDryRunContract.providerCallAllowed)}</b></p>\n          <p>Secrets akzeptiert: <b>{String(secureMasterServerProviderDryRunContract.secretsAccepted)}</b></p>\n          <button onClick={runServerProviderDryRun} style={{ border: '1px solid #22d3ee', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Server-Dry-Run testen</button>\n          {serverDryRunResult && (\n            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>\n              <p>OK: <b>{String(serverDryRunResult.ok)}</b></p>\n              <p>Dry-Run only: <b>{String(serverDryRunResult.dryRunOnly)}</b></p>\n              <p>Provider-Call erlaubt: <b>{String(serverDryRunResult.providerCallAllowed)}</b></p>\n              <p>{serverDryRunResult?.responsePreview?.message ?? serverDryRunResult?.message ?? 'Keine Antwort.'}</p>\n            </div>\n          )}\n          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterServerProviderDryRunContract.nextSafeStep}</p>\n        </section>\n\n        <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>\n          <h2>Live-Readiness-Matrix</h2>"
+  );
+}
+
+write('frontend/app/cmt/master/secure/agent/page.tsx', page);
+
+const verify = `const fs=require('fs');const path=require('path');const root=process.cwd();let ok=true;for(const rel of ['frontend/lib/cmt-secure-master-server-provider-dry-run.ts','frontend/app/api/cmt/master/secure/provider/dry-run/route.ts','frontend/app/cmt/master/secure/agent/page.tsx']){if(!fs.existsSync(path.join(root,rel))){console.error('[missing]',rel);ok=false}else console.log('[ok]',rel)}const page=fs.readFileSync(path.join(root,'frontend/app/cmt/master/secure/agent/page.tsx'),'utf8');for(const token of ['Server-Provider-Dry-Run','runServerProviderDryRun','serverDryRunResult','secureMasterServerProviderDryRunContract','serverDryRunPrepared']){if(!page.includes(token)){console.error('[missing token]',token);ok=false}else console.log('[ok token]',token)}if(ok)console.log('[OK] mvp-agent-26 verify passed');process.exit(ok?0:1);`;
+write('scripts/v-mvp-agent-26.cjs', verify);
+
+const pkgPath = path.join(root, 'package.json');
+const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+pkg.scripts = pkg.scripts || {};
+pkg.scripts['mvp26:verify'] = 'node scripts/v-mvp-agent-26.cjs';
+pkg.scripts['agent:mvp26:verify'] = 'node scripts/v-mvp-agent-26.cjs';
+fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
+console.log('[write] package.json scripts mvp26:verify agent:mvp26:verify');
+console.log('[OK] mvp-agent-26 applied');

@@ -47,6 +47,7 @@ export default function Page() {
   const [adapterDryRun, setAdapterDryRun] = useState<ReturnType<typeof createSecureMasterProviderAdapterDryRun> | null>(null);
   const [adapterDryRunHistory, setAdapterDryRunHistory] = useState<SecureMasterAdapterDryRunHistoryItem[]>([]);
   const [providerAdapterContract, setProviderAdapterContract] = useState<ReturnType<typeof createSecureMasterProviderAdapterContract> | null>(null);
+  const [serverDryRunResult, setServerDryRunResult] = useState<any | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -72,6 +73,19 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  async function runServerProviderDryRun() {
+    try {
+      const response = await fetch('/api/cmt/master/secure/provider/dry-run', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ inputPreview: input, approvalDecision: approval }),
+      });
+      setServerDryRunResult(await response.json());
+    } catch (error) {
+      setServerDryRunResult({ ok: false, error: 'server_dry_run_failed' });
+    }
   }
 
   function createAdapterContract() {
@@ -354,6 +368,24 @@ export default function Page() {
           <h3>Im Client verboten</h3>
           <ul>{secureMasterServerProviderConfigPreview.forbiddenClientKeys.map((item) => <li key={item}>{item}</li>)}</ul>
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterServerProviderConfigPreview.nextSafeStep}</p>
+        </section>
+
+        <section style={{ border: '1px solid #38bdf8', borderRadius: 18, background: '#0f172a', padding: 20 }}>
+          <h2>Server-Provider-Dry-Run</h2>
+          <p style={{ color: '#cbd5e1' }}>Serverseitiger Dry-Run-Endpunkt ist vorbereitet, aber echter Provider-Call bleibt blockiert.</p>
+          <p>Endpoint: <b>{secureMasterServerProviderDryRunContract.endpointPath}</b></p>
+          <p>Provider-Call erlaubt: <b>{String(secureMasterServerProviderDryRunContract.providerCallAllowed)}</b></p>
+          <p>Secrets akzeptiert: <b>{String(secureMasterServerProviderDryRunContract.secretsAccepted)}</b></p>
+          <button onClick={runServerProviderDryRun} style={{ border: '1px solid #22d3ee', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Server-Dry-Run testen</button>
+          {serverDryRunResult && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>OK: <b>{String(serverDryRunResult.ok)}</b></p>
+              <p>Dry-Run only: <b>{String(serverDryRunResult.dryRunOnly)}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(serverDryRunResult.providerCallAllowed)}</b></p>
+              <p>{serverDryRunResult?.responsePreview?.message ?? serverDryRunResult?.message ?? 'Keine Antwort.'}</p>
+            </div>
+          )}
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterServerProviderDryRunContract.nextSafeStep}</p>
         </section>
 
         <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>
