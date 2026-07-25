@@ -341,6 +341,21 @@ export default function Page() {
           <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterEnvPreflight.nextSafeStep}</p>
         </section>
 
+        <section style={{ border: '1px solid #38bdf8', borderRadius: 18, background: '#0f172a', padding: 20 }}>
+          <h2>Serverseitiger Provider-Config-Stub</h2>
+          <p style={{ color: '#cbd5e1' }}>Die Provider-Konfiguration ist nur als blockierter Server-Stub vorbereitet. Der Client liest keine echten Secrets.</p>
+          <p>Server-Config vorbereitet: <b>{String(secureMasterServerProviderConfigPreview.serverConfigPrepared)}</b></p>
+          <p>Provider aktiv: <b>{String(secureMasterServerProviderConfigPreview.providerEnabled)}</b></p>
+          <p>Provider-Call erlaubt: <b>{String(secureMasterServerProviderConfigPreview.providerCallAllowed)}</b></p>
+          <p>Live-Modell aktiv: <b>{String(secureMasterServerProviderConfigPreview.liveModelEnabled)}</b></p>
+          <p>Client kann Secrets lesen: <b>{String(secureMasterServerProviderConfigPreview.clientCanReadSecrets)}</b></p>
+          <h3>Erforderliche ENV-Keys spaeter</h3>
+          <ul>{secureMasterServerProviderConfigPreview.requiredEnvKeys.map((item) => <li key={item}>{item}</li>)}</ul>
+          <h3>Im Client verboten</h3>
+          <ul>{secureMasterServerProviderConfigPreview.forbiddenClientKeys.map((item) => <li key={item}>{item}</li>)}</ul>
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterServerProviderConfigPreview.nextSafeStep}</p>
+        </section>
+
         <section style={{ border: '1px solid #fbbf24', borderRadius: 18, background: '#1c1917', padding: 20 }}>
           <h2>Live-Readiness-Matrix</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
