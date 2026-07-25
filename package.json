@@ -1224,7 +1224,8 @@
     "worker:run": "node scripts/agent-worker.cjs",
     "worker:build-task": "node scripts/agent-worker-create-build-task.cjs",
     "worker2:verify": "node scripts/v-agent-worker-2.cjs",
-    "agent:worker2:verify": "node scripts/v-agent-worker-2.cjs"
+    "agent:worker2:verify": "node scripts/v-agent-worker-2.cjs",
+    "fixlibs:verify": "node scripts/v-fix-missing-lib-stubs.cjs"
   },
   "repository": {
     "type": "git",
