@@ -46,6 +46,7 @@ export default function Page() {
   const [dryRunHistory, setDryRunHistory] = useState<SecureMasterDryRunHistoryItem[]>([]);
   const [adapterDryRun, setAdapterDryRun] = useState<ReturnType<typeof createSecureMasterProviderAdapterDryRun> | null>(null);
   const [adapterDryRunHistory, setAdapterDryRunHistory] = useState<SecureMasterAdapterDryRunHistoryItem[]>([]);
+  const [providerAdapterContract, setProviderAdapterContract] = useState<ReturnType<typeof createSecureMasterProviderAdapterContract> | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -71,6 +72,10 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  function createAdapterContract() {
+    setProviderAdapterContract(createSecureMasterProviderAdapterContract({ input, approvalDecision: approval, privacyDecision: current?.privacyDecision }));
   }
 
   function runAdapterDryRun() {
@@ -293,6 +298,28 @@ export default function Page() {
           </div>
           <h3>Naechste Aktionen</h3>
           <ul>{secureMasterSprintState.nextActions.map((item) => <li key={item}>{item}</li>)}</ul>
+        </section>
+
+        <section style={{ border: '1px solid #22d3ee', borderRadius: 18, background: '#0f172a', padding: 20 }}>
+          <h2>Provider-Adapter-Contract</h2>
+          <p style={{ color: '#cbd5e1' }}>Bereitet den spaeteren Adapter-Codepfad als blockierten Contract vor. Kein Dispatch, kein Provider-Call.</p>
+          <button onClick={createAdapterContract} style={{ border: '1px solid #22d3ee', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Adapter-Contract erstellen</button>
+          {providerAdapterContract && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>Contract vorbereitet: <b>{String(providerAdapterContract.contractPrepared)}</b></p>
+              <p>Dispatch erlaubt: <b>{String(providerAdapterContract.adapterDispatchAllowed)}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(providerAdapterContract.providerCallAllowed)}</b></p>
+              <p>Provider: <b>{providerAdapterContract.selectedProvider}</b> | Modell: <b>{providerAdapterContract.selectedModel}</b></p>
+              <h3>Request Envelope Preview</h3>
+              <p>{providerAdapterContract.requestEnvelopePreview.inputPreview}</p>
+              <p>Approval: {providerAdapterContract.requestEnvelopePreview.approvalDecision} | Privacy: {providerAdapterContract.requestEnvelopePreview.privacyDecision} | Secrets: {String(providerAdapterContract.requestEnvelopePreview.secretsIncluded)}</p>
+              <h3>Response Envelope Preview</h3>
+              <p>{providerAdapterContract.responseEnvelopePreview.message}</p>
+              <h3>Aktivierungsanforderungen</h3>
+              <ul>{providerAdapterContract.activationRequirements.map((item) => <li key={item}>{item}</li>)}</ul>
+              <p style={{ color: '#94a3b8', fontSize: 13 }}>{providerAdapterContract.nextStep}</p>
+            </div>
+          )}
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
