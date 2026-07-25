@@ -68,7 +68,7 @@ export default function Page() {
           <p style={{ color: '#67e8f9', textTransform: 'uppercase', fontSize: 12, letterSpacing: 1 }}>Secure Master Agent MVP</p>
           <h1 style={{ fontSize: 34, margin: '6px 0 10px' }}>Zentrale Agent-Arbeitsseite</h1>
           <p style={{ color: '#cbd5e1', maxWidth: 900 }}>
-            Frage eingeben, lokal prüfen, Routing/Privacy/Gremium sehen und Verlauf im Browser speichern. Kein Provider, kein Internet, keine externe Weitergabe.
+            Frage eingeben, lokal prüfen, Routing/Privacy/Gremium sehen und Verlauf im Browser speichern. Kein Provider, kein Internet, keine externe Weitergabe. Dieser Bildschirm ist ab jetzt der Haupttestpunkt für den Master-Agenten.
           </p>
         </section>
 
@@ -105,11 +105,14 @@ export default function Page() {
         {current && (
           <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Arbeitsmodus: {current.modeLabel ?? current.route}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Confidence: {current.confidence ?? 'medium'}</span>
               <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Intent: {current.intent}</span>
               <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Route: {current.route}</span>
               <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Privacy: {current.privacyDecision}</span>
             </div>
             <h2>Lokale Antwort</h2>
+            <p style={{ color: '#94a3b8', fontSize: 13 }}>Warum diese Einordnung? {current.reason ?? 'Lokale Regelentscheidung ohne Provider und ohne Internet.'}</p>
             <p style={{ border: '1px solid #334155', background: '#020617', borderRadius: 12, padding: 14 }}>{current.answer}</p>
             <h3>Nächste Schritte</h3>
             <ul>{current.nextSteps.map((step) => <li key={step}>{step}</li>)}</ul>
