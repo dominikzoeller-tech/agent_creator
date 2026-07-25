@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { SECURE_MASTER_AGENT_LOG_KEY, runSecureMasterLocalAgent, type AgentLog } from '../../../../../lib/cmt-secure-master-agent-mvp';
 import { secureMasterProviderGateStatus } from '../../../../../lib/cmt-secure-master-provider-gate';
+import { secureMasterProviderConfig } from '../../../../../lib/cmt-secure-master-provider-config';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -107,6 +108,20 @@ export default function Page() {
             <p>Anonymisierung bei internen Daten: <b>{String(secureMasterProviderGateStatus.anonymizationRequiredForInternalData)}</b></p>
             <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterProviderGateStatus.nextReadinessStep}</p>
           </div>
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Provider-Konfiguration</h2>
+          <p style={{ color: '#cbd5e1' }}>Vorbereitet, aber blockiert. Es wird kein Provider aufgerufen.</p>
+          <p>Provider aktiv: <b>{String(secureMasterProviderConfig.providerEnabled)}</b></p>
+          <p>Ausgewählter Provider: <b>{secureMasterProviderConfig.selectedProvider}</b></p>
+          <p>Ausgewähltes Modell: <b>{secureMasterProviderConfig.selectedModel}</b></p>
+          <p>Blockadegrund: {secureMasterProviderConfig.activationBlockedReason}</p>
+          <p>Nächster Schritt: {secureMasterProviderConfig.nextStep}</p>
+          <h3>Spätere ENV-Keys</h3>
+          <ul>{secureMasterProviderConfig.envKeysRequiredLater.map((item) => <li key={item}>{item}</li>)}</ul>
+          <h3>Spätere Provider-Optionen</h3>
+          <ul>{secureMasterProviderConfig.supportedProvidersLater.map((item) => <li key={item}>{item}</li>)}</ul>
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
