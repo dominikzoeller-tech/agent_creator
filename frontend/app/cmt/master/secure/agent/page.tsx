@@ -14,6 +14,7 @@ import { SECURE_MASTER_DRY_RUN_HISTORY_KEY, createDryRunHistoryItem, type Secure
 import { createSecureMasterDecisionSummary } from '../../../../../lib/cmt-secure-master-decision-summary';
 import { createSecureMasterActionPlan } from '../../../../../lib/cmt-secure-master-action-plan';
 import { createSecureMasterProviderAdapterDryRun } from '../../../../../lib/cmt-secure-master-provider-adapter-dry-run';
+import { SECURE_MASTER_ADAPTER_DRY_RUN_HISTORY_KEY, createAdapterDryRunHistoryItem, type SecureMasterAdapterDryRunHistoryItem } from '../../../../../lib/cmt-secure-master-adapter-dry-run-history';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -44,6 +45,7 @@ export default function Page() {
   const [dryRunResult, setDryRunResult] = useState<ReturnType<typeof createSecureMasterProviderDryRun> | null>(null);
   const [dryRunHistory, setDryRunHistory] = useState<SecureMasterDryRunHistoryItem[]>([]);
   const [adapterDryRun, setAdapterDryRun] = useState<ReturnType<typeof createSecureMasterProviderAdapterDryRun> | null>(null);
+  const [adapterDryRunHistory, setAdapterDryRunHistory] = useState<SecureMasterAdapterDryRunHistoryItem[]>([]);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -54,6 +56,10 @@ export default function Page() {
     try {
       const rawDryRuns = localStorage.getItem(SECURE_MASTER_DRY_RUN_HISTORY_KEY);
       if (rawDryRuns) setDryRunHistory(JSON.parse(rawDryRuns));
+    } catch {}
+    try {
+      const rawAdapterDryRuns = localStorage.getItem(SECURE_MASTER_ADAPTER_DRY_RUN_HISTORY_KEY);
+      if (rawAdapterDryRuns) setAdapterDryRunHistory(JSON.parse(rawAdapterDryRuns));
     } catch {}
   }, []);
 
@@ -68,7 +74,18 @@ export default function Page() {
   }
 
   function runAdapterDryRun() {
-    setAdapterDryRun(createSecureMasterProviderAdapterDryRun({ input, approvalDecision: approval, privacyDecision: current?.privacyDecision }));
+    const result = createSecureMasterProviderAdapterDryRun({ input, approvalDecision: approval, privacyDecision: current?.privacyDecision });
+    setAdapterDryRun(result);
+    const adapterHistoryItem = createAdapterDryRunHistoryItem(result);
+    const nextAdapterHistory = [adapterHistoryItem, ...adapterDryRunHistory].slice(0, 25);
+    setAdapterDryRunHistory(nextAdapterHistory);
+    localStorage.setItem(SECURE_MASTER_ADAPTER_DRY_RUN_HISTORY_KEY, JSON.stringify(nextAdapterHistory, null, 2));
+  }
+
+  function clearAdapterDryRunHistory() {
+    localStorage.removeItem(SECURE_MASTER_ADAPTER_DRY_RUN_HISTORY_KEY);
+    setAdapterDryRunHistory([]);
+    setAdapterDryRun(null);
   }
 
   function runProviderDryRun() {
@@ -283,6 +300,23 @@ export default function Page() {
               <p style={{ color: '#94a3b8', fontSize: 13 }}>{dryRunResult.nextStep}</p>
             </div>
           )}
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Adapter-Dry-Run-Verlauf</h2>
+          <p style={{ color: '#cbd5e1' }}>Lokaler Verlauf simulierter Adapter-Umschlaege. Kein Dispatch, kein Provider-Call.</p>
+          <button onClick={clearAdapterDryRunHistory} style={{ border: '1px solid #7f1d1d', borderRadius: 10, background: '#020617', color: '#fecaca', padding: '8px 10px' }}>Adapter-Dry-Run-Verlauf löschen</button>
+          <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
+            {adapterDryRunHistory.length === 0 && <p style={{ color: '#94a3b8' }}>Noch keine Adapter-Dry-Runs.</p>}
+            {adapterDryRunHistory.map((item) => (
+              <article key={item.id} style={{ border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+                <p style={{ color: '#94a3b8', fontSize: 12 }}>{new Date(item.createdAt).toLocaleString()} | Approval: {item.approvalDecision} | Privacy: {item.privacyMode} | Provider-Call: {String(item.providerCallAllowed)}</p>
+                <p>{item.inputPreview}</p>
+                <p>Anonymisierung nötig: {String(item.anonymizationRequired)}</p>
+                <p style={{ color: '#cbd5e1' }}>{item.simulatedMessage}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
