@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { SECURE_MASTER_AGENT_LOG_KEY, runSecureMasterLocalAgent, type AgentLog } from '../../../../../lib/cmt-secure-master-agent-mvp';
 import { secureMasterProviderGateStatus } from '../../../../../lib/cmt-secure-master-provider-gate';
 import { secureMasterProviderConfig } from '../../../../../lib/cmt-secure-master-provider-config';
+import { secureMasterProviderSetupPreview } from '../../../../../lib/cmt-secure-master-provider-setup-preview';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -122,6 +123,22 @@ export default function Page() {
           <ul>{secureMasterProviderConfig.envKeysRequiredLater.map((item) => <li key={item}>{item}</li>)}</ul>
           <h3>Spätere Provider-Optionen</h3>
           <ul>{secureMasterProviderConfig.supportedProvidersLater.map((item) => <li key={item}>{item}</li>)}</ul>
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Provider-Setup Vorschau</h2>
+          <p style={{ color: '#fbbf24' }}>{secureMasterProviderSetupPreview.warning}</p>
+          <div style={{ display: 'grid', gap: 10, maxWidth: 620 }}>
+            <label>Provider <input disabled placeholder='none' style={{ width: '100%', padding: 10, borderRadius: 8, background: '#020617', color: '#94a3b8', border: '1px solid #334155' }} /></label>
+            <label>Model <input disabled placeholder='none' style={{ width: '100%', padding: 10, borderRadius: 8, background: '#020617', color: '#94a3b8', border: '1px solid #334155' }} /></label>
+            <label>API-Key Platzhalter <input disabled placeholder='nicht eingeben' style={{ width: '100%', padding: 10, borderRadius: 8, background: '#020617', color: '#94a3b8', border: '1px solid #334155' }} /></label>
+            <label>Budget/Token-Limit <input disabled placeholder='später' style={{ width: '100%', padding: 10, borderRadius: 8, background: '#020617', color: '#94a3b8', border: '1px solid #334155' }} /></label>
+          </div>
+          <p>Speichern erlaubt: <b>{String(secureMasterProviderSetupPreview.saveEnabled)}</b></p>
+          <p>Aktivieren erlaubt: <b>{String(secureMasterProviderSetupPreview.activationEnabled)}</b></p>
+          <p>Secrets persistieren: <b>{String(!secureMasterProviderSetupPreview.noSecretPersistence)}</b></p>
+          <p>Provider-Call: <b>{String(!secureMasterProviderSetupPreview.noProviderCall)}</b></p>
+          <p style={{ color: '#94a3b8', fontSize: 13 }}>{secureMasterProviderSetupPreview.nextStep}</p>
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
