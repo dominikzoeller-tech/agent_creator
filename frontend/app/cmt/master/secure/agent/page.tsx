@@ -11,6 +11,7 @@ import { secureMasterSprintState, type SecureMasterLocalApproval } from '../../.
 import { secureMasterLiveGateCheck } from '../../../../../lib/cmt-secure-master-live-gate-check';
 import { createSecureMasterProviderDryRun } from '../../../../../lib/cmt-secure-master-provider-dry-run';
 import { SECURE_MASTER_DRY_RUN_HISTORY_KEY, createDryRunHistoryItem, type SecureMasterDryRunHistoryItem } from '../../../../../lib/cmt-secure-master-dry-run-history';
+import { createSecureMasterDecisionSummary } from '../../../../../lib/cmt-secure-master-decision-summary';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -88,6 +89,8 @@ export default function Page() {
     setLogs([]);
     setCurrent(null);
   }
+
+  const decisionSummary = current ? createSecureMasterDecisionSummary({ intent: current.intent, route: current.route, privacyDecision: current.privacyDecision, approvalDecision: approval }) : null;
 
   function exportLogs() {
     const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), logs }, null, 2)], { type: 'application/json' });
@@ -285,6 +288,21 @@ export default function Page() {
             {secureMasterProviderGateStatus.requirements.map((item) => <li key={item}>{item}</li>)}
           </ul>
         </section>
+
+        {current && decisionSummary && (
+          <section style={{ border: '1px solid #22d3ee', borderRadius: 18, background: '#0f172a', padding: 20 }}>
+            <h2>Agentenentscheidung</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              <span style={{ background: '#164e63', borderRadius: 999, padding: '6px 10px' }}>Empfehlung: {decisionSummary.recommendation}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Risiko: {decisionSummary.riskLevel}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Provider-Call: {String(decisionSummary.providerCallAllowed)}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Dry-Run only: {String(decisionSummary.dryRunOnly)}</span>
+            </div>
+            <h3>{decisionSummary.title}</h3>
+            <p>{decisionSummary.reason}</p>
+            <p style={{ color: '#94a3b8' }}>Nächste beste Aktion: {decisionSummary.nextBestAction}</p>
+          </section>
+        )}
 
         {current && (
           <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
