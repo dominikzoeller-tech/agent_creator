@@ -11,6 +11,8 @@ export type AgentLog = {
   route: AgentRoute;
   privacyDecision: PrivacyDecision;
   confidence: 'low' | 'medium' | 'high';
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  liveReadiness: 'not_ready' | 'prepare_gate' | 'blocked_by_privacy' | 'tool_required_first';
   modeLabel: string;
   answer: string;
   reason: string;
@@ -56,6 +58,21 @@ function confidence(intent: AgentIntent): 'low' | 'medium' | 'high' {
   return 'high';
 }
 
+function priority(intent: AgentIntent, route: AgentRoute, privacy: PrivacyDecision): 'low' | 'medium' | 'high' | 'critical' {
+  if (privacy === 'block_external') return 'critical';
+  if (route === 'privacy_gate') return 'high';
+  if (intent === 'live_switch') return 'high';
+  if (route === 'agent_builder') return 'medium';
+  if (route === 'tool_required') return 'medium';
+  return 'medium';
+}
+
+function liveReadiness(route: AgentRoute, privacy: PrivacyDecision): 'not_ready' | 'prepare_gate' | 'blocked_by_privacy' | 'tool_required_first' {
+  if (privacy === 'block_external' || route === 'privacy_gate') return 'blocked_by_privacy';
+  if (route === 'tool_required') return 'tool_required_first';
+  return 'prepare_gate';
+}
+
 function label(route: AgentRoute) {
   if (route === 'direct') return 'Direkte lokale Antwort';
   if (route === 'committee') return 'Gremium empfohlen';
@@ -86,7 +103,7 @@ function buildAnswer(intent: AgentIntent, route: AgentRoute, privacy: PrivacyDec
 }
 
 function reason(intent: AgentIntent, route: AgentRoute, privacy: PrivacyDecision) {
-  return 'Erkannt: Intent=' + intent + ', Route=' + route + ', Privacy=' + privacy + '. Entscheidung erfolgt lokal ohne Provider und ohne Internet.';
+  return 'Erkannt: Intent=' + intent + ', Route=' + route + ', Privacy=' + privacy + '. Entscheidung erfolgt lokal ohne Provider und ohne Internet. Live-Readiness wird nur vorbereitet, nicht aktiviert.';
 }
 
 function steps(intent: AgentIntent, route: AgentRoute) {
@@ -112,6 +129,8 @@ export function runSecureMasterLocalAgent(input: string): AgentLog {
     route,
     privacyDecision,
     confidence: confidence(intent),
+    priority: priority(intent, route, privacyDecision),
+    liveReadiness: liveReadiness(route, privacyDecision),
     modeLabel: label(route),
     answer: buildAnswer(intent, route, privacyDecision),
     reason: reason(intent, route, privacyDecision),

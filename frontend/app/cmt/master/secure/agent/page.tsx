@@ -93,6 +93,7 @@ export default function Page() {
 
           <div style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
             <h2>Safety State</h2>
+            <p style={{ color: '#94a3b8', fontSize: 13 }}>Live-Schaltung bleibt gesperrt, bis Provider-Gate, Datenschutzfreigabe und Build stabil sind.</p>
             <p>Provider: <b>false</b></p>
             <p>Internet: <b>false</b></p>
             <p>Live-Modell: <b>false</b></p>
@@ -107,6 +108,8 @@ export default function Page() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Arbeitsmodus: {current.modeLabel ?? current.route}</span>
               <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Confidence: {current.confidence ?? 'medium'}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Priorität: {current.priority ?? 'medium'}</span>
+              <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Live-Readiness: {current.liveReadiness ?? 'prepare_gate'}</span>
               <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Intent: {current.intent}</span>
               <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Route: {current.route}</span>
               <span style={{ background: '#1e293b', borderRadius: 999, padding: '6px 10px' }}>Privacy: {current.privacyDecision}</span>
@@ -114,6 +117,8 @@ export default function Page() {
             <h2>Lokale Antwort</h2>
             <p style={{ color: '#94a3b8', fontSize: 13 }}>Warum diese Einordnung? {current.reason ?? 'Lokale Regelentscheidung ohne Provider und ohne Internet.'}</p>
             <p style={{ border: '1px solid #334155', background: '#020617', borderRadius: 12, padding: 14 }}>{current.answer}</p>
+            <h3>Nächste Haupt-Entscheidung</h3>
+            <p style={{ color: '#cbd5e1' }}>Aktuell: lokal testen, Antwortqualität verbessern, Build stabil halten. Live-KI kommt erst nach explizitem Provider-Gate.</p>
             <h3>Nächste Schritte</h3>
             <ul>{current.nextSteps.map((step) => <li key={step}>{step}</li>)}</ul>
             {current.committee.length > 0 && <div><h3>5er-Gremium</h3><div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12 }}>{current.committee.map((member) => <article key={member.role} style={{ border: '1px solid #334155', background: '#020617', borderRadius: 12, padding: 12 }}><h4 style={{ color: '#67e8f9' }}>{member.role}</h4><p style={{ color: '#94a3b8', fontSize: 13 }}>{member.focus}</p><p>{member.opinion}</p></article>)}</div></div>}
