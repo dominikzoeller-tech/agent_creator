@@ -1161,7 +1161,9 @@
     "mvp10:verify": "node scripts/v-mvp-agent-10.cjs",
     "agent:mvp10:verify": "node scripts/v-mvp-agent-10.cjs",
     "mvp11:verify": "node scripts/v-mvp-agent-11.cjs",
-    "agent:mvp11:verify": "node scripts/v-mvp-agent-11.cjs"
+    "agent:mvp11:verify": "node scripts/v-mvp-agent-11.cjs",
+    "mvp12:verify": "node scripts/v-mvp-agent-12.cjs",
+    "agent:mvp12:verify": "node scripts/v-mvp-agent-12.cjs"
   },
   "repository": {
     "type": "git",

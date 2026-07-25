@@ -9,6 +9,7 @@ import { secureMasterProviderValidationPreview } from '../../../../../lib/cmt-se
 import { secureMasterApprovalDecisionPreview } from '../../../../../lib/cmt-secure-master-approval-decision-preview';
 import { secureMasterSprintState, type SecureMasterLocalApproval } from '../../../../../lib/cmt-secure-master-sprint-state';
 import { secureMasterLiveGateCheck } from '../../../../../lib/cmt-secure-master-live-gate-check';
+import { createSecureMasterProviderDryRun } from '../../../../../lib/cmt-secure-master-provider-dry-run';
 
 const examples = [
   'Soll ich den Master-Agenten jetzt live schalten?',
@@ -36,6 +37,7 @@ export default function Page() {
   const [logs, setLogs] = useState<AgentLog[]>([]);
   const [current, setCurrent] = useState<AgentLog | null>(null);
   const [approval, setApproval] = useState<SecureMasterLocalApproval>('local_only');
+  const [dryRunResult, setDryRunResult] = useState<ReturnType<typeof createSecureMasterProviderDryRun> | null>(null);
 
   useEffect(() => {
     const loaded = readLogs();
@@ -53,6 +55,10 @@ export default function Page() {
     setCurrent(result);
     setLogs(next);
     writeLogs(next);
+  }
+
+  function runProviderDryRun() {
+    setDryRunResult(createSecureMasterProviderDryRun(input, approval));
   }
 
   function chooseApproval(next: SecureMasterLocalApproval) {
@@ -209,6 +215,23 @@ export default function Page() {
           </div>
           <h3>Naechste Aktionen</h3>
           <ul>{secureMasterSprintState.nextActions.map((item) => <li key={item}>{item}</li>)}</ul>
+        </section>
+
+        <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
+          <h2>Provider-Dry-Run</h2>
+          <p style={{ color: '#cbd5e1' }}>Simuliert die spätere Provider-Schicht, ohne Daten zu senden.</p>
+          <button onClick={runProviderDryRun} style={{ border: '1px solid #22d3ee', borderRadius: 10, background: '#020617', color: '#e5e7eb', padding: '10px 12px' }}>Provider-Dry-Run simulieren</button>
+          {dryRunResult && (
+            <div style={{ marginTop: 12, border: '1px solid #334155', borderRadius: 12, background: '#020617', padding: 12 }}>
+              <p>Modus: <b>{dryRunResult.mode}</b></p>
+              <p>Dry-Run only: <b>{String(dryRunResult.dryRunOnly)}</b></p>
+              <p>Provider-Call erlaubt: <b>{String(dryRunResult.providerCallAllowed)}</b></p>
+              <p>Provider: <b>{dryRunResult.providerName}</b> | Modell: <b>{dryRunResult.modelName}</b></p>
+              <p>{dryRunResult.simulatedAnswer}</p>
+              <p style={{ color: '#fbbf24' }}>{dryRunResult.blockedReason}</p>
+              <p style={{ color: '#94a3b8', fontSize: 13 }}>{dryRunResult.nextStep}</p>
+            </div>
+          )}
         </section>
 
         <section style={{ border: '1px solid #334155', borderRadius: 18, background: '#111827', padding: 20 }}>
