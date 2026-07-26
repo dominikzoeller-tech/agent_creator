@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { askSecureMasterAgent, getSecureMasterDemo } from '../../../../../../../lib/cmt-master-secure';
+﻿import { NextResponse } from 'next/server';
+import { askSecureMasterAgent, getSecureMasterDemo } from '../../../../lib/cmt-master-secure';
 
 type PrivacyDecisionOption = 'local_only' | 'anonymize_then_send' | 'approve_external_send' | 'cancel';
 
@@ -17,3 +17,4 @@ export async function POST(request: Request) {
     : 'local_only';
   return NextResponse.json(askSecureMasterAgent(input, option));
 }
+
